@@ -1,68 +1,69 @@
-# Hikaye, Etkinlikler ve Fraksiyonlar (AI Geliştirici Paketi)
+# Hikâye, topluluklar, olaylar ve final
 
-Bu dosya, dünya olayları (Events) simülasyonunu ve Fraksiyon (İtibar) entegrasyonunu kodlayacak ajan için kesin veri yapılarıdır.
+Kaynak: [anayasa](OYUN_GELISTIRME_DEVIR_DOSYASI.md) §28–29, §42, §46, §48 ve §60.2. P0'da hikâye/final yoktur; A2 öğretim, A3 sınırlı olay/kontrat, A4 tam anlatı ve finaller uygulanır.
 
-## 1. Etkinlik (Event) JSON Mimarisi
-Dünya olayları, `EventSystem` tarafından şu yapıya göre işletilir:
+## A3 — topluluklar ve olaylar
 
-```typescript
-export type EventModifierTarget = 'demand' | 'cost' | 'power' | 'customer_spawn';
+Topluluk adları Kooperatif, Araştırma ve Konsorsiyum'dur. Kararlı içerik ID'leri tek katalogda tutulur; UI çevirileri ID yerine geçmez. Başlangıç itibarı her biri 20, sınır 0–100. Normal kontrat +2, kişisel/topluluk görevleri açıkça +3–5, kriz ilgili topluluğa +10 verir.
 
-export interface GameEvent {
-  id: string; // Örn: 'colony_festival'
-  name: string;
-  durationHours: number; // Oyun saati
-  modifiers: {
-    target: EventModifierTarget;
-    category?: ItemCategory; // Sadece belirli eşyaları etkilemesi için
-    multiplier: number; // 1.25 = %25 artış
-  }[];
-  cooldownDays: number;
-}
+Olay tanımı: ID, açılış koşulu, simülasyon süresi, cooldown, etkilenen aile/sistem, etki çarpanı, açıklama ve çözüm. Katalog değerleri §29'dan aktarılır; örnek festival/durgunluk sayıları bağlayıcı yeni veri değildir. Olumsuz olaylar arasında en az iki oyun günü; talep etkisi 0,65–1,40, maliyet 0,85–1,35 sınırları korunur. Seçim/uygunluk/uyarı kuralları §29.2–29.4 ile birlikte uygulanır.
 
-export const EVENTS: GameEvent[] = [
-  {
-    id: 'colony_festival',
-    name: 'Koloni Festivali',
-    durationHours: 24,
-    modifiers: [
-      { target: 'demand', multiplier: 1.25 } // İçecek ve dekor talebinde artış (ek mantıkla sınırlandırılır)
-    ],
-    cooldownDays: 7
-  },
-  {
-    id: 'demand_slump',
-    name: 'Yerel Durgunluk',
-    durationHours: 48,
-    modifiers: [
-      { target: 'customer_spawn', multiplier: 0.8 } // Geliş hızı -%20
-    ],
-    cooldownDays: 5
-  }
-];
-```
+Aynı boyuttaki yüzdeler toplanıp sınırlandırılır; güç etkisi 0,70–1,20 aralığındadır. Aynı anda en fazla bir aktif/planlanmış olumsuz olay, beş günde en fazla iki olumsuz olay ve aynı olaya en az yedi gün tekrar aralığı uygulanır. Bölüm 2 öncesi, öğretimde, toparlanma modunda veya nakit dayanma süresi bir günden azken yeni olumsuz olay seçilmez. Seed/cooldown/geçmiş kaydedilir; yönetici gerçek ödeme davranışını okuyamaz.
 
-## 2. Etkinlik Seçim ve Sınırlama Mantığı (Event Manager)
-Event sistemi `useGameLoop` içerisinde her yeni oyun gününde (veya belli saatte) kontrol edilir.
-- Bir olumsuz olayın bitiminden itibaren en az **2 oyun günü** geçmeden yeni olumsuz olay tetiklenemez.
-- Olay Çarpanları Sınırı (Clamp): 
-  - Talep Çarpanı `EventDemandFactor` sınırları: `Min: 0.65, Max: 1.40`
-  - Maliyet Çarpanı `EventCostFactor` sınırları: `Min: 0.85, Max: 1.35`
-- Asla iki olay üst üste binerek (stacking) matematiği bozamaz. Yukarıdaki sınırlar (`Math.min` ve `Math.max`) uygulanır.
+Olaylar mevcut para veya stoğu rastgele silmez. Küresel geliş etkisi spawn'a, aile etkisi normalize ihtiyaç ağırlıklarına gider; kabul denkleminde ikinci kez çarpılmaz. Olaylar kapalıyken zorunlu kriz görevi kalır fakat olumsuz ekonomik çarpan uygulanmaz.
 
-## 3. Fraksiyon İtibar Veri Yapısı (Factions)
-```typescript
-export interface FactionReputation {
-  factionId: 'community' | 'researchers' | 'traders';
-  score: number; // 0-100 arası
-}
+## A4 — bölgesel kriz
 
-// İtibar Kazanım Sabitleri:
-const REP_REWARD_NORMAL_CONTRACT = +2;
-const REP_REWARD_CRISIS = +10;
-```
-Oyuncunun UI ekranında bu fraksiyonlara ait üç farklı ilerleme çubuğu bulunur. Puanlar 100'ü geçemez (Clamp edilir). Bölüm 5'e geçiş için en az bir fraksiyonda `score >= 40` olma şartı aranır.
+Bölüm 4 Yerleşim Tedarik Açığı süre sınırı olmadan kısmi teslimle çözülür:
 
-## 4. Kısıtlamalar (AI İçin Kırmızı Çizgiler)
-- Hiçbir olay oyuncunun mevcut parasını (kredi) doğrudan kasadan çalarak azaltamaz.
-- Hiçbir olay oyuncunun depolarını (inventory) rastgele silemez. Olaylar sadece üretim hızlarını, müşteri taleplerini veya satın alım maliyetlerini (Modifiers) değiştirebilir.
+| Yol | Koşul |
+|---|---|
+| Üretici | 40 küp + 20 mineral içeceği |
+| Tüccar | Dış tedarikten 60 su kabul edip teslim |
+| Toplulukçu | 30 küp + 30 su; bir oyun gününde iki farklı çalışanın kesintisiz molası |
+
+Her yol aynı ana ilerlemeyi ve ilgili +10 itibarı verir; sınıfa özel beceri istemez. Seçenek teslim öncesi değişir, ilk teslimden sonra dal netleşir.
+
+## A4 — üç final
+
+Açılış: kriz çözümü, 12 farklı SKU satışı, üç aile erişimi ve normal kontrat. Her proje dört eşit sevkiyat dalgası; hazırlık süresizdir. İlgili topluluk 40 itibar ister. Yatırım onayda bir kez düşer; mallar proje teslimidir, satış geliri yaratmaz.
+
+| Proje | Toplam teslim | Yatırım |
+|---|---|---:|
+| Kooperatif merkezi | 600 küp + 300 su + 200 biyosabun + 120 eldiven | 1.800 |
+| Araştırma lojistik üssü | 200 pil + 160 filtre jeli + 80 şarj cihazı + 60 sefer öğünü | 400 |
+| Bölgesel ticaret merkezi | 160 nektar + 120 sefer ceketi + 60 ışıklı süs | 2.400 |
+
+Standart kalite ve dış alım geçerlidir. Her dalga/satırda en fazla %20, aşağı yuvarlanmış açık ikame §42.3'e göre kabul edilir; ikame zincirlenmez, aynı lot iki kez sayılmaz. İtibarı 40 altındaki topluluk için günde bir 10 su/küp kurtarma görevi belgeli lot maliyetini geri öder ve +2 itibar verir; bağış lotundan kâr üretilmez.
+
+## Hizmet sınavı ve kayıt
+
+900 aktif saniyelik sınav; normal spawn yerine 60 ziyaretçi/80 ihtiyaç (40 tek, 20 çift). Seed, ihtiyaçlar, sepet bütçeleri, kabul eşikleri ve kuyruk ölçümleri kaydedilir. Ortak başarı ≥64 ihtiyaç, satış tamamlayanlarda medyan kuyruk ≤25 sn, kuyruktan ayrılan ≤6. Aile dağılımı 30/25/25; geçersiz planla sınav başlamaz (§42.2).
+
+Ek koşullar: Kooperatif gıda veya su tamamen boş geçen birleşik süre ≤120 sn; Araştırma ek 20 pili üretir veya dış alım kabul/kalite kontrolünden geçirir; Ticaret her aileden ≥10 satış ve tek aile payı ≤%70. Rahat modda kuyruk ≤40 sn ve Kooperatif boşluk ≤180 sn.
+
+Olumsuz olay varsa erteleme sunulur; sınavda yeni ekonomik olay başlamaz. Kilit/arka plan süreyi ve müşterileri sıfırlamaz. Başarısızlık yalnız sınavı tekrarlatır; teslim/yatırım korunur. İlk sonuç ana final; diğerleri serbest oyunda tamamlanabilir. Ödül proje başına bir kez; tema/unvan/sahne ve dünya sonucu §48.5'e bağlıdır.
+
+## A5 kabulü
+
+Her finalin üretim ve dış alım yolu, kısmi teslim/ikame, kesinti, başarısız tekrar ve tekil ödülü test edilir. Yeni kayıt ve göç edilmiş kayıtta aynı ilerleme sağlanır. Kayıt silen game-over veya kaçırılan eski göreve bağlı kalıcı kilit bulunmaz.
+
+## Final uygulama durumu — A4
+
+KAYNAK: §42, §48.3, §60.2. KARAR önerisi durum isimleri: Locked → Preparing → Wave1…Wave4 → ReadyForTrial → TrialRunning/TrialPaused → TrialFailed veya Completed. Bu isimler kaynak projede hazır enum değildir.
+
+Locked görünümü eksik kriz/SKU/aile/kontrat/itibar koşullarını ayrı gösterir. Preparing yatırım önizlemesini sunar; onay bir kez yazılır. Aktif dalgaya kısmi kabul normal stoktan proje stoğuna geçirir, geri çekilemez/satılamaz/bozulmaz. Önceki dalga bitmeden sonraki dalga kabul edilmez. Her satır toplamın dörtte biridir; dalga limitleri ayrı tutulur. ReadyForTrial aşamasında geçerli 60 ziyaretçi/80 ihtiyaç planı üretilip kaydedilir; plan geçersizse sınav başlamaz.
+
+İkame örneği: Kooperatif dalgasında 150 küp vardır; en fazla floor(150×0,20)=30 hedef küp, 1:1 kraker ile karşılanabilir. Bu, envanterde krakeri küpe çevirmez; hedef satırına 30 tamamlama puanı yazar. Tek lot başka dalga/satırda yeniden kullanılamaz. Kabul edilen final ürünleri müşteri satışı/AP/SKU sayacı üretmez.
+
+## Hizmet sınavı ölçüm sözleşmesi
+
+80 kabul eşiği `(i+0,5)/80`, i=0…79; seed ile ihtiyaçlara dağıtılır. Her ailede adil fiyatta en az 15 kabul edilebilir ihtiyaç olmalıdır. Ailelerin 30/25/25 ihtiyaç dağılımı ve bütçeye sığan bütün sepetler başlamadan doğrulanır. Araştırma ek 20 pil koşulu önce teslim edilmiş stoktan sayılmaz; sınavdaki üretim veya kabul/kalite kontrol olayıyla sayılır, sonunda normal stokta kalır.
+
+Medyan yalnız satış tamamlayan sınav cohort'udur; normal müşteri örnekleri karıştırılmaz. Yeterli satış yoksa bekleme 0 gösterip başarı verme; ≥64 ihtiyaç şartı ayrıca zorunludur. Kuyruk terk sayısı kişi, karşılanan ihtiyaç sayısı satırdır; ikisi aynı sayaç değildir. Kooperatif boşluk, gıda veya su tükenmesinin zaman birleşimidir; ikisi aynı anda boşken süre iki kat artmaz. Ticaret aile payı ihtiyaç adedi varsayımıyla değil kaynakta tanımlı ürün satışı üzerinden hesaplanır.
+
+Save, seed yanında üretilmiş plan/sepet/kabul eşiklerini, ziyaretçi ilerlemesini, biten ihtiyaçları, geçen/kalan aktif süreyi ve tüm ölçüm toplamlarını taşır. Resume cohort'u yeniden üretmez. TrialFailed yatırımı/teslimleri korur; yeni denemenin seed politikası kaynakta kesinleşmiyorsa karar kaydı gerekir. Completed tek ödül verir; diğer final projeleri kapatılmaz.
+
+## Olay seçiminden beklenen sınır örnekleri
+
+Öğretim aktif → olumsuz olay aday olamaz. Beş günlük pencerede iki olumsuz → yenisi yok. Nakit dayanma<1 gün → yeni negatif yok, aktif olayı gizlice kaldırma yok. Boş aday kategorisi → ağırlık “olay yok”a gider. Yeniden yükleme → aynı planlanmış olay/seed/cooldown. Aynı boyutta +%25 ve +%25 talep → clamp(1+0,25+0,25)=1,40; 1,25×1,25 değildir. Kayıt sonrası geçmişi unutmak tekrar olay üretmemelidir.

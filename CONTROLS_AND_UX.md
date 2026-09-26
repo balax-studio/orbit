@@ -1,40 +1,61 @@
-# Kontroller, UX ve Etkileşim (AI Geliştirici Paketi)
+# Mobil kontroller ve kullanıcı deneyimi
 
-Bu dosya, oyundaki 2D HUD ve 3D Dünya etkileşimlerini koda dökecek ajan için kesin yönergeleri barındırır.
+Kaynak: [anayasa](OYUN_GELISTIRME_DEVIR_DOSYASI.md) hızlı özet, §52–54, §60.1–60.3, §62–63. Hedef dikey telefon ve tek başparmakla temel işletmedir; klavye yalnız debug yardımcısıdır.
 
-## 1. 3B Dokunma (Raycaster) Kısıtlamaları
-Three.js canvası üzerinde tıklama algılaması yapılırken uyulması gereken kurallar:
-- **Olay Geçirgenliği:** UI açıkken 3B dünyaya tıklanamaz. HUD panelleri üzerinde `pointerEvents="auto"` ve `onPointerDown={(e) => e.stopPropagation()}` bulunmalıdır.
-- **Seçim (Selection):** Bir nesne seçildiğinde (örn: Makine), nesnenin etrafında belirgin bir **3D Siyah Çizgi (Outline/EdgesGeometry)** veya alt karesinde yeşil bir alan belirir.
-- **Otomatik İşlem Yok:** Nesneye dokunulduğunda işlem doğrudan gerçekleşmez; arayüzde bir `ActionMenu` çıkar ("Üretimi Başlat", "İçeriği Al", "Yık").
+## P0 — hareket ve güvenli etkileşim
 
-## 2. Mobil Kontrol (Floating Joystick) Entegrasyonu
-Hareket için `nipplejs` veya özel bir `useTouchJoystick` hook'u kullanılacaktır.
-```typescript
-// Beklenen Hook Arayüzü:
-const { movement, isMoving } = useJoystick(); 
-// movement = { x: -1 to 1, y: -1 to 1 }
-```
-3D karakter modeli (R3F) `useFrame` içinde her karede pozisyonunu `movement` verisine göre günceller ve model yürüme yönüne döndürülür (`Math.atan2`).
+Alt bölgede yüzen joystick, alternatif erişilebilir dokun-git modu. Mantıksal hareket/çarpışma simülasyona, görsel enterpolasyon renderer'a aittir. Pointer kimliği, touchcancel, ekran dışına çıkış ve arka plan hareketi güvenle keser; takılı joystick olmaz.
 
-## 3. İnşa Modu (Build Mode) UX Kuralları
-İnşa moduna geçildiğinde kodda şu olaylar dizisi tetiklenmelidir:
-1. `store.setPaused(true)` - Oyun simülasyonu durur.
-2. Kamera izometrik üst açıya (Top-down) daha fazla eğilir.
-3. Grid yardımcı çizgileri (GridHelper) görünür olur.
-4. Ekranda seçilen modül, kullanıcının parmağını (veya fareyi) takip eder ancak **1x1 grid'e snap (hizalanma)** olacak şekilde zıplayarak hareket eder. (`Math.round(x)`)
-5. Çakışma varsa modelin rengi `neo-red`, boşsa `neo-green` tint (emissive color) alır.
+İşaretli istasyonda en az 0,3 sn sabit kalınca, önceden belirlenmiş uyumlu hedefe güvenli al/bırak temel davranıştır. Yoldan geçerken harcama, işe alma, tarif değiştirme veya satış yapılmaz; aynı üründe mevcut rezervasyon kazanır. Her taşıma için zorunlu ActionMenu açılmaz. Yakınlık, raycast ve UI seçimi tek hedef çözer; ürün/hedef/kapasite görünürdür. Satın alma, yıkım ve maliyetli değişiklikler önizleme/onay ister. Kapasite doluluğu ve yanlış girdi kısa gerekçeyle bildirilir.
 
-## 4. Zeigarnik Geri Dönüş Logu
-Kullanıcı oyuna döndüğünde çalışacak mantık:
-```typescript
-// App init aşamasında
-if (lastSessionLog) {
-  showNeoModal({
-    title: "Geri Döndün",
-    content: `Geçen sefer: ${lastSessionLog.lastAction}.\nSıradaki Adım: ${lastSessionLog.nextSuggestedTask}`,
-    button: "Devam"
-  });
-}
-```
-**Asla** "Hemen şu görevi yap yoksa kaybedersin" (FOMO) tarzı sayaçlar eklenmez. Süreler sadece oyun-içi saat (`simulationTime`) ile ilerler, gerçek dünya saatine (Date.now) bağlanarak oyuncu cezalandırılamaz.
+DOM buton/panelleri dünya etkileşimini tüketir; yalnız CSS pointer-events kullanmak yeterli varsayılmaz. UI üzerinde başlayan pointer dünya seçimi/hareketine dönüşmemeli, sürükleme sonunda satış/yerleştirme tetiklememelidir. Seçim renk yanında kontur/işaret/metinle gösterilir; bütün sahneye pahalı outline uygulanmaz.
+
+## P0 — inşa
+
+İnşa modunda simülasyon durur. Grid üzerinde seç → sürükle → döndür → onay/iptal. Footprint, çakışma, kapı/istasyon erişimi, çalışan rotası ve maliyet onaydan önce doğrulanır. Parmağın kapattığı hedef önizlemesi görünür alana taşınır. Geçersiz konum yalnız kırmızı renkle anlatılmaz; nedeni yazılır. İptal stok/para harcamaz. Onay tek işlemdir; arka plandan dönüş ikinci onay yaratmaz.
+
+## P0–A2 — kamera ve kesinti
+
+9:16–9:21 dikey telefon ve portre tablet düzeni kullanılır. İki parmak pan/zoom hareket çubuğu devre dışıyken çalışır. Dikey izometrik kamera, sınırlı pan/iki parmak zoom ve karaktere dön kontrolü; hareket, zoom ve inşa jestleri çakışmaz. HUD safe-area içinde, dünya seçimleri panel altında kaybolmaz. Android geri önce açık paneli kapatır. iOS için zorunlu uygulamayı kapat düğmesi yoktur.
+
+İnşa/panel duraklatması ile platform duraklatması ayrı nedenlerdir. Arama, ekran kilidi ve native pencere kapanışı tek başına oyunu başlatmaz. Foreground ve kullanıcı devamı gerekir. Kısa geri dönüş özeti son eylem/isteğe bağlı sonraki işi gösterir; zorunlu modal veya kayıp tehdidi içermez. TutorialState ve aktif hedef korunur.
+
+## A2–A3 — okunabilir yönetim
+
+3–8 dk oturumlar için bir ana hedef ve küçük alt adımlar; tamamlanan iş açık kapanış verir. Stok, fiyat, kuyruk ve darboğaz nedenleri ayrılır. İki A2 teşhis katmanı daha sonra §43 işletme haritasına genişler. Mola, sevkiyat, bakım ve kontrat tahsisinde mevcut taahhüt ve maliyet önizlenir. Eylem tekrarı zorunlu angaryaya dönüşüyorsa otomasyon öğretimi ve yerleşim test edilir.
+
+## A4–A5 — etik geri dönüş ve erişilebilirlik
+
+Dokunma tabanı iOS 44 pt, Android 48 dp eşdeğeridir; CSS/viewport karşılığı gerçek cihazda ölçülür. Uzun basış kritik eylemin tek erişimi değildir. Sağ/sol el, dokun-git, metin büyütme, az hareket, yüksek kontrast ve kapatılabilir titreşimle temel görev tamamlanır. Renk tek bilgi kaynağı olmaz; DOM metni semantik ve odak sırası anlamlıdır. Çevrimdışı ceza, zorunlu bildirim, can/enerji bekletme ve FOMO sayacı yoktur. Kontrat/final süreleri yalnız aktif simülasyondur; reklamın 24 saat/20 dakika uygunluk saati ayrı monetizasyon politikasıdır.
+
+Reklam açıkça kullanıcı seçimiyle yalnız kozmetik ödül sunar; reklam izlemeyene ücretsiz görev yolu vardır. Mağaza/reklam bağlantı yokken anlaşılır unavailable durumu gösterir; sonsuz yükleme yoktur. Satın alma yerelleştirilmiş fiyat ve native mağaza onayıyla yapılır. P0'da bu SDK'lar ve gereksiz izin istemleri bulunmaz.
+
+## Pointer ve eylem sahipliği — P0 uygulama sözleşmesi
+
+KAYNAK: §60.1, §63.5. Bir pointerdown yalnız UI, joystick, dünya seçimi veya inşa sürüklemesinden birine atanır. Sahiplik pointerup/cancel'a kadar değişmez; UI'da başlayan jest parmak canvas'a taşındığında dünya işlemi olmaz. Çoklu dokunmada ikinci parmak joystick'i başka bir parmağa devretmez. Touchcancel/lost capture/background bütün geçici hareketleri nötrler.
+
+| Oyuncu durumu | İzin verilen davranış | Engellenen çakışma |
+|---|---|---|
+| Joystick tutuluyor | Hareket, uyumlu istasyon önizlemesi | İki parmak kamera ve inşa sürüklemesi |
+| Uyumlu istasyonda 0,3 sn sabit | Güvenli transfer | Her kare yeni aynı transfer veya uyumsuz ürün |
+| İnşa önizlemesi | Grid sürükleme/döndür/onay/iptal | Simülasyon ilerlemesi ve otomatik transfer |
+| Yönetim sayfası açık | Panel kontrolleri, Android geriyle kapatma | Panel altındaki raycast |
+| Platform kesintisi | Duraklama/kayıt | Hareket ve ekonomi zamanı |
+
+Otomatik transferin bir seferde miktarı/tekrar aralığı AÇIK teknik denge kararıdır. 0,3 saniye bekleme her render karesinde bir ürün aktarımı anlamına gelmez. Aynı geçerli eylem commandId'si katmanlarda korunur; sonraki meşru aktarım ayrı eylemdir.
+
+## İnşa doğrulama sırası
+
+1. Nesne footprint'ini ızgara ve yönünden üret; yalnız merkez hücreyi kontrol etme.
+2. Sınır/çakışma, servis hücresi, giriş/kasa/temel rota erişimini kontrol et.
+3. Taşınan makinenin çalışan partisi, yükü, rezervasyonu ve bağlantı etkisini göster; tanımsız “taşıyınca sıfırla” kuralı ekleme.
+4. Maliyet/iade önizlemesini mevcut revision ile bağla. Onayda koşulları yeniden kontrol et; değiştiyse yeni sonucu göster.
+5. Tek commit sonrası rota/oda/güç önbelleklerini yenile. İptalde kalıcı state ve bakiye birebir korunur.
+
+Çalışan parti taşınırken davranış anayasanın ilgili yerleşim kuralıyla doğrulanamıyorsa karar kaydı gerekir. Ücretsiz aşınma tamiri, parti atlama veya gizli ürün silme kabul edilemez.
+
+## A2 teşhis görünümünün hesap tanımı
+
+KARAR önerisi: ilk iki katman Raf ve Üretim; farklı seçim yapılırsa gerekçesi kaydedilir. §43 kaynak eşikleri: talep varken boş raf >%15; üretimde tek bekleme türü >%20. Paydanın gözlem penceresi ve talep var koşulu raporda açık olmalı. Yetersiz örnekte yüzdeyi kesin teşhis diye sunma. Telefon tek ana katman ve detay kartı; en fazla üç öncelikli öneri. Ölçüm pencereleri son 5 aktif dakika/son tam gün; pause'da ilerlemez.
+
+Gösterilecek teşhis: nesne, ölçüm, pencere, gerçek bekleme nedeni, olası müdahale, maliyet, tahmini etki ve güven. Örnek: çıktı tıkalı → depo dolu; bu durumda otomatik yeni makine önerilmez. Harita kendiliğinden satın alma veya işten çıkarma yapmaz.

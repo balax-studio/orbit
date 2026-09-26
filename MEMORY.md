@@ -1,17 +1,52 @@
-# Memory Bank
+# Devir durumu ve karar kaydı
 
-## Current Status
-- **Phase:** Phase 2 - Basic Engine and Data Models.
-- **Active Task:** Implementing basic Data Contracts (Step 4) and GameState (Step 5).
+Tarih: 26 Eylül 2026. Ana kaynak [OYUN_GELISTIRME_DEVIR_DOSYASI.md](OYUN_GELISTIRME_DEVIR_DOSYASI.md) sürüm 3.0; faz sırası [PLAN.md](PLAN.md).
 
-## What We Have Done
-- Completely reset the project to adopt the "Vibe Coding" methodology.
-- Selected the modern stack: React + R3F + Zustand + Tailwind + TypeScript.
-- Created Vite React TS project and installed all necessary dependencies.
-- Configured Tailwind CSS with Neo-Brutalist design tokens.
+## Doğrulanmış mevcut durum
 
-## Known Issues / Quirks
-- None yet. Start fresh.
+Depoda Vite/React/TypeScript başlangıç iskeleti vardır. package.json React, R3F/Drei, Three.js ve Zustand beyan eder; src/App.tsx sayaçlı başlangıç ekranıdır. Bu gözlem bağımlılıkların başarıyla kurulduğunu, build/test geçtiğini veya oyun döngüsünün çalıştığını kanıtlamaz. Aktif hedef P0'dır; önceki “Phase 2 / altyapı tamamlandı” kaydı geçerli kabul kanıtı değildir.
 
-## Next Immediate Step
-- Define data contracts (`src/types`) for Item, Recipe, and Machine.
+Bu revizyonda diğer 12 Markdown dosyası ana kaynakla uyumlu olarak düzenlendi. Anayasa, kaynak kod, bağımlılıklar ve yapılandırma değiştirilmedi. Çalışan oyun, native proje veya mağaza çıktısı teslim edilmedi; oyun build/test komutları çalıştırılmadı.
+
+## 2026-09-26 belge kararları
+
+| Konu | Karar ve gerekçe | Durum |
+|---|---|---|
+| Kaynak önceliği | §61–63 teknik/görsel; §58 kapsam; güncellenmiş sistem bölümleri | Belgelendi |
+| Framework | İlk hedef DOM/CSS + Three.js; mevcut React paketleri zorunlu seçim değildir | Kod geçişi yapılmadı |
+| Fazlar | A0/A1 işleri P0 içinde; P0→A2→A3→A4→A5 | Belgelendi |
+| P0 ekonomi | İki makine/tek küp hattı ve etiketli prototip dolabı | Tam oyun başlangıcından ayrıldı |
+| Kayıt | Tek JSON/localStorage örneği yerine snapshot+günlük+durable işlem | Uygulama bekliyor |
+| Monetizasyon | A4 sandbox; A5 yayın/mağaza doğrulaması | Entegrasyon yapılmadı |
+| İçerik ayrıntısı | Anayasa kataloğuna referans; uydurma eşik/bonus/API zorunluluğu kaldırıldı | Belgelendi |
+
+## Açık kararlar ve bağımlılıklar
+
+| Bilgi/karar | Şimdiki yaklaşım | Gerektiği kapı |
+|---|---|---|
+| Ekip/kapasite/bütçe | Tek geliştirici odaklı prototip varsayımı | Takvim/bütçe taahhüdü |
+| Node/Three.js/Capacitor sürümü | Kurulum tarihinde uyumluluk doğrulanacak | P0 kurulum |
+| React iskeleti uyumu | Çalışan yapıyı incele, minimum geçişi gerekçelendir | P0 kod işi |
+| App ID, Android/iOS araçları ve cihazlar | Henüz doğrulanmadı | Native proje/build |
+| macOS/Xcode, hesap/imzalama | Android başarısı iOS kabulü değildir | iOS cihaz ve imzalı dağıtım |
+| P0 oda/yerleşim, prototip kredi | Geri alınabilir karar olarak kaydet | P0 içerik kurulumu |
+| A2 üç ürün/üç makine seçimi | Tarif bağımlılığı ve tek tedarikçiyle sınanacak | A2 başlangıcı |
+| Asset/ses/font lisansı ve bütçe | Özgün/lisanslı placeholder | Son sanat/A5 |
+| İlk diller | TR prototip; TR/EN anahtar hazırlığı | Son metin ve QA |
+| Reklam/IAP sağlayıcı ve yaş grubu | P0'da gerçek SDK yok | A4 sandbox ve gizlilik |
+| Pazar talebi/kozmetik dönüşümü | Doğrulanmamış hipotez | Tam içerik yatırımını büyütme |
+| İsim/marka ve mağaza koşulları | Yayın öncesi araştırma | A5 |
+
+Ana metin içindeki yorum farklarında kapsamı büyütme: §62.4 A2 sanat sayıları §58.1 üç makine kapsamını artırmaz; §63.2 A4 sandbox'ı §58.1 A5 yayın ödemesinden ayrıdır. Yeni gerçek çelişkileri kaynak bölümleriyle karar kaydına ekle; anayasa değişikliği bu işin kapsamında değildir.
+
+## Sonraki iş ve kanıt düzeni
+
+Kod geliştirme talep edildiğinde PLAN.md Faz 0/P0 ile başla. Bu belge revizyonu kendi başına kod yazma veya yayın yetkisi değildir. Karar kayıtları gelecekte `docs/decisions`, denge verileri `docs/balance`, oyuncu denemeleri `docs/playtests` altında tutulur; bağımlılık/asset lisansları için THIRD_PARTY_NOTICES.md uygulama sırasında hazırlanır. Üretilmeyen dosyalar varmış gibi raporlanmaz.
+
+Her devamda değişen dosyalar, hedefli kontrol, gerçek cihaz kanıtı ve açık engelleri güncelle. Doğrulanmayan işi tamamlandı işaretleme.
+
+## Ayrıntılandırma revizyonu — 26 Eylül 2026
+
+Kullanıcı isteğiyle yüzeysel uygulama alanları genişletildi: kaynak/karar/açık/kanıt ayrımı, komut önkoşulları, durum makineleri, save/crash protokolü, lot muhasebesi, pointer sahipliği, personel/final sınırları ve sayısal test fixture'ları. IMPLEMENTATION_RULES.md ile MONETIZATION_AND_PRIVACY.md eklendi. Mevcut 12 yan belge genişletildi; anayasa ve kod aynı kapsam sınırında korundu.
+
+Yeni teknik taslaklar uygulanmış API değildir. Önerilen atom ölçeği, komut reason isimleri, tick sırası ve müşteri durum isimleri uygulama sırasında karar olarak doğrulanacaktır. Reklam sağlayıcısı/güvenilir sunucu doğrulaması, gerçek saat anomalileri, bekleyen ödülde havuz tükenmesi ve iade edilmiş kozmetik fallback'i A4 açıklarıdır. Mevcut geliştirme kabulü ilerlemedi: P0 hâlâ tamamlanmadı, oyun build/test veya cihaz ölçümü bu belge işi sırasında çalıştırılmadı.
