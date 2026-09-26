@@ -1,9 +1,11 @@
 import * as THREE from 'three';
+import { BackgroundShader } from './BackgroundShader';
 
 export class SceneManager {
   public scene: THREE.Scene;
   public camera: THREE.OrthographicCamera;
   public renderer: THREE.WebGLRenderer;
+  public bgShader: BackgroundShader;
 
   constructor(canvas: HTMLCanvasElement) {
     this.scene = new THREE.Scene();
@@ -22,6 +24,8 @@ export class SceneManager {
     light.position.set(0, 20, 10);
     this.scene.add(light);
     this.scene.add(new THREE.AmbientLight(0x404040));
+    
+    this.bgShader = new BackgroundShader(this.scene);
   }
 
   public add(object: THREE.Object3D): void {
@@ -32,7 +36,10 @@ export class SceneManager {
     this.scene.remove(object);
   }
 
-  public render(): void {
+  public render(time: number = 0): void {
+    if (this.bgShader) {
+      this.bgShader.update(time);
+    }
     this.renderer.render(this.scene, this.camera);
   }
 }

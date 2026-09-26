@@ -51,6 +51,6 @@ export class AppBootstrap {
     this.lastTime = time;
 
     this.engine.tick(delta);
-    this.sceneManager.render();
+    this.sceneManager.render(time / 1000.0);
   }
 }
