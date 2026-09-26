@@ -1,0 +1,26 @@
+# Project Overview
+You are building a 3D factory/market simulation game called "Orbit Market".
+The game features isometric/3D visuals with a Neo-Brutalist aesthetic and runs entirely in the browser.
+
+# Technology Stack
+- **Framework:** React 18 (via Vite)
+- **3D Engine:** Three.js + React Three Fiber (R3F) + Drei
+- **State Management:** Zustand
+- **Styling:** Tailwind CSS
+- **Language:** TypeScript
+
+# Code Guidelines
+- **TypeScript:** Use strict typing. Do NOT use parameter properties in classes (due to `erasableSyntaxOnly` flags). Use interfaces for contracts.
+- **Components:** Use functional React components only.
+- **Styling:** Rely strictly on Tailwind CSS utility classes. Avoid custom CSS unless absolutely necessary (like global background shaders).
+- **3D Rules:** Use `flatShading` for all 3D materials. Keep geometries low-poly.
+- **State:** Keep all game logic and data in Zustand stores (`src/store/`). Components should only render state and dispatch actions.
+
+# Aesthetic (Neo-Brutalist)
+- **Colors:** Ink Black (#171717), Paper (#F4F0E6), Signal Yellow (#FFE156), Electric Cyan (#35D9E6), Vivid Green (#A7EB52), Alert Red (#FF5733).
+- **UI:** Hard borders (e.g., `border-4 border-black`), sharp corners (`rounded-none`), stark contrasts, mono fonts.
+
+# AI Directives
+- **Never** write boilerplate or placeholder logic. If you write a feature, make it fully functional.
+- **Always** refer to `ARCHITECTURE.md` before creating new files or folders.
+- **Always** update `MEMORY.md` when completing a subtask or encountering a persistent bug.
