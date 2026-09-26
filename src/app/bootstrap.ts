@@ -1,6 +1,7 @@
 import { GameEngine } from '../application/simulation/GameEngine';
 import { SceneManager } from '../presentation/world/SceneManager';
 import { Packer3D } from '../presentation/world/machines/Packer3D';
+import { Player3D } from '../presentation/world/characters/Player3D';
 import * as THREE from 'three';
 
 export class AppBootstrap {
@@ -9,6 +10,7 @@ export class AppBootstrap {
   private lastTime: number = 0;
   private isRunning: boolean = false;
   private packer3D: Packer3D;
+  private player3D: Player3D;
 
   constructor(canvas: HTMLCanvasElement) {
     this.engine = new GameEngine();
@@ -18,6 +20,11 @@ export class AppBootstrap {
   }
 
   private setupVisuals() {
+    // Player
+    this.player3D = new Player3D('player-1');
+    this.player3D.group.position.set(0, 0, 0);
+    this.sceneManager.add(this.player3D.group);
+
     // Machine 1 (Packer)
     this.packer3D = new Packer3D('packer-bootstrap');
     this.packer3D.group.position.set(-5, 1, 0);
@@ -56,6 +63,7 @@ export class AppBootstrap {
     
     // Update visuals
     this.packer3D.update(delta);
+    this.player3D.update(delta);
     
     this.sceneManager.render(time / 1000.0);
   }
