@@ -18,7 +18,7 @@ Orbit Market, iOS/Android için dikey izometrik 3B market oyunudur. Çekirdek d�
 4. [ARCHITECTURE.md](ARCHITECTURE.md) ve [DOMAIN_MODEL.md](DOMAIN_MODEL.md): teknik sınırlar ve veri sahipliği.
 5. [CONTROLS_AND_UX.md](CONTROLS_AND_UX.md) ve [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md): mobil etkileşim ve görsel sözleşme.
 6. [ECONOMY_AND_MACHINES.md](ECONOMY_AND_MACHINES.md), [RPG_AND_PROGRESSION.md](RPG_AND_PROGRESSION.md), [STORY_AND_FACTIONS.md](STORY_AND_FACTIONS.md): ilgili fazda açılacak sistemler.
-7. [KARARLAR.md](KARARLAR.md): D-001–D-033 kararları, 100 ek soru, A–E görsel/UI/veri, derin mimari ve reklam/IAP/gizlilik cevapları; çelişkide anayasa üstün gelir.
+7. [KARARLAR.md](KARARLAR.md): D-001–D-039 kararları, 100 ek soru, A–E görsel/UI/veri, derin mimari, reklam/IAP/gizlilik ve mobil dayanıklılık cevapları; çelişkide anayasa üstün gelir.
 8. [TEST_STRATEGY.md](TEST_STRATEGY.md) ve [MEMORY.md](MEMORY.md): kabul kanıtları, mevcut durum ve kalan açık kararlar.
 
 ## Çalıştırma ve paketleme durumu

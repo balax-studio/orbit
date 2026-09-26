@@ -21,6 +21,12 @@ D-021–D-026 için hedefli kanıt: 500 mantıksal entity'de aktif kimlik indeks
 - [ ] 20 arka plan/dönüş; farklı kritik işlem noktalarında zorla sonlandırma: durable işlem kaybolmaz/çoğalmaz.
 - [ ] Touchcancel, UI dokunuşunun raycast'e sızmaması, inşa iptali/erişimi, portre safe-area, zoom ve Android geri.
 - [ ] WebGL2 yokluğu ve context-loss: anlaşılır hata veya güvenli sahne kurtarma; kayıt korunur.
+- [ ] iOS/Android klavyesi açılıp kapanırken Canvas oranı ve kamera bozulmaz; metin alanı klavye üstünde, safe-area içinde kalır.
+- [ ] `webglcontextlost/restored` zorla tetiklenir; texture/renderer yenilenir, aynı Domain/save korunur; başarısız kurtarmada DOM hata ekranı kalır.
+- [ ] Üretim `es2020` build'i iOS 16 taban cihazda ve Android 10 WebView'de açılır; yalnız TypeScript/Vite build başarısı uyumluluk kanıtı sayılmaz.
+- [ ] İlk kullanıcı jesti öncesi/sonrası ses, sessiz fallback ve decode bellek tepesi ölçülür; splash bütün sesleri yüklemez.
+- [ ] 6×6 engelli rota A* ile bulunur; yerleşim değişmeden her tick yeniden hesaplanmaz; müşteri kuyruğu kilitlenmez.
+- [ ] Çentik, alt jest alanı, tablet ve klavye durumunda ortak safe-area tokenları görsel olarak kontrol edilir.
 - [ ] Yerel paket uçak modunda açılır; P0 gereksiz OS izni istemez.
 - [ ] Android ve iPhone ayrı build/cihaz kanıtı; P0 en az 10 dk cihaz testi.
 - [ ] İki yerleşim karşılaştırması ve beş dış oyuncu; PLAN.md P0 eşikleri.

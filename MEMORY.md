@@ -24,6 +24,7 @@ Bu revizyonda diğer 12 Markdown dosyası ana kaynakla uyumlu olarak düzenlendi
 | D-017–D-020 | A–E görsel, UI, geri bildirim, P0 müşteri matematiği ve somut P0 veri şeması | [KARARLAR.md](KARARLAR.md), [DOMAIN_MODEL.md](DOMAIN_MODEL.md); uygulanmadı |
 | D-021–D-026 | Runtime kimlik indeksleri, 10.000 atom/kredi, 5 tick sınırı, 3B hit/context kurtarma, JSON/lifecycle, ses sınırı, npm ve kod kapısı | [KARARLAR.md](KARARLAR.md); mimari karar, henüz kod/cihaz kanıtı değil |
 | D-027–D-033 | End-card sınırı, reklam birim ekonomisi ve yükleme, yerel ödül/veri silme, çevrimdışı iade, yaş uygunluğu ve ücretsiz görev dengesi | [KARARLAR.md](KARARLAR.md), [MONETIZATION_AND_PRIVACY.md](MONETIZATION_AND_PRIVACY.md); SDK, cihaz ve hukuk doğrulaması A4/A5'te |
+| D-034–D-039 | Klavye/Canvas, WebGL kurtarma, `es2020` build hedefi, ses yükleme, olay bazlı A* ve ortak safe-area tokenları | [KARARLAR.md](KARARLAR.md); kod/cihaz doğrulaması P0/A5'te |
 
 ## Açık kararlar ve bağımlılıklar
 

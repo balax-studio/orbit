@@ -47,6 +47,8 @@ Sanat malzeme aileleri: habitat paneli, koyu metal, opak ambalaj, mat tekstil, b
 
 P0 ortografik kamera, sınırlı pan/zoom, kapatıcı nesnenin seçili aktörü gizlememesi ve cihaz profiline göre render kalitesi [KARARLAR.md](KARARLAR.md) D-009'da kayıtlıdır. iPhone/iPad oranında dünya esnetilmez; HUD safe-area/breakpoint'e uyar (D-016).
 
+Safe-area `env(safe-area-inset-top, 0px)`, `env(safe-area-inset-right, 0px)`, `env(safe-area-inset-bottom, 0px)` ve `env(safe-area-inset-left, 0px)` değerlerinden merkezi CSS tokenlarına aktarılır; her panel için sabit 40 px veya yeni Tailwind eklentisi kullanılmaz. Klavye açıldığında yalnız metin paneli görünür alana taşınır, Canvas ezilmez. Bkz. [KARARLAR.md](KARARLAR.md) D-034/D-039.
+
 A.1–A.6 için net başlangıç: §9'daki 6×6 m oda ve 1 m grid, Biyoyetiştirici 2×2/Paketleyici 1×2; mat low-poly kübik dünya; 45°/32° ortografik bakış, oda merkezine hedefleme ve ekrana göre ortografik görüş yüksekliği. Sayısal kamera ofseti, pan sınırı ve ışık kararının kaynağı [KARARLAR.md](KARARLAR.md) D-017'dir; 32° kaynak aralığı 30–35° içindeki P0 başlangıç seçimidir.
 
 KAYNAK §9/§62: 1 hücre=1 oyun birimi, varsayılan oda 6×6, bağlantı koridoru en az 2 hücre. Orthographic kamera tercih edilir; 30–35° aşağı eğim, 45° yatay grid dönüşü. Güncel §62.3 nedeniyle 90° kontrol nesne döndürmeye aittir; eski kamera dönüş ifadesi otomatik özellik yapılmaz.

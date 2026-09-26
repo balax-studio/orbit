@@ -90,4 +90,6 @@ Depolama yetersizliğinde başarısız ekonomi işlemi tekrarlanabilir bekleme/h
 
 Kamera, render maliyeti, raycast ve context-loss sonrası sahne kurma kararları [KARARLAR.md](KARARLAR.md) D-009/D-016'ya bağlıdır. Render durumu kaybedilse de Domain ve son doğrulanmış save korunur.
 
+Mobil ayrıntılar [KARARLAR.md](KARARLAR.md) D-034–D-039'da sabittir: iOS klavyesinde Canvas boyutu korunur, Android'de panel `visualViewport` ile taşınır; context kaybında GPU kaynakları yeniden kurulur; P0 üretim sözdizimi hedefi `es2020` ve destek hipotezi iOS 16+/Android 10+'dır. Kısa sesler sınırlı önbelleğe alınır; 6×6 rotası olayla tetiklenen grid A*'tır; safe-area ortak CSS tokenlarıyla uygulanır. Bunlar henüz kodlanmış veya cihazda doğrulanmış özellikler değildir.
+
 Renderer dünya state'inden yeniden kurulabilir. Sahne kaldırılırken sahip olunan geometry/material/texture, event listener ve animasyon kaynakları bırakılır; paylaşılan kaynaklar son kullanıcı bitmeden dispose edilmez. Context restored olayında eski GPU handle'ları çalışır varsayılmaz. Tekrar giriş testinde renderer.info değerlerinin sürekli büyümesi sızıntı işaretidir; kaç geçiş ve yük kullanıldığı raporlanır. Bu teknik test cihaz bellek ölçümünün yerine geçmez.

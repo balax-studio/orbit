@@ -22,6 +22,8 @@ Makine grid'e onaylı yerleştirilir; çalışan işe alma ve görev ataması pe
 
 9:16–9:21 dikey telefon ve portre tablet düzeni kullanılır. İki parmak pan/zoom hareket çubuğu devre dışıyken çalışır. Dikey izometrik kamera, sınırlı pan/iki parmak zoom ve karaktere dön kontrolü; hareket, zoom ve inşa jestleri çakışmaz. HUD safe-area içinde, dünya seçimleri panel altında kaybolmaz. Android geri önce açık paneli kapatır. iOS için zorunlu uygulamayı kapat düğmesi yoktur.
 
+Metin girişi oyun dünyasını sıkıştırmaz: isim/arama DOM paneli klavyenin üstünde kalır, oyun durur ve Canvas'ın sabit dünya kompozisyonu korunur. iOS'ta `KeyboardResize.None`, Android'de görünür viewport ölçüsü kullanılır; gerçek pencere değişimi kamera görüş hacmini yeniden hesaplar. Ayrıntı [KARARLAR.md](KARARLAR.md) D-034'tedir.
+
 İnşa/panel duraklatması ile platform duraklatması ayrı nedenlerdir. Arama, ekran kilidi ve native pencere kapanışı tek başına oyunu başlatmaz. Foreground ve kullanıcı devamı gerekir. Kısa geri dönüş özeti son eylem/isteğe bağlı sonraki işi gösterir; zorunlu modal veya kayıp tehdidi içermez. TutorialState ve aktif hedef korunur.
 
 ## A2–A3 — okunabilir yönetim
