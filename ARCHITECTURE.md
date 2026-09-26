@@ -1,25 +1,58 @@
-# System Architecture
+# Sistem Mimarisi (AI Geliştirici Paketi)
 
-## Core Design Principles
-The project separates the **State/Logic** from the **Presentation**.
-1. **Zustand (Store):** Holds the pure game state (inventory, money, machines, queues). Does NOT know about React or Three.js.
-2. **React (UI):** Reads from Zustand to draw HTML menus, buttons, and HUD.
-3. **React Three Fiber (3D):** Reads from Zustand to spawn 3D meshes (machines, players, customers) in the WebGL canvas.
+Bu dosya, kodun klasör mimarisini, render döngüsünü ve Capacitor native ayarlarını uygulatmak için kesin kurallar barındırır.
 
-## Folder Structure
+## 1. Dizin ve Dosya Sınırları (Boundary Rules)
+- **`src/domain/`**: Sadece `.ts` dosyaları. React veya R3F import edilemez. Matematik, interface, sabitler buradadır.
+- **`src/store/`**: `useGameStore.ts` (Zustand). Zustand store, R3F veya React DOM mantığı barındıramaz, sadece state ve fonksiyon tutar.
+- **`src/presentation/world/`**: R3F bileşenleri (`<Machine3D>`, `<Player3D>`). 
+- **`src/presentation/ui/`**: 2D React DOM bileşenleri (`<HUD>`, `<Menus>`).
 
-```text
-src/
-├── components/
-│   ├── ui/          # 2D React Components (HUD, Inventory, Buttons)
-│   └── world/       # 3D R3F Components (Player, Machines, Customers, Scene)
-├── store/           # Zustand stores (useGameStore.ts)
-├── types/           # TypeScript interfaces and contracts (Machine, Item, Recipe)
-├── utils/           # Helper functions, math, constants
-├── App.tsx          # Main entry point, combining UI overlay and Canvas
-└── index.css        # Tailwind imports and global shader styles
+## 2. Render ve Oyun Döngüsü (Game Loop)
+Performans bütçesine uymak için fizik ve oyun kuralları saniyede 10 kere (10Hz) çalışır.
+```typescript
+// src/application/simulation/useGameLoop.ts
+import { useFrame } from '@react-three/fiber';
+import { useStore } from '../../store/useGameStore';
+
+let lastTime = 0;
+const LOGIC_TICK_RATE = 100; // 10 Hz (100ms)
+
+export function useGameLoop() {
+  const updateMachines = useStore(state => state.updateMachines);
+  const updateCustomers = useStore(state => state.updateCustomers);
+  
+  useFrame((state, delta) => {
+    const now = state.clock.getElapsedTime() * 1000;
+    if (now - lastTime >= LOGIC_TICK_RATE) {
+      updateMachines(LOGIC_TICK_RATE);
+      updateCustomers(LOGIC_TICK_RATE);
+      lastTime = now;
+    }
+  });
+}
 ```
+*Görsel animasyonlar (yürüme, eşya sallanması) 60 FPS `useFrame` üzerinden sürekli akar, ancak arka plan (üretim süresi) 10Hz'de güncellenir.*
 
-## Data Flow
-- User clicks a 3D machine -> `onClick` event in R3F -> calls `store.interactWithMachine(id)` -> Zustand updates state -> React/R3F re-renders the changes automatically.
-- Game Loop: A `useFrame` hook inside R3F, or a global `requestAnimationFrame` loop in Zustand, updates time-based mechanics (like crafting progress).
+## 3. Capacitor Entegrasyonu
+Paket.json kurulduğunda çalışacak terminal akışı (Ajan bunları sırayla yürütmek zorundadır):
+1. `npm install @capacitor/core @capacitor/android @capacitor/ios`
+2. `npm install @capacitor/cli --save-dev`
+3. `npx cap init OrbitMarket org.antigravity.orbitmarket --web-dir dist`
+4. `npm run build`
+5. `npx cap add android` (İOS ortamı Macbook'da olmadığı için şimdilik atlanabilir, ancak konfigürasyonda yer alır).
+
+## 4. Kayıt Sistemi (Save/Load) LocalStorage / Capacitor Storage
+Oyun durumu JSON serileştirilerek saklanır.
+```typescript
+const SAVE_KEY = 'orbit_market_save_v1';
+export const saveGame = (state: GameState) => {
+  const payload = JSON.stringify({
+    schemaVersion: 1,
+    time: Date.now(),
+    data: state
+  });
+  localStorage.setItem(SAVE_KEY, payload); // Capacitor'da Storage Plugin'e yönlendirilir
+}
+```
+Yükleme sırasında sürüm doğrulaması yapılır. Çökmüş/Hatalı (Corrupted) bir JSON gelirse oyun sessizce sıfırlanmaz, oyuncuya hata menüsü sunulur.

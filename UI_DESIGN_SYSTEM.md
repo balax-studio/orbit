@@ -1,34 +1,69 @@
-# UI/UX Design System (Neo-Brutalist)
+# UI Tasarım Sistemi (AI Geliştirici Paketi)
 
-## Core Philosophy
-The game uses a **Neo-Brutalist** aesthetic. This means:
-- No soft shadows. No gradients. No rounded corners (unless explicitly `rounded-sm` for tiny elements).
-- Everything looks like a printed poster or a retro computer interface.
-- High contrast and bold, thick borders.
+Bu dosya, arayüzü inşa edecek ajan için **kesin CSS, Tailwind yapılandırması ve Bileşen hiyerarşisi** kurallarını barındırır.
 
-## Tailwind Tokens (Configured in tailwind.config.js)
-- `bg-neo-black` / `text-neo-black`: `#171717` (Deep Ink Black)
-- `bg-neo-paper` / `text-neo-paper`: `#F4F0E6` (Warm Off-White/Paper)
-- `bg-neo-yellow` / `text-neo-yellow`: `#FFE156` (Signal Yellow)
-- `bg-neo-cyan` / `text-neo-cyan`: `#35D9E6` (Electric Cyan)
-- `bg-neo-green` / `text-neo-green`: `#A7EB52` (Vivid Green)
-- `bg-neo-red` / `text-neo-red`: `#FF5733` (Alert Red)
+## 1. Tailwind Config (tailwind.config.js)
+Ajan, Tailwind konfigürasyonunu tam olarak aşağıdaki gibi oluşturmalıdır:
+```javascript
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        neo: {
+          bg: "#F2F0E9",      // Paper White
+          surface: "#FFFFFF", // Pure White
+          ink: "#1A1A1A",     // Ink Black
+          yellow: "#FFD000",  // Signal Yellow
+          cyan: "#00F0FF",    // Electric Cyan
+          green: "#00FF66",   // Vivid Green
+          red: "#FF003C",     // Alert Red
+        }
+      },
+      boxShadow: {
+        'neo': '4px 4px 0px 0px rgba(26, 26, 26, 1)', // Hard shadow
+        'neo-hover': '2px 2px 0px 0px rgba(26, 26, 26, 1)',
+      },
+      borderWidth: {
+        '3': '3px',
+      },
+      fontFamily: {
+        mono: ['"Space Mono"', 'monospace'], // Neo-Brutalist standart tipografi
+      }
+    },
+  },
+  plugins: [],
+}
+```
 
-## Component Rules
-1. **Buttons (`<button>`)**:
-   - Must have `border-4 border-neo-black`.
-   - Must have a hard shadow: `shadow-[4px_4px_0px_0px_#171717]`.
-   - On hover/active: Translate down and right to "press" the shadow (`hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#171717]`).
-   - Font must be `font-mono font-bold uppercase`.
+## 2. Ortak UI Bileşeni Kuralları
+Tüm UI bileşenleri React'te şu Neo-Brutalist sınıfları kullanmalıdır:
 
-2. **Panels / Modals (Inventory, Menus)**:
-   - Background: `bg-neo-paper`.
-   - Border: `border-4 border-neo-black`.
-   - Shadow: `shadow-[8px_8px_0px_0px_#171717]`.
-   - Text color: `text-neo-black`.
+**Buton Sınıfları (NeoButton):**
+`bg-neo-yellow border-3 border-neo-ink shadow-neo hover:shadow-neo-hover hover:translate-x-[2px] hover:translate-y-[2px] transition-all px-4 py-2 font-mono font-bold text-neo-ink`
 
-3. **3D Scene Rules (React Three Fiber)**:
-   - All materials must be `<meshStandardMaterial flatShading={true} />`.
-   - Outline effect: Use `<Outlines thickness={2} color="black" />` from `@react-three/drei` to give meshes a drawn/comic border.
-   - Lighting: One strong `directionalLight` (for sharp cast shadows) and ambient light.
-   - Background: Use a flat color (like `neo-paper`) or a custom post-processing shader (CRT scanlines, dither).
+**Kart Sınıfları (NeoCard):**
+`bg-neo-surface border-3 border-neo-ink shadow-neo p-4 font-mono`
+
+**Uyarı/Hata (NeoAlert):**
+`bg-neo-red border-3 border-neo-ink shadow-neo text-neo-surface p-2 font-bold`
+
+## 3. Bileşen Hiyerarşisi (Component Tree)
+```text
+src/components/ui/
+├── HUD.tsx             // Kredi, Zaman, Üst Göstergeler
+├── ActionMenu.tsx      // Tıklanan nesnenin bağlamsal butonları (Al, Sat, Kapat)
+├── InventoryPanel.tsx  // Sağ çekmece (Drawer) - Envanter listesi
+├── BuildOverlay.tsx    // İnşa modu açıkken çıkan ekran (grid snap vb.)
+└── shared/
+    ├── NeoButton.tsx
+    ├── NeoCard.tsx
+    └── NeoBadge.tsx
+```
+
+## 4. Kısıtlamalar (AI İçin Kırmızı Çizgiler)
+- **Gradients Kesinlikle Yasak:** Arayüzde `bg-gradient-*` kullanılamaz.
+- **Yumuşak Gölgeler Yasak:** `shadow-md`, `shadow-lg` (bulanık gölgeler) kullanılamaz. Sadece `shadow-neo` kullanılacaktır.
+- **Kart İçinde Kart:** İç içe geçmiş karmaşık kart tasarımlarından kaçınılmalı, UI tek katmanlı (flat) ve cesur olmalıdır.
+- **Hareket (Motion):** Sadece Transform (translate, scale) ve Opacity kullanılır. Genişlik/Yükseklik animasyonları (layout trashing) yasaktır.

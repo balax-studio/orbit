@@ -1,41 +1,88 @@
-# Domain Model & Game Economy
+# Domain Model & Zustand Store (AI Geliştirici Paketi)
 
-This document acts as the definitive source of truth for the game's data.
+Bu doküman, yapay zeka ajanlarının tereddüt etmeden kodu yazabilmesi için kesin TypeScript State arayüzlerini ve Store Action'larını içerir.
 
-## 1. Item Dictionary (24 Items)
-All items in the game have an `id`, `name`, `type` (raw, intermediate, final), and `baseValue`.
+## 1. Kesin Veri Tipleri (Types)
 
-**Raw Materials (Hammaddeler):**
-- `iron_ore` (Demir Cevheri) - Value: 10
-- `copper_ore` (Bakır Cevheri) - Value: 12
-- `silicon` (Silikon) - Value: 15
-- `water` (Su) - Value: 5
-- `biomass` (Biyokütle) - Value: 8
+```typescript
+export type ItemCategory = 'Raw' | 'Intermediate' | 'Final';
+export type QualityTier = 'Standard' | 'Nitelikli' | 'Özel';
+export type Faction = 'Community' | 'Researchers' | 'Traders';
 
-*(Full list to be expanded based on OYUN_GELISTIRME_DEVIR_DOSYASI.md)*
+export interface Item {
+  id: string; // Örn: "nutrient_cube"
+  name: string;
+  category: ItemCategory;
+  baseCost: number; // Üretim maliyeti
+  referencePrice: number; // Satış fiyatı
+}
 
-## 2. Machine Dictionary
-Machines process inputs into outputs based on time.
+export interface InventorySlot {
+  itemId: string;
+  quantity: number;
+  quality: QualityTier;
+}
 
-| ID | Name | Inputs | Outputs | Base Processing Time | Cost to Buy |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| `machine_melter` | Melter (Eritici) | 1x Ore | 1x Ingot | 2 seconds | 100 🪙 |
-| `machine_assembler`| Assembler (Montaj) | 2x Components | 1x Product | 5 seconds | 500 🪙 |
-| `machine_packer` | Packer (Paketleyici)| 1x Product | 1x Boxed | 1 second | 300 🪙 |
+export interface Machine {
+  instanceId: string; // uuid
+  machineId: string; // Örn: "machine_packer"
+  position: [number, number, number];
+  rotation: [number, number, number];
+  isProcessing: boolean;
+  activeRecipeId: string | null;
+  progress: number; // 0.0 to 1.0
+  inputBuffer: InventorySlot[];
+  outputBuffer: InventorySlot[];
+}
 
-## 3. Recipes (Tarifler)
-A recipe links inputs to outputs.
+export interface Staff {
+  id: string;
+  name: string;
+  role: 'Cashier' | 'Restocker' | 'Transporter' | 'Operator' | 'Technician';
+  skillLevel: number; // 0-100
+  fatigue: number; // 0-100 (100 = bitkin)
+  satisfaction: number; // 0-100
+  assignedTask: string | null;
+}
+```
 
-- **Iron Ingot Recipe**: 
-  - Input: `1x iron_ore`
-  - Output: `1x iron_ingot`
-  - Required Machine: `machine_melter`
-  - Time: `2000ms`
+## 2. Zustand Store ve Action'lar
 
-## 4. Characters
-- **Player**: Has position `(x, y, z)`. Can move. Has an inventory array.
-- **Customers**: Spawn at the edge of the map, queue at the Counter. Have a `desiredItem` and `patienceTimeout`.
+```typescript
+export interface GameState {
+  // --- STATE ---
+  credits: number;
+  timePlayed: number;
+  chapter: number;
+  reputation: Record<Faction, number>;
+  inventory: InventorySlot[];
+  machines: Machine[];
+  staff: Staff[];
+  unlockedRecipes: string[];
+  
+  // --- ACTIONS ---
+  // Ekonomi
+  addCredits: (amount: number) => void;
+  deductCredits: (amount: number) => boolean;
+  
+  // Üretim ve Envanter
+  addItemToInventory: (itemId: string, qty: number, quality: QualityTier) => void;
+  removeItemFromInventory: (itemId: string, qty: number) => boolean;
+  
+  // Makine Yönetimi
+  placeMachine: (machineId: string, position: [number, number, number]) => void;
+  updateMachineProgress: (instanceId: string, delta: number) => void;
+  startRecipe: (instanceId: string, recipeId: string) => void;
+  collectOutput: (instanceId: string) => void;
+  
+  // Personel
+  hireStaff: (staffData: Omit<Staff, 'id'>) => void;
+  assignTask: (staffId: string, taskId: string) => void;
+  updateFatigue: (delta: number) => void;
+}
+```
 
-## 5. Game Loop Constants
-- Customer spawn rate: Every `15,000ms` (adjusted by store reputation).
-- Customer patience: `45,000ms` before they leave angrily.
+## 3. Sabit Kısıtlamalar (AI İçin Kırmızı Çizgiler)
+- **Asla** negatif envanter veya negatif kredi oluşmamalıdır (`deductCredits` ve `removeItemFromInventory` fonksiyonları yetersiz bakiye/stok durumunda `false` dönmeli ve işlemi iptal etmelidir).
+- Tüm güncellemeler (State mutasyonları) Immer veya Zustand'ın immutable set() yapısıyla yapılmalıdır.
+- Oyuncu veya müşterilerin 3D koordinatları (X,Y,Z) Zustand'da **TUTULMAMALIDIR** (performans için). Onlar R3F içindeki lokal `useRef`'lerde yaşar. Sadece mantıksal varlıklar (Makineler, Raflar) Zustand'da koordinat tutar.
