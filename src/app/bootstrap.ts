@@ -3,6 +3,7 @@ import { SceneManager } from '../presentation/world/SceneManager';
 import { Packer3D } from '../presentation/world/machines/Packer3D';
 import { Player3D } from '../presentation/world/characters/Player3D';
 import { InputManager } from '../presentation/world/InputManager';
+import { CustomerSystem } from '../presentation/world/systems/CustomerSystem';
 import * as THREE from 'three';
 
 export class AppBootstrap {
@@ -13,6 +14,7 @@ export class AppBootstrap {
   private packer3D: Packer3D;
   private player3D: Player3D;
   private inputManager: InputManager;
+  private customerSystem: CustomerSystem;
 
   constructor(canvas: HTMLCanvasElement) {
     this.engine = new GameEngine();
@@ -24,6 +26,8 @@ export class AppBootstrap {
       const target = new THREE.Vector3(point.x, 0, point.z);
       this.player3D.moveTo(target);
     };
+
+    this.customerSystem = new CustomerSystem(this.sceneManager);
 
     this.setupVisuals();
   }
@@ -73,6 +77,7 @@ export class AppBootstrap {
     // Update visuals
     this.packer3D.update(delta);
     this.player3D.update(delta);
+    this.customerSystem.update(delta);
     
     this.sceneManager.render(time / 1000.0);
   }
