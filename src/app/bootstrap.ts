@@ -2,6 +2,7 @@ import { GameEngine } from '../application/simulation/GameEngine';
 import { SceneManager } from '../presentation/world/SceneManager';
 import { Packer3D } from '../presentation/world/machines/Packer3D';
 import { Player3D } from '../presentation/world/characters/Player3D';
+import { InputManager } from '../presentation/world/InputManager';
 import * as THREE from 'three';
 
 export class AppBootstrap {
@@ -11,10 +12,18 @@ export class AppBootstrap {
   private isRunning: boolean = false;
   private packer3D: Packer3D;
   private player3D: Player3D;
+  private inputManager: InputManager;
 
   constructor(canvas: HTMLCanvasElement) {
     this.engine = new GameEngine();
     this.sceneManager = new SceneManager(canvas);
+    this.inputManager = new InputManager(canvas, this.sceneManager.camera, this.sceneManager.scene);
+    
+    this.inputManager.onPointSelected = (point) => {
+      // Only move on X/Z plane
+      const target = new THREE.Vector3(point.x, 0, point.z);
+      this.player3D.moveTo(target);
+    };
 
     this.setupVisuals();
   }
