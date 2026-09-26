@@ -1,5 +1,6 @@
 import { GameEngine } from '../application/simulation/GameEngine';
 import { SceneManager } from '../presentation/world/SceneManager';
+import { Packer3D } from '../presentation/world/machines/Packer3D';
 import * as THREE from 'three';
 
 export class AppBootstrap {
@@ -7,6 +8,7 @@ export class AppBootstrap {
   public sceneManager: SceneManager;
   private lastTime: number = 0;
   private isRunning: boolean = false;
+  private packer3D: Packer3D;
 
   constructor(canvas: HTMLCanvasElement) {
     this.engine = new GameEngine();
@@ -16,10 +18,10 @@ export class AppBootstrap {
   }
 
   private setupVisuals() {
-    // Machine 1
-    const machineMesh = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2), new THREE.MeshStandardMaterial({ color: 0x35D9E6 }));
-    machineMesh.position.set(-5, 1, 0);
-    this.sceneManager.add(machineMesh);
+    // Machine 1 (Packer)
+    this.packer3D = new Packer3D('packer-bootstrap');
+    this.packer3D.group.position.set(-5, 1, 0);
+    this.sceneManager.add(this.packer3D.group);
 
     // Shelf 1
     const shelfMesh = new THREE.Mesh(new THREE.BoxGeometry(2, 3, 1), new THREE.MeshStandardMaterial({ color: 0xA7EB52 }));
@@ -51,6 +53,10 @@ export class AppBootstrap {
     this.lastTime = time;
 
     this.engine.tick(delta);
+    
+    // Update visuals
+    this.packer3D.update(delta);
+    
     this.sceneManager.render(time / 1000.0);
   }
 }
