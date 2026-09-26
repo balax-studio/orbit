@@ -45,6 +45,10 @@ Sanat malzeme aileleri: habitat paneli, koyu metal, opak ambalaj, mat tekstil, b
 
 ## 3. Kamera, ölçek ve ekran kompozisyonu
 
+P0 ortografik kamera, sınırlı pan/zoom, kapatıcı nesnenin seçili aktörü gizlememesi ve cihaz profiline göre render kalitesi [KARARLAR.md](KARARLAR.md) D-009'da kayıtlıdır. iPhone/iPad oranında dünya esnetilmez; HUD safe-area/breakpoint'e uyar (D-016).
+
+A.1–A.6 için net başlangıç: §9'daki 6×6 m oda ve 1 m grid, Biyoyetiştirici 2×2/Paketleyici 1×2; mat low-poly kübik dünya; 45°/32° ortografik bakış, oda merkezine hedefleme ve ekrana göre ortografik görüş yüksekliği. Sayısal kamera ofseti, pan sınırı ve ışık kararının kaynağı [KARARLAR.md](KARARLAR.md) D-017'dir; 32° kaynak aralığı 30–35° içindeki P0 başlangıç seçimidir.
+
 KAYNAK §9/§62: 1 hücre=1 oyun birimi, varsayılan oda 6×6, bağlantı koridoru en az 2 hücre. Orthographic kamera tercih edilir; 30–35° aşağı eğim, 45° yatay grid dönüşü. Güncel §62.3 nedeniyle 90° kontrol nesne döndürmeye aittir; eski kamera dönüş ifadesi otomatik özellik yapılmaz.
 
 Portre başlangıç oranları: orta %65 dünya, üst %12 kredi/görev, alt %18 hareket/eylem. Safe-area hariç başlangıç önerileridir, katı/toplam ekran bölüşümü değildir. 9:16–9:21 telefon ve portre tablet destek düzenidir. Tablet geniş görünüm/detay verir; yeni oyun kuralı getirmez.
@@ -287,6 +291,10 @@ Festival: küçük bayrak/tabela. Araştırma ziyareti: ziyaretçi aksesuarı/pa
 Görsel katman kayıtlı olay aktifken görünür; bitince yalnız o katman kalkar. Olay kapalıysa dekor gizli ekonomik ceza vermez. Gündüz/gece ışık varyantı istenirse A4 kozmetik seçenektir; yeni vardiya, çevrimdışı saat veya zorunlu gece bekleme sistemi değildir, zorunlu ilk sürüm işi sayılmaz.
 
 ## 13. Ekran ve panel kataloğu
+
+Makine detayının DOM paneli, ilerleme işaretinin görsel sunumu, font fallback'i, haptic ve kayıt durum mesajları [KARARLAR.md](KARARLAR.md) D-008/D-010'a uyar. Yakın nesnelerde seçim belirsizliği oyuncuya seçici panelle gösterilir (D-009).
+
+B.1–B.5 ve C.1–C.3: portre güvenli alan oranları, Neo-Brutalist renkler, 0,3 sn güvenli al/bırak, onaylı inşa, satış commit'inden sonra tek para vurgusu, makinede okunur süre/durma nedeni ve yetersiz kredide somut gerekçe [KARARLAR.md](KARARLAR.md) D-018/D-019'da sabitlenmiştir.
 
 KAYNAK §15/§60: telefon alt sayfa, tablet yan detay; aynı anda tek ana yönetim sayfası. İlk açılışta dünya görünür, landing/sinematik kapak yok. Menü gerektiğinde oyun bağlamında açılır. iOS için zorunlu uygulamayı kapat düğmesi yoktur.
 

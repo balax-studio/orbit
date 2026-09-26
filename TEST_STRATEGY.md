@@ -8,6 +8,12 @@ Domain birim testleri enjekte saat/RNG ile; Application entegrasyonu gerçek iş
 
 ## P0 — zorunlu senaryolar
 
+[KARARLAR.md](KARARLAR.md) D-007–D-016 için kabul kanıtı: render FPS'i değişirken aynı 100 ms tick sonucu; pause/resume'da sıfır çevrimdışı gelir; son makineyi satma veya erişimsiz bırakma reddi; dolu çıktı ve taşınan yükle save/load; yarım log/dolu diskten kayıpsız kurtarma; UI pointer'ın dünyaya sızmaması; context-loss sonrası aynı Domain durumuna dönüş. Beş tick/frame ve render bütçesi düşük/orta cihazda ölçülür.
+
+D-017–D-020 için ek kontrol: 6×6 m odada 2×2 yetiştirici ve 1×2 paketleyici servis/yürüme açıklığı; portre telefon/tablette aynı eylemin görünmesi; bir satışta tek `+12 kredi` geri bildirimi; durma nedeni ve eksik kredi mesajı; ilk öğretim müşterisinin normal RNG sayımına çift eklenmemesi; 40 saniye sabrın yalnız aktif kuyruk tick'lerinde azalması; P0 snapshot tipindeki her lotun tek konumu, makine partisinin tek çıktı üretmesi ve R3F/React render sayısının 10 Hz Domain tick'ine gereksiz bağlanmaması.
+
+D-021–D-026 için hedefli kanıt: 500 mantıksal entity'de aktif kimlik indeksinin güncellenmesi ve kararlı tick sırası; 1 kredi/10.000 atom yuvarlama, `Number.MAX_SAFE_INTEGER` sınırı ve save round-trip; ağır frame'de en çok 5 tick ve çevrimdışı sıfır telafi; aynı seed/komutlarda aynı ekonomik sonuç; pointer etkileşiminde raycast maliyeti ile `renderer.info` draw-call ölçümü; WebGL context kaybında aynı Domain'e dönüş; kritik günlük yazımı sırasında kill ve son doğrulanmış snapshot'tan kurtarma; büyük snapshot JSON serileştirme p95 süresi; 10 eşzamanlı makine bitişinde ses/CPU; gerçek `npm run build`/`npm run lint` sonuçları ve seçilen paket yöneticisinin tek lockfile'ı. Bunlar yapılmış test iddiası değildir.
+
 - [ ] Yetersiz stok/bakiye, dolu hedef, yinelenen komut ve iptal: stok/para korunur, rezervasyon sızmaz.
 - [ ] İki makineli üretim, raf/kasa satışı ve görevliye devir: ürün ve kredi yalnız bir kez değişir.
 - [ ] Farklı render hızları aynı aktif simülasyonda aynı ekonomi sonucunu verir; catch-up sınırlıdır.
@@ -42,6 +48,14 @@ Domain birim testleri enjekte saat/RNG ile; Application entegrasyonu gerçek iş
 - [ ] Reklam/ödeme + arama + dönüş birleşiminde çift ödül ve erken resume yoktur.
 - [ ] İki mağazada ayrı sandbox: pending, iptal, bağlantı kaybı, parental approval, restore, refund/revoke; acknowledgment/finishing ve hak idempotency.
 - [ ] Gizlilik tercihi öncesi reklam yüklenmez; takip izni reddi oyunu/ödül hakkını cezalandırmaz.
+- [ ] Otomatik end-card kapatılabilir; ek tıklama/indirme zorunlu yaratıcı gösterilmez. Ağ bunu denetletmiyorsa reklam kapalı kalır.
+- [ ] Reklam yalnız Destekle panelinde uygunluk çözüldükten sonra hazırlanır; 5 sn timeout/no-fill ödül ve kotayı değiştirmez; düşük cihaz FPS/bellek/ısı profili alınır.
+- [ ] S2S denemesi rastgele `attemptId` ile doğrulanır; tekrarlı/geç callback tek hak verir; kalıcı oyuncu UUID'si veya ödül envanteri sunucuda kurulmaz.
+- [ ] Temiz kurulumda reklam kozmetiği otomatik restore olmaz, ücretsiz görevle yeniden kazanılır; mağaza kozmetiği aynı platform hesabından restore edilir.
+- [ ] Çevrimdışı refund sırasında temel oyun açık kalır; sonraki bağlantıda hak geri alınır ve varsayılan görünüm seçilir.
+- [ ] Yaşı/güvenli reklam uygunluğu bilinmeyen durumda reklam isteği atılmaz; hedef kitle beyanı ve gerekiyorsa nötr yaş akışı cihazda doğrulanır.
+- [ ] Her reklam kozmetiğinin ücretsiz görevi tipik 3–8 dakikalık oturumda tamamlanabilir; üç saatlik grind playtestte reddedilir.
+- [ ] Veri silme talebi ve yerel tam sıfırlama ayrı akışlardır; kısa ömürlü S2S kayıtları için silme/saklama kanıtı vardır.
 
 ## A5 — cihaz bütçeleri ve yayın
 

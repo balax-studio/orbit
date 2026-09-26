@@ -10,13 +10,16 @@ Orbit Market, iOS/Android için dikey izometrik 3B market oyunudur. Çekirdek d�
 
 ## Okuma sırası
 
+Çalışma akışı [AGENTS.md](AGENTS.md), UI/UX uygulama kontrol listesi [RULES.md](RULES.md) içindedir. Ayrıntılı ürün kaynakları aşağıdaki sırayla okunur.
+
 1. Anayasanın hızlı özeti, 58 ve 61–63.
 2. [PLAN.md](PLAN.md): sıralı fazlar, bağımlılıklar ve çıkış kapıları.
 3. [MVP_IMPLEMENTATION_GUIDE.md](MVP_IMPLEMENTATION_GUIDE.md): P0 uygulama adımları.
 4. [ARCHITECTURE.md](ARCHITECTURE.md) ve [DOMAIN_MODEL.md](DOMAIN_MODEL.md): teknik sınırlar ve veri sahipliği.
 5. [CONTROLS_AND_UX.md](CONTROLS_AND_UX.md) ve [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md): mobil etkileşim ve görsel sözleşme.
 6. [ECONOMY_AND_MACHINES.md](ECONOMY_AND_MACHINES.md), [RPG_AND_PROGRESSION.md](RPG_AND_PROGRESSION.md), [STORY_AND_FACTIONS.md](STORY_AND_FACTIONS.md): ilgili fazda açılacak sistemler.
-7. [TEST_STRATEGY.md](TEST_STRATEGY.md) ve [MEMORY.md](MEMORY.md): kabul kanıtları, mevcut durum ve açık kararlar.
+7. [KARARLAR.md](KARARLAR.md): D-001–D-033 kararları, 100 ek soru, A–E görsel/UI/veri, derin mimari ve reklam/IAP/gizlilik cevapları; çelişkide anayasa üstün gelir.
+8. [TEST_STRATEGY.md](TEST_STRATEGY.md) ve [MEMORY.md](MEMORY.md): kabul kanıtları, mevcut durum ve kalan açık kararlar.
 
 ## Çalıştırma ve paketleme durumu
 

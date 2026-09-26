@@ -4,6 +4,8 @@ Kaynak: [anayasa](OYUN_GELISTIRME_DEVIR_DOSYASI.md) §26, §33–41, §47–48. 
 
 ## P0 — korunumu kanıtla
 
+Fiziksel stok/kapasite/atık soruları [KARARLAR.md](KARARLAR.md) D-011'de; negatif kredi, satış iadesi, gelir bildirimi D-012'de; makine buffer/parti/yerleştirme D-015'tedir. Son temel üretim yolu yalnız makine adediyle değil erişilebilir rota, servis, güç, girdi ve çıkışla korunur (D-001/D-016).
+
 Tek küp hattı, iki makine ve etiketli prototip tedariki kullanılır. Aktarım/satış atomiktir; kullanılabilir stok = fiziksel − rezerve. Kaynak miktarı ve hedef kapasitesi birlikte rezerve edilir, iptalde birlikte bırakılır. Üretim emri ürün/hedef/minimum stok/öncelik/maksimum ayrılmış girdi içerir. Çıktı dolu veya girdi eksikse ürün kaybolmaz; sebep görünürdür.
 
 Parti süresi simülasyon saatidir. Çıktı/dakika = çıktı adedi × 60 / parti süresi; hat kapasitesi en yavaş aşamayla sınırlıdır. Tek paketleyici küpte 7,5 adet/dk referansına sahiptir. Makine yükseltmelerine kaynaksız genel süre çarpanı uygulanmaz; §26.4 tanımı aktarılır.
@@ -23,6 +25,10 @@ Bunlar tam katalog değildir. Ara ürün su maliyeti 1,02 ile şişelenmiş niha
 Normal nihai toptan bedel referans perakendenin %65'i; nakliye 5 kredi/sipariş, kapasite 40 birim. Gerçek taşıma payı sipariş adediyle hesaplanır. Hacim indirimi §33'e göre ayrı uygulanır. Oyuncunun raf fiyatını artırması referans tedarik/kontrat değerini değiştirmez. Tarihsel lot maliyeti korunur.
 
 ## A2–A3 — müşteri ve kalite
+
+Müşteri ihtiyaç RNG'si girişte kaydedilir; boş raf talebi silmez. Kuyruk hücreleri, sabır ve güvenli çıkış kararları [KARARLAR.md](KARARLAR.md) D-013'tedir.
+
+P0 öğretim gelişinin ayrı tetiklenmesi, sonrasındaki `56/9000` seed'li tick geliş olasılığı, 40 aktif saniyelik P0 kuyruk sabrı ve 12 kredilik sabit küp fiyatı D-019 D.1–D.3 kararıdır. A2 profil sabrı 40/55/30 sn ve bölüm ziyaret hedefleri anayasa §37–38'den alınır; P0 ritmi doğrulanmış denge sonucu değildir.
 
 A2 üç profil ve bir ikameyle başlar; §38–39'un tam entegrasyonu A3 derinliğine bağlanır. Raf fiyatı oyuncu seçimiyle değişebilir; oyuncunun nakdine göre gizlice değişmez. Sepetteki fiyat kilitlenir. Stok ve bütçe filtresinden sonra:
 

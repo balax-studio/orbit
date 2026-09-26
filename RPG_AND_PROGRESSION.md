@@ -4,6 +4,8 @@ Kaynak: [anayasa](OYUN_GELISTIRME_DEVIR_DOSYASI.md) §27–32, §46–48. Fazlar
 
 ## P0 ve A2 sınırı
 
+P0 fiziksel oyuncu ve tek raf görevlisiyle oynanır; görev önceliği, lot rezervasyonu, güvenli iptal ve fazlara göre çalışan sınırı [KARARLAR.md](KARARLAR.md) D-014'e uyar.
+
 P0'da tek raf görevlisine devir vardır; RPG, araştırma ve tam yorgunluk sistemi yoktur. A2'de bir çalışan, iki koltuklu mola köşesi ve öğretim bulunur. Tam oyun personel erişimi §46.2'ye göre Bölüm 1→2 geçişindedir; P0 gösterimi bu erişim kuralını değiştirmez.
 
 ## A3 — bölüm ve kaynaklar
@@ -32,7 +34,7 @@ Seviye 1 başlangıç, üst sınır 20; sonraki seviye bedeli `100+25×(mevcutSe
 | Mühendis | Kalibrasyon profili → Hat dönüşümü → Servis penceresi |
 | Toplulukçu | Mentor eşleme → Esnek devir → Ortak ihtiyaç panosu |
 
-İlk düğüm 1 puan; ikinci ilkini, üçüncü ikinciyi ister. Davranış/sınırlar §47.1'den alınır; rastgele toplu satış ve genel hız bonuslarıyla değiştirilmez. İlk yeniden dağıtım ücretsiz, sonrası 100 kredi. Açık kontrat kazanımları geri alınmaz, bonus tekrar üretilmez.
+İlk dokuz çekirdek düğümün her biri 1 puandır; ikinci ilkini, üçüncü ikinciyi ister ([KARARLAR.md](KARARLAR.md) D-005). Davranış/sınırlar §47.1'den alınır; rastgele toplu satış ve genel hız bonuslarıyla değiştirilmez. İlk yeniden dağıtım ücretsiz, sonrası 100 kredi. Açık kontrat kazanımları geri alınmaz, bonus tekrar üretilmez.
 
 ## A2 temel mola; A3 tam personel modeli
 
@@ -40,7 +42,7 @@ F yorgunluk 0–100; enerji `100−F`. Normal artış `0,25×roleLoad×environme
 
 F≥60 mola talebi; F≥80 yeni görev yok ve en geç 10 sn güvenli adımda devir; F≤15 mola tamamlanır. Koltuk/rota rezervasyonu gerekir. Koltuk beklerken ayakta −0,25/sn, molaya yürürken +0,05/sn; vardiya dışında −1/sn. Gerçek çevrimdışı süre işlemez. Ücret aynı simülasyon gününde tekrar tahsil edilmez. Enerji ile memnuniyet farklı ölçülerdir.
 
-Görev devrinde stok/hedef rezervasyonları atomik aktarılır; görevli yoksa elle çalışma sürer. Rol/köken/özellik, eğitim, izin, olay ve oda etkileri §27–32'den alınır; kaynaksız 20 personel tavanı eklenmez.
+Görev devrinde stok/hedef rezervasyonları atomik aktarılır; görevli yoksa elle çalışma sürer. Rol/köken/özellik, eğitim, izin, olay ve oda etkileri §27–32'den alınır. İlk sürüm toplam personel tavanı 20'dir (§27.1); A2'deki tek çalışan bu tavandan ayrı bir faz kapsamıdır. Aday alanları D-006'daki gibi olumlu özellik, tercih ve geliştirilebilir eksiklik olarak ayrılır.
 
 ## A4–A5 — içerik ve doğrulama
 

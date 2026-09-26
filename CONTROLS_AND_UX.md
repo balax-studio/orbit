@@ -4,6 +4,8 @@ Kaynak: [anayasa](OYUN_GELISTIRME_DEVIR_DOSYASI.md) hızlı özet, §52–54, §
 
 ## P0 — hareket ve güvenli etkileşim
 
+Panel sahipliği, tek etkin dünya pointer'ı, isteğe bağlı titreşim/uzun basış ve P0 hedef işaretçisi için [KARARLAR.md](KARARLAR.md) D-010 uygulanır. Pan/zoom ve oran değişiminde sahne geometrisi esnetilmez (D-009/D-016).
+
 Alt bölgede yüzen joystick, alternatif erişilebilir dokun-git modu. Mantıksal hareket/çarpışma simülasyona, görsel enterpolasyon renderer'a aittir. Pointer kimliği, touchcancel, ekran dışına çıkış ve arka plan hareketi güvenle keser; takılı joystick olmaz.
 
 İşaretli istasyonda en az 0,3 sn sabit kalınca, önceden belirlenmiş uyumlu hedefe güvenli al/bırak temel davranıştır. Yoldan geçerken harcama, işe alma, tarif değiştirme veya satış yapılmaz; aynı üründe mevcut rezervasyon kazanır. Her taşıma için zorunlu ActionMenu açılmaz. Yakınlık, raycast ve UI seçimi tek hedef çözer; ürün/hedef/kapasite görünürdür. Satın alma, yıkım ve maliyetli değişiklikler önizleme/onay ister. Kapasite doluluğu ve yanlış girdi kısa gerekçeyle bildirilir.
@@ -11,6 +13,8 @@ Alt bölgede yüzen joystick, alternatif erişilebilir dokun-git modu. Mantıksa
 DOM buton/panelleri dünya etkileşimini tüketir; yalnız CSS pointer-events kullanmak yeterli varsayılmaz. UI üzerinde başlayan pointer dünya seçimi/hareketine dönüşmemeli, sürükleme sonunda satış/yerleştirme tetiklememelidir. Seçim renk yanında kontur/işaret/metinle gösterilir; bütün sahneye pahalı outline uygulanmaz.
 
 ## P0 — inşa
+
+Makine grid'e onaylı yerleştirilir; çalışan işe alma ve görev ataması personel panelindedir. İki eylemin akışı ve portre HUD bölgeleri [KARARLAR.md](KARARLAR.md) D-018 B.3–B.5'te ayrılmıştır.
 
 İnşa modunda simülasyon durur. Grid üzerinde seç → sürükle → döndür → onay/iptal. Footprint, çakışma, kapı/istasyon erişimi, çalışan rotası ve maliyet onaydan önce doğrulanır. Parmağın kapattığı hedef önizlemesi görünür alana taşınır. Geçersiz konum yalnız kırmızı renkle anlatılmaz; nedeni yazılır. İptal stok/para harcamaz. Onay tek işlemdir; arka plandan dönüş ikinci onay yaratmaz.
 

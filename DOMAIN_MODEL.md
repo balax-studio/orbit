@@ -4,6 +4,8 @@ Kaynak: [anayasa](OYUN_GELISTIRME_DEVIR_DOSYASI.md) §17–18, §26–35, §37�
 
 ## P0 — tek gerçek durum
 
+Fiziksel stok birim başına mesh değildir: item/lot/slot/taşıyıcı yükü ve rezervasyonlar mantıksal kayıttır. Kapasite aşımı, iptal edilen transfer ve atık akışı [KARARLAR.md](KARARLAR.md) D-011'e; yarım satış/çöpe atma ve yüklemede taşınan eşya D-016'ya uyar.
+
 | Kayıt | Gerekli bilgi ve kural |
 |---|---|
 | İçerik tanımları | Kararlı item/recipe/machine ID; birim, miktar, süre, kapasite, footprint; sürümlü veri |
@@ -17,9 +19,151 @@ Kaynak: [anayasa](OYUN_GELISTIRME_DEVIR_DOSYASI.md) §17–18, §26–35, §37�
 
 Tipli komutlar Application üzerinden doğrulama → rezervasyon → atomik değişim → dayanıklı günlük → sonuç akışını izler. UI'dan serbest `addCredits`/`removeItem` çağrılarıyla satışın parçalanması yerine tek satış işlemi kullanılır. Aynı transactionId tekrar gelince ödül/ürün tekrarlanmaz; farklı meşru işlemler ayrı ID alır. Bir UI eyleminin kimliği katmanlar arasında korunur.
 
+## P0 somut TypeScript veri şeması — D-020 uygulama kararı
+
+Bu sözleşme **P0 hedef şemasıdır**, kaynak depoda var olan bir API iddiası değildir. `Product` ayrı envanter sayacı değil, sürümlü `ProductDefinition` içerik kaydıdır. `MachineDefinition` tarif/ölçü gibi değişmeyen veriyi tutar; `Machine`, `Customer` ve `Worker` aşağıdaki kalıcı instance alanlarına sahiptir. Alan ekleme veya isim değiştirme schema/content sürümü ve göç testi ister. Para ölçeği ve yuvarlama [KARARLAR.md](KARARLAR.md) D-021'de karara bağlanmıştır; çalışan kodda henüz uygulanmış değildir. Runtime kimlik indeksleri snapshot'taki dizilerden yüklemede kurulur.
+
+```typescript
+type EntityId = string;
+type ItemId = `item.${string}`;
+type RecipeId = `recipe.${string}`;
+type MachineTypeId = `machine.${string}`;
+type GridCell = { x: number; z: number }; // tamsayı hücre; 1 hücre = 1 m
+type WorldPosition = { x: number; z: number }; // metre, mantıksal konum
+type Direction = 0 | 90 | 180 | 270;
+
+type ProductDefinition = {
+  id: ItemId;
+  displayNameKey: string;
+  category: 'raw' | 'intermediate' | 'final';
+  stackSize: number;
+  baseRetailPriceAtoms: number | null; // yalnız satılabilir ürünlerde
+  phase: 'P0' | 'A2' | 'A3' | 'A4';
+};
+type MachineDefinition = {
+  id: MachineTypeId;
+  displayNameKey: string;
+  purchasePriceAtoms: number;
+  footprint: { width: number; depth: number };
+  serviceCells: GridCell[]; // makine pivotuna göre yönle döndürülür
+  inputCapacity: number;
+  outputCapacity: number;
+  powerE: number;
+  recipeIds: RecipeId[];
+};
+type RecipeDefinition = {
+  id: RecipeId;
+  machineTypeId: MachineTypeId;
+  inputs: Array<{ itemId: ItemId; quantity: number }>;
+  outputs: Array<{ itemId: ItemId; quantity: number }>;
+  durationTicks: number;
+};
+type StockLocation =
+  | { kind: 'cabinet' | 'shelf' | 'storage'; ownerId: EntityId }
+  | { kind: 'machineInput' | 'machineOutput'; ownerId: EntityId }
+  | { kind: 'player' | 'worker' | 'customer'; ownerId: EntityId };
+type Station = {
+  id: EntityId;
+  kind: 'cabinet' | 'shelf' | 'storage' | 'checkout';
+  gridPosition: GridCell;
+  capacity: number; // checkout için 0; stok tutmaz
+};
+type StockLot = {
+  id: EntityId;
+  itemId: ItemId;
+  quantity: number;
+  qualityScore: number; // P0 tek kalite; A3'te etkin kalite kuralları
+  unitCostAtoms: number; // P0 bağış girdisinde 0
+  sourceId: string;
+  location: StockLocation;
+};
+type MachineBatch = {
+  id: EntityId;
+  recipeId: RecipeId;
+  remainingTicks: number;
+  consumedInputs: Array<{
+    lotId: EntityId; itemId: ItemId; quantity: number;
+    qualityScore: number; unitCostAtoms: number;
+  }>;
+};
+type Machine = {
+  id: EntityId;
+  typeId: MachineTypeId;
+  gridPosition: GridCell;
+  direction: Direction;
+  level: 1; // P0: üst seviye davranışı A3+ ve göçle eklenir
+  selectedRecipeId: RecipeId | null;
+  status: 'Idle' | 'Running' | 'NoInput' | 'NoPower' | 'BlockedOutput' | 'Ready';
+  batch: MachineBatch | null;
+};
+type CarrierTask = {
+  id: EntityId;
+  sourceLotId: EntityId;
+  target: StockLocation;
+  quantity: number;
+  phase: 'toSource' | 'carrying' | 'toTarget' | 'waiting';
+};
+type Player = {
+  id: EntityId;
+  position: WorldPosition;
+  carriedLotIds: EntityId[]; // miktarın tek kaynağı StockLot'tur
+};
+type Worker = {
+  id: EntityId;
+  roleId: string; // P0: tek raf görevlisi içerik ID'si
+  position: WorldPosition;
+  carriedLotIds: EntityId[];
+  task: CarrierTask | null;
+  idleCell: GridCell;
+};
+type Customer = {
+  id: EntityId;
+  profileId: string; // P0: tek öğretim profili
+  position: WorldPosition;
+  phase: 'entering' | 'toShelf' | 'toCheckout' | 'queued' | 'leaving';
+  requestedItemId: ItemId;
+  basketLotId: EntityId | null;
+  lockedPriceAtoms: number | null;
+  patienceRemainingTicks: number;
+  queueIndex: number | null;
+  purchaseThreshold: number; // girişte çekilir; yüklemede yeniden çekilmez
+};
+type Reservation = {
+  id: EntityId;
+  ownerId: EntityId;
+  lotId: EntityId;
+  quantity: number;
+  target: StockLocation;
+};
+type P0Payload = {
+  room: { width: 6; depth: 6; entrance: GridCell };
+  player: Player;
+  workers: Worker[];
+  customers: Customer[];
+  machines: Machine[];
+  stations: Station[];
+  lots: StockLot[];
+  reservations: Reservation[];
+  balanceAtoms: number; // güvenli tamsayı; eksi olamaz
+  tutorial: { completedStepIds: string[]; activeStepId: string | null };
+  committedTransactions: Array<{ transactionId: string; sequence: number }>;
+};
+type P0Snapshot = {
+  schemaVersion: 1;
+  contentVersion: string;
+  sequence: number; // snapshot'ın kapsadığı son durable journal işlemi
+  tick: number; // yalnız aktif 100 ms adımlar
+  rngState: { customer: number; economy: number; cosmetic: number };
+  payload: P0Payload;
+  checksum: string; // kanonik, checksum alanı hariç snapshot verisi
+};
+```
+
+`ProductDefinition`, `MachineDefinition` ve `RecipeDefinition` sürümlü içerik manifestindedir; her snapshot'a kopyalanmaz. Ekran mesh'i, DOM seçimi, anlık interpolasyon, pause nedeni ve işlev referansı snapshot'a girmez. İşlem günlüğü `P0Snapshot` içine gömülmez: ayrı kayıtlarda transaction ID, artan sequence, tam komut/olay sonucu ve checksum taşır. Yeni kayıt oluştururken `room.entrance` ve bütün başlangıç nesnelerinin konumu **gerçek seçilmiş 6×6 yerleşim fixture'ında** tanımlanır; bu şema verilmemiş `(x,z)` koordinatlarını olmuş gibi iddia etmez. A2/A3'ün ücret, yorgunluk, kalite, bakım, tedarik ve diğer alanları ayrı sürümlü şemayla eklenir; P0'daki dar tipleri tüm oyun modeli sayılmaz.
+
 ## A2 — lotlar ve müşteriler
 
-Fiziksel slot ile ekonomik lot farklıdır. Lot; kaynak, gerçek kalite skoru, tarihsel birim maliyet, adet ve rezervasyon ilişkisini taşır. Karışık maliyetli stok tek ortalama/raf fiyatıyla geçmişe dönük yazılmaz. Bağış lotunun maliyeti sıfırdır. Para en az dört ondalık sabit hassasiyetle hesaplanır; gösterim iki ondalık, ödeme toplamı en küçük para birimine yuvarlanır.
+Fiziksel slot ile ekonomik lot farklıdır. Lot; kaynak, gerçek kalite skoru, tarihsel birim maliyet, adet ve rezervasyon ilişkisini taşır. Karışık maliyetli stok tek ortalama/raf fiyatıyla geçmişe dönük yazılmaz. Bağış lotunun maliyeti sıfırdır. Yeni kayıttaki 20 su `item.water` ara ürün lotudur; başlangıç dağılımı ve P0 ücretsiz tedarik kuralları [KARARLAR.md](KARARLAR.md) D-002/D-003'e uyar. Para en az dört ondalık sabit hassasiyetle hesaplanır; gösterim iki ondalık, ödeme toplamı en küçük para birimine yuvarlanır.
 
 Sipariş durumları, teslimat zamanı ve kapasite rezervasyonu kaydedilir. Müşteri profilinin bütçe ve fiyat tepkisi, ihtiyaç başına sabit kabul eşiği, ikame ilişkisi ve kayıp satış nedeni ayrı tutulur. Rastgelelik yeniden yüklemede yeniden çekilmez.
 
@@ -73,7 +217,7 @@ Reason isimleri öneridir; UI her nedeni Türkçe metne eşler. Bilinmeyen hata 
 
 ## Sayısal temsil ve save alan kontrolü
 
-KAYNAK: §37 sabit hassasiyet. KARAR önerisi: kredi için 1 kredi = 10.000 atom, ledger toplamları tamsayı; JSON'a güvenli tamsayı veya açık decimal string politikası. Seçilen yaklaşımda taşma ve round-trip test edilir. Her ara bölmede yuvarlama yapmak yasaktır; maliyet hesabında hassas sonuç/rasyonel veya decimal tutulup tanımlı muhasebe sınırında dönüştürülür. Yuvarlama modu anayasa tarafından isimlendirilmemiştir: uygulama kararı kaydedilir, kasa ve iade aynı politikayı kullanır.
+KAYNAK: §37 sabit hassasiyet. KARAR D-021: 1 kredi = 10.000 atom, ledger toplamları güvenli tamsayı `number`; UI gösterimi iki ondalık. Taşma ve round-trip test edilir. Her ara bölmede yuvarlama yapmak yasaktır; maliyet hesabında hassas rasyonel/decimal tutulur. Ledger sınırında en yakın atoma, tam yarımda sıfırdan uzağa yuvarlanır; kasa, iade ve maliyet aynı politikayı kullanır. `BigInt` veya decimal string ileride ancak sürümlü göç ve JSON/adaptör sözleşmesiyle eklenir.
 
 Save zarfı en az schemaVersion/contentVersion, sequence, simülasyon tick'i, RNG state ve payload taşır. Payload: bütün stok konumları/lotlar, ledger bakiye ve rezervasyonlar, makine partileri, taşıyan aktör yükleri/görevleri, müşteri sepetleri/kuyruk, yerleşim, öğretim ve aktif fazın ilerleme sistemleri. Pause sebebi, DOM seçimi, mesh, ses handle ve callback serileştirilmez; açılışta güvenli paused durum oluşturulur. RNG algoritması/sürümü değişirse deterministik devam için göç kararı gerekir.
 

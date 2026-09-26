@@ -21,12 +21,18 @@ Bunlar hedef dizinlerdir; bu belge onları oluşturmaz. UI → Application → D
 
 ## P0 — zaman ve render
 
+Yapıştırılan zaman/simülasyon sorularının bire bir uygulama cevapları [KARARLAR.md](KARARLAR.md) D-007'dedir: 100 ms mantık adımı, render interpolasyonu, arka planda tam durma, çevrimdışı ilerleme olmaması ve sınırlı foreground tick borcu. Beş tick/frame sınırı teknik başlangıç kararıdır; cihaz kanıtıyla doğrulanır.
+
+E.3 uygulama sözleşmesi [KARARLAR.md](KARARLAR.md) D-020'dedir: varsa Zustand/React seçicileri panel verisini yayınlar; R3F `useFrame` iki mantıksal pozu çizer. 10 Hz Domain state'ini bütün React/R3F bileşen ağacına zorla yeniden render ettirme. Tam P0 kayıt tipi [DOMAIN_MODEL.md](DOMAIN_MODEL.md) içindedir.
+
 - Domain 100 ms sabit adımla (10 Hz), renderer `renderer.setAnimationLoop()` ile çalışır. Animasyon enterpolasyonu iş kurallarını değiştirmez.
 - Birikimli süre ve sınırlı catch-up adımları kullanılır; borç ölçülür. Kontrolsüz döngü veya kare başına tek adım atıp kalan zamanı sessizce atma yoktur. Aşımda simülasyon ve oyun saati birlikte yavaşlayabilir.
 - Oyun günü 900 aktif simülasyon saniyesidir. Enjekte saat ve seed'li RNG kullanılır; Domain'de `Date.now()`/`Math.random()` yoktur.
 - Mantıksal konum, rota, envanter ve müşteri durumu renderer'a ait değildir. Görsel mesh/enterpolasyon ayrıdır; sahne yeniden kurulunca ekonomi devam eder.
 
 ## P0 — kayıt ve yaşam döngüsü
+
+Kayıt dosyası, yedek, günlük küçültme, görünür kayıt durumu, dolu disk ve göç kararları [KARARLAR.md](KARARLAR.md) D-008'dedir. Kritik para/stok işlemi kaydı bekler; 30 aktif saniyelik checkpoint bu garantinin yerine geçmez.
 
 Capacitor Filesystem adaptörüyle uygulamanın kalıcı özel alanına versioned JSON snapshot + append-only işlem günlüğü yazılır. Web geliştirme adaptörü aynı sözleşmeyi sağlar; tek localStorage JSON yazımı dayanıklı mobil kayıt yerine geçmez.
 
@@ -48,11 +54,15 @@ Kabul ve sayısal bütçeler [TEST_STRATEGY.md](TEST_STRATEGY.md) içindedir.
 
 Aşağıdaki sıralama KARAR'dır; anayasanın tek saat/atomik işlem şartının uygulanabilir önerisidir. Bir tick için komut kabulü, görev/rezervasyon çözümü, hareket/istasyon erişimi, üretim, müşteri/kasa ve ilerleme olayları kararlı sırada işlenir. Aynı tick içindeki eşit öncelikte entity ID/sequence gibi kararlı bağlayıcı kullanılır; DOM sırası veya Map'e rastgele eklenme sonucu belirlemez. Faz eklenince sıra açıkça güncellenir.
 
-Render gerçek kare süresini toplayabilir; yalnız sabit 100 ms adımları Domain'e verir. Adım sınırı ve görsel delta sınırı sayıları henüz AÇIK'tır; cihaz profiliyle seçilir ve config'de tutulur. Sınır yüzünden işlenmeyen süreyi oyun gününe eklemek yasaktır. Resume anında eski arka plan delta'sı temizlenir; kapalı süre üretim/ücret/kuyruk olarak hesaplanmaz. Görsel enterpolasyon gelecekte gerçekleşmiş satış oluşturamaz.
+Render gerçek kare süresini toplayabilir; yalnız sabit 100 ms adımları Domain'e verir. D-007/D-022 uygulama kararı frame başına en fazla 5 tick'tir; bu sınır cihazda doğrulanır. Sınır yüzünden işlenmeyen süreyi oyun gününe eklemek yasaktır. Resume anında eski arka plan delta'sı temizlenir; kapalı süre üretim/ücret/kuyruk olarak hesaplanmaz. Görsel enterpolasyon gelecekte gerçekleşmiş satış oluşturamaz.
+
+Çalışan state kimlik indeksleri ve aktif alt kümelerle erişilir; snapshot'ın dizi biçimi bundan bağımsızdır ([KARARLAR.md](KARARLAR.md) D-021). Domain saati ve sürümlü RNG akışları enjekte edilir (D-022). P0 raycast/context-loss/instancing tercihleri D-023; ses eşzamanlılığı D-025'tedir.
 
 ## Dayanıklı kayıt protokolü — referans akış
 
 KAYNAK: §60.3. Uygulama, kullanılan dosya API'sinin atomiklik/dayanıklılık garantilerini cihazda doğrulamalıdır; Filesystem yazım Promise'inin fiziksel disk flush garantisi olduğu varsayılmaz.
+
+Serileştirme, tek yazıcı ve `appStateChange`/visibility birleşiminin somut sırası [KARARLAR.md](KARARLAR.md) D-024'tedir. Kritik işlem yazımı pause callback'ine bırakılmaz; snapshot asenkronluğunda önceki doğrulanmış kayıt korunur.
 
 1. Tek yazıcı komutu doğrular ve değişiklik adayını hazırlar; doğrulama başarısızsa mevcut state korunur.
 2. İşlem kimliği, sequence, payload ve checksum içeren tam günlük kaydını kalıcı adaptöre gönderir. Arayüz o işlem için bekleyen durumu gösterir.
@@ -77,5 +87,7 @@ Depolama yetersizliğinde başarısız ekonomi işlemi tekrarlanabilir bekleme/h
 | OS habersiz sonlandırdı | Son durable ekonomik işlem geri yüklenir; hareket checkpoint'e dönebilir |
 
 ## Sahne kaynaklarının ömrü
+
+Kamera, render maliyeti, raycast ve context-loss sonrası sahne kurma kararları [KARARLAR.md](KARARLAR.md) D-009/D-016'ya bağlıdır. Render durumu kaybedilse de Domain ve son doğrulanmış save korunur.
 
 Renderer dünya state'inden yeniden kurulabilir. Sahne kaldırılırken sahip olunan geometry/material/texture, event listener ve animasyon kaynakları bırakılır; paylaşılan kaynaklar son kullanıcı bitmeden dispose edilmez. Context restored olayında eski GPU handle'ları çalışır varsayılmaz. Tekrar giriş testinde renderer.info değerlerinin sürekli büyümesi sızıntı işaretidir; kaç geçiş ve yük kullanıldığı raporlanır. Bu teknik test cihaz bellek ölçümünün yerine geçmez.

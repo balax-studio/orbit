@@ -24,7 +24,7 @@ Bu zaman kutusudur; teslim tarihi garantisi değildir. Kayıt işlemlerinin teme
 
 ## Kısa oturum öğretimi
 
-İlk 60 sn hareket/taşıma, 1–3 dk ilk satış, 3–5 dk kendi üretimi; sonraki oturumda raf düzeni ve çalışan. A2'de sonraki oturum depo/tedariktir. Metin atlanabilir 1–2 cümlelik ipucudur; TutorialState kaydedilir. Tek oturumda zorunlu 20 dakikalık öğretim yoktur.
+İlk 60 sn hareket/taşıma, 1–3 dk ilk satış, 3–5 dk kendi üretimi; sonraki oturumda raf düzeni ve çalışan. A2'de sonraki oturum depo/tedariktir. Metin atlanabilir 1–2 cümlelik ipucudur; TutorialState kaydedilir. Tek oturumda zorunlu 20 dakikalık öğretim yoktur. P0 ilk müşteri öğretim tetikleyicisidir; sonrasında seed'li geliş ve kuyruk sabrı [KARARLAR.md](KARARLAR.md) D-019'a uyar.
 
 ## P0 kabul sırası
 
@@ -38,7 +38,7 @@ Bu zaman kutusudur; teslim tarihi garantisi değildir. Kayıt işlemlerinin teme
 
 ## A2'ye geçiş
 
-P0 kabulünden sonra üç ürün/üç makineye geçilir. Gerçek yeni kayıt: 600 kredi, kasa, raf, teslim dolabı (4 slot), geçici 8 E güç, 12 küp, 20 su, 8 spor; ürünler sıfır maliyetli bağış lotudur. İlk makineler oyuncu tarafından yetiştirici 160 ve paketleyici 180 krediye alınır (§46.2). Üçüncü ürün/makine seçimi tarif bağımlılıkları ve tek tedarikçi sınırına göre kaydedilir; burada yeni tarif uydurulmaz.
+P0 kabulünden sonra üç ürün/üç makineye geçilir. Gerçek yeni kayıt: 600 kredi, kasa, raf, teslim dolabı (4 slot), geçici 8 E güç, 12 küp, 20 su, 8 spor; ürünler sıfır maliyetli bağış lotudur. İlk makineler oyuncu tarafından yetiştirici 160 ve paketleyici 180 krediye alınır (§46.2). A2 kapsamı sabittir: `nutrient_cube` (Besin küpü), `drinking_water` (İçme suyu), `nebula_drink` (Nebula içeceği); Biyoyetiştirici, Paketleyici ve Şişeleyici. Satın alma/açılma sırası ve tarif bağımlılıkları [KARARLAR.md](KARARLAR.md) D-004 uyarınca korunur. Başlangıçtaki 20 su `item.water` ara ürünüdür; `item.drinking_water` ile karıştırılmaz (D-002). Yerel Kooperatif tek A2 tedarikçisidir; katalogda doğrulanmayan SKU bedelsiz varsayılmaz (D-003/D-004).
 
 A3 kalite/kontrat/RPG, A4 final ve sandbox monetizasyon, A5 yayın işi bu rehberin P0 teslimine eklenmez.
 
@@ -62,7 +62,7 @@ Native kurulum P0-09'a ertelenmez; ilk günden paralel hazırlık işidir. Bu ta
 
 ## Müşteri ve görevli için minimum durum taslağı — KARAR
 
-Müşteri: Spawn → hedefe yürü → raftan ayır → kasaya yürü → kuyruk → satış → çıkış. Uygun stok yoksa görünür kayıp satış nedeni; kalıcı sıfır mesafeden alış yok. P0 tek davranış içerir; profil/ikame derinliği A2'dir. Yürüme hızları, spawn aralığı ve P0 sepet miktarı ana kaynakta P0 için kesinleşmemiştir; content/config kararı yapılır, denge kanıtı gibi sunulmaz.
+Müşteri: Spawn → hedefe yürü → raftan ayır → kasaya yürü → kuyruk → satış → çıkış. Uygun stok yoksa görünür kayıp satış nedeni; kalıcı sıfır mesafeden alış yok. P0 tek davranış içerir; profil/ikame derinliği A2'dir. İlk öğretim gelişi ve sonraki ortalama geliş/sabır kararı D-019'dadır; yürüme hızı ve P0 sepet adedi hâlâ content/config kararıdır, denge kanıtı gibi sunulmaz.
 
 Görevli: Uygun iş ara → kaynak/hedef ayır → kaynağa yürü → yük al → rafa yürü → bırak → rezervasyonu çöz. Rota kesilirse yük/rezervasyon güvenli tutulur ve yeniden planlanır; sınırsız retry/spawn yok. Aynı raf talebi her tick yeni bağımsız iş üretmez. Görev sahipliği, taşınan ürün ve hedef kayıt dönüşünde devam eder. Tam mola/vardiya ekleyerek P0 kapsamı büyütülmez.
 

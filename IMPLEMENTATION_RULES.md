@@ -13,7 +13,7 @@ Bu dosya [anayasanın](OYUN_GELISTIRME_DEVIR_DOSYASI.md) §58–59, §61–63 ku
 
 Bir tasarım değeri KAYNAK olabilir ama oynanış dengesi yine hipotezdir. Bir bağımlılığın package.json'da bulunması kurulduğu veya doğru çalıştığı anlamına gelmez. Bir örnek TypeScript tipi mevcut API değildir. Bir testin yazılmış olması geçtiği anlamına gelmez.
 
-Kaynak önceliği: geçerli kullanıcı talimatı ve uygulanabilir AGENTS.md → anayasanın güncel sözleşmesi → kaynakla uyumlu yan belge → kaydedilmiş teknik karar. Teknik/görsel kapsam §61–63, faz kapsamı §58.1; eski sistem bölümü yerine açık güncellemesi kullanılır. Çelişki sürüyorsa iki bölüm ve etkisi kaydedilir; sessizce uygun görünen sayı seçilmez.
+Geçerli kullanıcı talimatları ve ortamın yetki sınırları uygulanır. AGENTS.md çalışma iş akışını düzenler; ürün değerlerini değiştirmez. Ürün kaynağı önceliği: anayasanın güncel sözleşmesi → kaynakla uyumlu yan belge ve açık boşlukları tamamlayan kayıtlı karar. Teknik/görsel kapsam §61–63, faz kapsamı §58.1; eski sistem bölümü yerine açık güncellemesi kullanılır. Çelişki sürüyorsa iki bölüm ve etkisi kaydedilir; sessizce uygun görünen sayı seçilmez.
 
 ## 2. Her küçük kod işi için görev kartı
 

@@ -946,8 +946,8 @@ Nakit 20'nin altındayken ve toplam satılabilir/gelecek stok değeri 100'ün al
 | Alan | Kaynakta kesin olan | Eksik kalan tanım | Bağımlı faz |
 |---|---|---|---|
 | İleri yetenek ağacı | 3 dal ×10; 9 tanımlı; 19 puan | 21 düğümün adı, davranışı, maliyeti ve önkoşulu | A4 |
-| Çekirdek düğüm bedelleri | İlk düğüm 1; ikinci/üçüncü sıralı | İkinci/üçüncü için açık puan maliyeti | A3 |
-| Personel üretimi | 8 rol, 6 köken, aday bileşimi, 20 tavan | Çekim ağırlıkları, çelişki matrisi, tam tercih/eksiklik kataloğu | A3/A4 |
+| Çekirdek düğüm bedelleri | Dokuz düğümün her biri 1 puan; dal içi sıralı önkoşul | A3 uygulama ve denge testi | A3 |
+| Personel üretimi | 8 rol, 6 köken, en fazla 20; iki olumlu trait + tercih + geliştirilebilir eksiklik | Ağırlıklar, çelişki matrisi ve ilave tercih/eksiklik içerikleri | A3/A4 |
 | Rol erişimi | İlk raf görevlisi; diğerleri bölüm 2–4 | Her rolün tam açılış koşulu | A3/A4 |
 | Bonus birleşimi | Hız 0,75–1,30; kalite ayrı | Eğitim XP kaynaklarının birleşimi, ikinci rol taban cezası | A3 |
 | Memnuniyet | −8/+6 günlük; iki gün <30 görüşme | Alt katkıların bütün sayıları, görüşme sonrası ayrılma süresi | A3 |
@@ -957,7 +957,7 @@ Nakit 20'nin altındayken ve toplam satılabilir/gelecek stok değeri 100'ün al
 | Olay kategorileri | Katalog etkileri, genel ağırlıklar | Tüm olayların kategori/önkoşul çakışma matrisi; lüks SKU grubu | A3/A4 |
 | Kişisel hikâyeler | Örnek karakter ve olay hattı adı | Diyalog, dallanma, tam ödül/koşul verileri | A4 |
 | Final tekrar | Yatırım/teslim korunur, sınav tekrarlanır | Yeni denemenin seed seçimi politikası | A4 |
-| Yeni kayıt suyu | 20 “su”; ara/nihai su ayrı ID | Başlangıç paketinin tam item ID dağılımı belirsizse doğrulanmalı | A2 |
+| Yeni kayıt suyu | 20 `item.water`; `item.drinking_water` ayrı nihai ürün | D-002 ile karara bağlandı; uygulamada fixture doğrula | A2 |
 
 Açık tanım, ilgili bütün sistemi baştan durdurma gerekçesi değildir. Önce bağımsız kesin içerik uygulanır. Geri alınabilir teknik seçim karar kaydına; ürün kapsamını değiştiren seçim somut etkiyle kullanıcıya gider. Bu katalog yeni 21 yetenek tasarlama yetkisi veya tamamlanmış tasarım iddiası değildir.
 
@@ -989,4 +989,3 @@ Bütün kayıtlar kaynak bölüm ve içerik sürümüne bağlanır. AÇIK alan s
 - [ ] Sınırlı faz kataloğu tam oyun kataloğunu yanlışlıkla açmıyor; P0/A2 kapsamı korunuyor.
 
 Bu kutular içerik uygulamasının gelecekteki kabul listesi olup bu belge üretiminde geçilmiş oyun testleri değildir. Teknik kabul fixture'ları [TEST_STRATEGY.md](TEST_STRATEGY.md) içindedir.
-

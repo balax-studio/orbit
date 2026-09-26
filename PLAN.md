@@ -44,12 +44,18 @@ Hesap/cihaz hazırlığı ve isim/lisans araştırması erken başlatılabilir; 
 
 ## 3. H0 — kapsam, kaynak ve açık kararlar
 
+Uygulama kararı olarak sabitlenen 100 ek soru [KARARLAR.md](KARARLAR.md) D-007–D-016'da ve ilgili sistem rehberlerinde izlenir. Teknik başlangıç sayıları, kaynakta sabit olmayan performans varsayımları ve oyuncu deneyimi ilkeleri P0 cihaz/oyuncu kanıtıyla doğrulanır; karar kaydı kod kabulü sayılmaz.
+
+A–E görsel/etkileşim/geri bildirim/matematik/veri sorularının yanıtı D-017–D-020'dedir. P0 somut tipleri [DOMAIN_MODEL.md](DOMAIN_MODEL.md) içindedir; yeni schemaVersion/contentVersion değişiklikleri kayıt göçü ve aynı seed'li kabul testi ister.
+
+Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod kapısı kararları D-021–D-026'dadır. P0 kurulumu gerçek `package-lock.json` ile npm akışını izler; teknik kararların uygulanması ve CI kanıtı ilgili kod fazında yapılır.
+
 - [x] Yan belgeler, uygulama sözleşmeleri ve ayrı içerik kataloğu hazırlandı; bu kod kabulü değildir.
 - [ ] Kullanılacak belge sürümlerini ve gerçek depo durumunu karşılaştır; önceki tamamlandı iddialarını kanıtla.
 - [ ] Mobil hedefi, dikey dokunma, Three.js/TypeScript/Vite/Capacitor ve ilk DOM/CSS UI sözleşmesini sabitle.
 - [ ] Mevcut React/R3F/Zustand iskeletinin hedefe uyum yolunu incele; gerekçesiz yeniden yazım veya yeni framework ekleme.
 - [ ] P0 kapsamını tek oda/iki makine/tek küp/tek görevli olarak kilitle; tam oyun backlog'unu ayrı tut.
-- [ ] İçerik kataloğundaki açık tanımları fazlara ata: düğüm bedelleri, 21 ileri yetenek, personel üretimi, bonus birleşimi, oda taban skorları ve sağlayıcı doğrulaması.
+- [ ] İçerik kataloğundaki açık tanımları fazlara ata: 21 ileri yetenek, personel üretimi, bonus birleşimi, oda taban skorları ve sağlayıcı doğrulaması.
 - [ ] Ekip/kapasite, asset bütçesi, cihaz erişimi, hedef yaş grubu ve yayın sorumlusunu kaydet; bilinmeyeni olmuş gibi işaretleme.
 
 **Teslim:** Kaynak ve karar listesi, öncelikli P0 görev kartları. **Çıkış:** P0'ya engel açık kararlar çözülmüş veya bağımlı iş açıkça ayrılmış; sonraki faz belirsizlikleri prototipi durdurmuyor.
@@ -114,8 +120,8 @@ Hesap/cihaz hazırlığı ve isim/lisans araştırması erken başlatılabilir; 
 
 ### A2.1 — gerçek başlangıç ve ekonomi
 
-- [ ] Üç ürün/üç makine seçimini tarif bağımlılıklarıyla doğrula; tek tedarikçiyle erişilemeyen girdiyi gizlice üretme.
-- [ ] 600 kredi, kasa/raf/teslim dolabı, geçici 8 E ve anayasanın başlangıç stokunu gerçek lotlarla kur; su ID belirsizliğini çöz.
+- [ ] [KARARLAR.md](KARARLAR.md) D-004 kapsamındaki üç ürünü (`nutrient_cube`, `drinking_water`, `nebula_drink`) ve Biyoyetiştirici/Paketleyici/Şişeleyici zincirini uygula; Yerel Kooperatif SKU ve tarif erişimlerini kaynak tablolarıyla doğrula.
+- [ ] 600 kredi, kasa/raf/teslim dolabı, geçici 8 E ve başlangıç stokunu gerçek lotlarla kur; 20 suyu `item.water` ara ürün lotu olarak [KARARLAR.md](KARARLAR.md) D-002 uyarınca kaydet.
 - [ ] Yetiştirici 160/paketleyici 180 satın alımı, gerçek maliyet/enerji ve lot muhasebesi.
 - [ ] Tek depo rafı/tedarikçi, fiyat teklifi, onay, teslim, kabul, kapasite rezervasyonu ve iptal/iade.
 - [ ] Para/stok korunumu, katkı/net kâr/nakit farkı; satın alım ve satışta çifte gideri önle.
