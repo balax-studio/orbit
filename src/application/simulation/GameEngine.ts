@@ -1,5 +1,5 @@
-import { GameState } from './GameState';
-import { Machine, Shelf, Customer } from './Entities';
+import { GameState } from '../../domain/GameState';
+import { Machine, Shelf, Customer } from '../../domain/Entities';
 
 export class GameEngine {
   public state: GameState;

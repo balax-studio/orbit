@@ -6,15 +6,31 @@ export class Machine {
   public outputCount: number = 0;
   private currentProgress: number = 0;
 
+  public id: string;
+  public inputType: string;
+  public inputsRequired: number;
+  public outputType: string;
+  public outputsProduced: number;
+  public processingTimeMs: number;
+  public maxInputCapacity: number;
+
   constructor(
-    public id: string,
-    public inputType: string,
-    public inputsRequired: number,
-    public outputType: string,
-    public outputsProduced: number,
-    public processingTimeMs: number,
-    public maxInputCapacity: number = inputsRequired * 2
-  ) {}
+    id: string,
+    inputType: string,
+    inputsRequired: number,
+    outputType: string,
+    outputsProduced: number,
+    processingTimeMs: number,
+    maxInputCapacity: number = inputsRequired * 2
+  ) {
+    this.id = id;
+    this.inputType = inputType;
+    this.inputsRequired = inputsRequired;
+    this.outputType = outputType;
+    this.outputsProduced = outputsProduced;
+    this.processingTimeMs = processingTimeMs;
+    this.maxInputCapacity = maxInputCapacity;
+  }
 
   public addInput(quantity: number): boolean {
     if (this.inputCount + quantity > this.maxInputCapacity) {
@@ -46,12 +62,22 @@ export class Machine {
 export class Shelf {
   public productCount: number = 0;
 
+  public id: string;
+  public productType: string;
+  public capacity: number;
+  public price: number;
+
   constructor(
-    public id: string,
-    public productType: string,
-    public capacity: number,
-    public price: number
-  ) {}
+    id: string,
+    productType: string,
+    capacity: number,
+    price: number
+  ) {
+    this.id = id;
+    this.productType = productType;
+    this.capacity = capacity;
+    this.price = price;
+  }
 
   public addProduct(quantity: number): boolean {
     if (this.productCount + quantity > this.capacity) {
@@ -73,10 +99,16 @@ export class Shelf {
 
 // ponytail: basic customer behavior, tries to buy exact quantity of desired product
 export class Customer {
+  public desiredProduct: string;
+  public desiredQuantity: number;
+
   constructor(
-    public desiredProduct: string,
-    public desiredQuantity: number
-  ) {}
+    desiredProduct: string,
+    desiredQuantity: number
+  ) {
+    this.desiredProduct = desiredProduct;
+    this.desiredQuantity = desiredQuantity;
+  }
 
   public tryBuy(shelf: Shelf, state: GameState): boolean {
     if (shelf.productType === this.desiredProduct) {

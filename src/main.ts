@@ -1,60 +1,30 @@
-import './style.css'
-import heroImg from './assets/hero.png'
-import typescriptLogo from './assets/typescript.svg'
-import viteLogo from './assets/vite.svg'
-import { setupCounter } from './counter.ts'
+import './style.css';
+import { AppBootstrap } from './app/bootstrap';
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${typescriptLogo}" class="framework" alt="TypeScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
+const appDiv = document.querySelector<HTMLDivElement>('#app')!;
+appDiv.innerHTML = `
+  <canvas id="gameCanvas"></canvas>
+  <div id="ui-layer" style="position: absolute; top: 0; left: 0; pointer-events: none; padding: 10px; color: white;">
+    <h1>Orbit Market</h1>
+    <p>Loading...</p>
   </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.ts</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+`;
 
-<div class="ticks"></div>
+const canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://www.typescriptlang.org" target="_blank">
-          <img class="button-icon" src="${typescriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+// Initialize app
+const app = new AppBootstrap(canvas);
+app.run();
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
+// Basic UI update loop
+const uiLayer = document.getElementById('ui-layer')!;
+setInterval(() => {
+  uiLayer.innerHTML = `
+    <h1>Orbit Market</h1>
+    <p>Money: ${app.engine.state.money}</p>
+    <p>Inventory: ${Array.from(app.engine.state.inventory.entries()).map(([k, v]) => `${k}: ${v}`).join(', ')}</p>
+  `;
+}, 500);
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+// For testing purposes, we give the player some starting materials
+app.engine.state.addToInventory('raw_material', 10);
