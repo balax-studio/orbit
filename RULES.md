@@ -6,7 +6,7 @@ Bu belge ekran, etkileşim ve dünya görünümünü uygularken kullanılan kıs
 
 - Açılışta oynanabilir dünya ve tek etkin hedef görünür. Taşı → üret → rafla → sat adımları sahnede anlaşılır olmalıdır.
 - Oyuncunun fiziksel karakteri vardır. Dokunmak uzaktan stok taşımaz; işlem erişim, kapasite ve rezervasyon doğrular.
-- Oturum hedefi 3–8 dakikadır. Öğretim kısa ve atlanabilir metin kullanır; ilerleme gerçek eylemden gelir.
+- İlk anlamlı döngü hedefi 3–8 dakikadır; bu zorunlu oturum sonu değildir (§60.2 revizyonu). Öğretim kısa ve atlanabilir metin kullanır; ilerleme gerçek eylemden gelir.
 - İş devri oyuncunun tekrar eden yükünü azaltır. Canlı dünya görüntüsü gerçek üretim ve müşteri davranışını açıklamalıdır.
 - Sahte kıtlık, zorunlu reklam, günlük seri kaybı veya kapalıyken ceza ekleme. Çevrimdışı simülasyon ilerlemez.
 
@@ -59,6 +59,8 @@ UI DOM/CSS tabanlı Neo-Brutalist; dünya mat low-poly kübik/prizmatiktir. Mevc
 | İnşa | Footprint, servis alanı, maliyet | Onay/iptal; eski önizleme tekrar doğrulanır |
 | Kayıt kurtarma | Gerçek kayıt hatası ve son iyi durum | Tekrar dene/kurtar; sessiz yeni kayıt yok |
 | Depo/tedarik (A2) | Serbest/rezerve/yoldaki miktar, slot, fiyat ve teslim | Sipariş/kabul; yer yoksa ürün kaybolmaz |
+| Raf etiketi (A3) | SKU/kilit, mevcut ve adil fiyat, piyasa/indirimli/pahalı etki ve zarar uyarısı | Dokunarak aç/onayla; geçersiz fiyat veya uyumsuz stok nedenini göster |
+| Borç (A3) | Kurum, anapara, toplam yükümlülük, %10 günlük ciro kesintisi, kalan borç | Koşulları gör/onayla; yetersiz nakitte negatif bakiye yok |
 | Personel (A2/A3) | Görev, faza uygun mola/ücret/enerji bilgisi | Atama/devir; yapılamayan işin nedeni |
 | İlerleme (A3/A4) | Bedel, önkoşul, gerçek kazanım | Kilit nedeni; tanımsız düğüm satın alınabilir görünmez |
 
@@ -66,13 +68,14 @@ Her uygulanmış panel normal, boş, seçili, pasif, işlem bekliyor, başarıl�
 
 ## 6. Geri bildirim, metin, hareket ve ses
 
-- Satışın kalıcı kaydı onaylanınca kredi güncellenir; P0 tek küp için kısa `+12 kredi` vurgusu yalnız bir kez oluşur. Bekleyen işlem başarı gibi kutlanmaz.
+- Satışın kalıcı kaydı onaylanınca kredi güncellenir; P0'da gerçek satılan ürünün tutarı kısa bir vurguyla yalnız bir kez görünür. Bekleyen işlem başarı gibi kutlanmaz.
 - Üretim çubuğu aktif tick'ten türetilir. `Running`, `NoInput`, `NoPower`, `BlockedOutput`, `Ready` durumları metin/ikonla ayrılır; animasyon ürünü üretmez.
 - Hata metni neden + yapılabilir adım içerir: “Çıkış dolu · Ürünleri depoya taşı.” Kritik hata kaybolan tek toast'a bırakılmaz.
 - Yetersiz kredi pasif düğmenin yanında somut eksik tutarla gösterilir. Gizli ücret, yanlış geri alma vaadi veya bilinmeyen başarı mesajı yazma.
 - Mikro geri bildirim 80–120 ms, panel 140–180 ms, işlem vurgusu 180–260 ms başlangıç sanat seçimidir; ekonomik zaman değildir. Az harekette öteleme/sallanma kaldırılır.
 - Sürekli pulse, ekran sarsıntısı ve görsel kalabalık yoktur. Çoklu tamamlanma sesleri gruplanır; background'da ses durur, dönüşte birikmiş ses çalmaz.
 - Ses ve hafif titreşim kapatılabilir. Kritik bilgi yalnız ses/titreşimle verilmez.
+- A4 alma–taşıma–koyma ritmi gerçek transfer durumunu izler; önerilen sonraki hedef otomatik görünebilir, fakat görev kabulü veya stok harcaması kendiliğinden gerçekleşmez (§52.2, §64).
 - Aynı tick'te makine sesleri D-025'e göre gruplanır: aynı ses varyantı en fazla 2, toplam oyun efekti başlangıçta en fazla 8 eşzamanlı ses. Sayılar cihaz ses denemesiyle ayarlanır; bitiş olayları Domain'de eksilmez.
 
 ## 7. Yaşayan dünya ve ürün görünümü
@@ -81,8 +84,10 @@ Her uygulanmış panel normal, boş, seçili, pasif, işlem bekliyor, başarıl�
 - Makine çalışması, giriş eksikliği, çıkış doluluğu ve güç beklemesi farklı görünür. Boş makine çalışıyor gibi efekt üretmez.
 - Depo, kabul alanı ve taşıyıcı yükü farklı aşamalardır; yoldaki mal rafta gösterilmez. İptal edilen görev yükü silmez.
 - Müşteri giriş → raf → kasa → kuyruk → çıkış yolunu izler. Sıra ayrı hücrelerde görünür; sabır/kayıp satış görseli gerçek durumdan gelir.
+- A3 pahalı fiyat reddinde müşteri rafta kısa baş sallar ve SKU'ya uygun konuşma/metinle çıkar. Aşırmada şüpheli ve oyuncu/çırak yakalama hedefi seçilir; geri alınan ürün yalnız kalıcı lot dönüşünden sonra görünür.
 - Personelin yürüme, yük taşıma, al/bırak, idle ve fazı açıldıysa mola pozu aynı mantıksal göreve bağlıdır. Yol beklerken yerinde koşma yoktur.
 - A4 ortam NPC'leri iş aktörlerini ve yolları kapatmaz; müşteri/talep sayılmaz. İlerlemeyle açılan ücretsiz sahne ayrıntıları kayıtlı hikâye sonucundan türetilir.
+- A4 adaylarında VIP, hijyen, Bülten, teşhir, Tier 4 pazarlığı, trend, vardiya dalgası ve cazibe yalnız gerçek Domain olayından görünür. Teşhir boş rafı satmaz; değerlendirme uydurma sosyal kullanıcıya dayanmaz; kozmetik dekor fazladan puan vermez (§64).
 - Ürün/makine siluetleri, market içi/dışı ve odaların tam listesi [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md) §4–12'dedir; burada ikinci bağımsız katalog oluşturma.
 
 ## 8. Erişilebilirlik ve oyuncu deneyimi
@@ -98,8 +103,8 @@ Her uygulanmış panel normal, boş, seçili, pasif, işlem bekliyor, başarıl�
 - Domain 10 Hz, render varsayılan 30/isteğe bağlı 60 FPS. R3F varsa görsel interpolasyon frame döngüsündedir; bütün component ağacı her tick yeniden render edilmez.
 - Düşük profil hedefi ≤150 draw call, ≤150 bin görünür üçgen, ≤25 animasyonlu karakter; DPR düşükte ≤1,25/üstte ≤1,5. Blob/baked gölge, atlas ve instancing kullan; bloom varsayılan kapalıdır.
 - Görsel kaliteyi azaltmak üretim süresi, talep, kapasite, sabır veya ücretleri değiştirmez. Context-loss'ta aynı Domain'den sahne kurulur.
-- P0: tek oda, iki makine, tek küp, tek müşteri davranışı, tek raf görevlisi. A2: tanımlı üç ürün/makine, depo/tedarik/mola; A3 sistemler, A4 tam içerik, A5 yayın. Sanat hedefi yeni oynanabilir içerik açma yetkisi değildir.
-- UI kopya ledger/envanter tutmaz. Veri tipleri [DOMAIN_MODEL.md](DOMAIN_MODEL.md), komut akışı [ARCHITECTURE.md](ARCHITECTURE.md), denge değerleri [OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md) üzerinden alınır.
+- P0: tek oda, su kaynağı/şişeleme/domates yatağı, üç su boyutu ve taze domates, tek müşteri davranışı, tek raf görevlisi. A2: ilk işlenmiş gıda/mandıra/içecek, depo/tedarik/mola; A3 sistemler, A4 tam içerik, A5 yayın. Sanat hedefi yeni oynanabilir içerik açma yetkisi değildir.
+- UI kopya ledger/envanter tutmaz. Veri tipleri [DOMAIN_MODEL.md](DOMAIN_MODEL.md), komut akışı [ARCHITECTURE.md](ARCHITECTURE.md) üzerinden alınır. Bağlayıcı denge değerleri [ana kaynakta](OYUN_GELISTIRME_DEVIR_DOSYASI.md) kalır; [yerel ürün ağacı](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md) taslaktır.
 
 ## 10. Bir görsel değişikliği bitirme kontrolü
 

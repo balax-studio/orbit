@@ -1,5 +1,13 @@
 # Devir durumu ve karar kaydı
 
+## 2026-09-27 A–E market ritmi — belge revizyonu
+
+Kullanıcı talebindeki sekiz market mekaniği ve deneyim yönü ana kaynak §64'e fazlı aday olarak işlendi. §52–54 ve §60.2'de eski kısa oturum/otomatik hedef sınırları ile yeni sürekli hedef akışı arasındaki değişim açık yazıldı; D-041 karar kaydı, PLAN aday kapısı ve ilgili katalog/domain/ekonomi/UI/UX/test belgeleri eşlendi. Tier 5 açılmadı. 3× teşhir, %15–20 sürpriz, +%25 sıcaklık, 60 aktif saniyelik dalga ve pazarlık +%20–30 değerleri denge hipotezidir. Bu satır belge durumudur; çalışan özellik, test veya cihaz kanıtı değildir. Önceden var olan çalışma ağacı değişiklikleri bu iş kapsamında sahiplenilmez.
+
+## 2026-09-27 yerel ürün dengesi — belge kararı
+
+Ana kaynak §26 ve Tier 1–4 katalogunda 1 ham su = 0,5 L; şişe/5 L/damacana 1/10/38 birim, 3/8/18 aktif saniye. Seviye 1 memba 0,5 birim/sn ve 80 birim hazne; yeni kayıt 100 kredi, 50 su, 12/4/2 ambalaj ve 8 domates tohumu. Ambalaj/tohum edinim bedelleri ve 3–8 dakikalık ilk döngü gerekçesi katalogdadır. İleri girdi tedariki/yerel açılış yolları ile üç finalin dört dalgalı yeni SKU/adetleri belgelendi. Sayılar tasarım ve aritmetik kontrolüdür; çalışan kod, cihaz veya oyuncu testi kanıtı değildir.
+
 Tarih: 26 Eylül 2026. Ana kaynak [OYUN_GELISTIRME_DEVIR_DOSYASI.md](OYUN_GELISTIRME_DEVIR_DOSYASI.md) sürüm 3.0; faz sırası [PLAN.md](PLAN.md).
 
 ## Doğrulanmış mevcut durum
@@ -15,7 +23,7 @@ Bu revizyonda diğer 12 Markdown dosyası ana kaynakla uyumlu olarak düzenlendi
 | Kaynak önceliği | §61–63 teknik/görsel; §58 kapsam; güncellenmiş sistem bölümleri | Belgelendi |
 | Framework | İlk hedef DOM/CSS + Three.js; mevcut React paketleri zorunlu seçim değildir | Kod geçişi yapılmadı |
 | Fazlar | A0/A1 işleri P0 içinde; P0→A2→A3→A4→A5 | Belgelendi |
-| P0 ekonomi | İki makine/tek küp hattı ve etiketli prototip dolabı | Tam oyun başlangıcından ayrıldı |
+| P0 ekonomi | Eski iki makine/tek küp prototipi yerel su ve domates kapsamıyla değiştirildi | Yeni §26; denge rakamları açık |
 | Kayıt | Tek JSON/localStorage örneği yerine snapshot+günlük+durable işlem | Uygulama bekliyor |
 | Monetizasyon | A4 sandbox; A5 yayın/mağaza doğrulaması | Entegrasyon yapılmadı |
 | İçerik ayrıntısı | Anayasa kataloğuna referans; uydurma eşik/bonus/API zorunluluğu kaldırıldı | Belgelendi |
@@ -25,8 +33,12 @@ Bu revizyonda diğer 12 Markdown dosyası ana kaynakla uyumlu olarak düzenlendi
 | D-021–D-026 | Runtime kimlik indeksleri, 10.000 atom/kredi, 5 tick sınırı, 3B hit/context kurtarma, JSON/lifecycle, ses sınırı, npm ve kod kapısı | [KARARLAR.md](KARARLAR.md); mimari karar, henüz kod/cihaz kanıtı değil |
 | D-027–D-033 | End-card sınırı, reklam birim ekonomisi ve yükleme, yerel ödül/veri silme, çevrimdışı iade, yaş uygunluğu ve ücretsiz görev dengesi | [KARARLAR.md](KARARLAR.md), [MONETIZATION_AND_PRIVACY.md](MONETIZATION_AND_PRIVACY.md); SDK, cihaz ve hukuk doğrulaması A4/A5'te |
 | D-034–D-039 | Klavye/Canvas, WebGL kurtarma, `es2020` build hedefi, ses yükleme, olay bazlı A* ve ortak safe-area tokenları | [KARARLAR.md](KARARLAR.md); kod/cihaz doğrulaması P0/A5'te |
+| D-040 | A3 fiyat, aşırma ve borç başlangıç değerlerinin kaynağı ve test sınırı | [KARARLAR.md](KARARLAR.md); denge hipotezi, kod/oyuncu kanıtı değil |
 
 ## Açık kararlar ve bağımlılıklar
+
+§38.4–38.6 için A3 başlangıç denge hipotezleri belgelendi: fiyat 1,00×/0,80×/1,50×; uygun peynir stoklu günde %20 ve en çok bir aşırma, en az 12 aktif saniye yakalama; Kooperatif 100 kredi ücretsiz, Konsorsiyum 300 kredi +15 kredi tek ücret, aynı anda tek borç ve günlük satış cirosundan %10 kesinti. Akü SKU'su/üretim yolu katalogda olmadığından olay kapsamı dışıdır. Bu sayılar benzer oyunların mekaniklerinden esinlenerek Orbit için seçildi; başka oyunlara ait değer veya oyuncu testi sonucu değildir. Kod/cihaz uygulaması ve denge testi yapılmadı. Mevcut çalışma ağacındaki diğer değişiklikler korunmuştur.
+
 
 | Bilgi/karar | Şimdiki yaklaşım | Gerektiği kapı |
 |---|---|---|

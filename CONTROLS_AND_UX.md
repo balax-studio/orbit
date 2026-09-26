@@ -28,9 +28,13 @@ Metin girişi oyun dünyasını sıkıştırmaz: isim/arama DOM paneli klavyenin
 
 ## A2–A3 — okunabilir yönetim
 
-3–8 dk oturumlar için bir ana hedef ve küçük alt adımlar; tamamlanan iş açık kapanış verir. Stok, fiyat, kuyruk ve darboğaz nedenleri ayrılır. İki A2 teşhis katmanı daha sonra §43 işletme haritasına genişler. Mola, sevkiyat, bakım ve kontrat tahsisinde mevcut taahhüt ve maliyet önizlenir. Eylem tekrarı zorunlu angaryaya dönüşüyorsa otomasyon öğretimi ve yerleşim test edilir.
+Raf tabelası dünya dokunuşuyla seçilir, fiyat/SKU kilidi DOM panelinde değiştirilir; panel pointer'ı dünyaya geçmez. Fiyat önizlemesi mevcut sepetleri değiştirmeyeceğini, indirim kuyruğunun ölçülen etkisini ve pahalı fiyatta ret nedenini gösterir. Şüpheliye dokunma yalnız erişilebilir oyuncu/çırak yakalama komutu ister; UI üstünden başlayan dokunuş yakalama sayılmaz. Borç kartı koşulları ve kalan bakiyeyi onaydan önce, kesintiyi gün sonu raporunda gösterir. Büyük metin, az hareket ve sessiz modda aynı bilgiler okunur.
+
+İlk 3–8 dakikalık döngü öğretim hedefidir, zorunlu oturum bitişi değildir (§60.2 revizyonu). Bir ana hedef ve küçük alt adımlar görünür; tamamlanınca sonraki erişilebilir hedef otomatik HUD önerisi olur, ekonomik komut otomatik çalışmaz. Stok, fiyat, kuyruk ve darboğaz nedenleri ayrılır. İki A2 teşhis katmanı daha sonra §43 işletme haritasına genişler. Mola, sevkiyat, bakım ve kontrat tahsisinde mevcut taahhüt ve maliyet önizlenir. Eylem tekrarı zorunlu angaryaya dönüşüyorsa otomasyon öğretimi ve yerleşim test edilir.
 
 ## A4–A5 — etik geri dönüş ve erişilebilirlik
+
+§64 ile A4'te gerçek hazır işler birbirine bağlanır: biten hedefin ardından küçük HUD önerisi, ufuktaki kilitli alanın gerçek erişim gerekçesi, alma–taşıma–koyma ritmi. UI üstünde başlayan pointer dünyaya geçmez; dünya balonu kritik onay, kayıt kurtarma veya büyük metin panelinin yerine geçmez. Haptik/ses kapalı veya az hareket açıkken aynı hedef ve işlem sonucu DOM metninde görünür. Kayıt/çıkış eylemi uzun oturum hedefinden bağımsız erişilebilir kalır.
 
 Dokunma tabanı iOS 44 pt, Android 48 dp eşdeğeridir; CSS/viewport karşılığı gerçek cihazda ölçülür. Uzun basış kritik eylemin tek erişimi değildir. Sağ/sol el, dokun-git, metin büyütme, az hareket, yüksek kontrast ve kapatılabilir titreşimle temel görev tamamlanır. Renk tek bilgi kaynağı olmaz; DOM metni semantik ve odak sırası anlamlıdır. Çevrimdışı ceza, zorunlu bildirim, can/enerji bekletme ve FOMO sayacı yoktur. Kontrat/final süreleri yalnız aktif simülasyondur; reklamın 24 saat/20 dakika uygunluk saati ayrı monetizasyon politikasıdır.
 

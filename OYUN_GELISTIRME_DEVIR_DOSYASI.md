@@ -7,7 +7,7 @@ Güncel tasarım sözleşmesi: Yayın hedefi iOS ve Android'dir. Three.js/TypeSc
 
 ## Hızlı başlangıç özeti — ajan için ilk okuma
 
-**Kanca:** Ürünlerini uzay kolonisi hammaddelerinden üret, taşınabilir modüllerle marketini kur ve çalışanlara devrettiğin işleri giderek daha akıllı bir işletmeye dönüştür. Ayrışma yalnız uzay teması değil, üretim darboğazının raftaki müşteri ihtiyacına kadar görünmesidir.
+**Kanca:** Bahçendeki su kaynağından başlayarak içecek, tarım ve yerel gıda ürünleri üret; raflarını doldur ve çalışanlara devrettiğin işleri giderek daha akıllı bir markete dönüştür. Üretim darboğazı raftaki müşteri ihtiyacına kadar görünür.
 
 **Hedef oyuncu:** Telefonda 3–8 dakikalık oturumlarda marketini geliştiren, istediğinde 15–20 dakika planlama yapan oyuncu. Düzenleme ve hafif otomasyon derinliği kısa oturumlara bölünür. Varsayılan dikey telefon ekranı ve tek başparmakla temel işletme; inşa ve gelişmiş yönetim gerektiğinde iki elle kullanılır. Bu bir pazar hipotezidir, doğrulanmış segment iddiası değildir.
 
@@ -19,11 +19,11 @@ Güncel tasarım sözleşmesi: Yayın hedefi iOS ve Android'dir. Three.js/TypeSc
 
 **Kazanma/kaybetme:** Tam sürümde seçilen topluluk finalinin sevkiyatlarını ve hizmet sınavını bitirmek kazanmadır. Düşük gelir, geciken kontrat ve personel sorunu yerel başarısızlıktır; kayıt silen game-over yoktur. Ücretsiz elle çalışma ve yardım göreviyle toparlanılır. İlk prototipte final yok; başarı ölçütü kaydedilebilir üretim-satış döngüsüdür.
 
-**İlk prototip:** Bir oda, bir kaynak girdisi, iki makine, bir satılabilir ürün, raf, kasa, tek müşteri davranışı, stok/para kaydı ve bir raf görevlisi. Bir plan değişikliği yürüyüşü veya boş rafı ölçülebilir biçimde iyileştirmelidir. RPG, reklam, gerçek ödeme, tam personel ihtiyaçları ve final ilk prototipte yoktur. Kesin aşamalar bölüm 58'de.
+**İlk prototip:** Bir oda, bahçe su kaynağı, şişeleme tezgâhı, domates yatağı, üç su ürünü ve taze domates, raf, kasa, tek müşteri davranışı, stok/para kaydı ve bir raf görevlisi. Bir plan değişikliği yürüyüşü veya boş rafı ölçülebilir biçimde iyileştirmelidir. RPG, reklam, gerçek ödeme, tam personel ihtiyaçları ve final ilk prototipte yoktur. Kesin aşamalar bölüm 58'de.
 
 **İş modeli:** Ücretsiz ana oyun; App Store/Google Play üzerinden kozmetik satın alma ve açıkça seçilen kozmetik ödüllü reklam. Zorunlu reklam ve oyun gücü satışı yoktur. Reklam ve gerçek ödeme yalnız bağlantı olduğunda çalışır; temel ekonomi reklamsız dengelenir.
 
-**Görsel yön:** Neo-Brutalist yüksek kontrastlı arayüz ve geometrik low-poly kübik uzay dünyası. Arayüz kalın koyu konturlar, sert gölgeler ve düz renk blokları kullanır; oyun sahnesi üç boyutlu ve modülerdir.
+**Görsel yön:** Neo-Brutalist yüksek kontrastlı arayüz ve geometrik low-poly mahalle marketi. Arayüz kalın koyu konturlar, sert gölgeler ve düz renk blokları kullanır; oyun sahnesi üç boyutlu ve modülerdir.
 
 **En büyük riskler:** Fiziksel taşımanın angaryaya dönüşmesi; tasarım kapsamının üretim kapasitesini aşması; çok sayıda göstergenin okunamaması. İlk doğrulama bunları hedefler. Bu kısa özet uygulama girişidir; ayrıntılı bölümlerin tamamını sırayla kodlamak görev değildir.
 
@@ -37,20 +37,20 @@ Her teslimde çalışan yapıyı, çalıştırma talimatını, değişen dosyala
 
 ## 2. Vizyon ve referansların anlamı
 
-**Tek cümle:** Renkli bir uzay yerleşiminde küçük dükkânını elle doldurarak başlayıp, hammaddeden raf ürününe uzanan üretim ağını ve yerleşimin geleceğini yöneten bir tüccar-zanaatkâra dönüş.
+**Tek cümle:** Renkli bir mahallede küçük dükkânının raflarını elle doldurarak başla; bahçedeki sudan tarıma, işlenmiş gıdaya ve yerel ürünlere uzanan üretim ağını yönet.
 
-Kullanıcının “MyMiniMarkt” ifadesi burada My Mini Mart benzeri elle taşıma, raf doldurma, müşteri ve kasa döngüsünün referansı olarak yorumlanmıştır; belirli oyunun birebir özellik listesi iddia edilmez. “Game Dev Tycoon tarzı” ifadesi, okunaklı işletme gelişimi ve personel yönetimiyle birlikte kullanıcının özellikle istediği taşınabilir modüler yerleşim olarak uygulanır. “Zerigrhenitktten” ifadesi belirsizdir; bu belgede başlangıçtan oyun sonuna kadar tüm ilerleme olarak yorumlanmıştır.
+Kullanıcının “MyMiniMarkt” ifadesi burada My Mini Mart benzeri elle taşıma, raf doldurma, müşteri ve kasa döngüsünün referansı olarak yorumlanmıştır; belirli oyunun birebir özellik listesi iddia edilmez. “Game Dev Tycoon tarzı” ifadesi, okunaklı işletme gelişimi ve personel yönetimiyle birlikte kullanıcının özellikle istediği genişletilebilir mağaza yerleşimi olarak uygulanır. “Zerigrhenitktten” ifadesi belirsizdir; bu belgede başlangıçtan oyun sonuna kadar tüm ilerleme olarak yorumlanmıştır.
 
 Referanslardan alınacak ilkeler:
 
 | Kaynak | Esin | Özgün uygulama |
 |---|---|---|
-| My Mini Mart benzeri döngü | Kolay anlaşılır fiziksel işler, raf-kasa akışı | Uzay kolonisi ürünleri, üretim uzmanlığı, müşteri toplulukları |
-| Astroneer | Yumuşak biçimler, renkli bilimkurgu, anlaşılır makineler ve bağlantılar | Yüzey üstü modüler market kampüsü; ürünlere dönüşen kaynaklar |
-| Game Dev Tycoon | Küçük işletmeden büyük kuruma gelişme hissi | Taşınabilir odalar, görevli çalışanlar, işletme uzmanlıkları |
+| My Mini Mart benzeri döngü | Kolay anlaşılır fiziksel işler, raf-kasa akışı | Bahçe, üretim uzmanlığı ve müşteri toplulukları |
+| Supermarket Simulator | Raf, fiyat, kasa ve stok yönetimi | Kısa mobil oturumlarda üretim ile raf kararını birleştirme |
+| Game Dev Tycoon | Küçük işletmeden büyük kuruma gelişme hissi | Genişletilebilir odalar, görevli çalışanlar, işletme uzmanlıkları |
 | RPG sistemleri | Yapı seçimi, itibar, görevler, karakter gelişimi | Tüccar, üretici ve topluluk lideri kimlikleri |
 
-Hiçbir referansın logosunu, arayüzünü, karakterini, özgün modelini veya sesini kopyalama. İlk sürümde arazi kazma, gezegen simülasyonu, savaş, çok oyunculu ve açık dünya yoktur.
+Hiçbir referansın logosunu, arayüzünü, karakterini, özgün modelini veya sesini kopyalama. İlk sürümde çok oyunculu ve açık dünya yoktur.
 
 ## 3. Varsayılan ürün kapsamı
 
@@ -60,7 +60,7 @@ Hiçbir referansın logosunu, arayüzünü, karakterini, özgün modelini veya s
 - Oyun: Tek oyunculu, çevrimdışı, duraklatılabilir. Temel oyun internet ve hesap gerektirmez; isteğe bağlı kozmetik satın alma ve hak geri yükleme platform bağlantısı gerektirir.
 - Gelir modeli: Ücretsiz temel oyun ve ana hikâye; doğrudan kozmetik satışı ve platform uygunsa oyuncunun başlattığı isteğe bağlı kozmetik ödüllü reklam. Tarif, personel gücü, üretim kapasitesi, bölüm ve final satılmaz. Bölüm 25 ödeme, bölüm 50–54 reklam/UX şartnamesidir. İlk prototipte gerçek ödeme/reklam yerine test sağlayıcısı kullanılır.
 - Hedef deneyim: 3–8 dakikalık kısa oturumda anlamlı adım, isteğe bağlı 15–20 dakikalık yönetim oturumu; toplam 12–18 saatlik ana ilerleme test hipotezi olarak korunur. İçerik kısa oturumlara bölünür, gerçek zaman beklemesiyle uzatılmaz.
-- Ton: Neo-Brutalist grafik dilinde enerjik, yüksek kontrastlı kübik bilimkurgu; kıtlık, emek, şirket baskısı ve topluluk sorumluluğu hikâyede işlenir.
+- Ton: Neo-Brutalist grafik dilinde enerjik, yüksek kontrastlı kübik mahalle marketi; kıtlık, emek, şirket baskısı ve topluluk sorumluluğu hikâyede işlenir.
 - Öncelik sırası: Döngünün keyfi → okunabilirlik → kayıt güvenilirliği → üretim ve ekonomi → RPG derinliği → içerik miktarı.
 
 ## 4. Tasarım sütunları
@@ -89,7 +89,7 @@ Taşıma başlangıçta 6 yığın birimiyle sınırlıdır; yükseltmeler 8/10/
 |---|---|---|---|
 | 0–2 dk | Dükkâna girer, üç ürün taşır | Hareket ve etkileşim | İlk raf hazır |
 | 2–5 dk | İki müşteriye satış yapar | Raf ve kasa | İlk gelir |
-| 5–8 dk | Yosun yetiştirip paketler | İki aşamalı üretim | Kendi ürünü |
+| 5–8 dk | Kaynak suyunu şişeler ve domates toplar | Üretim ile raf paylaşımı | Kendi ürünü |
 | 8–12 dk | Rafı taşır, koridor açar | Modüler düzen | Daha kısa servis yolu |
 | 12–16 dk | İlk beceriyi seçer | RPG kimliği | Yeni aktif seçenek |
 | 16–20 dk | İlk çalışanı atar | Otomasyon | Oyuncuya serbest zaman |
@@ -104,7 +104,7 @@ Müşteri durumları: Spawn → Browse → SeekShelf → PickItem → Queue → 
 - Başlangıçta çalışanlar, araştırmacılar ve kuryeler olmak üzere üç profil vardır.
 - Sabır yalnızca kısa kuyruk animasyonu değildir: açık göstergesi, erişilebilir ayarı ve dengeli toparlanma davranışı vardır.
 - Kasa satışı atomik işlemdir: stok rezervasyonu, ödeme ve gelir kaydı tek transaction kimliğiyle tamamlanır.
-- Fiyatlar oyuncu tarafından önerilen aralıkta değiştirilebilir; pahalı fiyat talebi ve itibarı etkiler. Etki arayüzde açıklanır.
+- Fiyatlar oyuncu tarafından önerilen aralıkta değiştirilebilir; pahalı fiyat talebi etkiler, tek başına kalıcı itibar cezası vermez (§38.3–38.4). Etki arayüzde açıklanır.
 - Raflar ürün filtresi, minimum stok hedefi ve çalışan önceliği taşır.
 - Boş raf müşteri memnuniyetini etkiler; tek eksik ürün tüm işletmeyi çökertmez.
 - Gün sonu ekranı gelir, gider, kayıp satış, kuyruk süresi ve ana darboğazı gösterir.
@@ -115,12 +115,12 @@ Her tarif girdiler, süre, enerji, çıktı, yan ürün, istasyon tipi ve kilit 
 
 | Dal | Örnek zincir | Satılan ürün | Temel karar |
 |---|---|---|---|
-| Gıda | Buz → su; su + spor → yosun; yosun → paketleme | Besin küpü | Hız veya kalite |
-| İçecek | Su + biyomeyve → karışım → şişeleme | Nebula içeceği | Talep dalgalanması |
+| Gıda | Ham su → domates yetiştirme → püre → salça | Taze domates / köy salçası | Doğrudan sat veya işle |
+| İçecek | Su + meyve → karışım → şişeleme | Meyve içeceği | Talep dalgalanması |
 | Temizlik | Mineral + biyoyağ → karıştırma → paketleme | Temizleyici | Yan ürün değerlendirme |
-| Enerji | Cevher → iletken; iletken + mineral → montaj | Ev tipi pil | Enerji kapasitesi |
+| Fırın | Siyez → un → hamur → pişirme | Köy somunu | Unu sat veya ekmeğe işle |
 | Tekstil | Lif → kumaş → dikiş | Termal eldiven | Uzman çalışan |
-| Konfor | Reçine + pigment → kalıplama | Habitat dekoru | Moda ve topluluk |
+| Zanaat | Göl sazlığı → hasır örme | Hasır sepet | Sat veya ileri üründe kullan |
 
 Makine durumları: Idle, WaitingInput, Running, OutputBlocked, NoPower, Paused. Oyuncu her durumu renk ve ikonla ayırt eder; renk tek bilgi kanalı değildir.
 
@@ -170,28 +170,9 @@ Görev yapısı: İhtiyaç → iki veya daha fazla çözüm → ekonomik ve ili�
 
 ## 11. Ekonomi ve denge başlangıç değerleri
 
-Tek para birimi kredi. Ayrı araştırma puanı ilerleme ölçüsüdür ve satın alınamaz. Tüm rakamlar başlangıç hipotezidir, oyun testiyle değişir.
+Tek para birimi kredi; araştırma puanı satın alınamaz. Oyun günü 900 aktif saniyedir. Başlangıçta 100 kredi nakit, kasa, raf, seviye 1 memba çeşmesi, şişeleme tezgâhı ve domates yatağı vardır. Ham su birimi, debi, açılış sarfı ve ilk değişken maliyetler §26 ve içerik kataloğunda tanımlıdır. Bu sayılar başlangıç denge hipotezidir; oyuncu testinde ölçülür. Eski besin küpü başlangıç fiyatı/maliyeti/üretim süresi geçerli değildir.
 
-| Öğe | Başlangıç değeri |
-|---|---:|
-| Başlangıç parası | 600 kredi |
-| Temel raf | 80 kredi |
-| Yosun yetiştirici | 160 kredi |
-| Paketleyici | 180 kredi |
-| İlk çalışan ücreti | Oyun günü başına 60 kredi |
-| Besin küpü satış fiyatı | 12 kredi |
-| Besin küpü değişken maliyeti | 4 kredi |
-| Besin küpü üretim süresi | 8 saniye |
-| Başlangıç müşteri aralığı | 12–20 saniye |
-| Oyun günü | 15 gerçek dakika; duraklatma hariç |
-
-Başlangıç sahnesinde kasa, bir raf ve ilk kaynak erişimi ücretsiz bulunur. Tablo tüm kurulumu yeniden satın almayı gerektirmez.
-
-Katkı payı = satış fiyatı − girdi maliyeti − birim enerji/ambalaj gideri. Net sonuç = toplam katkı payı − ücretler − sabit giderler. Örneğin 12−4=8 kredi katkıyla 60 kredi ücretin karşılanması için diğer sabit giderler hariç en az 8 satış gerekir.
-
-Talep, taban ihtiyaç × fiyat tepkisi × itibar × bulunabilirlikle hesaplanır; her çarpanın sınırı vardır. Önce sabit değerlerle dengelenir, sonra seed içeren sınırlı çeşitlilik eklenir. Sonsuz fiyat artırma ve al-sat arbitrajı kontrol edilir.
-
-Nakit tükenince ücretsiz küçük tedarik görevi, temel üretim ve açık koşullu yeniden yapılandırma seçeneği vardır. Kurtarma için reklam, gerçek para veya gerçek zaman beklemesi gerekmez. Son temel üretim aracının satışı uyarılır ve geri kazanılabilir olmalıdır.
+Katkı payı = satış fiyatı − lot girdileri − enerji/ambalaj sarfı. Net sonuç = toplam katkı − ücretler − sabit giderler. Talep, fiyat ve stok etkileri bölüm 38'in tek sayma kuralına uyar. Nakit tükenince ücretsiz yardım ve elle çalışılan temel üretim yolu korunur; reklam veya gerçek para gerekmez.
 
 ## 12. Psikoloji, bağlılık ve karanlık tema
 
@@ -203,7 +184,7 @@ Nakit tükenince ücretsiz küçük tedarik görevi, temel üretim ve açık ko�
 | Özerklik | Üç uzmanlık ve alternatif görev çözümleri | Yeniden dağıtım, geri alınabilir yerleşim |
 | Sahiplenme | Kişiselleştirilen dükkân ve çalışan hikâyeleri | Dekorasyon oynanışı zorunlu kılmaz |
 | Beklenti | Görünür araştırma ve sipariş ilerlemesi | Kesin koşullar, sahte sayaç yok |
-| Merak | Yeni ürünlerin ve koloninin keşfi | İçerik kaçırma cezası yok |
+| Merak | Yeni ürünlerin ve mahallenin keşfi | İçerik kaçırma cezası yok |
 | Sosyal bağ | Hatırlanan seçimler ve NPC ilişkileri | Gerçek insan baskısını taklit eden bildirim yok |
 | Akış | İş yükünden stratejiye geçiş | Duraklatma ve tempo ayarı |
 
@@ -224,7 +205,7 @@ Oturum biterken güvenli kayıt ve tamamlanan hedef özeti gösterilir. Çevrimd
 | 5 — Son Büyük Sipariş | 10–15 saat | Çok ürünlü kapasite ve itibar kararı | Final projesinin teslimi |
 | 6 — Yeni Düzen | 12–18 saat | Seçimlerin sonucu | Sonuç sahnesi ve serbest oyun |
 
-Final projesi, seçime göre kooperatif merkezi, araştırma lojistik üssü veya ticaret merkezi olur. Üçü de aynı içerik temeli üstünde farklı görev koşulları ve sonuçlar kullanır. Finalde gerçek zamanlı baskı yoktur; oyuncu hazır olunca teslim aşamasını başlatır. Serbest oyunda tarif ustalığı ve yerleşim iyileştirmesi sürer; ana hikâye sonsuza uzatılmaz.
+Final projesi, seçime göre kooperatif merkezi, yerel araştırma merkezi veya ticaret merkezi olur. Üçü de aynı içerik temeli üstünde farklı görev koşulları ve sonuçlar kullanır. Finalde gerçek zamanlı baskı yoktur; oyuncu hazır olunca teslim aşamasını başlatır. Serbest oyunda tarif ustalığı ve yerleşim iyileştirmesi sürer; ana hikâye sonsuza uzatılmaz.
 
 ## 14. Görsel ve ses yönü — Neo-Brutalist UI, kübik low-poly dünya
 
@@ -232,7 +213,7 @@ Arayüz, oyun sahnesinden ayrı HTML/CSS katmanıdır. Neo-Brutalist görsel dil
 
 Başlıklar ve kredi sayaçları kalın geometrik sans; teknik sayılar tabular/monospace. Kısa eylem etiketleri büyük harf olabilir, uzun açıklama normal cümle düzeninde kalır. Buton dokunulunca 2 px aşağı iner, sert gölgesi kısalır; titreşim açılabilir ve kapatılabilir. Hareket azaltma ayarı bu animi devre dışı bırakır. Dokunsal üslup bilgi hiyerarşisini ezmez; parıltı, sürekli titreşim, gradient, aşırı dönen sticker, emoji ikon ve otomatik kamera sarsıntısı yoktur.
 
-Dünya, Three.js ile low-poly voxel/kübik geometri kullanır: modüler küp habitatlar, prizmatik makineler, blok bitkiler ve katmanlı küçük kaya adaları. Siluetler küplerden okunur, yüzeylerde az sayıda üçgen faset kullanılır. Dünya tonları UI vurgu renklerinden daha düşük doygunlukta kalır; UI'nın siyah kontur ve parlak renkleri oyun sahnesinden ayrışır. Kare kare düz grid çizgileri yalnız placement önizlemesinde görünür.
+Dünya, Three.js ile low-poly kübik geometri kullanır: modüler küp mağazalar, prizmatik makineler, blok bitkiler ve katmanlı küçük bahçe parselleri. Siluetler küplerden okunur, yüzeylerde az sayıda üçgen faset kullanılır. Dünya tonları UI vurgu renklerinden daha düşük doygunlukta kalır; UI'nın siyah kontur ve parlak renkleri oyun sahnesinden ayrışır. Kare kare düz grid çizgileri yalnız placement önizlemesinde görünür.
 
 Her item ID'si tek, güçlü siluetle tanınır. Makine portları girdi/işlem/çıktı yönünü geometrik biçimde anlatır. Üretim aşaması basit hareketli parçayla gösterilir; GPU'yu yoran parça sayacı, sürekli parçacık, gerçek zamanlı çoklu gölge yoktur. Raf stoğu mantıksal adet kadar mesh üretmez; instancing ve temsilî yığın kullanılır.
 
@@ -279,13 +260,13 @@ Kalıcı içerik kimlikleri insan tarafından okunabilen ve yayın sonrası değ
 
 ```json
 {
-  "id": "recipe.nutrient_cube",
-  "stationType": "packer",
-  "inputs": [{"itemId": "item.algae", "quantity": 2}],
-  "outputs": [{"itemId": "item.nutrient_cube", "quantity": 1}],
-  "durationSeconds": 8,
-  "powerRequired": 2,
-  "unlockId": "research.basic_food"
+  "id": "recipe.glass_water_small",
+  "stationType": "bottler",
+  "inputs": [{"itemId": "item.raw_water", "quantity": 1}],
+  "outputs": [{"itemId": "item.glass_water_small", "quantity": 1}],
+  "durationSeconds": 3,
+  "powerRequired": 1,
+  "unlockId": "chapter.start"
 }
 ```
 
@@ -313,7 +294,7 @@ Taşıma, envanter, bir raf, bir kasa, müşteri akışı ve kredi defteri. Çı
 
 ### A2 — Oynanabilir dikey dilim
 
-Güncel kapsam bölüm 58'deki A2 satırıdır: dokunmatik üç ürünlü döngü birkaç kısa oturuma bölünür, toplam 20–30 dakika test edilir. Kesintisiz oynama zorunluluğu yoktur; arka plan ve süreç sonlandırma testlerinden sonra kayıt tutarlı kalır. Önceki altı beceri hedefi A3'e ertelenmiştir.
+Güncel kapsam bölüm 58'deki A2 satırıdır: su ve yerel gıda döngüsü birkaç kısa oturuma bölünür, toplam 20–30 dakika test edilir. Kesintisiz oynama zorunluluğu yoktur; arka plan ve süreç sonlandırma testlerinden sonra kayıt tutarlı kalır. Önceki altı beceri hedefi A3'e ertelenmiştir.
 
 ### A3 — Sistem derinliği
 
@@ -321,7 +302,7 @@ Enerji, kalite, personel öncelikleri, modül taşıma, itibar ve görev dallar�
 
 ### A4 — İçerik ve final
 
-Hedef üst sınır: 6 ürün ailesi, 24 satılabilir ürün, 12 makine tipi, 8 modül tipi, 30 beceri, 25 görev, 3 sonuç yolu. Önce 12 ürünle ekonomi doğrulanır. Çıkış: Yeni oyundan sonuç ekranına debug hilesi olmadan gidilir.
+Hedef kapsam: Tier 1–4 yerel ürün ağacı, gerekli istasyonlar, 30 beceri, 25 görev ve 3 sonuç yolu. Ürün/istasyon sayısı eski 24/12 kotasına zorlanmaz; önce P0 ürünleriyle ekonomi doğrulanır. Çıkış: Yeni oyundan sonuç ekranına debug hilesi olmadan gidilir.
 
 ### A5 — Yayın adayı
 
@@ -365,7 +346,7 @@ Kapsam kesme sırası: Kozmetik çeşit → yan görev sayısı → ürün sayı
 4. Inventory, Economy ve Production domain modellerini küçük hedefli testlerle yaz.
 5. Bootstrap ve Market sahnelerinde kamera, oyuncu ve etkileşim kur.
 6. Bir raf, kasa ve müşteriyle ilk gerçek satışı tamamla.
-7. Kaynak ve paketleyici ekleyerek üretimden satışa yolu bağla.
+7. Memba çeşmesi, şişeleme ve domates yatağından satışa yolu bağla.
 8. Kaydet/yükle ve yerleşim doğrulamasını ekle.
 9. A2 kapsamını tamamla; hedefli testleri çalıştır ve oynanabilir build üret.
 10. Test bulgularına göre dengeyi düzelt; A3'e ancak A2 çıkış ölçütleri karşılandığında geç.
@@ -380,7 +361,7 @@ Teslim paketi: Kaynak proje ve kilitli bağımlılıklar; Android test APK'sı/d
 
 Sürüm 2.0 devir sırası: Hızlı başlangıç özeti → bölüm 60 mobil sözleşmesi → bölüm 55–59 bağlam/kapsam → ilgili sistem. İlk prototip P0, sonra A2; ikisi de cihaz üzerinde sınanır. Oyun iOS ve Android için ücretsizdir; işlevsel nesneler yalnız oyun içi kredilerle edinilir.
 
-> Bu dosyayı ana tasarım ve uygulama şartnamesi olarak kullan. Önce mevcut depoyu ve AGENTS.md dosyalarını incele. Yeni projede Three.js/TypeScript/Vite ve Capacitor'ı kullan; iOS ile Android'i hedefle. Önce P0 dokunmatik dikey prototipini bitir, sonra bölüm 63'teki A2/A3 aşamalarına geç. My Mini Mart benzeri fiziksel market döngüsü, Astroneer esintili özgün üretim, Neo-Brutalist UI ve kübik low-poly dünyayı birleştir. Capacitor build'lerini iki platformda doğrula. Yalnızca plan üretme; kodu, cihaz build'ini ve hedefli kontrolleri teslim et. Çalıştırılmayan build'i/testi tamamlandı gibi sunma. Kullanılabilir iOS Mac/Xcode hattı yoksa somut engeli kaydet, Android/web işini sürdür. Küçük geri alınabilir kararları kaydet; maddi kapsam değişikliklerini belirt.
+> Bu dosyayı ana tasarım ve uygulama şartnamesi olarak kullan. Önce mevcut depoyu ve AGENTS.md dosyalarını incele. Yeni projede Three.js/TypeScript/Vite ve Capacitor'ı kullan; iOS ile Android'i hedefle. Önce P0 dokunmatik dikey prototipini bitir, sonra bölüm 63'teki A2/A3 aşamalarına geç. My Mini Mart benzeri fiziksel market döngüsü, yerel su ve tarım ürünlerine dayalı özgün üretim, Neo-Brutalist UI ve kübik low-poly dünyayı birleştir. Capacitor build'lerini iki platformda doğrula. Yalnızca plan üretme; kodu, cihaz build'ini ve hedefli kontrolleri teslim et. Çalıştırılmayan build'i/testi tamamlandı gibi sunma. Kullanılabilir iOS Mac/Xcode hattı yoksa somut engeli kaydet, Android/web işini sürdür. Küçük geri alınabilir kararları kaydet; maddi kapsam değişikliklerini belirt.
 
 ## 25. Ücretsiz oyun ve ayrıntılı monetizasyon algoritması
 
@@ -454,131 +435,39 @@ başa_baş_aktif_oyuncu = sabit_aylık_maliyet / oyuncu_başına_beklenen_net_ka
 
 Ölçümler: Mağaza açılma sayısı, gönüllü satın alma dönüşümü, ödeme hatası, iade, kozmetik kullanım ve destek talebi. Oyun zorluğu alıcı oranını artırmak için ayarlanmaz. Harcama artarken iade veya şikâyet artıyorsa sonuç başarı sayılmaz. Satış telemetrisi temel oyunun çevrimdışı işleyişinden ayrılır; gereksiz kişisel veri toplanmaz.
 
-## 26. Ürünler, üretim araçları ve tam üretim şeması
+## 26. Yerel ürün ve üretim sözleşmesi
 
-### 26.1 Birimler, kaynaklar ve maliyet
+Bu bölümün güncel ürün kaynağı [yerel ürün ağacıdır](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md). Eski buz→su, spor→yosun→besin küpü ve cevher→ileri teknoloji zincirleri kaldırılmıştır. Katalogdaki Tier 1–4 aileleri, ürün kimlikleri, kaynakları ve istasyon ilişkileri bu bölümün ürün kapsamıdır. Katalogdaki fiyat, ham maliyet, süre, güç ve arazi bedelleri **denge hipotezidir**; çalışan ekonomi veya doğrulanmış kârlılık değildir.
 
-Tariflerde tüm miktarlar paket/birimdir; süre bir parti içindir. `E` aktif güç kapasitesi birimidir; ücret, makinenin çalışma süresine göre `E × saniye × 0,01 kredi` olarak hesaplanır. İlk eğitim güneş ünitesinde enerji gideri sübvanse edilir ve raporda gösterilir. İşletme jenerasyonu da bedava üretim varsayılmaz; bakım/enerji maliyeti ledger'a yazılır.
+### 26.1 Su ve ilk satış
 
-Kaynaklar: buz, spor, meyve tohumu, lif tohumu, cevher, mineral, reçine, pigment. Su, yosun, meyve, lif, biyoyağ, iletken ve kumaş ara ürünlerdir. Yenilenebilir kaynaklar temel üretimin kalıcı olarak kilitlenmesini önler. Kaynak yatağı kazma sistemi yerine teslim noktası ve yetiştirici kullanılır.
+Yeni kayıtta oyuncunun bahçesinde `source.spring_water` bulunur. Kaynak aktif simülasyon zamanı boyunca `item.raw_water` üretir; arka planda üretim, geçmişe dönük doldurma veya yükseltme anında bedelsiz stok yoktur. **1 ham su birimi = 0,5 litre**. Debi ve hazne seviyeleri aşağıdadır; yükseltme komutu bedeli bir kez düşürür, yeni hız bir sonraki 100 ms tick'ten itibaren işler. Kaynak başlangıç lotunun edinim maliyeti sıfırdır; şişelemede ambalaj ve enerji, tarımda tohum maliyeti ayrıca yazılır. Su, şişeleme ve sulama arasında aynı stoktan ayrılır. Eksi stok veya rezerve suyun ikinci kez harcanması reddedilir.
 
-Birim maliyet = (girdi maliyetleri + parti enerji gideri + sarf gideri) / çıktı adedi. Personel ve kira günlük sabit giderdir; rapor amaçlı dağıtılabilir, muhasebede ikinci kez düşülmez. Tohum/spor satın alma gideri kaynağın edinim maliyetine dahildir. Girdi fiyatı değişince yeni partinin maliyeti değişir; eski stok hareketli ağırlıklı ortalama maliyetle tutulur.
+| Kaynak seviyesi | Ham su / aktif saniye | Hazne sınırı | Bu seviyeye yükseltme bedeli |
+|---|---:|---:|---:|
+| 1 (başlangıç) | 0,5 | 80 birim | Dahil |
+| 2 | 1 | 120 birim | 80 kredi |
+| 3 | 1,5 | 160 birim | 160 kredi |
+| 4 | 2 | 220 birim | 320 kredi |
+| 5 | 3 | 300 birim | 640 kredi |
 
-### 26.2 Ara üretim tarifleri
+Kesirli üretim tamsayı stokta görünmez; kaynak birikim sayacında atomik 100 ms ilerleme tutulur ve yalnız tamamlanan tam birimler hazneye girer. Hazne dolunca üretim durur; boşalınca yeni tick'lerde sürer. Kaynak kalitesi başlangıçta Standart 40'tır; kalite yükseltmesi bu debi yükseltmesinin ücretsiz yan etkisi değildir.
 
-| Tarif ID | Girdi | Araç | Süre | Çıktı |
-|---|---|---|---:|---|
-| water | 1 buz | Eritici | 4 sn | 2 su |
-| algae | 1 su + 1 spor | Biyoyetiştirici | 10 sn | 4 yosun |
-| fruit | 2 su + 1 meyve tohumu | Biyoyetiştirici | 14 sn | 3 meyve |
-| fiber | 1 su + 1 lif tohumu | Biyoyetiştirici | 12 sn | 3 lif |
-| oil | 3 yosun | Biyopres | 8 sn | 2 biyoyağ |
-| conductor | 2 cevher | Rafineri | 12 sn | 2 iletken |
-| cloth | 2 lif | Dokuma tezgâhı | 10 sn | 1 kumaş |
+`station.bottler` üç ilk raf ürününü üretir: `item.glass_water_small` (1 ham su = 0,5 L), `item.water_jug_5l` (10 ham su = 5 L), `item.water_carboy_19l` (38 ham su = 19 L). Parti süreleri sırasıyla 3/8/18 aktif saniyedir; tezgâh 1 E kullanır. Her parti bir uygun ambalaj sarfı tüketir. Ambalaj türleri ve bedelleri katalogda tanımlıdır. Tüm ürünler tek kimlikli girdi rezervasyonu, çıktı kapasitesi ve kalıcı ledger kaydıyla işlenir.
 
-Tam kimlik biçimi `recipe.water`, `item.water` şeklindedir. Aşağıdaki tarifler katalogdaki 24 nihai üründür. Satış fiyatları Standart kalite için başlangıç hedefidir; fiyat/maliyet doğrulamasından sonra ayarlanır.
+**Yeni kayıt/P0 başlangıcı:** 100 kredi nakit, kaynak haznesinde 50 birim ham su, 12 küçük şişe, 4 adet 5 L bidon, 2 damacana ambalajı ve 8 domates tohumu. Kasa, bir raf, memba çeşmesi, şişeleme tezgâhı ve bir domates yatağı kurulu gelir; bunları ilk kez satın alma zorunluluğu yoktur. Başlangıç sarf lotları gerçek edinim maliyeti taşır ve nakit başlangıç değeriyle karıştırılmaz. Son temel su satış hattı ve su kaynağı elden çıkarılarak oyun kilitlenemez. Kaynak haznesi 50 birim ve seviye 1 debiyle küçük su 3 saniyelik partide çıkar; bir küçük su, bir 5 L su, bir damacana ve bir domates için toplam 51 birim gerekir, eksik 1 birim ilk 2 aktif saniyede üretilir. Bu, raflama/yürüme/müşteri beklemesi hariç üretim alt sınırıdır; 3–8 dakikalık oyuncu döngüsü cihaz testinde ölçülür.
 
-### 26.3 Nihai ürün kataloğu
+### 26.2 Tarım, işleme ve genişleme
 
-| ID / ürün | Bir parti girdisi | Araç | Süre | Çıktı | Birim fiyat | Bölüm |
-|---|---|---|---:|---:|---:|---:|
-| nutrient_cube / Besin küpü | 2 yosun | Paketleyici | 8 sn | 1 | 12 | 1 |
-| algae_cracker / Yosun krakeri | 3 yosun + 1 biyoyağ | Fırın | 12 sn | 2 | 15 | 2 |
-| fruit_bar / Meyve barı | 2 meyve + 1 yosun | Fırın | 14 sn | 2 | 18 | 3 |
-| expedition_ration / Sefer öğünü | 2 besin küpü + 1 meyve | Paketleyici | 12 sn | 1 | 40 | 4 |
-| drinking_water / İçme suyu | 1 su | Şişeleyici | 4 sn | 1 | 5 | 1 |
-| nebula_drink / Nebula içeceği | 1 su + 1 meyve | Şişeleyici | 8 sn | 1 | 14 | 2 |
-| mineral_drink / Mineral içeceği | 2 su + 1 mineral | Şişeleyici | 10 sn | 2 | 12 | 3 |
-| festival_nectar / Festival nektarı | 3 meyve + 1 su | Şişeleyici | 14 sn | 2 | 24 | 4 |
-| basic_cleaner / Temizleyici | 1 mineral + 1 biyoyağ | Karıştırıcı | 8 sn | 2 | 14 | 2 |
-| bio_soap / Biyosabun | 1 biyoyağ + 1 su | Karıştırıcı | 6 sn | 2 | 10 | 2 |
-| filter_gel / Filtre jeli | 2 mineral + 1 yosun | Karıştırıcı | 10 sn | 1 | 24 | 3 |
-| care_kit / Bakım seti | 1 temizleyici + 1 biyosabun | Paketleyici | 8 sn | 1 | 32 | 4 |
-| home_battery / Ev pili | 1 iletken + 1 mineral | Montaj masası | 12 sn | 1 | 24 | 2 |
-| work_lamp / Çalışma lambası | 1 ev pili + 1 reçine | Montaj masası | 14 sn | 1 | 36 | 3 |
-| portable_charger / Taşınır şarj cihazı | 2 iletken + 1 reçine | Montaj masası | 16 sn | 1 | 38 | 3 |
-| power_kit / Enerji bakım kiti | 1 ev pili + 1 taşınır şarj cihazı | Paketleyici | 12 sn | 1 | 72 | 4 |
-| thermal_gloves / Termal eldiven | 1 kumaş | Dikiş istasyonu | 10 sn | 1 | 20 | 2 |
-| work_apron / İş önlüğü | 2 kumaş | Dikiş istasyonu | 14 sn | 1 | 42 | 3 |
-| insulated_bag / Yalıtımlı çanta | 2 kumaş + 1 reçine | Dikiş istasyonu | 16 sn | 1 | 50 | 3 |
-| expedition_coat / Sefer ceketi | 3 kumaş + 1 lif | Dikiş istasyonu | 20 sn | 1 | 65 | 4 |
-| habitat_ornament / Habitat süsü | 1 reçine + 1 pigment | Kalıplama ünitesi | 8 sn | 1 | 18 | 2 |
-| color_panel / Renkli panel | 2 reçine + 1 pigment | Kalıplama ünitesi | 10 sn | 2 | 16 | 3 |
-| soft_cushion / Yumuşak minder | 1 kumaş + 1 lif | Dikiş istasyonu | 10 sn | 1 | 28 | 3 |
-| glow_ornament / Işıklı süs | 1 habitat süsü + 1 iletken | Montaj masası | 14 sn | 1 | 36 | 4 |
+Ham su bostan ve tarlaya gider. Domates, salatalık, biber, siyez, ayçiçeği, mısır ve pamuk hasadı doğrudan satılabilir veya sonraki tarifte kullanılabilir. Ana zincir domates → katalogdaki `item.tomato_puree` → köy salçasıdır. Göl, mera, zeytinlik/bağ ve geniş tarla katalogdaki açılır alanlardır. Tier 3 değirmen, fırın, şarküteri ve dokuma; Tier 4 birleşik gıda ve zanaat ürünleridir. Tier 5 yoktur.
 
-Ürün fiyatlarının maliyet üzerinde olduğu varsayılmaz: içerik doğrulayıcı her tarif için kârlılık raporu çıkarır. Bölüm 11'deki 4 kredi besin küpü maliyeti tasarım hedefidir, bu reçetelerden bağımsız sabit gerçek değildir. Aynı satılabilir ürün ileri tarifte girdi olabilir; raf ve üretim stoğu için rezervasyon önceliği seçilir.
+Çay yaprağı, kahve çekirdeği, maya, ceviz, sirke, baharat ve ambalajın edinim yolu katalogdaki girdi tablosundadır. Her nihai ürünün girdileri ham kaynağa veya görünür tedarike kadar izlenir; döngü, ücretsiz girdi ve iki kez kullanılan lot içerik doğrulamasında reddedilir. Aynı satılabilir ürünün ileri tarifte kullanımı üretim/raf rezervasyonuyla yönetilir. Bir girdi için yerel hasat sayıları tanımlanmamışsa ücretli tedarik yolu çalışır; yerel üretim tuşu açık görünmez.
 
-### 26.4 Üretim araçları
+### 26.3 Faz ve ekonomi sınırı
 
-| Araç | Fiyat | Alan | Güç E | Girdi/çıktı tamponu | İşlev |
-|---|---:|---|---:|---|---|
-| Eritici | 100 | 1×2 | 1 | 12/24 | Buzdan su |
-| Biyoyetiştirici | 160 | 2×2 | 1 | 16/24 | Yosun, meyve, lif |
-| Biyopres | 180 | 1×2 | 2 | 12/12 | Biyoyağ |
-| Rafineri | 260 | 2×2 | 3 | 16/16 | İletken |
-| Dokuma tezgâhı | 220 | 1×2 | 2 | 16/12 | Kumaş |
-| Paketleyici | 180 | 1×2 | 2 | 24/12 | Gıda ve kitler |
-| Fırın | 240 | 2×2 | 3 | 16/16 | İşlenmiş gıda |
-| Şişeleyici | 160 | 1×2 | 1 | 16/16 | İçecek |
-| Karıştırıcı | 200 | 1×2 | 2 | 16/16 | Temizlik |
-| Montaj masası | 280 | 2×2 | 2 | 16/12 | Enerji ve ileri dekor |
-| Dikiş istasyonu | 240 | 1×2 | 1 | 16/12 | Tekstil |
-| Kalıplama ünitesi | 220 | 2×2 | 2 | 16/16 | Dekor |
+P0: memba çeşmesi, şişeleme tezgâhı, üç su boyutu, domates yatağı, raf ve kasa. Bu dört ürünün satış ve stok korunumu gösterilir. A2: ilk gıda işleme, kümes/mandıra ve basit içecekler. A3: göl, mera, bağ/zeytinlik, tarla ve Tier 3 işleme. A4: Tier 4 birleşik ürünler, üç finalin yeni katalogla dengelenmesi ve tam referans doğrulaması. Ürün sayısı eski 24 SKU hedefinden türetilmez.
 
-Her araç için erişilebilir en az bir servis hücresi gerekir. Seviyeler: I temel; II %15 kısa işlem süresi ve +%10 satın alma bedeli kadar yükseltme maliyeti; III ikinci tarif kuyruğu ve +%25 yükseltme maliyeti. Bu ilk denge hipotezidir. Paralel ücretsiz üretim eklenmez; tarif kuyruğu aynı makineyi sırayla kullanır. Yükseltme krediyledir, gerçek parayla alınamaz.
-
-### 26.5 Üretim şeması
-
-```mermaid
-flowchart LR
-  Buz --> Eritici --> Su
-  Su --> Yetistirici[Biyoyetiştirici]
-  TohumSpor[Tohum / spor] --> Yetistirici
-  Yetistirici --> Yosun
-  Yetistirici --> Meyve
-  Yetistirici --> Lif
-  Yosun --> Pres[Biyopres] --> Biyoyag[Biyoyağ]
-  Lif --> Dokuma --> Kumas[Kumaş]
-  Cevher --> Rafineri --> Iletken[İletken]
-  Yosun --> Paketleyici
-  Yosun --> Firin[Fırın]
-  Meyve --> Firin
-  Biyoyag --> Firin
-  Su --> Siseleyici[Şişeleyici]
-  Meyve --> Siseleyici
-  Mineral --> Siseleyici
-  Mineral --> Karistirici[Karıştırıcı]
-  Biyoyag --> Karistirici
-  Su --> Karistirici
-  Yosun --> Karistirici
-  Iletken --> Montaj
-  Mineral --> Montaj
-  Recine[Reçine] --> Montaj
-  Kumas --> Dikis[Dikiş]
-  Lif --> Dikis
-  Recine --> Dikis
-  Recine --> Kaliplama[Kalıplama]
-  Pigment --> Kaliplama
-  Firin --> Stok[Ürün stoğu / ara kit girdileri]
-  Paketleyici --> Stok
-  Siseleyici --> Stok
-  Karistirici --> Stok
-  Montaj --> Stok
-  Dikis --> Stok
-  Kaliplama --> Stok
-  Stok --> Raf --> Musteri[Müşteri] --> Kasa
-```
-
-Şema aile düzeyindedir; ürünler arası kit girdilerinin kesin yönü tarif tablosudur. Yeniden kullanılan nihai ürünler işlem sırasına göre çözülür; tarif grafiği döngü içermemelidir.
-
-### 26.6 Otomasyon, kalite ve kapasite
-
-Üretim emri: Ürün, hedef stok, minimum stok, öncelik, maksimum ayrılmış girdi. Stok minimuma düştüğünde hedefe kadar parti açılır. Kullanılabilir stok = fiziksel stok − rezerve stok. Çalışan bir taşıma işini alınca hem kaynak hem hedef kapasite rezerve edilir; iptalde ikisi de bırakılır.
-
-Hat kapasitesi = en düşük aşama kapasitesi; makine çıktısı/dakika = çıktı adedi × 60 / parti süresi. Tek paketleyici besin küpünde 7,5 adet/dakika üretir. Girdilerin ve taşımaların bunu karşılaması gerekir. Öğretimde oyuncuya daha fazla makine almak yerine darboğazı görmesi öğretilir.
-
-Kalite skoru = 0,5 × miktar ağırlıklı girdi kalite skoru + 0,3 × kalibrasyon + 0,2 × personel uzmanlığı; sonuç 0–100'e sınırlandırılır. Standart <60, Nitelikli 60–84, Özel ≥85. Personelsiz makinede uzmanlık 40 alınır. Kaynak kalitesi ve kalibrasyon ilerlemesi bölüm 47'de tanımlıdır. Fiyat çarpanları 1 / 1,15 / 1,30; yüksek kalite talebi müşteri bütçesiyle sınırlıdır. Sonsuz kaliteli stok satışı garanti edilmez.
+Birim maliyet = tüketilen lot maliyeti + gerçek sarf ve enerji, bölü çıktı adedi. Personel ve kira günlük sabit gider olarak ayrı kalır. Katalogdaki aritmetik fiyat farkı net kâr değildir. Lot, kalite, kaydetme ve idempotent işlem kuralları §34, §48 ve §60'a uyar.
 
 ## 27. Personel rolleri, yerel tipler ve farklı özellikler
 
@@ -603,16 +492,16 @@ Kalite skoru = 0,5 × miktar ağırlıklı girdi kalite skoru + 0,3 × kalibrasy
 
 | Yerel tip | Geçmiş | Kazanılmış özellik | Tercih / gelişim alanı |
 |---|---|---|---|
-| Merkez Habitat | Yoğun hizmet bölgesi | Kuyruk işlerinde +%8 hız | Düzenli vardiya tercih eder |
-| Buz Limanı | Soğuk depo ve sevkiyat | Kaynak transferinde +1 yük | Hizmet eğitimiyle hızlı gelişir |
+| Merkez Mağaza | Yoğun hizmet bölgesi | Kuyruk işlerinde +%8 hız | Düzenli vardiya tercih eder |
+| Soğuk Depo | Soğuk depo ve sevkiyat | Kaynak transferinde +1 yük | Hizmet eğitimiyle hızlı gelişir |
 | Sera Kuşağı | Tarım yerleşimi | Biyotariflerde +5 kalite puanı | Teknik eğitim ister |
-| Maden Halkası | Endüstriyel bakım bölgesi | Onarım süresinde −%8 | Sessiz mola alanı tercih eder |
+| Atölye Bölgesi | Endüstriyel bakım bölgesi | Onarım süresinde −%8 | Sessiz mola alanı tercih eder |
 | Kervan İskelesi | Ticaret ve dağıtım | Teslim planlamada +%8 hız | Değişken görevleri sever |
 | Akademi Yerleşimi | Araştırma kampüsü | Eğitim XP'sinde +%10 | Uzman görev tercih eder |
 
 Bu özellikler biyolojik değil geçmiş deneyimdir; başka kökenden çalışan aynı yeteneği eğitimle edinebilir. Tercih karşılanmayınca doğrudan beceri düşüşü verilmez; uzun vadeli memnuniyet hesabına sınırlı katkı yapar.
 
-Her meslek için altı yerel varyant kullanılabilir: örneğin Buz Limanı kasiyeri yük avantajını taşıma görevindeyken kullanır, kasa hızına otomatik avantaj almaz. Böylece rol × köken = 48 işe alım arketipi; benzersiz sanat üretimi gerektirmeden veriyle çeşitlilik sağlanır.
+Her meslek için altı yerel varyant kullanılabilir: örneğin Soğuk Depo kasiyeri yük avantajını taşıma görevindeyken kullanır, kasa hızına otomatik avantaj almaz. Böylece rol × köken = 48 işe alım arketipi; benzersiz sanat üretimi gerektirmeden veriyle çeşitlilik sağlanır.
 
 ### 27.3 Bireysel özellikler
 
@@ -641,8 +530,8 @@ Performans çarpanları sınırsız çarpılmaz. Toplam hız bonusu −%25 ile +
 | Bora | Kasiyer / Kervan | Hizmet 40 | Arabulucu, çok yönlü | Yerel pazar organizasyonu |
 | Mira | Operatör / Akademi | Üretim 45 | Titiz, eğitici | Yeni tarif geliştirme |
 | Ekin | Yetiştirici / Sera | Biyoloji 45 | Düzenli, titiz | Kuraklık dayanışması |
-| Demir | Teknisyen / Maden | Teknik 50 | Pratik, eğitici | Çırak yetiştirme |
-| Nil | Taşıyıcı / Buz Limanı | Lojistik 40 | Güçlü taşıyıcı, çevik | Soğuk depo iyileştirmesi |
+| Demir | Teknisyen / Atölye | Teknik 50 | Pratik, eğitici | Çırak yetiştirme |
+| Nil | Taşıyıcı / Soğuk Depo | Lojistik 40 | Güçlü taşıyıcı, çevik | Soğuk depo iyileştirmesi |
 | Aras | Satın alma / Kervan | Ticaret 45 | Pratik, arabulucu | Alternatif tedarikçi |
 | Selin | Yönetici / Merkez | Liderlik 50 | Eğitici, düzenli | Adil vardiya anlaşması |
 
@@ -684,7 +573,7 @@ Aynı çalışanda eşzamanlı en fazla bir karar olayı. Küresel olarak iki ak
 
 | ID / olay | Ön haber | Süre | Ekonomik etki | Oyuncunun karşı hamlesi |
 |---|---|---|---|---|
-| colony_festival / Koloni festivali | 1 gün | 1 gün | İçecek/dekor talebi +%25; diğerleri değişmez | Stok ve vardiya hazırlığı |
+| colony_festival / Mahalle festivali | 1 gün | 1 gün | İçecek/dekor talebi +%25; diğerleri değişmez | Stok ve vardiya hazırlığı |
 | research_visit / Araştırma ziyareti | 1 gün | 1 gün | Enerji ürünleri +%20 talep | Kontrat, enerji ürün hattı |
 | harvest_surplus / Bol hasat | 0,5 gün | 2 gün | Meyve/lif tedarik maliyeti −%15 | Stok sınırına göre toplu alım |
 | training_fair / Meslek fuarı | 1 gün | 1 gün | Eğitim maliyeti −%20 | Vardiyalı eğitim |
@@ -693,7 +582,7 @@ Aynı çalışanda eşzamanlı en fazla bir karar olayı. Küresel olarak iki ak
 | mineral_shortage / Mineral kıtlığı | 1 gün | 2 gün | Yeni mineral alımı +%25 maliyet | Tarif karması ve rezerv |
 | grid_maintenance / Şebeke bakımı | 1 gün | 0,5 gün | Kullanılabilir dış güç −%25 | Öncelikli makine listesi |
 | competitor_sale / Rakip kampanya | 0,5 gün | 1 gün | Bir ürün ailesinde talep −%15 | Kalite, çeşitlilik, makul fiyat |
-| habitat_repair / Habitat onarımı | 1 gün | 1 gün | Müşteri gelişleri −%15; temizlik talebi +%20 | Temizlik hattına dönüş |
+| shop_repair / Mağaza onarımı | 1 gün | 1 gün | Müşteri gelişleri −%15; temizlik talebi +%20 | Temizlik hattına dönüş |
 | heat_wave / Sıcaklık dalgası | 1 gün | 1 gün | İçecek talebi +%20; biyohat süresi +%15 | Ön üretim ve kapasite planı |
 | budget_freeze / Kurumsal bütçe durması | 1 gün | 2 gün | Yeni kurumsal kontratlar durur | Perakende ve kooperatif işleri |
 
@@ -733,7 +622,7 @@ newPurchaseCost = baseSupplierCost × eventCostFactor
 
 Talep formülü beklenen istek adedidir; kesin satış değildir. Ürün bulunabilirliği talebi yok etmez, karşılanamayan talep olarak raporlanır. Müşteri oluşumu ve sepet bileşimi aynı olaya iki kere çarpılmaz: küresel geliş etkisi spawn oranına, aile etkisi normalize edilen sepet tercih ağırlıklarına uygulanır.
 
-Örnek denge hesabı: Normalde günlük 100 besin küpü × 8 kredi katkı − 300 sabit gider = 500 kredi net. Durgunlukta 80 satışla 340 kredi; birim değişken maliyet ayrıca 4'ten 5'e çıksaydı 260 kredi olurdu. Bu ikinci hesap stres testidir; yönetici normalde iki olumsuz olayı birlikte başlatmaz. Krizlerin amacı kârı azaltıp düzen değiştirmek; oyuncuyu gerçek para harcamaya zorlamak değildir.
+Yeni su ve tarım ürünleri için olaylı/olaysız kâr karşılaştırması lot maliyeti ve gerçek sarf tanımlandıktan sonra hesaplanır. Yönetici normalde iki olumsuz olayı birlikte başlatmaz. Krizlerin amacı kârı azaltıp düzen değiştirmek; oyuncuyu gerçek para harcamaya zorlamak değildir.
 
 ### 29.4 Oyuncuya sunum ve zorluk
 
@@ -743,8 +632,8 @@ Olay sonunda kısa sonuç: Kaybedilen tahmini satış, kullanılan alternatif ü
 
 ## 30. Yeni sistemlerin uygulama sırası ve kabul testleri
 
-1. Veri kataloğunu tamamla: 24 ürün, 7 ara tarif, 12 araç; ID ve tarif grafiği doğrulayıcısı.
-2. A2'de üç ürün seç: Besin küpü, içme suyu, Nebula içeceği. Biyoyetiştirici ve paketleyiciye şişeleyici eklemek A2'deki önceki iki makine sınırını üçe çıkarır; su hazır başlangıç kaynağıdır, eritici A3'e kalır.
+1. Tier 1–4 yerel ürün kataloğunu tamamla; ID, tedarik, tarif grafiği ve maliyet doğrulayıcısını kur.
+2. P0 su kaynağı, üç şişelenmiş su boyutu ve taze domates satışını kanıtlar; A2 ilk işlenmiş gıda ve mandıra hatlarını açar.
 3. A2'de raf görevlisi ve bir personel olayı; A3'te sekiz rol, yerel geçmişler ve tercih sistemi.
 4. A3'te festival ve durgunlukla EventDirector; A4'te tam olay kataloğu.
 5. A2'de görünüm değiştirme ve test kataloğu; A5'te doğrulanmış platform ödemesi. Gerçek sağlayıcı hazır değilse oyun ücretsiz yayımlanabilir; sahte çalışan ödeme butonu yayımlanmaz.
@@ -872,9 +761,8 @@ Lot kaydı: `lotId, itemId, quantity, quality, source, receivedAt, ageSeconds, a
 
 | Tedarikçi | Ürün | Teslim süresi | Minimum parti | Fiyat ve risk |
 |---|---|---|---:|---|
-| Yerel kooperatif | Su, gıda, biyolojik girdiler | 0,25 gün | 5 | Normal toptan fiyat, sınırlı günlük kapasite |
-| Bölgesel toptancı | 24 nihai ürünün açılmış olanları | 0,75 gün | 10 | Hacim indirimi, taşıma bedeli |
-| Sanayi dağıtıcısı | Cevher, mineral, enerji ürünleri | 0,5 gün | 8 | Sabit kalite, kıtlıktan etkilenir |
+| Yerel kooperatif | Ambalaj, tohum, yerel gıda ve açık tarif girdileri | 0,25 gün | 5 | Normal toptan fiyat, sınırlı günlük kapasite |
+| Bölgesel toptancı | Tier 1–4 kataloğunun açılmış satılabilir ürünleri | 0,75 gün | 10 | Hacim indirimi, taşıma bedeli |
 | Mevsimlik kervan | Seçili tekstil ve dekor | 1 gün | 5 | Takvimi ve fiyatı önceden görünür |
 
 İndirim başlangıcı: 10–19 birim %0, 20–39 %4, 40+ %7. Tedarikçi kotası ve depo kapasitesi sınırsız arbitrajı önler. Aynı siparişi bölerek indirim çoğaltılamaz. Dış ürünler bölüm kilitlerini atlatmaz; aynı ürünün normal açılma koşulu geçerlidir.
@@ -893,7 +781,7 @@ Kabul sırasında miktar ve kalite teklifle karşılaştırılır. Temel sürüm
 
 Karşılaştırma paneli aynı kalitede iki seçeneği gösterir: yerel üretimin değişken maliyeti, makine/işgücü kapasite ihtiyacı, hazır olma süresi; dış alımın ürün + taşıma maliyeti, teslim süresi ve depo ihtiyacı. Sabit giderler karara ikinci kez eklenmez. Üretimin makine kapasitesini başka üründen alması fırsat maliyeti olarak ayrı gösterilir.
 
-Örnek: Besin küpü üretim maliyeti 4, dış alım teslim dahil 7, satış 12 kredi. Üretimde katkı 8, dış alımda 5'tir. Paketleyici doluyken dış alım daha düşük marjla müşteri ihtiyacını karşılar. Bu rakamlar örnektir; oyun anlık lot maliyetlerini kullanır.
+Üretim ile dış alım katkısı yeni su/gıda ürünlerinin gerçek lot, ambalaj ve nakliye maliyetiyle karşılaştırılır. İstasyon doluyken dış alım daha düşük marjla ihtiyacı karşılayabilir; eski küp rakamları kullanılmaz.
 
 ## 34. Depolayıp uygun zamanda satma ve ticaret stratejisi
 
@@ -932,7 +820,7 @@ Tahmin son üç günün karşılanmış ve karşılanamamış talebini kullanır
 
 ### 34.3 Raf ömrü ve stok eritme
 
-A2'de bozulma yoktur. A3'te isteğe bağlı raf ömrü açılır: yosun/meyve 3 gün, açık gıda 4 gün, paketli gıda/içecek 8 gün; tekstil, pil ve dekor bozulmaz. Tarif kataloğundaki gıdalar varsayılan paketlidir. Raf ömrü üretim/kabul anında başlar; satın alma teklifinde teslimde kalan ömür belirtilir.
+A2'de bozulma yoktur. A3'te isteğe bağlı raf ömrü açılır. Taze hasat, açık gıda ve paketli içecek için süreler yeni ürün verisiyle belirlenir; dokuma ürünleri bozulmaz. Raf ömrü üretim/kabul anında başlar; satın alma teklifinde teslimde kalan ömür belirtilir. Tanımsız raf ömrü sıfır varsayılamaz.
 
 Soğukta biyolojik ve gıda ürünlerinin yaşlanması normalin %50'sidir. Ürünü depolar arasında taşımak yaşını sıfırlamaz. Elektrik yoksa yaşlanma normal hıza döner; geçmiş ömür bir anda kaybolmaz. İlk %10 kalan ömürde uyarı; sıfırda ürün satılamaz ve atık kaydı oluşturulur. Atığı kaldırmak oyuncu işi veya lojistik görevidir; ücretsiz kurtarma mekanizmasını engellemez.
 
@@ -962,7 +850,7 @@ Eski kayıtta lot yoksa mevcut miktar için bir geçiş lotu oluştur; eski kay�
 
 ### 35.3 Güncel aşama kapsamı
 
-- A2: Önceki üç ürünlü döngüye tek kuru depo rafı, tek yerel tedarikçi, manuel satın alma, lot maliyeti, iki koltuklu dinlenme köşesi ve temel yorgunluk eklenir. İlk tedarik öğretimi içme suyu üzerindedir. Dekor yalnız bir bitki ve ışıkla gösterilir; vardiya otomasyonu ve bozulma yoktur.
+- A2: P0'ın su ve domates döngüsüne ilk işlenmiş gıda, kümes/mandıra, tek kuru depo rafı, tek yerel tedarikçi, manuel satın alma, lot maliyeti, iki koltuklu dinlenme köşesi ve temel yorgunluk eklenir. İlk tedarik öğretimi açık bedelli ambalaj veya tohum üzerindedir. Vardiya otomasyonu ve bozulma yoktur.
 - A3: Tam oda etkileri, vardiyalar, soğuk depo, opsiyonel raf ömrü, otomatik sipariş ve satış politikaları; ekonomik olaylarla entegrasyon.
 - A4: Tam tedarikçi ve oda kataloğu, personel anlatıları, festival ticareti ve final kontratları.
 - A5: Kayıt göçleri, erişilebilirlik, yoğun stok/ajan performansı, ticaret istismarları ve ödeme ayrımı doğrulaması.
@@ -1017,81 +905,9 @@ Sürüm 1.3 durum notu: Bu rapordaki ekonomi tablosu, fiyat tepkileri, ürün ik
 
 Çok oyunculu, açık dünya, gerçek zamanlı çevrimdışı kayıp, gelişmiş sıvı fiziği, hisse senedi piyasası ve onlarca ek ihtiyaç çubuğu ilk sürüm hedefini büyütür. Çekirdek market–üretim–personel–depo döngüsü test edilmeden bu alanlara girilmemelidir. Yeni mekanik ekleme ölçütü: Mevcut kararı derinleştirmesi, açık geri bildirim vermesi ve oyuncunun iş yüküne değmesi.
 
-## 37. Hesaplanabilir ekonomi denge tablosu
+## 37. Yerel ürün ekonomisini yeniden dengeleme
 
-### 37.1 Ortak hesap kuralları
-
-Bu bölüm fiyat ve maliyetler için güncel başlangıç referansıdır. Değerler test hipotezidir; aritmetik doğrulama oynanış dengesinin doğrulanması değildir. Standart kalite, seviye I makineler ve sübvansiyonsuz enerji esas alınır. Personel, bakım ve oda giderleri aşağıdaki değişken maliyetlerden ayrıdır. Ambalaj sarfı ilk sürümde 0'dır; eklenirse bütün tarif ağacı yeniden hesaplanır.
-
-| Ham kaynak | Teslim dahil birim maliyet | Tedarik |
-|---|---:|---|
-| Buz | 2,00 | Yerel kaynak noktası |
-| Spor | 6,56 | Kooperatif |
-| Meyve tohumu | 6,00 | Kooperatif |
-| Lif tohumu | 4,00 | Kooperatif |
-| Cevher | 5,00 | Sanayi dağıtıcısı |
-| Mineral | 4,00 | Sanayi dağıtıcısı |
-| Reçine | 3,00 | Bölgesel toptancı |
-| Pigment | 2,00 | Bölgesel toptancı |
-
-Nihai ürün normal toptan bedeli referans perakendenin %65'idir. Nakliye 5 kredi/sipariş, sipariş kapasitesi 40 birimdir. Tablo 10 birimlik siparişte birim 0,50 taşıma kullanır; gerçek miktar ve bölüm 33 hacim indirimi işlemde hesaplanır. Referans perakende fiyatı oyuncunun raf fiyatından bağımsızdır; fiyat şişirerek tedarik veya kontrat değeri artırılamaz.
-
-### 37.2 Ürün tablosu
-
-Ara ürün maliyetleri yuvarlanmadan sonraki tarife taşınır. Ekran iki ondalık, ledger en az dört ondalık sabit hassasiyet kullanır; ödeme toplamı en küçük para birimine yuvarlanır. Katkı sabit gider öncesidir, net kâr değildir.
-
-| Ürün | Üretim maliyeti | Referans satış | Üretim katkısı | Toptan alış | Dış alım katkısı* |
-|---|---:|---:|---:|---:|---:|
-| Besin küpü | 4.00 | 12.00 | 8.00 | 7.80 | 3.70 |
-| Yosun krakeri | 4.54 | 15.00 | 10.46 | 9.75 | 4.75 |
-| Meyve barı | 3.90 | 18.00 | 14.10 | 11.70 | 5.80 |
-| Sefer öğünü | 10.97 | 40.00 | 29.03 | 26.00 | 13.50 |
-| İçme suyu | 1.06 | 5.00 | 3.94 | 3.25 | 1.25 |
-| Nebula içeceği | 3.83 | 14.00 | 10.17 | 9.10 | 4.40 |
-| Mineral içeceği | 3.07 | 12.00 | 8.93 | 7.80 | 3.70 |
-| Festival nektarı | 4.67 | 24.00 | 19.33 | 15.60 | 7.90 |
-| Temizleyici | 3.56 | 14.00 | 10.44 | 9.10 | 4.40 |
-| Biyosabun | 2.05 | 10.00 | 7.95 | 6.50 | 3.00 |
-| Filtre jeli | 10.12 | 24.00 | 13.88 | 15.60 | 7.90 |
-| Bakım seti | 5.77 | 32.00 | 26.23 | 20.80 | 10.70 |
-| Ev pili | 9.42 | 24.00 | 14.58 | 15.60 | 7.90 |
-| Çalışma lambası | 12.70 | 36.00 | 23.30 | 23.40 | 12.10 |
-| Taşınır şarj cihazı | 13.68 | 38.00 | 24.32 | 24.70 | 12.80 |
-| Enerji bakım kiti | 23.34 | 72.00 | 48.66 | 46.80 | 24.70 |
-| Termal eldiven | 3.73 | 20.00 | 16.27 | 13.00 | 6.50 |
-| İş önlüğü | 7.39 | 42.00 | 34.61 | 27.30 | 14.20 |
-| Yalıtımlı çanta | 10.41 | 50.00 | 39.59 | 32.50 | 17.00 |
-| Sefer ceketi | 12.79 | 65.00 | 52.21 | 42.25 | 22.25 |
-| Habitat süsü | 5.16 | 18.00 | 12.84 | 11.70 | 5.80 |
-| Renkli panel | 4.10 | 16.00 | 11.90 | 10.40 | 5.10 |
-| Yumuşak minder | 5.44 | 28.00 | 22.56 | 18.20 | 9.30 |
-| Işıklı süs | 10.62 | 36.00 | 25.38 | 23.40 | 12.10 |
-
-*Dış alım katkısı taşıma dahil, hacim indirimsizdir. İleri tarifte girdi olarak kullanılan satılabilir ürünün maliyeti raf fiyatı değil lot maliyetidir. Vazgeçilen satış katkısı ayrı fırsat maliyetidir.
-
-Kontrol: su=(2+0,04)/2=1,02; yosun=(1,02+6,56+0,10)/4=1,92; küp=2×1,92+0,16=4,00. Bu değerler bölüm 11'deki küp maliyeti hedefini karşılar. Kalite bonusları, olaylar ve verim yükseltmeleri sapma olarak raporlanır.
-
-### 37.3 Talep, gider ve büyüme çerçevesi
-
-| Bölüm | Baz ziyaret/gün | Ortalama ihtiyaç satırı/ziyaret | Satılan birim hedefi/gün | Personel hedefi |
-|---|---:|---:|---:|---:|
-| 1 | 56 | 1,0 | 35–50 | 0–1 |
-| 2 | 80 | 1,4 | 70–95 | 1–3 |
-| 3 | 110 | 1,6 | 115–150 | 3–5 |
-| 4 | 140 | 1,8 | 170–215 | 5–8 |
-| 5+ | 160 | 2,0 | 215–270 | 6–10 |
-
-İhtiyaç sayısı dağılımları: bölüm 2 bir satır %60/iki satır %40; bölüm 3 bir %40/iki %60; bölüm 4 bir %40/iki %40/üç %20; bölüm 5 bir %25/iki %50/üç %25. Her ihtiyaç bir birim ürün ister. Ziyaret satış garantisi değildir. 900/56≈16,1 sn başlangıç müşteri aralığıdır.
-
-Aile ihtiyaç ağırlıkları gıda %30, içecek %25, temizlik %15, enerji %12, tekstil %10, dekor %8. Kilitli aileler çıkarılıp kalanlar normalize edilir. Ürünlerin aile içi başlangıç ağırlıkları eşittir; needTags uyumluluğu uygulanır. Yüksek marjlı tekstilin sınırlı talebi, bütün marketi cekete çevirmenin otomatik üstünlüğünü engeller.
-
-İlk satış odası günlük kira 0; ek her oda günlük 4 kredi altyapı gideri. Personel ücretleri bölüm 27; soğutma enerji gideri bölüm 33; bakım fiilen yapıldığında giderleşir. Bakım için ayrılan kredi rezervi ikinci bir gider değildir.
-
-Örnek bölüm 2 planı: 30 küp + 30 su + 15 Nebula satışının üretim katkısı 510,80; raf görevlisi 60 + kasiyer 65 + üç ek oda 12 =137 sabit gider; bakım/fire öncesi 373,80 kredi sonuç. Bu gerçekleşmiş veya garantili satış değil, hedef senaryodur.
-
-Temel yükseltme için bölüm 2'de 1–3 sağlıklı oyun günü; büyük oda+hat yatırımı için bölüm 4'te 3–6 gün birikim hedeflenir. Makine bedeli bölüm 26'dır. Hedef tutmazsa önce ziyaret, sepet ve kapasite ölçülür. Fiyatlar oyuncunun nakdine göre gizlice değiştirilmez.
-
-Üretim kararı için metrik: beklenen satılabilir katkı / darboğaz makine dakikası. Satılmayacak sınırsız çıktı hesaba katılmaz. Dış alım daha düşük katkı karşılığında makine zamanı kazandırır; stokta bağlı kredi ve raf ömrü iki yol için de değerlendirilir.
+Eski buz, yosun, besin küpü ve ileri teknoloji SKU maliyet tablosu yeni §26 ile geçersizdir. [Yerel ürün ağacındaki](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md) fiyat ve maliyet sütunları yalnız hipotezdir. Önce ham su debisi, ambalaj maliyeti, tarla verimi, makine sarfı ve tedarik bedeli tamamlanır. Sonra her tarifi lot bazında yeniden hesaplayan doğrulayıcı fiyat, katkı, darboğaz ve kurtarma raporu üretir. Bu hesap çalışmadan eski 4 kredi küp maliyeti veya eski günlük kâr senaryoları hedef alınmaz.
 
 ## 38. Müşteri fiyat tepkisi ve bütçe modeli
 
@@ -1127,30 +943,35 @@ Fiyat alanı 0,01–3×kalite uyarlanmış referans aralığındadır. Maliyet a
 
 Kayıp satış sebepleri ayrı tutulur: stok yok, bütçe yetmedi, fiyat reddedildi, uygun ikame yok, kuyrukta vazgeçildi. Pahalı fiyat tek başına kalıcı itibar cezası vermez; düşük hacim-yüksek marj stratejisi mümkündür. Ürün fiyatını oynatmanın etkisi panelde tahmin aralığıyla gösterilir, kesin satış sözü verilmez.
 
+### 38.4 Fiyat etiketi ve serbest esnaf fiyatı (A3)
+
+Oyuncu raf üstündeki küçük tabelaya dokunarak DOM fiyat panelini açar. Panel seçili SKU, mevcut fiyat, referans/adil fiyat, varsa birim maliyet ve beklenen talep etkisini gösterir. Piyasa, İndirimli/Sürüm ve Pahalı/Kazık seçenekleri kaliteye uyarlanmış referans fiyatın sırasıyla **1,00× / 0,80× / 1,50×** katını seçer. Bunlar Orbit'in A3 başlangıç denge hipotezleridir, benzer oyunlardan alınmış sayılar veya doğrulanmış denge değildir. Oyuncu §38.2 aralığında ayrıca fiyat girebilir; mevcut kabul denklemi korunur. Değişiklik yalnız sonraki müşteri seçimlerini etkiler; sepete alınan fiyat kilitli kalır. Geçersiz değer veya değişmiş raf durumu onayda reddedilir.
+
+Piyasa fiyatı mevcut akışı korur. İndirimli/Sürüm fiyatında, aynı taban ziyaret ve kapasite koşullarında ilgili rafın **ortalama kuyruk uzunluğu hedefi +%50**'dir; her anda tam %50 artış garantisi değildir. Mevcut bütçe/kabul denklemi ve ziyaret sınırları geçerlidir; ek spawn veya ikinci kabul zarı uygulanmaz. Hedef gerçekleşmezse fiili kuyruk ve kayıp satış görünür. Pahalı/Kazık fiyatı §38.2 testinde reddedilen müşteriyi rafta baş sallama ve “Bu salça çok pahalı komşu!” sözüyle çıkışa yönlendirir; metin SKU'ya uyarlanır. Stok/para değişmez, pahalı fiyat tek başına itibar cezası vermez. Az hareket ve sessiz ayarlarda neden metinle görünür.
+
+### 38.5 Raf ürünü kilidi ve mahalle aşırma olayı (A3)
+
+Raf tek SKU'ya kilitlenebilir: “Bu raf sadece 0,5 L Su içindir”. Oyuncu ve görevli transferi aynı filtreden geçer; uyumsuz lot hedefe bırakılamaz. Dolu rafın kilidi mevcut ürünle uyumsuz kimliğe sessizce çevrilmez; önce güvenli boşaltma istenir. Kilidi kaldırmak stok/rezervasyon silmez. Etiket gerçek atanmış SKU'yu gösterir.
+
+Seed'li ve sınırlı aşırma olayında şüpheli müşteri uygun satılabilir üründen **rezerve edilmemiş** bir lotu alıp kapıya gider. A3 başlangıç hedefi katalogdaki `item.aged_cheese` peyniridir. Akü, içerik kataloğunda SKU kimliği ve üretim/tedarik yolu tanımlanana kadar uygun hedef değildir. Olaylar açık ve uygun stok mevcutsa her oyun gününde seed ile **%20 olay olasılığı** değerlendirilir; günde en çok bir olay başlar. Ürün alındıktan kapıdan çıkışa kadar **en az 12 aktif saniye** yakalama fırsatı tanınır; rota daha kısaysa çıkış bu süre dolana kadar bekler. Raf adedi azalması ve şüphelinin taşıdığı lot tek kalıcı işlemle kaydedilir. Oyuncu veya erişebilen bakkal çırağı şüpheliye dokunup kapıdan önce yakalarsa “Hop hemşerim nereye!” geri bildirimiyle aynı lot raf/depo kapasitesine iade edilir. Yer yoksa lot yakalayanda veya güvenli bekleme konumunda kalır; çoğalmaz. Kapıdan çıkış kayıp stoktur, satış/ciro değildir. Yakalanamayan olay temel üretim yolunu kalıcı kilitlemez. Olay kapalıysa doğmaz. Olasılık ve süre A3 başlangıç denge hipotezleridir; oyuncu testinde ayarlanır.
+
+### 38.6 Mahalle veresiyesi ve banka kredisi (A3)
+
+Yerleşim Kooperatifi sandığı ve Ticaret Konsorsiyumu bankası yalnız **oyun içi kredi** verir; gerçek para, reklam veya mağaza harcamasıyla bağlantılı değildir. A3 erişimi açıldığında iki teklif de görünür: Kooperatif **100 kredi anapara, sıfır faiz/ücret, toplam 100 kredi**; Konsorsiyum **300 kredi anapara, bir defalık %5 (15 kredi) ücret, toplam 315 kredi** geri ödeme. Sabit gün vadesi, gecikme cezası ve işleyen faiz yoktur. Aynı anda en çok **bir etkin borç** bulunur; sonraki çekim ancak bakiye sıfırlandıktan sonra açılır. Teklif anaparayı, toplam geri ödemeyi, ücreti, etkin bakiyeyi ve beklenen kesintiyi onaydan önce gösterir. Çekim anaparası ile yükümlülük tek transaction'da kaydedilir. Tutar ve ücretler A3 başlangıç denge hipotezidir; gerçek oynanış ölçümüyle ayarlanır.
+
+Her oyun günü sonunda, o gün tahsil edilen **brüt satış cirosunun %10'u**, kalan borç ve eldeki nakitten küçük olan tutar kadar kesilir. Satış yoksa kesinti sıfırdır; gün sonu aynı kimlikle ikinci kez çalışınca ikinci ödeme oluşmaz. Borç çekimi, yardım, iade, kontrat geliri ve aşırma kaybı satış cirosu değildir. Kesinti negatif bakiye, gizli gecikme cezası veya bileşik borç yaratmaz. Gün sonu raporu brüt ciro, kesinti ve kalan borcu ayrı gösterir. Borç §48.4 ücretsiz yardım ve elle çalışma yolunu kapatmaz.
+
 ## 39. Ürün ikamesi ve ihtiyaçların karşılanması
 
-İhtiyaçlar: susuzluk, hızlı beslenme, uzun sefer, ev temizliği, teknik filtreleme, taşınır enerji, iş kıyafeti ve dekorasyon. Ürünler needTags ve substitutionGroup içerir. Aynı ailede olmak tek başına uyumluluk sağlamaz.
+Ürünler needTags ve substitutionGroup içerir. Aynı ailede olmak tek başına ikame hakkı vermez. İlk A2 ikamesi, müşterinin ihtiyacı ve ürünün fiziksel boyutu uygunsa küçük su ile 5 L su arasında açık oranla tanımlanır; 19 L damacana otomatik küçük su ikamesi değildir. İkame oranı, bütçe etkisi ve SKU erişimi katalogda tanımlanmadan devreye alınmaz.
 
-| İlk tercih | Alternatif | Benzerlik s | Koşul |
-|---|---|---:|---|
-| Nebula içeceği | Su / mineral içeceği | 0,75 / 0,90 | Susuzluk ihtiyacı |
-| Besin küpü | Kraker / meyve barı | 0,90 / 0,85 | Hızlı beslenme |
-| Temizleyici | Biyosabun | 0,70 | Ev temizliği, teknik iş değil |
-| Habitat süsü | Panel / ışıklı süs | 0,75 / 0,90 | Dekorasyon |
-| İş önlüğü | Termal eldiven | 0 | Farklı koruma ihtiyacı; yasak |
-| Taşınır şarj cihazı | Ev pili | 0 | Cihaz uyumu yok; yasak |
-
-İlk ürün yoksa veya reddedilmişse alternatif kabulü `Padjusted=sigmoid(2−ε×(r−1)−2×(1−s))`. Uyumsuz aday tamamen çıkarılır. Kalan adaylar Padjusted azalan, eşitlikte düşük fiyat ve kararlı SKU kimliğiyle sıralanır. En fazla iki alternatif, ilk ihtiyaçta çekilen aynı eşikle kontrol edilir; yeni bağımsız şans verilmez. Alternatifin fiyatı kendi bütçe kontrolüne tabidir.
-
-Bir alternatif satın alınca ilk ihtiyaç kapanır; aynı ihtiyaç için ikinci ürün satılmaz. Aynı SKU'nun on rafta bulunması on aday yaratmaz. İkame ucuz olduğu için daha kabul edilebilir olabilir; bu gerçek fiyat/çeşit avantajıdır.
-
-Talep günlüğü orijinal ihtiyaç, ilk SKU, gerçekleşen SKU ve ikame nedenini saklar. Sipariş tahmini hem orijinale hem alternatife tam satış yazarak talebi iki katına çıkarmaz. Kontrat/final ikamesi bu perakende tablosundan değil kendi sözleşmesinden gelir.
+İlk ürün yoksa veya reddedilmişse uygun alternatif aynı önceden çekilmiş kabul eşiğiyle değerlendirilir; yeni bağımsız şans yaratılmaz. En fazla iki alternatif gösterilir. Bir alternatif alınca ilk ihtiyaç kapanır; aynı ihtiyaç ikinci satış oluşturmaz. Kontrat ikamesi kendi sözleşmesinden gelir; bu sürümde final teslimi ikamesizdir.
 
 ## 40. Bakım, aşınma ve planlı duruş
 
 ### 40.1 Aşınma
 
-Makine aşınması W=0–100. Yalnız Running durumunda artar: eritici ve biyoyetiştirici 1 puan/aktif dakika, diğer makineler 2 puan/aktif dakika. Duraklama, elektrik kesintisi, çıktı bekleme ve çevrimdışı süre artış yaratmaz. Taşıma, görünüm veya yükseltme mevcut aşınmayı sıfırlamaz.
+Makine aşınması W=0–100. Yalnız Running durumunda artar; yeni istasyonların aktif dakika başına aşınma değerleri içerik verisinde belirlenir. Duraklama, elektrik kesintisi, çıktı bekleme ve çevrimdışı süre artış yaratmaz. Taşıma, görünüm veya yükseltme mevcut aşınmayı sıfırlamaz.
 
 | Aşınma | Durum | Etki |
 |---|---|---|
@@ -1193,9 +1014,7 @@ Avans/depozito ilk sürümde yoktur. Kabul edilen ürün miktarı kadar ödeme y
 
 ### 41.2 Fırsat maliyeti
 
-20 küpün maliyeti 80; perakende tam satış katkısı 160; kontrat fiyatı 9,84 ve katkısı 116,80'dir. Perakendede yalnız 12 satış bekleniyorsa gerçekleşen katkı 96 ve elde 8 stok kalır. Kontrat daha düşük marj karşılığında kesin alım sağlar; kalan stok doğrudan zarar sayılmaz.
-
-Karar paneli serbest stok, girdi nakdi, darboğaz makine saniyesi, mola/bakım dahil bitiş tahmini ve vazgeçilebilecek perakende katkısını gösterir. Aynı makine iki projeye tam kapasite yazılamaz. Tahmin hata aralığı içerir.
+Yeni ürün ağacında kontrat/perakende karşılaştırması gerçek lot maliyeti, ambalaj/sarf, makine zamanı ve beklenen raf talebiyle hesaplanır. Eski küp örneği geçerli değildir. Karar paneli serbest stok, girdi nakdi, darboğaz süresi ve vazgeçilebilecek perakende katkısını gösterir. Aynı makine iki projeye tam kapasite yazılamaz; tahmin hata aralığı içerir.
 
 ### 41.3 Tahsis ve rezervasyon
 
@@ -1203,47 +1022,19 @@ Varsayılan sıra: müşteri sepeti → teslimine bir günden az kalan kontrat �
 
 Fiziksel stok rezervasyonu mevcut miktarı aşamaz; gelecek üretim taahhüdü ayrı tutulur. Final stoğu kullanıcı açıkça ayırmadıkça otomatik çekilmez. Teslim komutu lotları ve kalan sözleşme adedini atomik azaltır, tek işlem kimliğiyle ödeme yazar. Uzatma, kısmi teslim ve rezervasyon kayıtla korunur.
 
-## 42. Kesin final hedefleri
+## 42. Üç finalin yerel ürün ağacına uyarlanması
 
-### 42.1 Açılış ve akış
+Kooperatif, yerel araştırma ve bölgesel ticaret yolları; dört kısmi sevkiyat dalgası, stok rezervasyonu, tekil yatırım ve hizmet sınavı yapısını korur. Eski teknoloji ürünü teslim listeleri geçersizdir. Yeni hedefler yalnız §26 kataloğunda erişilebilir ürünlerden seçilir:
 
-Bölüm 4 krizi çözülmüş, 12 farklı SKU satılmış, üç aile açılmış ve bir normal kontrat tamamlanmış olmalıdır. Kaçırılabilir eski görev şartı yoktur. Bir topluluk seçimi diğer final yollarını kalıcı kilitlemez. İlk sonuç ana final olur, diğerleri serbest oyunda yan proje olarak tamamlanabilir.
+| Proje | Dört dalganın toplam teslimi | Her dalganın satırları | Tekil yatırım |
+|---|---|---|---:|
+| Kooperatif merkezi | 40 küçük su + 20 adet 5 L su + 40 domates + 20 köy somunu | 10 + 5 + 10 + 5 | 300 kredi |
+| Yerel araştırma merkezi | 20 damacana + 20 zeytinyağı + 20 tütsülenmiş alabalık + 20 balmumlu branda | Her birinden 5 | 400 kredi |
+| Bölgesel ticaret merkezi | 40 üzüm pekmezi + 20 pastırma + 20 yün şal + 20 kahvaltı tepsisi | 10 + 5 + 5 + 5 | 600 kredi |
 
-Her projede dört sevkiyat dalgası; her dalga aşağıdaki toplamın dörtte biridir. Hazırlığın süre sınırı yoktur. Teslimler tamamlanınca oyuncu bir günlük hizmet sınavını başlatır. Başarısızlıkta yalnız sınav tekrarlanır, yatırım ve teslimler korunur. Aktif olumsuz olay varsa erteleme sunulur; sınav günü yeni ekonomik olay başlatılmaz.
+Her hedef SKU katalogdaki tam kimliğiyle kaydedilir. Standart kalite yeterlidir; üretim veya açık bedelli dış alım kabul edilir. Hazırlığın süre sınırı yoktur; kısmi teslim tek lotu iki kez kullanmaz ve başarısız hizmet sınavı teslimi silmez. Bu adet ve yatırımlar denge hipotezidir, oyuncu testi başarısı değildir. İlk prototipin 3–8 dakikalık döngüsüyle final sevkiyat süresi karıştırılmaz.
 
-| Final | Kesin toplam teslim | Proje yatırımı | İtibar | Sonuç |
-|---|---|---:|---:|---|
-| Kooperatif merkezi | 600 küp + 300 su + 200 biyosabun + 120 eldiven | 1.800 | Kooperatif 40/100 | Ortak tedarik ağı |
-| Araştırma lojistik üssü | 200 pil + 160 filtre jeli + 80 şarj cihazı + 60 sefer öğünü | 400 | Araştırma 40/100 | Bilim sefer merkezi |
-| Bölgesel ticaret merkezi | 160 nektar + 120 sefer ceketi + 60 ışıklı süs | 2.400 | Konsorsiyum 40/100 | Bağımsız dağıtım ağı |
-
-Standart kalite yeterlidir; iyi kalite ek unvan verir, finali kilitlemez. Ürünler üretilebilir veya dışarıdan alınabilir. Referans raf değerleri 13.100 / 14.080 / 13.800 kredidir; bunlar ödeme değildir. Final malları bağış/proje yatırımıdır, normal satış geliri yaratmaz. Sonuç ödülü tema, unvan, sahne ve serbest oyundur. Her proje bir kez ödül verir.
-
-Yatırım bedelleri farklıdır: araştırma yolu pahalı mineral/iletken girdileriyle, ticaret yolu yüksek tesis bedeliyle dengelenir. Üretim maliyeti + proje yatırımı sırasıyla yaklaşık 5.375,20 / 5.655,60 / 5.319,60 kredidir; makine yatırımı, personel, bakım ve kaçırılan perakende hariçtir. Dış alım yolu ayrı fiyat ve zaman avantajı taşır, aynı toplam bedel garanti edilmez. Başlangıçta projenin bütün maliyeti önizlenir; yatırım yalnız onayda bir kez düşer.
-
-### 42.2 Hizmet sınavı
-
-Sınav gününde normal spawn yerine 60 script ziyaretçi, toplam 80 ihtiyaç satırı oluşur: 40 tek ihtiyaçlı ve 20 çift ihtiyaçlı ziyaretçi. Kuyruk sabrı ve profil dağılımları bölüm 38'e uyar. Açıkça gösterilen bu sınav istisnasında 80 kabul eşiği `(i+0,5)/80`, i=0..79 olarak oluşturulur ve seed ile ihtiyaçlara dağıtılır. Böylece adil fiyatta yaklaşık 70 ihtiyaç kabul edilebilir olur; kötü zar yüzünden temel sınav imkânsızlaşmaz. Sepet ve bütçe ataması kaydedilir. Ölçümlerde yalnız sınav cohort'u kullanılır.
-
-Başlangıçta üç ailenin 30/25/25 ihtiyaç satırı gösterilir. Kooperatifte gıda/içecek/temizlik; araştırmada enerji/gıda/temizlik; ticarette içecek/tekstil/dekor kullanılır. İlgili proje seçildiğinde bu aileler erişilebilir olmalıdır. Bütçe kontrolü tek ürün değil tüm sepetin toplam referans fiyatıyla yapılır; profil aralığında geçerli sepetler atanır. Her aileye adil fiyatta en az 15 kabul edilebilir ihtiyaç düşecek şekilde eşikler dağıtılır. Fiyat artışı, stok ve hizmet sonucu yine normal kurallarla değiştirir. Sınav planı başlamadan görülebilir; geçerli plan üretilemiyorsa sınav başlamaz ve içerik doğrulama hatası raporlanır.
-
-Ortak başarı: 80 ihtiyacın en az 64'ü karşılanmalı; satış tamamlayan müşterilerde medyan kuyruk beklemesi ≤25 sn; kuyruk nedeniyle ayrılan en fazla 6 müşteri. Az müşteri alarak beklemeyi düşürmek ilk koşulu aşamaz. Oyuncu bizzat çalışabilir; otomasyon zorunlu değildir.
-
-Yola özgü ek koşullar:
-
-- Kooperatif: Gıda veya suyun tamamen tükendiği toplam süre ≤120 sn. Birleşik zaman ölçülür; arada bir ürün koymak geçmiş boşluğu sıfırlamaz.
-- Araştırma: Sınav gününde 20 pil üret veya 20 dış alım pili kabul/kalite kontrolünden geçir. Bu piller önceden teslim edilmiş sayılmaz; sınav için ayrılmış ek 20 birimdir ve sınav sonrası normal stok olarak oyuncuda kalır. Harcanan tüketim değildir.
-- Ticaret: Seçili üç ailenin her birinden en az 10 satış; tek aile toplam ürün satışının %70'ini aşmamalı.
-
-Rahat modda medyan bekleme ≤40 sn, kooperatif boşluk ≤180 sn. Hikâye sonucu değişmez. Duraklatma serbest; mod değişikliği teslimleri silmez. Sınav başarısızsa hangi ölçütün kaç farkla kaçtığı raporlanır.
-
-### 42.3 Kurtarma görevleri ve açık ikame
-
-İtibarı 40 altında olan her final topluluğu için günde bir kez 10 su veya 10 küp tedarik görevi açılır. Görev teslim edilen lotun belgelenmiş maliyetini geri öder ve +2 itibar verir; kâr yaratmaz, ürün ve kredi eşit değerle değişir. Maliyet muhasebesi doğrulanır. Eşik 40 olduğunda görev kapanır. Geçmiş hikâye seçimleri bu kurtarma yolunu kapatmaz.
-
-Her dalgada bir hedef satırının en fazla %20'si, aşağı yuvarlanmış adetle değiştirilebilir: küp→1 kraker; su→1 mineral içeceği; sabun→1 temizleyici; eldiven→1 önlük; pil→1 şarj cihazı; filtre jeli→1 bakım seti; şarj cihazı→2 pil; sefer öğünü→3 küp; nektar→2 Nebula; ceket→2 önlük; ışıklı süs→2 habitat süsü.
-
-Ok hedef ürün yerine teslim edilecek alternatifi gösterir. Bu envanter dönüştürme tarifi değildir; doğrudan özgün hedef satırının tamamlanma puanıdır. İkame zincirlenemez ve aynı lot iki satırı kapatamaz. Kalan limit ve yeni maliyet önizlenir.
+İtibar kurtarması: İtibarı 40 altında kalan her topluluk için günde bir kez 10 küçük su veya 5 taze domates teslimi, lotun belgeli maliyetini geri öder ve +2 itibar verir; kâr üretmez. Perakende ikamesi final teslimine uygulanmaz; bu üç projenin teslim satırlarında ikame yoktur. Böylece aynı lotun iki hedefe sayılması veya su boyutlarının bedelsiz dönüşümü engellenir.
 
 ## 43. Darboğazları gösteren işletme haritası
 
@@ -1286,16 +1077,13 @@ Veri tipleri: EconomyBalanceDefinition, CustomerNeedDefinition, SubstitutionRule
 
 ### 44.1 Hedefli kabul kontrolleri
 
-1. 31 tarif hesaplanır; 24 nihai ürün referansta pozitif katkı taşır. Küp 4,00; su 1,06; enerji kiti 23,34 maliyet çıkar.
-2. r=1 kabulü yaklaşık %88,08; r=2 her profilde düşüktür. 10.000 seed deneyi teorik değere toleransla yaklaşır.
-3. Aynı SKU'yu çok rafa koymak yeni kabul denemesi sağlamaz; tek ihtiyaç iki satış üretmez, bütçe aşılmaz.
-4. Sepette fiyat kilitli; olay/itibar iki kez sayılmaz. İkame tahmini iki kat tedarik üretmez.
-5. 2 puan/dk aşınan makine 30 aktif dakikada W=60, 50'de W=100 olur. Taşıma/yükleme sıfırlamaz.
-6. Servis ortasında kayıt tekrar gider yaratmaz. Acil toparlama stok çoğaltmaz; sat-al yenileme döngüsü kazanç vermez.
-7. 20 küp kontratı 196,80 gelir, 116,80 katkı; tekrar teslim ikinci ödeme yazmaz.
-8. Final miktarları dört dalgaya tam bölünür; üretim ve dış alım yolları erişilebilir; başarısız sınav teslimleri silmez.
-9. Finalde hiç satış yapmadan beklemeyi düşürmek geçiş sağlamaz. İkame zincirlenmez; araştırma sınavı pilleri teslim edilmiş stoktan tekrar sayılmaz.
-10. OutputBlocked/depo dolu örneğinde harita yanlış makine alımı önermez; veri yokken kesin neden veya yüzde üretmez.
+1. Tier 1–4 tariflerinde eksik kaynak, negatif miktar, döngü, istasyonsuz işlem ve ücretsiz ambalaj yoktur. Eski 31 tarif/24 ürün maliyet testi geçersizdir.
+2. Aynı ham su lotu şişeleme ve sulamada iki kez kullanılamaz; debi yükseltmesi geçmiş zamanı doldurmaz.
+3. Küçük/5 L/19 L su girdi oranları 1/4/12'dir; litre karşılığı ayrıca tanımlanır.
+4. Aynı SKU'yu çok rafa koymak yeni kabul denemesi sağlamaz; sepet bütçesi aşılmaz.
+5. Servis ortasında kayıt tekrar gider yaratmaz; acil toparlama stok çoğaltmaz.
+6. Kontrat ve final teslimi idempotenttir; başarısız hizmet sınavı teslimleri silmez.
+7. OutputBlocked/depo dolu durumda teşhis yanlış makine alımı önermez.
 
 ### 44.2 Denge deney matrisi ve kalan belirsizlik
 
@@ -1324,7 +1112,7 @@ Her mekanik şu zincire bağlanır: görünür müşteri/yerleşim ihtiyacı →
 | İtibar | Kontrat, topluluk görevi, hikâye kararı | İlişki ve proje erişimi | Final seçimi ve diyalog |
 | Olay | Ön haber ve açık ekonomik değişim | Geçici plan değişikliği | Stok, vardiya ve ürün karması |
 | İşletme haritası | Gerçek işlem ölçümleri | Kanıtlı sorun/çözüm önerisi | Bir sonraki oyuncu kararı |
-| Final | İşletme birikimi ve tercih | Kolonide görünür değişim | Serbest oyun ve başarı hedefi |
+| Final | İşletme birikimi ve tercih | Mahallede görünür değişim | Serbest oyun ve başarı hedefi |
 
 ### 45.2 Oyuncunun rolü ve oturum ritmi
 
@@ -1340,32 +1128,21 @@ Mağaza her günün tamamında açık olabilir; tek personelin 720 sn çalışma
 
 Kredi fiziksel kapasite satın alır. Karakter XP'si oyuncunun uzmanlığını ilerletir. Araştırma puanı (AP) teknik seçenekleri açar. İtibar ilişkiyi ve final yolunu temsil eder. Aynı yükseltme için dördünün birden istenmesi yasaktır; temel içerik en fazla bölüm erişimi + kredi/AP koşulu taşır. Hiçbir temel üretim dalı belirli karakter becerisini zorunlu kılmaz.
 
-### 46.2 Bölüm geçişleri ve kesin erişim
+### 46.2 Bölüm geçişleri ve erişim
 
-| Geçiş | Somut koşul | Otomatik ödül/erişim |
-|---|---|---|
-| Başlangıç | Yeni kayıt | 600 kredi, kasa, raf, teslim dolabı, geçici 8 E güç, 12 küp, 20 su, 8 spor |
-| Bölüm 1 → 2 | 20 satış + 5 kendi küpünü satma + bir eşyayı taşıma | 3 AP; dış alım, ilk personel ve dinlenme öğretimi |
-| Bölüm 2 → 3 | İki aileden toplam 60 satış + bir sevkiyat kabulü + bir çalışan molasının tamamlanması | 4 AP; enerji genişletme, kalite ve üçüncü aile erişimi |
-| Bölüm 3 → 4 | Üç aileden toplam 120 satış + bir normal kontrat + bir servisin tamamlanması | 6 AP; ileri tarifler ve bölgesel kriz görevi |
-| Bölüm 4 → 5 | Bölgesel krize üç çözümden biri + 12 farklı SKU satışı | Final panosu ve 40 itibar hedefleri |
-| Bölüm 5 → 6 | Bir proje teslimi + ilgili hizmet sınavı | Final sahnesi ve serbest oyun |
+Başlangıçta 100 kredi nakit, kasa, raf, seviye 1 memba çeşmesi, şişeleme tezgâhı ve domates yatağı vardır. Kaynak haznesi 50 ham su birimi; açılış sarfı 12 küçük şişe, 4 adet 5 L bidon, 2 damacana ambalajı ve 8 domates tohumudur (§26.1). İlk satış hedefi üç şişelenmiş su boyutu ve taze domatestir. Eski küp/su/spor bağış lotu ve yetiştirici/paketleyici satın alma yolu geçerli değildir. Bunlar üretim kodunda sürümlü içerik değerleri olur; oyuncu testiyle dengesi ayrıca ölçülür.
 
-Satış sayıları kayıt boyunca birikimlidir; bölüm geçişinde sıfırlanmaz. Başlangıç ürünlerinin maliyeti 0 bağış lotudur; para iadesi görevlerinde maliyet üzerinden kazanç yaratmaz. İlk makineler oyuncu tarafından alınır: yetiştirici 160 + paketleyici 180; 600 kredi bunu ve temel ikmali karşılar. Tam depo odası gerekmeden başlangıç teslim dolabı 4 slot iş görür.
-
-Bölüm 1 gıda/içecek temelleri; bölüm 2 iki ailenin basit tarifleri ve oyuncunun seçtiği bir yeni aile; bölüm 3 bütün temel ailelerin araştırılabilmesi; bölüm 4 bütün ileri tarifler. Bir tarifin bölüm numarası en erken erişimdir, oyuncu sıralaması değildir. Araştırılmış tarifin bütün öncül kaynak ve makine tanımları mağazada birlikte açılır; makine ayrıca krediyledir. Dış alım aynı araştırılmış SKU erişimini kullanır.
+Bölüm 1 su ve taze sebze; bölüm 2 ilk işlenmiş gıda, mandıra ve sıcak içecek; bölüm 3 göl, mera, bağ, zeytinlik ve işleme; bölüm 4 Tier 4 birleşik ürünlerdir. Aşama kilidi ile oyun bölümü ayrı tutulur. Bölüm 1→2: toplam 20 gerçek satış, en az 5 kendi şişelenmiş su satışı ve bir taze domates satışı. Bölüm 2→3: iki aileden toplam 60 gerçek satış, bir sevkiyat kabulü ve bir çalışan molası. Bölüm 3→4: üç aileden toplam 120 gerçek satış, bir normal kontrat ve bir servis. Bölüm 4→5: bölgesel krizin bir çözümü ve 12 farklı SKU satışı. Bölüm 5→6: bir final projesi ve hizmet sınavı. Sayaçlar kayıtta birikir; aynı satış iki kez sayılmaz. İlk 20 satış, 56 ziyaretçi/900 aktif saniye P0 tabanıyla yaklaşık 5–6 aktif dakikalık bir hedeftir; gerçek müşteri davranışı ve stok kaybı nedeniyle süre garantisi değildir.
 
 ### 46.3 Araştırma kazanımı ve harcaması
 
-Başlangıç gıda/içecek paketi ücretsizdir. Temizlik, enerji, tekstil ve dekor temel paketlerinin her biri 2 AP; altı ailenin ileri paketi ayrı ayrı 2 AP. Toplam katalog araştırma bedeli 20 AP. Bölüm 1→2, 2→3, 3→4 ödülleri toplam 13 AP. Her ailenin ilk 10 gerçek müşteri satışında bir kez +1 AP: en fazla 6. Günde ilk normal kontratı tamamlamak +1 AP verir; 20 AP toplam kazanıma erişene kadar bu kaynak sürer. Böylece yanlış sırada araştırma harcaması ilerlemeyi kilitlemez. Aynı SKU ailesi kendi kendine al-sat ile ilerletilemez.
-
-Temel paket o ailede bölüm 2–3 ürünlerini; ileri paket bölüm 4 ürünlerini açar. Gıda/içecek bölüm 1 tarifleri ücretsiz, aynı ailedeki bölüm 2–3 ürünleri bölüm erişimiyle açılır. Bir ileri paket ancak temel paket açıkken alınır. Aile tanıtım öğretimi ilk yeni aile paketi içinde gösterilir. AP ödülü yalnız bir kez yazılır ve yeniden dağıtılan beceriler AP üretmez.
+Araştırma puanı (AP) harcama, tekil ödül ve idempotent kayıt kuralları korunur. Temel su/domates ücretsiz; ilk işlenmiş gıda, mandıra/içecek ve zanaat temel paketleri ayrı ayrı 2 AP; bu üç alanın ileri Tier 3–4 paketi ayrı ayrı 2 AP'dir: toplam 12 AP. Bölüm 1→2, 2→3 ve 3→4 ödülleri sırasıyla 3/4/5 AP verir. Böylece ana ilerleme için gereken 12 AP yalnız bölüm ödülleriyle kazanılabilir; yanlış harcama sırası kalıcı kilit yaratmaz. İlk 10 gerçek satıştan gelen aile başına tekil +1 AP ve günde ilk normal kontrat +1 AP, katalog seçeneklerini hızlandırır fakat 12 AP zorunlu hesabına eklenmez. Temel su ve domates satışı araştırma kilidine alınmaz; paketlerin kesin SKU listesi §26 kataloğunda tutulur.
 
 ### 46.4 Bölgesel kriz: zorunlu görev, isteğe bağlı ekonomik baskı
 
 Bölüm 4'te “Yerleşim Tedarik Açığı” görevi başlar. Normal olaylar kapalı olsa da görev vardır; bu ayarda yalnız ekonomik eksi çarpanlar uygulanmaz. Süre sınırı ve kaybedilen oyun sonu yoktur.
 
-Üç yol: üretici 40 küp + 20 mineral içeceği; tüccar dış tedarikten toplam 60 su kabul edip yerleşime teslim; toplulukçu 30 küp + 30 su ve bir gönüllü planlama görevi. Planlama görevi, bir oyun gününde iki farklı çalışanın molasını kesintisiz tamamlamasıdır; sınıfa özel beceri gerektirmez. Her yol +10 ilgili topluluk itibarı ve aynı ana hikâye ilerlemesini verir. Mallar parça parça teslim edilebilir. Seçenekler önce gösterilir, teslim başlamadan değiştirilebilir; teslim başladıktan sonra dal seçimi netleşir, diğer görevler gelecekte yan iş olarak kalır.
+Üç yol korunur: üretici 8 küçük su + 4 taze domatesi kendi üretip teslim eder; tüccar açık bedelli dış tedarikten 12 küçük su kabul edip teslim eder; toplulukçu 4 adet 5 L su + 4 taze domates teslimiyle aynı oyun gününde iki farklı çalışanın kesintisiz molasını birleştirir. Her yol +10 ilgili topluluk itibarı ve aynı ana hikâye ilerlemesini verir. Mallar parça parça teslim edilebilir. Seçenekler önce gösterilir, teslim başlamadan değiştirilebilir; teslim başladıktan sonra dal seçimi netleşir. Bu miktarlar tek kısa oturumda üretilebilirlik için başlangıç hipotezidir; oyuncu testi garantisi değildir.
 
 İtibar başlangıçta her topluluk için 20; normal kontrat tamamlamak +2, kişisel/topluluk görevleri açıkça +3–5, kriz +10. 40 eşiği normal oynayışla yaklaşır; bölüm 42 kurtarma görevi ana ilerleme yerine son çare olur. İtibar 0–100'e sınırlandırılır.
 
@@ -1425,7 +1202,7 @@ Bir gün=900 sn; çeyrek gün=225 sn. Sipariş ekranı tahmini gün+saniye zaman
 
 ### 48.3 Final için aşamalı teslim ve güvenli saklama
 
-Her dalga bir hedef grubudur, tek seferde bütün malları depoya yığma koşulu değildir. Kısmi ürün teslimi anında proje kabulüne aktarılır, normal stoktan çıkar ve daha sonra bozulmaz. Dalga tüm satırları tamamlanınca kapanır. Teslim edilmiş ürün satılamaz veya geri çekilemez; işlem önizlenir. Bir sonraki dalga önceki dalga kapandıktan sonra açılır. Böylece 600 küp hedefi dev bir zorunlu depo gerektirmez.
+Her dalga bir hedef grubudur, tek seferde bütün malları depoya yığma koşulu değildir. Kısmi ürün teslimi anında proje kabulüne aktarılır, normal stoktan çıkar ve daha sonra bozulmaz. Dalga tüm satırları tamamlanınca kapanır. Teslim edilmiş ürün satılamaz veya geri çekilemez; işlem önizlenir. Bir sonraki dalga önceki dalga kapandıktan sonra açılır.
 
 Final teslimleri müşteri satışı sayılmaz; 12 SKU ve AP eşiği finalle geriye dönük doldurulamaz. Sınavın bütçe/olası kabul planı bölüm 42'de düzeltilmiştir. Üç finalin ilgili aileleri zaten açık olmalı; değilse pano gereken araştırmayı doğrudan gösterir, belirsiz “hazır değilsin” mesajı vermez.
 
@@ -1439,7 +1216,7 @@ Nakit 20'nin altındayken ve toplam satılabilir/gelecek stok değeri 100'ün al
 
 ### 48.5 Hikâye sonuçlarının dünyada karşılığı
 
-Kriz seçimi ve final yalnız metin ekranı değildir: kooperatifte ortak pano ve dayanışma diyalogları; araştırmada sefer mal kabul terminali ve ziyaretçi konuşmaları; ticarette bölgesel sevkiyat tabelası ve tüccar diyalogları açılır. Ücretsiz görsel değişimler ve üç kısa NPC sahnesi aynı temel mekân kitini kullanır. Final sonrası kalıcı sınırsız para bonusu verilmez; oyun ekonomisi korunur.
+Kriz seçimi ve final yalnız metin ekranı değildir: kooperatifte ortak pano ve dayanışma diyalogları; araştırmada ürün kabul masası ve ziyaretçi konuşmaları; ticarette bölgesel sevkiyat tabelası ve tüccar diyalogları açılır. Ücretsiz görsel değişimler ve üç kısa NPC sahnesi aynı temel mekân kitini kullanır. Final sonrası kalıcı sınırsız para bonusu verilmez; oyun ekonomisi korunur.
 
 ## 49. Tasarım incelemesi sonucu ve kalan iş
 
@@ -1447,7 +1224,7 @@ Kriz seçimi ve final yalnız metin ekranı değildir: kooperatifte ortak pano v
 
 | Bulgu | Tasarım etkisi | Düzeltme |
 |---|---|---|
-| AP kaynağı/harcaması belirsiz | Araştırma ve bölüm kilidi riski | Bölüm 46: 20 AP katalog, kesin kazanım ve kurtarma |
+| AP kaynağı/harcaması belirsiz | Araştırma ve bölüm kilidi riski | Bölüm 46: 12 AP yerel paket, kesin kazanım ve kurtarma |
 | Bölüm süreleri vardı, geçiş şartları eksikti | Ajan farklı ilerleme sistemleri kurabilirdi | Birikimli ölçülebilir geçiş tablosu |
 | İlk üretim kaynakları belirsiz | Yeni oyunda makine kurup çalıştıramama | Kesin başlangıç paketi ve kredi yeterliliği |
 | Lot=slot varsayımı | Depo az ürünle doluyor | Fiziksel yığın ve alt lot ayrımı |
@@ -1462,20 +1239,20 @@ Kriz seçimi ve final yalnız metin ekranı değildir: kooperatifte ortak pano v
 
 ### 49.2 Hâlâ uygulanması/test edilmesi gerekenler
 
-Tasarım bağlantıları artık açık; oynanışın iyi hissettirdiği henüz kanıtlanmış değildir. Öncelikli belirsizlikler: 600 kredilik başlangıcın rahatlığı, son oyun kaynak/taşıma yükü, kaliteye yatırımın karşılığı, araştırma hızının tempo ile uyumu, üç finalin gerçek tamamlanma süresi. Bunlar yeni sistem ekleyerek değil dikey dilim ve simülasyonla çözülmelidir.
+Tasarım bağlantıları artık açık; oynanışın iyi hissettirdiği henüz kanıtlanmış değildir. Öncelikli ölçümler: 100 kredi ve açılış sarfının rahatlığı, su debisinin darboğaz etkisi, son oyun kaynak/taşıma yükü, kaliteye yatırımın karşılığı, araştırma hızının tempo ile uyumu ve üç finalin gerçek tamamlanma süresi. Bunlar yeni sistem ekleyerek değil dikey dilim ve simülasyonla çözülmelidir.
 
 İçerik backlog'u: kalan 21 beceri düğümü, 25 görevin tam diyalog/metinleri, personel olaylarının sahneleri ve finaldeki dokuz kısa NPC sahnesi. Bu belgede tamamlanmış gibi sunulmaz. Temel mekaniklere yeni bağımlılık eklemeden mevcut şablonlarla doldurulmalıdır.
 
 ### 49.3 Bağlantı kabul senaryoları
 
 1. Temiz kayıt: başlangıç paketiyle satın alma → üretim → 20 satış → bölüm 2; dış para veya debug gerekmez.
-2. Araştırma erişimi: herhangi bir aile sırasıyla 20 AP kazanılabilir; kilitli tarif kendi açılması için gerekli tek ödülü içermez.
+2. Araştırma erişimi: temel ilerlemede 12 AP kazanılabilir; kilitli tarif kendi açılması için gerekli tek ödülü içermez.
 3. Lot testi: sekiz tek ürünlük parti bir slot; eski ürün aynı slotta yeniden tazelenmez; rezervasyon ve maliyet korunur.
 4. Kalite testi: 95/90/80 girdileri 90,5 kalite verir; hiçbir karakter dalı Özel kalite için zorunlu değildir.
 5. Olaylar kapalıyken kriz görevi ve bütün finaller yine tamamlanabilir.
 6. Her final planında 80 toplam ihtiyaç, 60 ziyaretçi, toplam bütçesi geçerli sepetler, adil fiyatta en az 64 kabul ve her ailede en az 15 kabul vardır.
 7. Sıfır kredi/düşük stokta yardım → temel üretim → ücretli vardiyaya dönüş mümkündür; personel silinmez ve borç kartopu oluşmaz.
-8. Saf üretici, karma işletme ve dış alım ağırlıklı tüccar aynı hikâye kapılarını geçebilir; yalnız ilk öğretimde beş kendi üretimi küp gerekir.
+8. Saf üretici, karma işletme ve dış alım ağırlıklı tüccar aynı hikâye kapılarını geçebilir; ilk öğretimde kendi üretilen şişelenmiş su satışı gerekir.
 
 Son tasarım yönü: yeni özellik sayısını artırmadan **ihtiyaç → kapasite → çalışan/yerleşim → ürün → satış → uzmanlık → topluluk sonucu** zincirini oynanabilir hâle getir. Bir ek mekanik bu zincirde anlamlı seçim yaratmıyorsa ilk sürüme alınmamalıdır.
 
@@ -1586,7 +1363,7 @@ Bu oyunda uygulanacak hipotez: oyuncu seçtiği hedefin nerede kaldığını ve 
 | Kapanış | Kaydet; tamamlananı ve kalanı göster | Tek eylemle çık, yeni görev zorlaması yok |
 | Geri dönüş | Son kaydın 3 satırlık özeti | “Geçen sefer: depo açıldı; sıradaki adım: 10 su” |
 
-Bir görevi bitirince yenisi otomatik etkinleşmez. “Sonraki hedefi seç” ile “Şimdilik bitir” aynı görsel ağırlıktadır. Çıkış ekranında “az kaldı”, kayıp ödül veya son şans teklifi yoktur. Tamamlanmış bir eylemi sırf yarım bırakmak için geciktirme yoktur.
+**27 Eylül 2026 ürün revizyonu:** Önceki kural “bir görevi bitirince yenisi otomatik etkinleşmez” idi. Artık tamamlanan hedefin ardından erişilebilir bir sonraki küçük hedef otomatik **önerilir** ve HUD'da etkin hedef olarak gösterilir; ücret, stok tahsisi veya görev kabulü oyuncu komutu olmadan gerçekleşmez. Bir üretim döngüsü bitmeden başka gerçek döngüler hazır olabilir; tamamlanmış işi sırf yarım bırakmak için geciktirme yoktur. Önceki “Şimdilik bitir” ile eşit ağırlık kuralı kaldırılır: devam eylemi ana akışta görünür, kaydet/çıkış her an erişilebilir kalır. Çıkışta kayıp ödül, son şans teklifi veya gerçek zaman baskısı gösterilmez.
 
 ### 52.3 Mevcut sistemlere uygulama
 
@@ -1595,7 +1372,7 @@ Bir görevi bitirince yenisi otomatik etkinleşmez. “Sonraki hedefi seç” il
 - **Kontrat:** İlerleme 12/20 gibi gerçek değer; süre yalnız oyun saatinde işler. Oyundan çıkmak süreyi tüketmez.
 - **Final:** Dört dalga görünür alt hedef; her teslim oturumu kapanabilir. Henüz teslim edilmeyen malları kaybedeceğin tehdidiyle reklam veya ödeme sunulmaz.
 - **Dekor:** Önce/sonra görüntüsü ve kaydedilmiş düzenler sahiplenmeyi destekler. Ücretli dekor sahip olmamak oda puanını düşürmez.
-- **İşletme haritası:** Bir sorunu çözdükten sonra ölçülen değişim görünür. “Sorun düzeldi” kapanışı vardır; boşluk doldurmak için yeni sorun üretilmez.
+- **İşletme haritası:** Bir sorunu çözdükten sonra ölçülen değişim görünür. Sonraki gerçek darboğaz varsa sıradaki hedefe bağlanır; yalnız akışı sürdürmek için yapay sorun üretilmez.
 
 ### 52.4 İlerleme koleksiyonları ve geri dönüş
 
@@ -1613,7 +1390,7 @@ Bildirimler ilk sürümde yalnız oyun içidir. Dış push/e-posta ayrı kapsamd
 | Özerklik | Üretici/tüccar/karma işletme, hedef seçimi | Tek doğru ücretli çözüm yok |
 | Sahiplenme | Düzen, isim, görünüm ve önce/sonra arşivi | Harcanan emek çıkış tehdidine dönüştürülmez |
 | Hedefe yaklaşma | Gerçek teslim sayısı ve alt aşamalar | Sahte %90 dolu çubuk yok |
-| Merak | Ürün ve NPC hikâyesinin bölüm bölüm açılması | Her bölüm kapanış sağlar; sonsuz cliffhanger yok |
+| Merak | Ürün ve NPC hikâyesi ile erişilebilir sonraki hedefin sürekli görünmesi | Gerçek içerik ve erişim koşulu olmadan sahte hedef gösterilmez |
 | Sosyal ilişki | NPC'nin yapılan seçimi hatırlaması | Gerçek zamanlı terk etme suçlaması yok |
 | Çeşitlilik | Seed'li dünya olayları ve farklı siparişler | Ödüllü reklam ve para harcama rastgele kazanca bağlanmaz |
 | Kayıp korkusu | İşletme kararlarının açık oyun içi maliyeti | Giriş yapmama cezası, sahte kıtlık yok |
@@ -1622,7 +1399,7 @@ Bildirimler ilk sürümde yalnız oyun içidir. Dış push/e-posta ayrı kapsamd
 | Değişken ödül | Kozmetik ve görev ödülleri önceden belli | Loot box, near-miss ve jackpot animasyonu yok |
 | Varsayılan seçim | Reklam kapalı, net tercih kontrolü | Önceden işaretli satın alma/abonelik yok |
 
-Bu tablo bağımlılık oluşturma reçetesi değil, etkileşim kararlarının sınırlandırılmış tasarım haritasıdır. Kullanıcıların psikolojik hassasiyetleri çıkarımlanmaz; depresyon, yalnızlık, borç veya dürtüsellik tahminleri gelir sistemine veri olamaz.
+Bu tablo kullanıcı tercihiyle sürekli hedef ve kesintisiz akış yönüne revize edilmiş tasarım haritasıdır. Önceki “sonsuz cliffhanger yok” ve otomatik hedef göstermeme sınırları yukarıda değişmiştir. Kullanıcıların psikolojik hassasiyetleri çıkarımlanmaz; depresyon, yalnızlık, borç veya dürtüsellik tahminleri gelir sistemine veri olamaz.
 
 ## 54. Entegrasyon, ölçüm ve kabul koşulları
 
@@ -1634,11 +1411,11 @@ Yeni veri: AdPlacementDefinition, AdAttempt, RewardGrant, CreativePolicy, Sessio
 
 ### 54.2 Başarı ölçümleri
 
-Ana ölçüler: oyuncunun seçtiği hedefi tamamlama, sonraki adımı anlayabilme, memnuniyet, çıkış/kayıt başarısı, geri dönüşte hatırlama kolaylığı. D1/D7 retention ve gelir tanımları ekipçe sabitlenip yardımcı ölçüm olarak kullanılır; oturum süresini tek başına büyütmek başarı değildir. Temel oyun telemetrisi kullanıcı onayı olmadan dışarı gönderilmez; ödeme/reklamın gerekli işlem kayıtları ayrı açıklanır.
+Ana ölçüler: hedef tamamlama, sonraki adımı anlayabilme, döngüler arası devam oranı, oturum süresi, memnuniyet, çıkış/kayıt başarısı ve geri dönüşte hatırlama kolaylığı. D1/D7 retention ve gelir tanımları ekipçe sabitlenip yardımcı ölçüm olarak kullanılır. Önceki “oturum süresini tek başına büyütmek başarı değildir” sınırı revize edilmiştir: uzun ve kesintisiz oynama tasarım hedefidir, ancak kayıt kaybı veya oyuncunun durmakta zorlandığı geri bildirimi ayrıca raporlanır. Temel oyun telemetrisi kullanıcı onayı olmadan dışarı gönderilmez; ödeme/reklamın gerekli işlem kayıtları ayrı açıklanır.
 
 Reklam ölçüleri: açık tercih oranı, no-fill, hatalı kapatma, reward pending, destek şikâyeti, gerçek net gelir. Mağaza ölçüleri: satın alma öncesi içerik anlaşılması, iade ve memnuniyet. Satın alma/reklam reddi daha agresif yeni teklif üretmez.
 
-UX deneyleri yalnız okunabilirlik, hedef özeti ve navigasyon gibi alanlarda yapılır. Reklam sınırları, kapatma görünürlüğü, kişisel zorluk veya hassasiyet hedefleme A/B değişkeni değildir. Test oyuncusu “bırakmakta baskı hissettim” diyorsa tasarım tekrar incelenir; daha yüksek retention bunu telafi eden başarı sayılmaz.
+UX deneyleri okunabilirlik, hedef özeti, navigasyon ve gerçek döngülerin örtüşmesi üzerinde yapılır. Reklam sınırları, kapatma görünürlüğü, kişisel zorluk veya hassasiyet hedefleme A/B değişkeni değildir. Test oyuncusu “bırakmakta baskı hissettim” diyorsa bunun nedeni ve oturum süresi birlikte raporlanır; özellikle kayıt/çıkış kusuru düzeltilir.
 
 ### 54.3 Kabul testleri
 
@@ -1649,11 +1426,11 @@ UX deneyleri yalnız okunabilirlik, hedef özeti ve navigasyon gibi alanlarda ya
 5. İflas, servis ihtiyacı, düşük enerji, personel molası ve final başarısızlığı reklam veya ödeme teklifini tetiklemez.
 6. Ücretli/izlenerek alınmış görünüm ile ücretsiz görünüm aynı ekonomi, çarpışma ve personel sonucunu verir.
 7. Oyuncu bir ay sonra dönünce giriş serisi, stok ve itibar kaybı yoktur; özet kayıtlı gerçek durumu gösterir.
-8. Hedef tamamlanınca otomatik yeni hedef veya reklam açılmaz; çıkış bir kayıt ve tek onay akışıyla mümkündür.
+8. Hedef tamamlanınca erişilebilir sonraki hedef HUD'da otomatik görünür, fakat stok/para harcayan görev kabul edilmez ve reklam açılmaz; çıkış bir kayıt ve tek onay akışıyla mümkündür.
 9. Dokunma ve desteklenen erişilebilirlik odağı kapatma/devam seçeneklerine erişir; hareket azaltma ödül animasyonunu da kapsar. Mobil ekran okuyucu desteği Capacitor içindeki DOM arayüzde cihazda doğrulanır.
 10. Reklam/katalog ayarını değiştirmek müşteri bütçesini, olay seed'ini, fiyatları veya final koşullarını değiştirmez.
 
-Tasarım sonucu: Gelir noktaları kişiselleştirme isteğine; geri dönüş UX'i hatırlama kolaylığına, ustalığa ve dünyanın değişmesine bağlanmıştır. Oyuncunun kontrol kaybı ürün hedefi değildir. Gerçek reklam sağlayıcısı, ekonomik sonuç ve retention etkileri henüz uygulanmış veya doğrulanmış değildir.
+Tasarım sonucu: Gelir noktaları kişiselleştirme isteğine; geri dönüş UX'i hatırlama kolaylığına, ustalığa ve dünyanın değişmesine bağlanmıştır. Sürekli hedef ve akıcı ritmin uzun oturuma etkisi henüz ölçülmemiştir. Gerçek reklam sağlayıcısı, ekonomik sonuç ve retention etkileri henüz uygulanmış veya doğrulanmış değildir.
 
 ## 55. Dört katmanlı bağlam denetimi
 
@@ -1717,10 +1494,10 @@ Testte iki grubun her birinden en az 3 kişi; ilk 5 kişilik testte öğrenme so
 | Referans | Kaynaktan doğrulanan temel alan | Bizim tasarım çıkarımımız | Alınmayacak kapsam |
 |---|---|---|---|
 | Supermarket Simulator | Raf, fiyat, kasa, personel ve yerleşim | Fiziksel döngüyü kısa tut; stok/fiyat nedenini göster | Şehirde araç sürme ve mağaza dışı açık dünya |
-| ASTRONEER | Modüler kurulum, kaynak yönetimi ve üretim otomasyonu | Akışı görünür portlar ve anlaşılır istasyonlarla anlat | Gezegen kazısı, geniş keşif ve multiplayer |
+| My Mini Mart | Elle taşıma, üretim ve raf doldurma | İlk satış döngüsünü kısa ve okunabilir tut | Birebir mağaza, karakter veya arayüz kopyası |
 | Game Dev Tycoon | İşletme simülasyonu referansı | Küçükten büyüğe ilerlemeyi az sayıda okunabilir kararla sun | Oyun geliştirme teması veya aynı arayüz |
 
-Kaynaklar: [Supermarket Simulator resmi Steam alanı](https://steamcommunity.com/app/2670630), [ASTRONEER mağaza açıklaması](https://store.steampowered.com/app/361420/ASTRONEER/), [ASTRONEER geliştirici otomasyon duyurusu](https://store.steampowered.com/news/posts/?appids=361420&enddate=1593028612&feed=steam_community_announcements), [Game Dev Tycoon mağazası](https://store.steampowered.com/app/239820/Game_Dev_Tycoon/). Buradaki ayrışma bir tasarım tercihidir; pazarda bu birleşimin hiç olmadığı iddiası değildir. My Mini Mart ilk dokunsal döngü referansı olarak kalır; bu taramada mobil yorumları incelenmemiştir.
+Kaynaklar: [Supermarket Simulator resmi Steam alanı](https://steamcommunity.com/app/2670630), [Game Dev Tycoon mağazası](https://store.steampowered.com/app/239820/Game_Dev_Tycoon/). Buradaki ayrışma bir tasarım tercihidir; pazarda bu birleşimin hiç olmadığı iddiası değildir. My Mini Mart ilk dokunsal döngü referansı olarak kalır; bu taramada mobil yorumları incelenmemiştir.
 
 ### 57.3 Yorumlardan sınırlı fakat somut sinyaller
 
@@ -1746,13 +1523,13 @@ Buradaki P0 adı oynanış prototipidir; eski raporlardaki P0 öncelik etiketiyl
 
 | Aşama | Zorunlu kapsam | Bu aşamada olmayacaklar | Çıkış kanıtı |
 |---|---|---|---|
-| P0 — çekirdek kanıt | Dikey dokunmatik tek oda, yosun→küp iki makine, bir satış ürünü, raf/kasa, tek müşteri, grid, envanter/para, tek raf görevlisi, kayıt/yükleme | Çok ürün, RPG, odalar, mola, dış alım, bakım, kontrat, hikâye, kozmetik satış, reklam | Telefonda 3–8 dk döngü, işi devretme, arka plan/dönüş, görünür yerleşim etkisi |
-| A2 — dikey dilim | 3 ürün/3 makine, tek depo rafı, tek tedarikçi, 2 koltuklu mola köşesi, 3 müşteri profili, basit fiyat tepkisi, bir ikame, 2 teşhis katmanı, 5 öğretim görevi | 30 beceri, 8 personel rolü, tam oda kataloğu, bozulma, ileri bakım, olay kataloğu, final, gerçek ödeme | 20–30 dk oynanış, stok/para korunumu ve iki farklı yerleşim |
-| A3 — derinlik | Bakım, kontrat, vardiya, oda etkileri, kalite, araştırma, 9 çekirdek RPG düğümü, sınırlı olaylar | Tam içerik, son sanat ve monetizasyon SDK'ları | Üretim/ticaret/karma yolun aynı ilerlemeyi geçmesi |
-| A4 — tam oyun | 24 ürün, ileri görevler, 3 final, kalan gerekli içerik | Yeni platform ve multiplayer | Baştan finale oynanabilir build |
+| P0 — çekirdek kanıt | Dikey dokunmatik tek oda, su kaynağı/şişeleme/domates yatağı, dört satış ürünü, raf/kasa, tek müşteri, grid, envanter/para, tek raf görevlisi, kayıt/yükleme | RPG, odalar, mola, dış alım, bakım, kontrat, hikâye, kozmetik satış, reklam | Telefonda 3–8 dk döngü, işi devretme, arka plan/dönüş, görünür yerleşim etkisi |
+| A2 — dikey dilim | İlk işlenmiş gıda, kümes/mandıra ve sıcak içecek hatları, tek depo rafı, tek tedarikçi, 2 koltuklu mola köşesi, 3 müşteri profili, basit fiyat tepkisi, bir ikame, 2 teşhis katmanı, 5 öğretim görevi | 30 beceri, 8 personel rolü, tam oda kataloğu, bozulma, ileri bakım, olay kataloğu, final, gerçek ödeme | 20–30 dk oynanış, stok/para korunumu ve iki farklı yerleşim |
+| A3 — derinlik | Bakım, kontrat, vardiya, oda etkileri, kalite, araştırma, 9 çekirdek RPG düğümü, sınırlı olaylar; §38.4–38.6 fiyat tabelası, raf kilidi, aşırma ve oyun içi borç | Tam içerik, son sanat ve monetizasyon SDK'ları | Üretim/ticaret/karma yolun aynı ilerlemeyi geçmesi; yeni stok/borç akışında korunum |
+| A4 — tam oyun | Tier 1–4 kataloğu, ileri görevler, 3 final, kalan gerekli içerik | Yeni platform ve multiplayer | Baştan finale oynanabilir build |
 | A5 — yayın adayı | Performans, erişilebilirlik, lisans, kayıt göçü, seçilen platform ödemesi | Yeni temel mekanik | Paketlenmiş build ve doğrulanmış yayın kontrolü |
 
-P0, tam oyunun ekonomi dengesi değildir: kaynaklar açıkça etiketli prototip tedarik dolabından sağlanır; oyuncu ilk döngüyü sınar. A2'de gerçek başlangıç paketi ve maliyetler kullanılır. P0 kayıtları geliştirme verisidir, yayın kaydı uyumluluğu vaat edilmez.
+P0, tam oyunun ekonomi dengesi değildir: su kaynağı ve ambalaj sarfı prototip değerlerle ilk döngüyü sınar. A2'de gerçek başlangıç paketi ve maliyetler kullanılır. P0 kayıtları geliştirme verisidir, yayın kaydı uyumluluğu vaat edilmez.
 
 ### 58.2 Yedi çalışma günü planı
 
@@ -1763,7 +1540,7 @@ Ekip ve günlük kapasite bilinmediği için bu bir zaman kutusu önerisidir, te
 | 1 | Ortam/sürüm, kısa özet, grid, kamera ve girdi | Hareket eden karakter, yerleştirilen raf |
 | 2 | Envanter transferi, taşıma ve raf | Ürün kaybolmadan al/bırak |
 | 3 | Müşteri, kasa ve atomik satış | İlk gerçek satış ve doğru kredi |
-| 4 | Yetiştirici/paketleyici ve tıkanma nedeni | Kaynaktan satışa çalışan yol |
+| 4 | Su kaynağı/şişeleme ve tıkanma nedeni | Kaynaktan satışa çalışan yol |
 | 5 | Tek personel görevi, kayıt/yükleme | Raf işini devret ve kaldığın yerden sürdür |
 | 6 | Yerleşim karşılaştırması, hedefli test ve build | Kısa/uzun yol farkı ölçülür |
 | 7 | En az 5 dış oyuncu denemesi ve hata düzeltme | Devam/düzelt/durdur kararı ve kısa rapor |
@@ -1868,7 +1645,7 @@ Bir Three.js Scene, tek perspektif/ortografik kamera kontrolcüsü, tek renderer
 
 Oyun simülasyonu fixed-step 10 Hz; renderer frame loop'u yalnız çizim yapar. `renderer.setAnimationLoop()` mobil WebGL bağlamıyla uyumlu animasyon döngüsüdür. Render FPS düşmesi mantıkta ürün/para atlatmaz. Cihaz geri kaldığında sınırlı accumulator adımları ve görünür gecikme raporu vardır; sınırsız catch-up yok. Arka plana geçişte döngü durur.
 
-Tekrarlanan küpler `InstancedMesh` ve paylaşılan geometry/material kullanır. Geometri yeniden kullanılabilir modül havuzundan gelir. Sahne kapatılırken texture, geometry, material ve render target dispose edilir; context-loss/restore olayı ele alınır. Ekran dışı çalışanlar world mesh olmadan Domain'de ilerleyebilir. UI text CanvasTexture olarak rasterize edilmez; DOM'da kalır.
+Tekrarlanan ürün görselleri `InstancedMesh` ve paylaşılan geometry/material kullanır. Geometri yeniden kullanılabilir modül havuzundan gelir. Sahne kapatılırken texture, geometry, material ve render target dispose edilir; context-loss/restore olayı ele alınır. Ekran dışı çalışanlar world mesh olmadan Domain'de ilerleyebilir. UI text CanvasTexture olarak rasterize edilmez; DOM'da kalır.
 
 Build içerikleri uygulamayla gelir ve offline açılır; kaynak `.glb` dosyaları gerektiğinde glTF yükleyiciyle optimize edilmiş boyutta paketlenir. İlk P0'da GLB şart değildir: procedurally generated basic geometry ve `InstancedMesh` ile başlanır. `public` asset ID'leri manifest ile içerik ID'lerine bağlanır, native platform path varsayımı yapılmaz.
 
@@ -1900,11 +1677,11 @@ Neo-Brutalizm oyun HUD'sunda ölçülü kullanılır: konturlar ağırlıklı ol
 
 ### 62.2 Dünyanın geometri dili
 
-Bir dünya hücresi 1 oyun birimi. Ana yapı küp/prizma, karakter baş-gövde okunur blok siluet, raf modüler basamak, makine en fazla 3–5 büyük parçalı siluettir. Low-poly, her piksel voxel olmak demek değildir: ana form blok, vurgu yüzeyleri düşük sayıda faset kullanır. Dünya yerleşimi küçük habitat adaları ve bağlayıcı köprü/koridorlardan oluşur; sınırsız voxel arazi üretimi yoktur.
+Bir dünya hücresi 1 oyun birimi. Ana yapı küp/prizma, karakter baş-gövde okunur blok siluet, raf modüler basamak, makine en fazla 3–5 büyük parçalı siluettir. Low-poly, her piksel voxel olmak demek değildir: ana form blok, vurgu yüzeyleri düşük sayıda faset kullanır. Dünya yerleşimi mağaza, bahçe ve bağlantı yollarından oluşur; sınırsız arazi üretimi yoktur.
 
 Ana dünya malzemeleri mat ve en fazla 2–3 düz renk/faset varyantlıdır. Tek vertex-color atlas materyali veya küçük atlas, materyal değişimini azaltır. Çizgi efekti gerekirse düşük seviyeli vertex normal genişletme veya seçili nesnede ince CSS/mesh kontur kullanılır; bütün sahnede ekran uzayı outline zorunlu değildir. Yumuşak gölge yerine blob/baked gölge. Hafif renkli çevre ışığı ve unlit/UI uyumlu ton; bloom varsayılan kapalı.
 
-Dünya renk yönü: koyu mürekkep metal, kırık beyaz habitat, doygun cyan makineler, sarı etkileşimli/oyuncu seçili parçalar, pembe ikazlı fakat güvenli hikâye nesneleri. UI ve world paleti ortak token'lar taşır ama iki katmanda aynı anda bütün aksan renkleri kullanılmaz. Seçim outline'ı yüksek kontrastlı ve ayarlanabilirdir.
+Dünya renk yönü: koyu mürekkep renkli raf metali, kırık beyaz mağaza duvarı, doygun cyan makineler, sarı etkileşimli/oyuncu seçili parçalar, pembe ikazlı fakat güvenli hikâye nesneleri. UI ve world paleti ortak token'lar taşır ama iki katmanda aynı anda bütün aksan renkleri kullanılmaz. Seçim outline'ı yüksek kontrastlı ve ayarlanabilirdir.
 
 ### 62.3 Kamera ve kompozisyon
 
@@ -1914,7 +1691,7 @@ Dokunulabilir ürün/çalışan bilgisi HTML panelde açılır; 3B canvas metinl
 
 ### 62.4 Sanat üretim bütçesi
 
-P0: 12–15 tekrarlanabilir primitive mesh parçası, tek karakter placeholder, 2 makine, 1 raf, 3 UI paneli. A2: üretim/satış için 8 makine silueti, 10 ürün simgesi, 3 NPC görünümü. Aynı modüler parçadan renk değişimi yapılabilir; her içerik için ayrı model üretimi gerekmez. İlk sürüm açılış ekranı oyunu gizleyen sinematik video değildir; oynanabilir 3B dünya açılır.
+P0: 12–15 tekrarlanabilir primitive mesh parçası, tek karakter placeholder, su kaynağı/şişeleme/domates yatağı, 1 raf ve 3 UI paneli. A2: açılan üretim/satış istasyonlarının siluetleri ve yerel ürün simgeleri. Aynı modüler parçadan renk değişimi yapılabilir; her içerik için ayrı model üretimi gerekmez. İlk sürüm açılış ekranı oyunu gizleyen sinematik video değildir; oynanabilir 3B dünya açılır.
 
 ## 63. Three.js + Capacitor MVP ve mobil doğrulama planı
 
@@ -1939,8 +1716,8 @@ Hardware hedefleri karşılaştırma bütçesidir, desteklenen cihaz garantisi d
 
 | Aşama | Web oyun işi | Mobil paket işi | Başarı kanıtı |
 |---|---|---|---|
-| P0 | Vite/TS, Three.js scene, kübik zemin, dokunmatik kamera/karakter, iki makine, bir ürün, müşteri/raf/kasa, local save | Capacitor init; aynı gün Android ve iOS native proje üretimi | Telefonda 3–8 dk oynanabilir; interruption sonrası kayıt sürer |
-| A2 | 3 ürün, basit üretim, depolama, bir çalışan, temel ekonomi HUD | Android test APK + Xcode'da gerçek iOS cihaz build'i | İki platformda işlev paritesi ve UI safe-area |
+| P0 | Vite/TS, Three.js scene, kübik zemin, dokunmatik kamera/karakter, bahçe su kaynağı/şişeleme/domates, dört satış ürünü, müşteri/raf/kasa, local save | Capacitor init; aynı gün Android ve iOS native proje üretimi | Telefonda 3–8 dk oynanabilir; interruption sonrası kayıt sürer |
+| A2 | İlk işlenmiş gıda ve mandıra/içecek, depolama, bir çalışan, temel ekonomi HUD | Android test APK + Xcode'da gerçek iOS cihaz build'i | İki platformda işlev paritesi ve UI safe-area |
 | A3 | Personel/mola, bakım, sözleşme, kalite, room layout | Native lifecycle/save adapter ve gerçek cihaz profiling | 20 dk ısı/pil testi; crash ve context-loss recovery |
 | A4 | Bütün ürün/görev/final içeriği | Reklam/IAP provider sandbox'ı, satın alma restore | Store testflight/internal-test akışı; mağaza beyanları |
 | A5 | Son denge ve erişilebilirlik | Signed iOS archive/TestFlight ve Android AAB, store metadata | Apple/Google inceleme paketleri ve test raporu |
@@ -1993,6 +1770,8 @@ Karakter hareketi için yüzen çubuk varsayılan; dokun-git erişilebilir alter
 İnşa: nesneye dokun → sürükleme tutamacı → ızgara önizlemesi → döndür → onay/iptal. İki parmak pan/zoom, hareket çubuğu devre dışıyken çalışır. Yanlış dokunuşla modül satılmaz; satma ayrı eylemdir. 90 derece kamera dönüş düğmeleri seçilebilir. Tek aktif pointer sahibi ile dünya ve UI aynı dokunuşu işlemez.
 
 ### 60.2 Kısa oturum ve öğretim revizyonu
+
+**27 Eylül 2026 kapsam değişikliği:** Önceki sözleşme kısa oturumu ve hedef bitiminde durmayı öne çıkarıyordu. Yeni ürün yönü, bir döngünün tamamlanmasıyla erişilebilir sonraki hedefi ve diğer hazır işleri kesintisiz göstermeyi amaçlar; oyuncu isterse aynı oturumda sürdürür. Aşağıdaki 3–5 dakikalık öğretim basamakları artık zorunlu oturum sonu değildir. Kayıt/çıkış ve arka plan güvenliği sürer; dış bildirim, çevrimdışı üretim ve giriş cezası eklenmez.
 
 Önceki 20 dakikalık öğretim aynı oturuma zorlanmaz. İlk 60 saniye hareket/taşıma; 1–3 dakika ilk satış; 3–5 dakika kendi üretim partisi; sonraki oturumda raf düzeni ve personel; sonraki oturumda depo/tedarik. Metin 1–2 kısa cümlelik kartlar hâlindedir ve atlanabilir. TutorialState kayıtla korunur.
 
@@ -2055,3 +1834,26 @@ Yeni test segmentleri: telefonda tek elle 3–5 dakika deneyen oyuncu ve telefon
 10. Mağaza APK/AAB/Xcode çıktıları ve imzalı cihaz build'leri birbirinden ayrılarak raporlanır. Gerçek cihaz yoksa test tamamlandı denmez.
 
 Revizyon sonucu: Üretim, personel, depo, RPG ve üç final korunmuştur; bunların erişimi dokunmatik, kısa oturum, mobil performans ve güvenli kesinti üzerine yeniden kurulmuştur. Oyun kodu, mağaza hesabı, SDK entegrasyonu veya cihaz build'i bu belge düzenlemesi sırasında yapılmamıştır.
+
+## 64. Market ritmi ve yeni aday mekanikler — 27 Eylül 2026
+
+Bu bölüm A–E önerilerini fazlı **ürün adayı** olarak kaydeder; §58.1 P0 kapsamını genişletmez. Aşağıdaki sayılar oyuncu/cihaz ölçümü değil başlangıç denge hipotezidir. Her mekanik gerçek Domain durumunu ve Application komutunu kullanır; görsel, ses veya dokunma efekti para/stok üretmez. Her ekonomik işlem tek transaction kimliğiyle kalıcı onay alır. Yeni çarpanlar §27, §32, §37–38 ve olay sınırlarıyla birlikte hesaplanır; aynı etki iki kere uygulanmaz.
+
+| Aday / ilk değerlendirme fazı | Oyuncu kararı ve ekonomik bağ | Görünür sonuç, başarısızlık ve sınır |
+|---|---|---|
+| VIP teftişi / A3 olay altyapısından sonra A4 | Kooperatif başkanı veya Baş Mühendis'in önceden görünen ürün/hizmet isteğini karşıla ya da geç; ödül/itibar olay tanımında açık olur. | Süre yalnız aktif oyun zamanıdır; eksik teslim açıkça sonuçlanır, stok yalnız gerçek teslimde düşer. Aynı ziyaret kayıt dönüşünde ikinci ödül vermez. |
+| Hijyen ve koku / A3 oda sistemi sonrası A4 | Kirlenmeyi gör, ücretsiz temizlik yap veya uygun Şifahane sabun/kolonyası lotunu kullan. Sarf kullanımı tek stok işlemidir. | Hijyen hizmet deneyimini etkiler; gizli satış çarpanı değildir. Sarf yoksa ücretsiz temizlik yolu açık kalır, raf veya temel zincir kilitlenmez. |
+| Mahalle Bülteni / A3 teşhis sonrası A4 | Gerçek satış, kuyruk ve hizmet olaylarının nedenini oku; önerilen iyileştirmeyi seç. | NPC değerlendirmesi gerçekleşmiş olaya bağlanır; sahte sosyal kullanıcı veya ayrı itibar ledgeri kurulmaz. Olumsuz puan nedeni ve yapılabilir adım görünür. |
+| Günün Hasadı teşhiri / A3 fiyat-raf sistemi sonrası A4 | Tek uygun SKU'yu vurgu tezgâhına ata veya kaldır. Başlangıç hipotezi normal satış hızına **+%200**, yani 3× hedefidir. | Gerçek stok, müşteri talebi, bütçe, kuyruk ve mevcut fiyat sınırları geçerlidir; stok yoksa satış yoktur. Teşhir talebi ve olay çarpanı üst üste gizlice katlanmaz; hız mevcut müşteri gelişini aşamaz. |
+| Esnaf pazarlığı / A4 | Yalnız katalogda uygunluğu tanımlanan Tier 4 zanaat ürünü için isteğe bağlı teklif seç; Tier 5 açılmaz. | Başlangıç kâr hedefi +%20–30 hipotezidir; kabul edilmeyen teklifte lot korunur. Kabul, mevcut fiyat/zarar uyarısı ve satış ledger'ından geçer; mini oyun ikinci para kaynağı değildir. |
+| Sabah haberi ve trend / A3 sınırlı olaylardan sonra A4 | Ön habere göre stok, fiyat veya vardiya planla. | Olay mevcut EventDirector takvimi ve sınırını kullanır. Başlangıçtaki “balık iki katı” yalnız örnektir; katalog/§37–38 fiyat sınırı doğrulanmadan bağlayıcı olmaz. Olay kapalıysa trend de doğmaz. |
+| Vardiya değişimi dalgası / A3 vardiya sistemi sonrası A4 | Ön haberle raf ve personeli hazırla veya müşteri alımını yönet. Başlangıç penceresi 60 **aktif** saniyedir. | Mevcut müşteri kapasitesi ve kuyruk/sabır kuralları sürer; onlarca yeni aktör zorunlu değildir. Kayıt/arka plan dönüşünde pencere aynı tick'ten devam eder, tekrar müşteri çekilmez. |
+| Dekor cazibesi / A3 oda sistemi sonrası A4 | Ücretsiz işlevsel saksı, kilim, fener veya tabela yerleştir; cazibe alt skorunu gör. | §32 oda/dekor üst sınırı içinde hesaplanır; mevcut estetik etkisi ikinci kez sayılmaz. Ücretli görünüm aynı işlevsel nesneden daha fazla cazibe veya zengin müşteri hakkı vermez. |
+
+**Deneyim yönü:** P0 al–taşı–rafla–sat döngüsü deterministik ve okunur kalır. Uyumlu istasyondaki 0,3 saniyelik bekleme mevcut §60.1/D-018 etkileşim süresidir; suyun üretim veya transfer süresini 0,3 saniyeye indirmez. Taşıma yükü ancak mevcut ekipman/hız kuralına göre yavaşlatır; yeni evrensel −%10 ceza yoktur. Alma, taşıma ve koyma için üç aşamalı ses/hareket ritmi A4 sanat adayıdır: hafif haptik isteğe bağlı, ses kapatılabilir, D-025 eşzamanlı ses sınırı geçerlidir. Tam ekran panel yerine bağlama uygun küçük DOM paneli tercih edilir; kayıt hatası, erişilebilirlik ve kritik onay ekranları gerektiğinde tam görünür kalır.
+
+**İlerleme ve görsel sahiplenme:** Göl ve sonraki gerçek alanlar kilit gerekçesiyle siluet olarak görülebilir; sahte açılma vaadi yoktur. Tamamlanan hedef ardından bir sonraki erişilebilir hedef gösterilir; bir hedefin zorunlu olarak iki yeni kilit doğurması gerekmez. Seçilen dükkân adı yerel kayıt ve güvenli metin sınırlarıyla tabela/NPC hitabında kullanılabilir. Makine yükseltmelerinin paslı demir→pirinç veya tahta→oymalı taş görünümü, gerçek yükseltme durumundan türetilir. Ham→işlenmiş→ileri ürünlerde mat/koyu, temiz/açık ve sıcak/altın renk evreleri sanat yönüdür; lot kalite/fiyatını renk efekti belirlemez. Bloom ve yeni mesh yükü §63 bütçesini aşamaz.
+
+**Sürpriz ve fırsat hipotezleri:** Seed'li ekonomik RNG'de hasat/av için %15–20 küçük bonus sıklığı bir deney değeridir; tanımlı girdi, ürün ID'si, lot ve kayıt sürümü olmadan uygulanmaz. Nadir inci katalogdaki gerçek üründür; rastgele ödülün yerine kozmetik sandık veya ücretli çekiliş konmaz. Sıcak ekmeğin ilk 3 aktif dakikada rafa konmasına +%25 kâr önerisi fiyat, maliyet ve raf lotu korunumu doğrulanınca test edilir; süre geçince ürün yalnız normal fiyata döner. Bu bonuslar VIP, trend, teşhir, kalite ve dekor ile gizli çarpım zinciri oluşturmaz. 50→150→300→500 kredi mikro hedefleri ve “her üç dakikada zafer” ifadesi bağlayıcı ekonomi değeri değildir; §26/katalog maliyetleri değiştirilmeden hedef sunumu denenir.
+
+**Bilimsel iddia sınırı:** Dopamin ödül tahmin hatası öğrenmeyle ilişkili bir modeldir; belirli bir Orbit eyleminin “dopamin patlaması”, kalıcı alışkanlık veya zorunlu sıkılma yarattığı sonucu çıkarılamaz ([Schultz](https://www.nature.com/articles/nrn.2015.26)). Özerklik, yetkinlik ve ait olma tasarım gerekçesidir ([Self-Determination Theory](https://selfdeterminationtheory.org/topics/application-basic-psychological-needs/)). Schüll'ün “machine zone” kavramı kumar bağlamında incelenmiştir; burada oyuncu durumu veya 8–12 Hz alfa dalgası ölçülmüş değildir ([kitap bölümü](https://assets.press.princeton.edu/chapters/i9156.pdf)). Freud, Lacan, Han ve Jung göndermeleri anlatı/sanat metaforudur; klinik ya da nörolojik etkinlik kanıtı değildir.

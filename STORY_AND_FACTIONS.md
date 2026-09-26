@@ -18,9 +18,9 @@ Bölüm 4 Yerleşim Tedarik Açığı süre sınırı olmadan kısmi teslimle ç
 
 | Yol | Koşul |
 |---|---|
-| Üretici | 40 küp + 20 mineral içeceği |
-| Tüccar | Dış tedarikten 60 su kabul edip teslim |
-| Toplulukçu | 30 küp + 30 su; bir oyun gününde iki farklı çalışanın kesintisiz molası |
+| Üretici | 8 küçük su + 4 taze domates üretip teslim |
+| Tüccar | Açık bedelli dış tedarikten 12 küçük su kabul edip teslim |
+| Toplulukçu | 4 adet 5 L su + 4 taze domates; aynı oyun gününde iki farklı çalışanın kesintisiz molası |
 
 Her yol aynı ana ilerlemeyi ve ilgili +10 itibarı verir; sınıfa özel beceri istemez. Seçenek teslim öncesi değişir, ilk teslimden sonra dal netleşir.
 
@@ -30,23 +30,23 @@ Açılış: kriz çözümü, 12 farklı SKU satışı, üç aile erişimi ve nor
 
 | Proje | Toplam teslim | Yatırım |
 |---|---|---:|
-| Kooperatif merkezi | 600 küp + 300 su + 200 biyosabun + 120 eldiven | 1.800 |
-| Araştırma lojistik üssü | 200 pil + 160 filtre jeli + 80 şarj cihazı + 60 sefer öğünü | 400 |
-| Bölgesel ticaret merkezi | 160 nektar + 120 sefer ceketi + 60 ışıklı süs | 2.400 |
+| Kooperatif merkezi | 40 küçük su + 20 adet 5 L su + 40 domates + 20 köy somunu | 300 |
+| Yerel araştırma merkezi | 20 damacana + 20 zeytinyağı + 20 tütsülenmiş alabalık + 20 balmumlu branda | 400 |
+| Bölgesel ticaret merkezi | 40 üzüm pekmezi + 20 pastırma + 20 yün şal + 20 kahvaltı tepsisi | 600 |
 
-Standart kalite ve dış alım geçerlidir. Her dalga/satırda en fazla %20, aşağı yuvarlanmış açık ikame §42.3'e göre kabul edilir; ikame zincirlenmez, aynı lot iki kez sayılmaz. İtibarı 40 altındaki topluluk için günde bir 10 su/küp kurtarma görevi belgeli lot maliyetini geri öder ve +2 itibar verir; bağış lotundan kâr üretilmez.
+Standart kalite ve dış alım geçerlidir. Her teslim dört eşit dalgaya bölünür; bu sürümde final satırlarında ikame yoktur, aynı lot iki kez sayılmaz. İtibarı 40 altındaki topluluk için günde bir 10 küçük su veya 5 taze domates kurtarma görevi belgeli lot maliyetini geri öder ve +2 itibar verir; görev kâr üretmez.
 
 ## Hizmet sınavı ve kayıt
 
 900 aktif saniyelik sınav; normal spawn yerine 60 ziyaretçi/80 ihtiyaç (40 tek, 20 çift). Seed, ihtiyaçlar, sepet bütçeleri, kabul eşikleri ve kuyruk ölçümleri kaydedilir. Ortak başarı ≥64 ihtiyaç, satış tamamlayanlarda medyan kuyruk ≤25 sn, kuyruktan ayrılan ≤6. Aile dağılımı 30/25/25; geçersiz planla sınav başlamaz (§42.2).
 
-Ek koşullar: Kooperatif gıda veya su tamamen boş geçen birleşik süre ≤120 sn; Araştırma ek 20 pili üretir veya dış alım kabul/kalite kontrolünden geçirir; Ticaret her aileden ≥10 satış ve tek aile payı ≤%70. Rahat modda kuyruk ≤40 sn ve Kooperatif boşluk ≤180 sn.
+Ek koşullar: Kooperatif gıda veya su tamamen boş geçen birleşik süre ≤120 sn; Araştırma ek 4 damacanayı üretir veya dış alım kabul/kalite kontrolünden geçirir; Ticaret her aileden ≥10 satış ve tek aile payı ≤%70. Rahat modda kuyruk ≤40 sn ve Kooperatif boşluk ≤180 sn.
 
 Olumsuz olay varsa erteleme sunulur; sınavda yeni ekonomik olay başlamaz. Kilit/arka plan süreyi ve müşterileri sıfırlamaz. Başarısızlık yalnız sınavı tekrarlatır; teslim/yatırım korunur. İlk sonuç ana final; diğerleri serbest oyunda tamamlanabilir. Ödül proje başına bir kez; tema/unvan/sahne ve dünya sonucu §48.5'e bağlıdır.
 
 ## A5 kabulü
 
-Her finalin üretim ve dış alım yolu, kısmi teslim/ikame, kesinti, başarısız tekrar ve tekil ödülü test edilir. Yeni kayıt ve göç edilmiş kayıtta aynı ilerleme sağlanır. Kayıt silen game-over veya kaçırılan eski göreve bağlı kalıcı kilit bulunmaz.
+Her finalin üretim ve dış alım yolu, kısmi teslim, kesinti, başarısız tekrar ve tekil ödülü test edilir. İkamesiz teslimde yanlış SKU kabul edilmez. Yeni kayıt ve göç edilmiş kayıtta aynı ilerleme sağlanır. Kayıt silen game-over veya kaçırılan eski göreve bağlı kalıcı kilit bulunmaz.
 
 ## Final uygulama durumu — A4
 
@@ -54,11 +54,11 @@ KAYNAK: §42, §48.3, §60.2. KARAR önerisi durum isimleri: Locked → Preparin
 
 Locked görünümü eksik kriz/SKU/aile/kontrat/itibar koşullarını ayrı gösterir. Preparing yatırım önizlemesini sunar; onay bir kez yazılır. Aktif dalgaya kısmi kabul normal stoktan proje stoğuna geçirir, geri çekilemez/satılamaz/bozulmaz. Önceki dalga bitmeden sonraki dalga kabul edilmez. Her satır toplamın dörtte biridir; dalga limitleri ayrı tutulur. ReadyForTrial aşamasında geçerli 60 ziyaretçi/80 ihtiyaç planı üretilip kaydedilir; plan geçersizse sınav başlamaz.
 
-İkame örneği: Kooperatif dalgasında 150 küp vardır; en fazla floor(150×0,20)=30 hedef küp, 1:1 kraker ile karşılanabilir. Bu, envanterde krakeri küpe çevirmez; hedef satırına 30 tamamlama puanı yazar. Tek lot başka dalga/satırda yeniden kullanılamaz. Kabul edilen final ürünleri müşteri satışı/AP/SKU sayacı üretmez.
+Teslim örneği: Kooperatif dalgasında 10 küçük su, 5 adet 5 L su, 10 domates ve 5 köy somunu gerekir. Kısmi teslim ilgili satıra yazılır; tek lot başka dalga/satırda yeniden kullanılamaz. Kabul edilen final ürünleri müşteri satışı/AP/SKU sayacı üretmez.
 
 ## Hizmet sınavı ölçüm sözleşmesi
 
-80 kabul eşiği `(i+0,5)/80`, i=0…79; seed ile ihtiyaçlara dağıtılır. Her ailede adil fiyatta en az 15 kabul edilebilir ihtiyaç olmalıdır. Ailelerin 30/25/25 ihtiyaç dağılımı ve bütçeye sığan bütün sepetler başlamadan doğrulanır. Araştırma ek 20 pil koşulu önce teslim edilmiş stoktan sayılmaz; sınavdaki üretim veya kabul/kalite kontrol olayıyla sayılır, sonunda normal stokta kalır.
+80 kabul eşiği `(i+0,5)/80`, i=0…79; seed ile ihtiyaçlara dağıtılır. Her ailede adil fiyatta en az 15 kabul edilebilir ihtiyaç olmalıdır. Ailelerin 30/25/25 ihtiyaç dağılımı ve bütçeye sığan bütün sepetler başlamadan doğrulanır. Araştırma ek 4 damacana koşulu önce teslim edilmiş stoktan sayılmaz; sınavdaki üretim veya kabul/kalite kontrol olayıyla sayılır, sonunda normal stokta kalır.
 
 Medyan yalnız satış tamamlayan sınav cohort'udur; normal müşteri örnekleri karıştırılmaz. Yeterli satış yoksa bekleme 0 gösterip başarı verme; ≥64 ihtiyaç şartı ayrıca zorunludur. Kuyruk terk sayısı kişi, karşılanan ihtiyaç sayısı satırdır; ikisi aynı sayaç değildir. Kooperatif boşluk, gıda veya su tükenmesinin zaman birleşimidir; ikisi aynı anda boşken süre iki kat artmaz. Ticaret aile payı ihtiyaç adedi varsayımıyla değil kaynakta tanımlı ürün satışı üzerinden hesaplanır.
 

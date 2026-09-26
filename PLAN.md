@@ -54,7 +54,7 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 - [ ] Kullanılacak belge sürümlerini ve gerçek depo durumunu karşılaştır; önceki tamamlandı iddialarını kanıtla.
 - [ ] Mobil hedefi, dikey dokunma, Three.js/TypeScript/Vite/Capacitor ve ilk DOM/CSS UI sözleşmesini sabitle.
 - [ ] Mevcut React/R3F/Zustand iskeletinin hedefe uyum yolunu incele; gerekçesiz yeniden yazım veya yeni framework ekleme.
-- [ ] P0 kapsamını tek oda/iki makine/tek küp/tek görevli olarak kilitle; tam oyun backlog'unu ayrı tut.
+- [ ] P0 kapsamını tek oda, su kaynağı/şişeleme/domates yatağı, üç su ürünü, taze domates ve tek görevli olarak kilitle; tam oyun backlog'unu ayrı tut.
 - [ ] İçerik kataloğundaki açık tanımları fazlara ata: 21 ileri yetenek, personel üretimi, bonus birleşimi, oda taban skorları ve sağlayıcı doğrulaması.
 - [ ] Ekip/kapasite, asset bütçesi, cihaz erişimi, hedef yaş grubu ve yayın sorumlusunu kaydet; bilinmeyeni olmuş gibi işaretleme.
 
@@ -79,7 +79,7 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 ### P0.1 — iskelet, veri, saat ve kabuk
 
 - [ ] Saf domain, sabit 10 Hz saat, seed'li RNG, tek ledger, sabit hassasiyet ve komut/transaction kimliği.
-- [ ] Minimum içerik doğrulayıcı; ara su ile nihai içme suyu ayrı ID; iki makinenin tarif/kapasite verisi.
+- [ ] Minimum içerik doğrulayıcı; `item.raw_water` ile üç şişelenmiş su SKU'su ayrı ID; kaynak/şişeleme/domates tarif ve kapasite verisi.
 - [ ] Three.js WebGL2 sahnesi, grid, portre kamera, placeholder karakter ve Neo-Brutalist HUD.
 - [ ] Yerel asset yolları, safe-area, WebGL2 hata ekranı; render ve simülasyon ayrımı.
 - [ ] Capacitor yapılandırması ve ilk gün Android/iOS native proje üretimi hedefi; ilk hafta iki gerçek cihaz build'i hedefi.
@@ -89,7 +89,7 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 
 - [ ] Joystick/dokun-git, pointer sahipliği, touchcancel ve kamera jestleri.
 - [ ] Kaynak → taşıyıcı → makine → çıktı → raf transferleri; kaynak/hedef kapasite rezervasyonu.
-- [ ] Etiketli prototip tedarik dolabı; yetiştirici/yosun/paketleyici/küp zinciri.
+- [ ] Bahçe su kaynağı; şişeleme tezgâhında üç su boyutu ve domates yatağında sulama/hasat zinciri.
 - [ ] Eksik girdi/dolu çıktı/erişimsiz hedef için görünür gerekçe; sessiz ürün kaybı yok.
 - [ ] Tek müşteri davranışı, sepet, kasa ve atomik satış; tekrarlanan çağrı ikinci para üretmez.
 - [ ] İlk 60 sn hareket/taşıma, 1–3 dk satış, 3–5 dk kendi üretimi hedefleyen kısa ipuçları.
@@ -112,7 +112,7 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 
 **Teslim:** Oynanabilir P0, çalıştırma/build talimatı, cihaz raporu ve devam/düzelt/durdur kararı. **Çıkış:** İlk satış, devir, kesintiden doğru dönüş ve ölçülebilir yerleşim etkisi kanıtlı.
 
-**Kapsam dışı:** Çok ürün, RPG, tam odalar/mola, dış alım, bakım, kontrat, olay/hikâye/final ve gerçek reklam/ödeme. P0 kayıtları geliştirme verisidir; yayın uyumluluğu vaat edilmez.
+**Kapsam dışı:** Tier 2–4 işlenmiş ürünler, RPG, tam odalar/mola, dış alım, bakım, kontrat, olay/hikâye/final ve gerçek reklam/ödeme. P0 kayıtları geliştirme verisidir; yayın uyumluluğu vaat edilmez.
 
 **Yedi çalışma günü önerisi:** 1 ortam/sahne/girdi; 2 transfer; 3 satış; 4 üretim; 5 görevli/kayıt entegrasyonu; 6 yerleşim/test/build; 7 oyuncu denemesi/düzeltme. Kayıt güvenliği ilk ekonomik işlemden itibaren geliştirilir; beşinci güne ertelenmez.
 
@@ -120,9 +120,9 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 
 ### A2.1 — gerçek başlangıç ve ekonomi
 
-- [ ] [KARARLAR.md](KARARLAR.md) D-004 kapsamındaki üç ürünü (`nutrient_cube`, `drinking_water`, `nebula_drink`) ve Biyoyetiştirici/Paketleyici/Şişeleyici zincirini uygula; Yerel Kooperatif SKU ve tarif erişimlerini kaynak tablolarıyla doğrula.
-- [ ] 600 kredi, kasa/raf/teslim dolabı, geçici 8 E ve başlangıç stokunu gerçek lotlarla kur; 20 suyu `item.water` ara ürün lotu olarak [KARARLAR.md](KARARLAR.md) D-002 uyarınca kaydet.
-- [ ] Yetiştirici 160/paketleyici 180 satın alımı, gerçek maliyet/enerji ve lot muhasebesi.
+- [ ] [KARARLAR.md](KARARLAR.md) D-002–D-004 uyarınca su kaynağı, üç şişelenmiş su SKU'su ve domates zincirini gerçek lotlarla kur; ilk mandıra ve işlenmiş gıda erişimini doğrula.
+- [ ] §26 ve [ürün ağacındaki](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md) 100 kredi, 50 ham su, 12/4/2 ambalaj, 8 tohum ve seviye 1 debiyi uygula; ilk 3–8 dakikalık oturumda stok/talep dengesini ölç.
+- [ ] İlk işleme istasyonlarının satın alımı, enerji/sarf ve lot muhasebesini doğrula.
 - [ ] Tek depo rafı/tedarikçi, fiyat teklifi, onay, teslim, kabul, kapasite rezervasyonu ve iptal/iade.
 - [ ] Para/stok korunumu, katkı/net kâr/nakit farkı; satın alım ve satışta çifte gideri önle.
 
@@ -165,6 +165,9 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 
 ### A3.3 — kontrat, olay, teşhis ve toparlanma
 
+- [ ] §38.4 fiyat tabelası: kaliteye uyarlanmış referansa göre 1,00×/0,80×/1,50× seçimi, özel fiyat, aralık ve sepet fiyat kilidi; aynı seed ile %50 ortalama kuyruk hedefi ölçümü ve pahalı fiyat ret geri bildirimi.
+- [ ] §38.5 raf SKU kilidi: oyuncu/görevli transferi, dolu rafta kilit değişimi reddi ve kayıt dönüşü; olaylar açık ve `item.aged_cheese` stoklu günlerde %20 seed'li olasılık, günde en çok bir aşırma, en az 12 aktif saniye yakalama, güvenli iade veya çıkış kaybı. Akü katalog kimliği/üretim yolu gelmeden açılmaz.
+- [ ] §38.6 Kooperatif 100 kredi/ücretsiz ve Konsorsiyum 300 kredi/%5 tek ücret/toplam 315 kredi teklifleri; aynı anda tek borç, sabit vade/ceza yok, günlük brüt satış cirosundan %10 tekil kesinti ve yardım yolunun açık kalması.
 - [ ] Kontrat teklifi, kısmi teslim, tahsis, uzatma, timeout ve perakende fırsat maliyeti.
 - [ ] Sınırlı dünya/personel olayları; cooldown, etki sınırları, olay kapalıyken zorunlu kriz erişimi.
 - [ ] İşletme haritası ölçümleri, kanıta dayanan en fazla üç öneri; otomatik satın alma yok.
@@ -175,21 +178,36 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 
 **Kapsam dışı:** Tam içerik/son sanat ve monetizasyon SDK'ları.
 
+### A3 sonrası A–E adayları için önkoşul kapısı
+
+§64 adayları P0/A2 teslimi değildir. A3'te mevcut olay, vardiya, fiyat/raf, oda/dekor ve teşhis sistemleri doğrulandıktan sonra A4 aday işi açılır: VIP ve günlük haber için tek EventDirector; hijyen ve cazibe için §32 oda sınırı; Bülten için gerçek olay verisi; teşhir/pazarlık için satış ledger'ı ve fiyat kontrolü; vardiya dalgası için kayıtlı müşteri RNG'si. Her aday, aynı iş yükünü artırıyorsa §58.3 kapsam takası veya süre/bütçe etkisiyle H0 karar listesine döner. Bu paragraf adayları uygulanmış veya A4 zorunlu teslim saymaz.
+
 ## 8. A4 — tam oyun, son içerik ve sandbox
 
 ### A4.1 — içerik kataloğunu tamamlama
 
-- [ ] 7 ara tarif, 24 nihai ürün ve 12 üretim aracının veri referansı/maliyet/erişim doğrulaması.
+- [ ] Tier 1–4 yerel ürün ağacının ham kaynak, ara form, tarif, istasyon, maliyet ve erişim doğrulaması.
 - [ ] 8 rol, 6 köken, bireysel özellikler, 20 çalışan üst sınırı, aday üretim ve çelişen özellik kuralları.
 - [ ] Gerekli oda/donanım, tedarikçi, müşteri ve olay kataloğu; eksik tanım sıfırla doldurulmaz.
 - [ ] Kalan 21 yeteneğin gerçek davranış/bedel/önkoşul/reset tasarımını tamamla; anayasada hazır olmadığı açıkça korunur.
 - [ ] İsimli karakter tercih/eksiklikleri, kişisel görevleri, diyalog ve ilişkisel sonuçları.
+- [ ] §64 adaylarının her biri için ürün/olay/dekor kimliği, önkoşul, ekonomi sınırı ve kayıt göçü gereksinimini karara bağla; Tier 5 oluşturma.
+
+### A4 aday mekanik paketleri — yalnız A3 kapısından sonra
+
+- [ ] VIP teftişi ve sabah trendini aynı olay takviminde; tekrar ziyaret/ödül olmadan dene.
+- [ ] Hijyen, Mahalle Bülteni ve dekor cazibesini gerçek oda/hizmet olaylarıyla bağla; ücretsiz temizlik ve ücretli kozmetik eşitliği korunur.
+- [ ] Günün Hasadı teşhiri ve Tier 4 pazarlığını mevcut fiyat, talep, stok rezervasyonu ve ledger üzerinde dene; 3× hız ve +%20–30 kâr hipotezlerini ayrı ölç.
+- [ ] 60 aktif saniyelik vardiya dalgasını müşteri kapasitesi, kayıt dönüşü ve düşük cihaz profiliyle doğrula.
+- [ ] §52–54/§60.2 sürekli hedef akışı, üç aşamalı ses/haptik ritmi, dükkân adı ve görsel yükseltmeleri erişilebilirlik ve cihaz bütçesi içinde dene; %15–20 sürpriz ve +%25 sıcaklık hipotezlerini ancak içerik/korunum testinden sonra aç.
+
+**Aday kabul kapısı:** [TEST_STRATEGY.md](TEST_STRATEGY.md) A–E senaryoları, gerçek oyuncu geri bildirimi, ekonomi korunumu ve cihaz profili görülmeden aday ilk sürüm zorunluluğuna dönüşmez. P0 → A2 → A3 → A4 → A5 sırası değişmez.
 
 ### A4.2 — başlangıçtan finale
 
 - [ ] Altı oyun bölümü erişimi, araştırma ve topluluk itibarı tutarlı.
 - [ ] Bölgesel krizin üç çözümü, kısmi teslim ve aynı ana ilerleme.
-- [ ] Üç finalin dört dalgası, yatırım, ikame sınırları ve geri çekilemeyen proje kabulü.
+- [ ] Üç finalin §42'deki dört dalgası, yatırım, ikamesiz teslim ve geri çekilemeyen proje kabulü.
 - [ ] 60 ziyaretçi/80 ihtiyaç hizmet sınavı, seed/sepet/süre/ölçüm kaydı ve başarısız denemede teslimlerin korunması.
 - [ ] Final sahneleri, dünyada görsel sonuç, tekil ödül ve diğer projelere açık serbest oyun.
 - [ ] Baştan finale üretim ve dış alım yolları; finalin kısa oturumlara bölünebilmesi.
@@ -342,7 +360,7 @@ Kapsam değişikliğinde oyuncu sorunu, mevcut çözüm, minimum iş, bakım/tes
 - [MVP_IMPLEMENTATION_GUIDE.md](MVP_IMPLEMENTATION_GUIDE.md): P0-01…09 iş paketleri ve yedi günlük öneri.
 - [ARCHITECTURE.md](ARCHITECTURE.md), [DOMAIN_MODEL.md](DOMAIN_MODEL.md): katmanlar, state, komut ve kayıt protokolü.
 - [CONTROLS_AND_UX.md](CONTROLS_AND_UX.md), [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md): mobil davranış/görsel kabul.
-- [OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md): tüm kataloglar ve açık tanımlar.
+- [OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md): yerel su, çiftlik, göl ve zanaat ürün ağacı taslağı; eski personel/ekonomi/final katalogları bu dosyada artık yoktur.
 - [ECONOMY_AND_MACHINES.md](ECONOMY_AND_MACHINES.md), [RPG_AND_PROGRESSION.md](RPG_AND_PROGRESSION.md), [STORY_AND_FACTIONS.md](STORY_AND_FACTIONS.md): sistem uygulama ayrıntıları.
 - [MONETIZATION_AND_PRIVACY.md](MONETIZATION_AND_PRIVACY.md): sağlayıcı/hak/gizlilik akışları.
 - [TEST_STRATEGY.md](TEST_STRATEGY.md): T-P0/T-A2/T-A3/T-A4 fixture'ları ve cihaz rapor şablonu.

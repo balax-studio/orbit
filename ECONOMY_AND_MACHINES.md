@@ -2,33 +2,21 @@
 
 Kaynak: [anayasa](OYUN_GELISTIRME_DEVIR_DOSYASI.md) §26, §33–41, §47–48. Fiyat/maliyet başlangıç referansı §37'dir; değerler test hipotezidir. Özet tablolar tarif ağacının yerine geçmez.
 
-## P0 — korunumu kanıtla
+## P0 — su ve domates korunumu
 
-Fiziksel stok/kapasite/atık soruları [KARARLAR.md](KARARLAR.md) D-011'de; negatif kredi, satış iadesi, gelir bildirimi D-012'de; makine buffer/parti/yerleştirme D-015'tedir. Son temel üretim yolu yalnız makine adediyle değil erişilebilir rota, servis, güç, girdi ve çıkışla korunur (D-001/D-016).
-
-Tek küp hattı, iki makine ve etiketli prototip tedariki kullanılır. Aktarım/satış atomiktir; kullanılabilir stok = fiziksel − rezerve. Kaynak miktarı ve hedef kapasitesi birlikte rezerve edilir, iptalde birlikte bırakılır. Üretim emri ürün/hedef/minimum stok/öncelik/maksimum ayrılmış girdi içerir. Çıktı dolu veya girdi eksikse ürün kaybolmaz; sebep görünürdür.
-
-Parti süresi simülasyon saatidir. Çıktı/dakika = çıktı adedi × 60 / parti süresi; hat kapasitesi en yavaş aşamayla sınırlıdır. Tek paketleyici küpte 7,5 adet/dk referansına sahiptir. Makine yükseltmelerine kaynaksız genel süre çarpanı uygulanmaz; §26.4 tanımı aktarılır.
+Tek kaynak suyu şişeleme ve sulama arasında paylaştırılır. Kullanılabilir stok = fiziksel stok − rezerve stok. Üç su boyutu ve taze domates satışında girdi, çıktı, raf ve para tek işlem kimliğiyle değişir. Yükseltme anında geçmiş üretim doldurulmaz; arka planda su birikmez. Eksik su, ambalaj veya çıktı alanı görünür bekleme nedenidir. Son temel su satış yolu [KARARLAR.md](KARARLAR.md) D-001 uyarınca korunur.
 
 ## A2 — gerçek maliyet ve fiyat
 
-Tanımlar `src/content/` altında sürümlenir. Tarif miktarları/süreleri/makineler §26; güncel maliyet ve referans satış §37'den aktarılır. Formül ve veri için üçüncü bağımsız sabit listesi oluşturulmaz.
-
-| Ürün | Üretim maliyeti | Referans satış |
-|---|---:|---:|
-| Besin küpü | 4,00 | 12,00 |
-| İçme suyu | 1,06 | 5,00 |
-| Sefer öğünü (ileri içerik) | 10,97 | 40,00 |
-
-Bunlar tam katalog değildir. Ara ürün su maliyeti 1,02 ile şişelenmiş nihai içme suyu 1,06 birbirine karıştırılmaz. Yosun `(1,02+6,56+0,10)/4=1,92`; küp `2×1,92+0,16=4,00`. Ara hesap yuvarlanmaz. Ledger en az dört ondalık sabit hassasiyet; UI iki ondalık, ödeme en küçük para birimine yuvarlanır. Katkı, personel/bakım/oda giderleri öncesidir; net kâr değildir.
-
-Normal nihai toptan bedel referans perakendenin %65'i; nakliye 5 kredi/sipariş, kapasite 40 birim. Gerçek taşıma payı sipariş adediyle hesaplanır. Hacim indirimi §33'e göre ayrı uygulanır. Oyuncunun raf fiyatını artırması referans tedarik/kontrat değerini değiştirmez. Tarihsel lot maliyeti korunur.
+Ürün kimlikleri ve tarif yönü [yerel ürün ağacından](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md), bağlayıcı kapsam [ana kaynak §26'dan](OYUN_GELISTIRME_DEVIR_DOSYASI.md) alınır. Katalogdaki fiyat, ham maliyet ve kâr sayıları denge hipotezidir. Ambalaj, tohum, enerji, nakliye ve ara lot maliyetleri doğrulanmadan gerçek kâr raporu oluşturulmaz. Ledger 10.000 atom/kredi tamsayı hassasiyetini kullanır; UI sunumu ledger değerini değiştirmez. Eski küp ve buz bazlı maliyet hesabı kullanılmaz.
 
 ## A2–A3 — müşteri ve kalite
 
+A3 raf fiyat tabelası, SKU kilidi, aşırma ve oyun içi borç sözleşmesi [anayasa](OYUN_GELISTIRME_DEVIR_DOSYASI.md) §38.4–38.6'dadır. Ön ayarlar referansın 1,00×/0,80×/1,50× katıdır. İndirimli kuyrukta +%50 ortalama hedef mevcut talep ve kapasite içinde ölçülür; sabit spawn çarpanı değildir. Uygun `item.aged_cheese` stoklu günde aşırma olasılığı %20, en çok bir olay ve yakalama süresi en az 12 aktif saniyedir; akü henüz katalogda yoktur. Aşırma satış geliri değildir; yakalamada aynı lot geri döner. Kooperatif 100 kredi ücretsiz, Konsorsiyum 300 kredi ve bir defalık 15 kredi ücretle toplam 315 kredidir; aynı anda tek borç bulunur, sabit vade/ceza yoktur. Günlük brüt satış cirosunun %10'u borç bakiyesi ve mevcut nakitle sınırlı tek kesintidir. Bütün bu sayılar başlangıç denge hipotezidir, test sonucu değildir.
+
 Müşteri ihtiyaç RNG'si girişte kaydedilir; boş raf talebi silmez. Kuyruk hücreleri, sabır ve güvenli çıkış kararları [KARARLAR.md](KARARLAR.md) D-013'tedir.
 
-P0 öğretim gelişinin ayrı tetiklenmesi, sonrasındaki `56/9000` seed'li tick geliş olasılığı, 40 aktif saniyelik P0 kuyruk sabrı ve 12 kredilik sabit küp fiyatı D-019 D.1–D.3 kararıdır. A2 profil sabrı 40/55/30 sn ve bölüm ziyaret hedefleri anayasa §37–38'den alınır; P0 ritmi doğrulanmış denge sonucu değildir.
+P0 öğretim gelişinin ayrı tetiklenmesi, sonrasındaki `56/9000` seed'li tick geliş olasılığı ve 40 aktif saniyelik P0 kuyruk sabrı D-019 D.1–D.3 kararıdır. İlk su ürünlerinin referans fiyatı katalogdadır; P0 ritmi doğrulanmış oyuncu sonucu değildir. A2 profil sabrı 40/55/30 sn ve bölüm ziyaret hedefleri anayasa §38'den alınır.
 
 A2 üç profil ve bir ikameyle başlar; §38–39'un tam entegrasyonu A3 derinliğine bağlanır. Raf fiyatı oyuncu seçimiyle değişebilir; oyuncunun nakdine göre gizlice değişmez. Sepetteki fiyat kilitlenir. Stok ve bütçe filtresinden sonra:
 
@@ -54,25 +42,7 @@ Ham kaynak skorları 40/70/95 ve alış çarpanları 1/1,25/1,60; kalibrasyon I/
 
 ## A4–A5 — tam katalog ve denge kanıtı
 
-24 nihai ürün, tüm ara tarifler ve altı aile tutarlı ID'lerle doğrulanır. Üretim/ticaret/karma senaryoları; ücret, enerji, bakım, oda, lojistik ve vazgeçilen satış katkısıyla karşılaştırılır. Final teslimleri satış geliri değildir. Ücretsiz, reklamsız ekonomi bağımsız çalışır; kozmetik ödül üretim/para/XP/kalite avantajı vermez. Denge raporu aritmetik kontrol ile oyuncu deneyimini ayrı gösterir.
-
-## P0 aktarılacak minimum katalog — KAYNAK §26.2–26.4
-
-`item.water` ara su, `item.drinking_water` satılabilir içme suyudur; aynı ID kullanılamaz. Tarifler `recipe.*`, ürünler `item.*` biçimindedir. Makine ID yazımı uygulama kararıdır; aşağıdaki Türkçe araç adlarıyla tek katalogda eşlenir.
-
-| Tarif | Parti girdisi | Araç | Süre | Çıktı |
-|---|---|---|---:|---|
-| recipe.algae | 1 item.water + 1 spor | Biyoyetiştirici | 10 sn | 4 yosun |
-| recipe.nutrient_cube | 2 yosun | Paketleyici | 8 sn | 1 item.nutrient_cube |
-
-P0 dolabı tarif girdilerini sağlar; kaynak çıkarma veya üçüncü makine ekleme zorunluluğu yoktur. Prototip bağışı normal alım gibi maliyetlendirilmez. Tam ekonomi regresyon fixture'ı ise §37 ücretli girdilerini kullanır; bu iki senaryonun sonuçları karıştırılmaz.
-
-| Araç | Fiyat | Footprint | Güç | Girdi/çıktı kapasitesi |
-|---|---:|---|---:|---|
-| Biyoyetiştirici | 160 | 2×2 | 1 E | 16/24 |
-| Paketleyici | 180 | 1×2 | 2 E | 24/12 |
-
-Her araç erişilebilir en az bir servis hücresi ister. II seviye işlem süresini %15 kısaltır; yükseltme bedeli satın alma bedelinin %10'u. III ikinci sıraya alınmış tarif kuyruğu ve %25 yükseltme maliyetidir; paralel üretim eklemez. Yükseltmenin devam eden partiye uygulanma anı teknik kararda netleşir; mevcut partiye ikinci çıktı verilmez.
+Tier 1–4 ürünleri için her kaynak, tedarik, ara form, tarif, istasyon ve satış kimliği doğrulanır. Üretim/ticaret/karma senaryoları ücret, enerji, bakım, oda, lojistik ve vazgeçilen satış katkısıyla karşılaştırılır. Final teslimleri satış geliri değildir. Ücretsiz, reklamsız ekonomi bağımsız çalışır.
 
 ## A2 tedarik ve müşteri ayrıntıları
 
@@ -90,11 +60,11 @@ Bölüm 1 bütçe ×0,75; bölüm 2 ×0,90; sonrası ×1. Bütçe seed ile ziyar
 
 ## A3 bakım, kontrat ve yaşlanma
 
-Aşınma yalnız Running'de: eritici/yetiştirici 1 puan/dk, diğerleri 2. W60 uyarı, W80 yeni partide +%10 süre, W100 mevcut parti sonrası güvenli duruş; ilk oyun günü görünür koruma. Planlı servis 30 sn/8 kredi → W10; onarım 60 sn/14 → W20; durmuş makineye ücretsiz 90 sn elle toparlama → W70. Servis bedeli fiili başlangıçta bir kez; kesintide ilerleme korunur. Satılabilir bakım kiti servis sarfı değildir (§40).
+Aşınma yalnız Running'de: yeni istasyonlar için tanımlanacak aktif aşınma hızı. W60 uyarı, W80 yeni partide +%10 süre, W100 mevcut parti sonrası güvenli duruş; ilk oyun günü görünür koruma. Planlı servis 30 sn/8 kredi → W10; onarım 60 sn/14 → W20; durmuş makineye ücretsiz 90 sn elle toparlama → W70. Servis bedeli fiili başlangıçta bir kez; kesintide ilerleme korunur. Satılabilir bakım kiti servis sarfı değildir (§40).
 
 Normal kontrat fiyatı referans×kalite×0,82; bölüm 2:10–20 adet/2 gün, 3:30–60/3, 4:60–100/4. En fazla iki aktif kontrat; aynı SKU toplamı son üç gün ortalama günlük perakende ihtiyacının iki katını aşmaz. Birimlik kısmi teslim ödenir; avans yok. Bir defa +1 gün uzatma kalan fiyatı %5 düşürür. Timeout kalan kısmı kapatır; ilgili itibar kaybı en çok 3, borç/geri alınan geçmiş teslim yoktur (§41).
 
-A2 bozulma kapalı; A3 isteğe bağlıdır. Yosun/meyve 3 gün, açık gıda 4, paketli gıda/içecek 8; tekstil/pil/dekor ömürsüz. Soğukta ilgili yaşlanma yarım hız; güç kesilince normal hıza döner. Transfer yaşı sıfırlamaz. Son %10 ömürde uyarı; sıfırda satılamaz ve fire/atık kaydı. FEFO, ömürsüzde FIFO. Geri dönüşüm yalnız kaldırır; ücretsiz sonsuz kaynak üretmez (§34.3).
+A2 bozulma kapalı; A3 isteğe bağlıdır. Yeni ürün ailelerinin raf ömürleri içerik verisiyle tanımlanır; dokuma ürünleri ömürsüzdür. Soğukta ilgili yaşlanma yarım hız; güç kesilince normal hıza döner. Transfer yaşı sıfırlamaz. Son %10 ömürde uyarı; sıfırda satılamaz ve fire/atık kaydı. FEFO, ömürsüzde FIFO. Geri dönüşüm yalnız kaldırır; ücretsiz sonsuz kaynak üretmez (§34.3).
 
 ## Sayısal kabul örnekleri
 
@@ -102,3 +72,7 @@ A2 bozulma kapalı; A3 isteğe bağlıdır. Yosun/meyve 3 gün, açık gıda 4, 
 - Kalite girdi95/kalibrasyon90/uzmanlık80 →90,5; Özel. İki girdinin adetleri 1 ve 3, skorları 40 ve 80 ise girdi ortalaması 70'tir; 60 değildir.
 - Standart küp kontratı 20×12×0,82=196,80 gelir; 80 maliyete karşı 116,80 katkı (§41.2).
 - Aynı rezervasyon iki görevliye atanırsa ikinci görev ürün yaratamaz; sipariş iadesi ikinci callback'te tekrar para vermez.
+
+## A4 market adaylarının ekonomi sözleşmesi — KAYNAK §64
+
+VIP teslimi, hijyen sarfı, teşhir satışı, pazarlık ve sıcaklık bonusu mevcut lot/ledger/rezervasyon yolundan geçer. Teşhirin +%200 satış hızı normalin 3×'i için **denenecek talep hedefidir**; boş raf, bütçesiz müşteri veya kapasite sınırı satış üretmez. Pazarlık +%20–30 kâr ve sıcak ekmek ilk 3 aktif dakikada +%25 kâr, net kâr garantisi değildir: fiyat, lot maliyeti, vergi/ücret ve satış kaydıyla sınanır. Trend, VIP, kalite, oda/dekor, teşhir ve sıcaklık etkileri aynı sepeti sessiz çarpan zinciriyle katlamaz; birleşim kuralı ve tavan uygulamadan önce sayısal fixture ile sabitlenir. Reddedilen teklif veya süresi dolan sıcaklık fırsatı ürünü silmez. Seed'li %15–20 doğal bonus hipotezinde fazladan çıkan her ürün tanımlı lot ve maliyetle kayda girer; tekrar yükleme ikinci hasat yaratmaz.

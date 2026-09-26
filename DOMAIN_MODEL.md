@@ -163,11 +163,15 @@ type P0Snapshot = {
 
 ## A2 — lotlar ve müşteriler
 
-Fiziksel slot ile ekonomik lot farklıdır. Lot; kaynak, gerçek kalite skoru, tarihsel birim maliyet, adet ve rezervasyon ilişkisini taşır. Karışık maliyetli stok tek ortalama/raf fiyatıyla geçmişe dönük yazılmaz. Bağış lotunun maliyeti sıfırdır. Yeni kayıttaki 20 su `item.water` ara ürün lotudur; başlangıç dağılımı ve P0 ücretsiz tedarik kuralları [KARARLAR.md](KARARLAR.md) D-002/D-003'e uyar. Para en az dört ondalık sabit hassasiyetle hesaplanır; gösterim iki ondalık, ödeme toplamı en küçük para birimine yuvarlanır.
+Fiziksel slot ile ekonomik lot farklıdır. Lot; kaynak, gerçek kalite skoru, tarihsel birim maliyet, adet ve rezervasyon ilişkisini taşır. Karışık maliyetli stok tek ortalama/raf fiyatıyla geçmişe dönük yazılmaz. Bahçe kaynağından gelen `item.raw_water` ara lotu ile üç şişelenmiş satış SKU'su ayrıdır; başlangıç dağılımı ve ambalaj sarfı [KARARLAR.md](KARARLAR.md) D-002/D-003'e uyar. Para 10.000 atom/kredi tamsayı hassasiyetinde tutulur; gösterim ledger değerini değiştirmez.
 
 Sipariş durumları, teslimat zamanı ve kapasite rezervasyonu kaydedilir. Müşteri profilinin bütçe ve fiyat tepkisi, ihtiyaç başına sabit kabul eşiği, ikame ilişkisi ve kayıp satış nedeni ayrı tutulur. Rastgelelik yeniden yüklemede yeniden çekilmez.
 
 ## A3 — genişleyen sözleşmeler
+
+- Raf: kalıcı seçili SKU, fiyat ön ayarı/fiyat değeri ve SKU kilidi; fiyat revision'ı ve mevcut sepetin kilitli fiyatı ayrı tutulur. Uyumsuz transfer ve dolu rafta uyumsuz kilit değişimi reddedilir.
+- Aşırma: olay/şüpheli kimliği, seed'li karar, alınan lotun tek konumu, kapıya kalan rota ve yakalama/kaçış sonucu kaydedilir. Yakalama aynı lotu güvenli kapasiteye döndürür; kayıp satış/ciro sayılmaz.
+- Borç: kurum/teklif kimliği, anapara, açık toplam yükümlülük, kalan bakiye, tahsilat gün kimlikleri ve ledger işlemleri kaydedilir. Gün sonu brüt satış tahsilatından %10, bakiye ve eldeki nakitle sınırlı tahsil edilir; tekrar çağrı ikinci kesinti yapmaz.
 
 - Personel: rol/beceri, yorgunluk F, memnuniyet, vardiya, mola rezervasyonu, güvenli görev devri. Enerji `100−F` türetilir; ikinci kaynak değildir.
 - Üretim: kalite skoru, kalibrasyon, aşınma, servis ve güç tahsisi; kalite etiketi skordan türetilir.
@@ -226,3 +230,7 @@ Save zarfı en az schemaVersion/contentVersion, sequence, simülasyon tick'i, RN
 Kaynak rafı → taşıyan aktör → makine girdisi → parti içeriği → makine çıktısı → satış rafı → müşteri sepeti → satılmış ürün açık konumlardır. Transfer adedi çoğaltmaz; üretim girdiyi çıktıya tarif oranında dönüştürdüğü için ham adet toplamının her üretimde aynı kalması beklenmez. Ürün bazında denge: açılış + edinim + üretim çıktısı − üretim tüketimi − satış − teslim − fire = kapanış. Rezervasyon ek stok değildir.
 
 Sepet iptalinde mal oyuncunun sahipliğinde kalır ve geri stoklama görevi oluşur; rafta anında belirme varsayılmaz. Taşıyıcının görevi iptal edilince yük silinmez; güvenli hedefe devredilir. Bir lotun alt parçalara bölünmesi toplam adet ve maliyeti korur. Stok raporundaki ortalama maliyet geçmiş lot değerlerini yeniden yazmaz.
+
+## A4 adayları için veri sınırı — KAYNAK §64
+
+Bu alanlar uygulanmış şema değildir. A3 olay/oda/fiyat altyapısı doğrulandıktan sonra VIP ziyareti, trend ve vardiya dalgası aynı sürümlü olay takvimi/RNG durumunda; hijyen ve cazibe oda instance'ında; teşhir ataması raf/tezgâh instance'ında; pazarlık teklifi müşteri sepeti ve satış transaction'ında temsil edilir. Mahalle Bülteni gerçekleşmiş olay/ledger projeksiyonudur, ikinci itibar kaynağı değildir. Dükkân adı güvenli yerel metin olarak, önerilen hedef ise SessionBookmark/GoalPin kapsamında kaydedilir; görüntü efekti ve ses handle'ı save'e girmez. Yeni alanların contentVersion/schemaVersion göçü ve eski kayıt varsayılanı uygulama görev kartında tanımlanır; eksik değere sıfır ekonomi etkisi uydurulmaz. Tüm ödül, sarf ve satışlar tekil transaction ID ile idempotent kalır.

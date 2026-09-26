@@ -22,7 +22,7 @@ Kredi kapasite, XP uzmanlık, AP teknik seçenek, itibar topluluk/final ilişkis
 
 Satışlar bölümde sıfırlanmaz. Tam final açılışının ek koşulları §42 ve STORY_AND_FACTIONS.md'dedir; 40 itibar Bölüm 4→5 geçişine eklenen ayrı zorunlu eşik değildir.
 
-AP: gıda/içecek başlangıç paketi ücretsiz; diğer dört temel aile paketi 2'şer, altı ileri paket 2'şer AP; toplam araştırma 20 AP. Geçişler 13, ailelerin ilk 10 gerçek satışları en fazla 6 AP sağlar. Günde ilk normal kontrat +1, toplam kazanım 20'ye ulaşana kadar. Bu yalnız elde tutulan bakiye sınırı değildir; kazanım geçmişi kaydedilir. Al-sat döngüsü, yeniden dağıtım ve kayıt yükleme AP üretmez.
+AP: temel su/domates ücretsizdir. İlk işlenmiş gıda, mandıra/içecek ve zanaat temel paketleri ile bunların üç ileri paketi ayrı ayrı 2 AP; toplam araştırma 12 AP. Bölüm 1→2, 2→3 ve 3→4 ödülleri 3/4/5 AP verir; ana ilerlemede 12 AP kazanılabilir. Aile başına ilk 10 gerçek satış +1 AP ve günde ilk normal kontrat +1 AP ek kaynaklardır. Kazanım geçmişi kaydedilir; al-sat döngüsü, yeniden dağıtım ve kayıt yükleme AP üretmez.
 
 ## A3 — XP ve dokuz davranış düğümü
 

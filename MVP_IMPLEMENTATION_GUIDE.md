@@ -4,9 +4,7 @@ Kaynak: [anayasa](OYUN_GELISTIRME_DEVIR_DOSYASI.md) hızlı özet, §58 ve §63.
 
 ## P0 sahnesi ve başlangıç
 
-Tek oda, grid, karakter, prototip tedarik dolabı, yetiştirici, paketleyici, raf, kasa, tek müşteri davranışı ve tek raf görevlisi. Satılabilir ürün yalnız besin küpüdür. Yosun hattı iki makineyle gösterilir; su/spor gibi girdiler anayasanın tariflerine göre açıkça etiketlenmiş prototip dolabından sağlanır. Dolap düzeni tek prototip tedarik noktasıdır; ücretsiz girdiler tam oyunun ekonomi dengesi olarak raporlanmaz.
-
-Oda ölçüsü, başlangıç koordinatları ve prototip kredi miktarı anayasanın kesin şartı değildir; seçildiğinde geri alınabilir P0 kararı olarak kaydedilir. Zorunlu 10×10 oda, 50 kredi/3 su ve tek şişeleyici başlangıcı yoktur. P0 kayıtları geliştirme verisidir; yayın kayıt uyumluluğu vaat edilmez.
+Tek oda, grid, karakter, bahçe su kaynağı, şişeleme tezgâhı, domates yatağı, raf, kasa, tek müşteri davranışı ve tek raf görevlisi. Dört ilk satılabilir ürün üç su boyutu ile taze domatestir ([ana kaynak §26](OYUN_GELISTIRME_DEVIR_DOSYASI.md)). Ham su şişeleme ve sulamada aynı stoktan tüketilir. Başlangıç 100 kredi nakit, 50 ham su, 12/4/2 ambalaj ve 8 tohumdur; kaynak seviye 1'de 0,5 birim/aktif saniye üretir. Ambalaj açık maliyetli sarftır; ücretsiz sonsuz girdi değildir. Bunlar başlangıç denge değerleridir, oyuncu testiyle doğrulanmış sonuçlar değildir. P0 kayıtları geliştirme verisidir; yayın kayıt uyumluluğu vaat edilmez.
 
 ## Yedi çalışma günü önerisi
 
@@ -15,7 +13,7 @@ Oda ölçüsü, başlangıç koordinatları ve prototip kredi miktarı anayasan�
 | 1 | Ortam, kamera, grid, dokunmatik hareket, raf yerleştirme; iki native proje hedefi | Telefona uygun sahne ve hareket |
 | 2 | Taşıma, kapasite, atomik transfer, rezervasyon | Ürün kaybolmadan al/bırak |
 | 3 | Tek müşteri, raf, kasa, ledger | İlk satış ve doğru para/stok |
-| 4 | Yetiştirici/paketleyici, tarif süreleri ve tıkanma | Girdiden satılan küpe tam zincir |
+| 4 | Su kaynağı/şişeleme/domates ve tıkanma | Girdiden satılan su ve domatese tam zincir |
 | 5 | Tek raf görevlisi, checkpoint/günlük, lifecycle | Görev devri ve kayıt sonrası devam |
 | 6 | İki yerleşim karşılaştırması, hedefli test ve cihaz build | Yürüyüş/boş raf farkı ve cihaz raporu |
 | 7 | En az beş dış oyuncu denemesi, hata düzeltme | Devam/düzelt/durdur kararı |
@@ -28,7 +26,7 @@ Bu zaman kutusudur; teslim tarihi garantisi değildir. Kayıt işlemlerinin teme
 
 ## P0 kabul sırası
 
-1. Klavyesiz hareket → güvenli al/bırak → iki makine → raf → müşteri → kasa.
+1. Klavyesiz hareket → kaynak suyu alma → şişeleme veya sulama → raf → müşteri → kasa.
 2. Yinelenen işlem/eksik girdi/dolu çıktı durumlarında stok ve para korunur.
 3. Raf görevlisi işi devralır; erişilemeyen hedef açık nedeni gösterir.
 4. İnşa duraklar; geçerli erişim ve maliyet onaylanır; iptal kaynak tüketmez.
@@ -38,9 +36,7 @@ Bu zaman kutusudur; teslim tarihi garantisi değildir. Kayıt işlemlerinin teme
 
 ## A2'ye geçiş
 
-P0 kabulünden sonra üç ürün/üç makineye geçilir. Gerçek yeni kayıt: 600 kredi, kasa, raf, teslim dolabı (4 slot), geçici 8 E güç, 12 küp, 20 su, 8 spor; ürünler sıfır maliyetli bağış lotudur. İlk makineler oyuncu tarafından yetiştirici 160 ve paketleyici 180 krediye alınır (§46.2). A2 kapsamı sabittir: `nutrient_cube` (Besin küpü), `drinking_water` (İçme suyu), `nebula_drink` (Nebula içeceği); Biyoyetiştirici, Paketleyici ve Şişeleyici. Satın alma/açılma sırası ve tarif bağımlılıkları [KARARLAR.md](KARARLAR.md) D-004 uyarınca korunur. Başlangıçtaki 20 su `item.water` ara ürünüdür; `item.drinking_water` ile karıştırılmaz (D-002). Yerel Kooperatif tek A2 tedarikçisidir; katalogda doğrulanmayan SKU bedelsiz varsayılmaz (D-003/D-004).
-
-A3 kalite/kontrat/RPG, A4 final ve sandbox monetizasyon, A5 yayın işi bu rehberin P0 teslimine eklenmez.
+P0 kabulünden sonra mandıra, kümes, ilk işlenmiş gıda ve sıcak içecek hatları açılır. Kesin başlangıç kredi/stok ve aile erişimi [ana kaynak §26/§46](OYUN_GELISTIRME_DEVIR_DOSYASI.md) ile yeni ekonomi doğrulamasından gelir. Eski besin küpü, yosun yetiştirici ve paketleyici başlangıcı kullanılmaz.
 
 ## P0 iş paketleri ve beklenen davranış
 

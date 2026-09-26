@@ -13,6 +13,8 @@ Bu dosya [anayasanın](OYUN_GELISTIRME_DEVIR_DOSYASI.md) §58–59, §61–63 ku
 
 Bir tasarım değeri KAYNAK olabilir ama oynanış dengesi yine hipotezdir. Bir bağımlılığın package.json'da bulunması kurulduğu veya doğru çalıştığı anlamına gelmez. Bir örnek TypeScript tipi mevcut API değildir. Bir testin yazılmış olması geçtiği anlamına gelmez.
 
+Kaynakta açık bırakılan yeni ürün dengesi için önce güncel anayasa, katalog ve kararları tara. Sonra benzer oyunların güncel, mümkünse geliştirici kaynaklı mekaniklerini incele; mekanik ilhamı ile Orbit'e seçilen sayıyı ayrı belirt. Seçilen değer **başlangıç denge hipotezi** olarak kaynak bölüm/karar, faz ve kabul ölçütüyle kaydedilir. Benzer oyunun değerini Orbit gerçeği veya oynanış testi sonucu sayma; mevcut ekonomi/faz kuralıyla çelişeni aktarma. Gerçek oyuncu/cihaz ölçümü hipotezi değiştirdiğinde neden ve yeni sonucu birlikte güncelle.
+
 Geçerli kullanıcı talimatları ve ortamın yetki sınırları uygulanır. AGENTS.md çalışma iş akışını düzenler; ürün değerlerini değiştirmez. Ürün kaynağı önceliği: anayasanın güncel sözleşmesi → kaynakla uyumlu yan belge ve açık boşlukları tamamlayan kayıtlı karar. Teknik/görsel kapsam §61–63, faz kapsamı §58.1; eski sistem bölümü yerine açık güncellemesi kullanılır. Çelişki sürüyorsa iki bölüm ve etkisi kaydedilir; sessizce uygun görünen sayı seçilmez.
 
 ## 2. Her küçük kod işi için görev kartı
@@ -45,7 +47,7 @@ Gerçek sonuç / kanıt / kalan engel:
 
 ## 4. İçerik aktarımı tamamlanma ölçütü
 
-Her kayıt için ID, kaynak bölüm, faz, birim, varsayılan değer ve doğrulama bulunur. Eksik sayıyı 0 ile doldurmak yerine içerik doğrulaması kaydı reddeder. A4 katalog kapısı: 24 nihai ürünün her biri tarif/makine/girdi erişimi, süre, çıktı, fiyat, aile ve bölüm bağlantısına sahip; ara ürünler ve makineler de referans bütünlüğünü geçer.
+Her kayıt için ID, kaynak bölüm, faz, birim, varsayılan değer ve doğrulama bulunur. Eksik sayıyı 0 ile doldurmak yerine içerik doğrulaması kaydı reddeder. A4 katalog kapısı: Tier 1–4 yerel ürün ağacındaki her satılabilir ürün tarif/istasyon/girdi erişimi, süre, çıktı, fiyat, aile ve bölüm bağlantısına sahip; ara ürünler ve kaynaklar da referans bütünlüğünü geçer.
 
 Tarif grafiğinde eksik ID, negatif/sıfır miktar, sıfır süre ve istenmeyen döngü hata olur. Bölüm kilidi ile araştırma açılışı aynı alan değildir. UI metni kalıcı ID olarak kullanılmaz. ID değişimi kayıt göçü olmadan yapılamaz.
 

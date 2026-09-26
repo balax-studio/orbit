@@ -4,37 +4,25 @@ Tarih: 26 Eylül 2026 · Durum: Etkin teknik/ürün kararları · Kaynak önceli
 
 ## D-001 — Temel üretim zincirinin satışı
 
-**Karar:** Kaydedilmiş mevcut yerleşimde oyuncunun temel satılabilir ürünü kendi başına üretebildiği son çalışır makine zincirinin son zorunlu makinesi satılamaz. Kasa, başlangıç teslim dolabı ve bu zincirin son makinesi satıştan korunur. Oyuncu yedek veya artık makineyi satabilir; satılabilir zincirin son makinesini depoya kaldırmak serbesttir, yeniden kurulduğu sürece üretim imkânı korunur. Uyarı tek başına yeterli koruma değildir.
+**Karar:** Kaydedilmiş mevcut yerleşimde oyuncunun temel satılabilir ürünü kendi başına üretebildiği son çalışır zincir korunur. P0'da memba çeşmesi, son şişeleme tezgâhı ve kasa elden çıkarılamaz; oyuncu yedek veya artık istasyonu satabilir. Son tezgâhı depoya kaldırmak, yeniden kurulabilecek durumdaysa mümkündür. Uyarı tek başına yeterli koruma değildir.
 
 **Gerekçe:** §11 kurtarılabilir oyun durumu ister. §40.3 ikinci el satış geliri verir; §48.4 yardım görevi ancak nakit <20 iken açılır ve 40 kredi verir. Bu yardım, 80–90 kredilik satış geliriyle kalan makine/hat yatırımını yapmış oyuncuya erişilemez hale gelebilir.
 
 **Uygulama kuralı:** Satış işlemi önizleme ve commit anında, mevcut inventory/üretim/tedarik kurallarıyla çalışan en az bir satılabilir temel yol kaldığını doğrular. Çalışan son makineyse satış reddedilir ve neden gösterilir. Ücretsiz başlangıç eşyası da makine geri alımından doğan para exploit'ine yol açmamalıdır. Temel zincir kaybolmuş eski kayıtlar varsa para eşiğine bağlı olmayan, sınırlı bir kurtarma yolu gerekir; bu karar normalde böyle kayıt oluşturulmamasını hedefler.
 
-**Doğrulama beklentisi:** Ürün stoku=0 ve tek yetiştirici veya paketleyici eldeyken satış reddi; yedek makine satılabilir; son makine depoya kaldırılıp tekrar kurulabilir; kayıt/yükleme korumayı bozmaz.
+**Doğrulama beklentisi:** Ürün stoku=0 ve tek şişeleme tezgâhı eldeyken satış reddi; yedek tezgâh satılabilir; son tezgâh depoya kaldırılıp tekrar kurulabilir; memba kaynağı ve kasa korunur; kayıt/yükleme korumayı bozmaz.
 
-## D-002 — Yeni kayıt su lotunun kimliği
+## D-002 — Ham su ile şişelenmiş ürünlerin kimliği
 
-**Karar:** §46.2 başlangıç paketindeki 20 su `item.water` ara ürün lotudur; `item.drinking_water` şişelenmiş nihai ürün değildir. Başlangıç suyu ve spor 0 maliyetli bağış lotları olarak yazılır; sonradan üretim/tedarikle edinilen lotlar gerçek maliyet taşır.
+**Güncel karar:** `item.raw_water` bahçedeki `source.spring_water` kaynağının ara lotudur. `item.glass_water_small`, `item.water_jug_5l` ve `item.water_carboy_19l` ayrı satılabilir SKU'lardır. Ham su doğrudan içme suyu satışı sayılmaz. Önceki `item.water`/`item.drinking_water` eşlemesi ve bağış su lotu kararı yeni §26 ile yürürlükten kalktı.
 
-**Gerekçe:** §26.2 biyoyetiştirici yosun tarifi `1 su + 1 spor` ister; P0/A2 yetiştiriciye bağlı üretim bu girdiyi tüketir. §26.3 `drinking_water` ayrı, şişelenebilir ve satılabilir nihai üründür. Başlangıçtaki 20 adedi nihai ürün saymak ücretsiz satış stoğu yaratır ve ara tarif girdisi eksikliğini gizler.
+## D-003 — P0 kaynak ve ambalaj
 
-**Uygulama kuralı:** Başlangıç SaveDTO/content fixture'ında ID açıkça yazılır; görünen ad “Ara su” veya başka ayırt edici yerelleştirme kullanır. Envanter, satış, kalite ve maliyet kayıtları ID'yi kullanır; metin adıyla ürün eşleştirme yapılmaz. Mevcut kayıt göçü yokken bu yeni kayıt kararı tek başına eski kayıt şeması iddiası yaratmaz.
+**Güncel karar:** P0 suyu bahçe kaynağından üretir; prototip tedarik dolabı temel su kaynağı değildir. Üç su ürününün ambalajı görünür ve maliyeti olan sarftır. §26.1'deki 50 birim başlangıç suyu ve katalogdaki 12/4/2 ambalaj ile 8 tohum lotu açılış verisidir; sessiz sınırsız ambalaj yoktur. Domates sulaması aynı ham su lotunu kullanır.
 
-## D-003 — P0 prototip tedarik dolabı
+## D-004 — İlk ürün kapsamı
 
-**Karar:** §58.1'deki tek prototip kaynak noktası, P0'da seçili yosun tarifinin iki girdisini de — 20 su ve 8 spor başlangıç lotu dâhil gerektiğinde — açıkça etiketlenmiş prototip dolabından sağlayabilir. “Bir kaynak girdisi” ifadesi tek tedarik noktası/etkileşimi anlamına gelir; tarifte tek SKU şartı değildir. Yosun tarifi 1 su + 1 spor, çıktı 4 yosun; küp tarifi 2 yosun →1 küp olarak korunur.
-
-**Gerekçe:** §26.2 ve §26.3 tarif sözleşmelerini, §58.1 ve §63.3 ise tek oda/iki makine oynanış kanıtını belirler. P0 tam hammadde tedarik ekonomisi veya üçüncü makineyi test etmez. Tarif oranını değiştirerek iki hedefi uzlaştırmak ekonomi doğrulamasını bozardı.
-
-**A2 tedarik kararı:** Tek tedarikçi olarak Yerel Kooperatif kullanılır. §33.2'de kooperatif su, gıda ve biyolojik girdiler sağlar. Biyolojik girdilerin tohum/spor SKU kapsamı ürün kataloğunda aynı tedarikçiyle doğrulanır; sipariş minimumu, kota ve kapasite kuralları korunur. Katalogda olmayan girdi gizlice bedelsiz eklenmez.
-
-## D-004 — A2 ürün ve makine kapsamı
-
-**Karar (kaynakla çözüldü):** A2 üç satılabilir ürün `nutrient_cube`, `drinking_water`, `nebula_drink`; üç oynanabilir makine Biyoyetiştirici, Paketleyici, Şişeleyici'dir. Anayasa §30'da belirtilmiş seçim yeniden açık soru değildir. A2 başlangıçta oyuncu yetiştirici/paketleyiciyi satın alır; şişeleyici ve tarif erişimi kendi bölüm/ekonomi koşulunda açılır. Su giriş kaynağı olarak hazırdır; Eritici A3'e kadar şart değildir.
-
-**Gerekçe:** Anayasa §30 önceki iki makine sınırını açıkça üçe yükseltir. Nebula'nın ara meyve girdisi biyoyetiştiricide üretilir; ürünün en erken Bölüm 2 erişimi korunur. Üç ürünü yeni kayıtta birden açık göstermek Chapter 1/2 kilidini atlar.
-
-**Açık alt ayrıntı:** A2 yerel kooperatifinden meyve tohumu/spor siparişinin SKU, kota ve gerçek başlangıç bakiyesi §26/§33 tablolarına uygun bağlanmalıdır. Yeni ürün veya dördüncü makine eklenmez.
+**Güncel karar:** P0 üç su boyutu ve taze domatesi, A2 ilk gıda işleme ve mandıra/içecek hatlarını açar. Eski A2 `nutrient_cube`/`drinking_water`/`fruit_drink` ve üç makine listesi yeni §26 ile yürürlükten kalktı. P0 debi, süre, ambalaj, fiyat ve başlangıç bakiyesi §26 ile yeni katalogda tanımlıdır; bunlar oyuncu/cihaz dengesi doğrulanmış değerler değildir.
 
 ## D-005 — Dokuz çekirdek yetenek düğümünün bedeli
 
@@ -239,9 +227,9 @@ Bu filtre P0 dış oyuncu denemesinde ölçülür: oyuncu ilk üretim–raf–sa
 
 | Soru | Cevap | Dayanak/durum |
 |---|---|---|
-| A.1 | Mat düz renkli, az fasetli **low-poly kübik/voxel esintili** habitat. Küp ve prizma siluetleri kullanılır; Minecraft dokusu, gerçekçi PBR ve cel-shaded anime hedef değildir. | Anayasa §62.2; [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md) §2. |
+| A.1 | Mat düz renkli, az fasetli **low-poly kübik/blok biçimli** mağaza. Küp ve prizma siluetleri kullanılır; Minecraft dokusu, gerçekçi PBR ve cel-shaded anime hedef değildir. | Anayasa §62.2; [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md) §2. |
 | A.2 | Başlangıç satış odası **6×6 hücre**; bağlantı koridoru en az 2 hücre geniştir. P0 tek oda bununla başlar; sonraki modüller ayrı eklenir. | Anayasa §9. |
-| A.3 | **1 grid hücresi = 1 metre = Three.js dünyasında 1 yatay birim** uygulama kararıdır. P0 Biyoyetiştirici 2×2, Paketleyici 1×2 footprint kullanır; kasa, raf ve dolap kendi içerik tanımından okunur. Müşteri bir yürüme hücresini geçici kullanır, makine gibi kalıcı 1×1 yerleşim nesnesi değildir. | §9/§26.4 footprint; metre→Three.js birimi eşlemesi teknik karar. |
+| A.3 | **1 grid hücresi = 1 metre = Three.js dünyasında 1 yatay birim** uygulama kararıdır. P0 şişeleme tezgâhı 1×2 footprint kullanır; domates yatağı içerik tanımından okunur; kasa, raf ve dolap kendi içerik tanımından okunur. Müşteri bir yürüme hücresini geçici kullanır, makine gibi kalıcı 1×1 yerleşim nesnesi değildir. | §9/§26 footprint; metre→Three.js birimi eşlemesi teknik karar. |
 | A.4 | Hafif ambient/hemisphere ve bir yön ışığıyla mat renkler; blob veya baked gölge varsayılan. Her makine/aktör için gerçek zamanlı gölge yoktur. Düşük cihazda görsel kalite azalırken oyun kuralı aynı kalır. | §62.2/§63.1. |
 | A.5 | Ortografik kamera, yatay düzlemde 45° çapraz, aşağıya 30–35°; P0 başlangıç kararı **32°**. 6×6 oda için hedef `(3,0,3)`, başlangıç kamera pozu yaklaşık **`(11,7.07,11)`** (`d=8`, yükseklik `√2·8·tan(32°)`). Ortografik görüş yüksekliği safe-area ve ekran oranına göre hesaplanır; cihaz değişince dünya ölçeği/koordinatı değişmez. | §62.3 açıyı sabitler; bu poz ve responsive görüş hacmi uygulama kararı. |
 | A.6 | P0 iki parmakla sınırlı pan ve pinch zoom, “karaktere dön” kontrolü vardır; serbest orbit yoktur. 90° inşa döndürmesi nesneyi döndürür, kamerayı değil. | §60.1/§62.3; [CONTROLS_AND_UX.md](CONTROLS_AND_UX.md). |
@@ -262,12 +250,12 @@ P0 gerçek cihaz kontrolü: 6×6 odanın ana eylemi HUD altında kalmamalı; 2×
 
 | Soru | Cevap | Dayanak/durum |
 |---|---|---|
-| C.1 | `CompleteSale` durable commit'inden sonra HUD kredisi güncellenir; kasada kısa `+12 kredi` metni, tek gruplanmış kasa sesi ve isteğe bağlı hafif titreşim görünür. Aynı transaction için bir kez; bekleyen/başarısız satışta para efekti yoktur. Az hareket ayarında uçan animasyon yerine sabit metin kullanılır. | §62.1/§60.3; görsel ayrıntı uygulama kararı. |
+| C.1 | `CompleteSale` durable commit'inden sonra HUD kredisi güncellenir; kasada gerçek satış tutarı metni, tek gruplanmış kasa sesi ve isteğe bağlı hafif titreşim görünür. Aynı transaction için bir kez; bekleyen/başarısız satışta para efekti yoktur. Az hareket ayarında uçan animasyon yerine sabit metin kullanılır. | §62.1/§60.3; görsel ayrıntı uygulama kararı. |
 | C.2 | Makinede küçük 2B DOM/billboard dolum göstergesi ve panelde kalan aktif saniye vardır. Gövde/ışık duruma göre kısa hareket eder; sürekli pahalı duman şart değildir. `NoInput`, `NoPower`, `BlockedOutput`, `Running`, `Ready` ikon ve metinle ayrılır. Üç saniyelik iş 30 tick'tir; görsel çubuk işi bitirmez. | §26/§62.2; D-007/D-015. |
 | C.3 | Para/erişim yokken satın alma düğmesi pasif görünür, yanında **“X kredi eksik”** veya somut sebep okunur. Stale durum onay anında tekrar denetlenir; kısa bildirim ve ilgili alan etiketi gösterilir. Yalnız kırmızı titreşim veya sessiz pasif düğme kullanılmaz. | §60.1; D-012. |
 | D.1 | P0 öğretim müşterisi ilk raflı satışı gösterecek tanımlı tetikle çıkar; sonrası P0 ritmi **56 ziyaret / 900 aktif saniye** tabanıyla seed'li geliş sürecini sınar: her 100 ms tick'te `p=56/9000` (yaklaşık 0,00622), uygun kapı/kapasite varsa müşteri RNG'siyle karar. Bu **ortalama** 16,1 sn aralıktır, tam zaman garantisi değildir. Öğretim gelişini normal RNG ziyareti olarak iki kez sayma. A2+ taban ziyaret sayıları bölüm tablosundan; küresel olay etkisi yalnız geliş oranına, aile etkisi sepet ağırlığına uygulanır. Fiyat tepkisi talepte ayrıca hesaplanır. | §37.3/§44; P0 RNG uygulama kararı. |
 | D.2 | P0 tek örnek müşteri için **40 aktif simülasyon saniyesi** kuyruk sabrı kararı; geri sayım yalnız kasadaki beklemede işler, yürüyüşte/uygulama kapalıyken işlemez. A2 üç profil için anayasadaki **40/55/30 sn** değerleri geçerlidir; rahatlık ayarı kaynak sınırlarına uyar. P0 değeri dış oyuncu denemesiyle ayarlanabilir. | §38.1; P0 profil eşlemesi uygulama kararı. |
-| D.3 | P0'da dinamik fiyat yoktur: Standart besin küpü **12 kredi** (§26.3/§37). Fiyatı art arda satış veya oyuncu nakdi değiştirmez. A2 raf fiyatı seçimi ve müşteri fiyat tepkisi ayrı açılır. | §26.3/§38; D-012. |
+| D.3 | P0'da dinamik fiyat yoktur: küçük su için başlangıç katalog fiyatı **1,50 kredi** (§26 ve yerel ürün ağacı). Fiyatı art arda satış veya oyuncu nakdi değiştirmez. A2 raf fiyatı seçimi ve müşteri fiyat tepkisi ayrı açılır. | §26/§38; D-012. |
 
 ### Psikolojik oyun ilkesi ve ölçüm
 
@@ -384,3 +372,17 @@ Anayasa §9'daki dolu grid için basit A* uygulanır. Manhattan mesafesi yalnız
 ## D-039 — Safe-area tokenları
 
 Neo-Brutalist DOM arayüzünde `env(safe-area-inset-top/right/bottom/left)` ortak CSS tokenlarında bir kez tanımlanır; HUD ve alt paneller bu tokenları kendi düzenleriyle birleştirir. Sabit `40px` boşluk ve Tailwind Safe-Area plugin'i P0 varsayılanı değildir. `viewport-fit=cover` ve native sistem çubuğu davranışı gerçek iPhone/Android cihazda doğrulanır; desteklenmeyen ortamda `env(..., 0px)` güvenli varsayılanı kullanılır. Panelin klavyeyle yer değiştirmesi safe-area hesabından ayrı tutulur. [MDN viewport](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta/name/viewport).
+
+## D-040 — A3 market olayları ve borç başlangıç dengesi
+
+**Köken ve durum:** Kullanıcının §38.4–38.6 için belirsiz değerleri benzer oyunlardan esinlenerek belirleme talimatı. [Supermarket Simulator'ın geliştirici mağaza sayfası](https://store.steampowered.com/app/2670630/Supermarket_Simulator/) raf fiyatı ve aşırma etkileşimine, [Big Ambitions'ın geliştirici mağaza sayfası](https://store.steampowered.com/app/1331550/Big_Ambitions/) işletme kredisine mekanik örnektir. Aşağıdaki **rakamlar bu oyunlardan alınmadı**; Orbit'in A3 başlangıç denge hipotezidir ve henüz oyuncu testinden geçmedi.
+
+**Karar:** Fiyat ön ayarları kaliteye uyarlanmış referansın 1,00×/0,80×/1,50× katıdır. İndirim kuyruğunda +%50 ortalama uzunluk ölçüm hedefidir. Olaylar açık ve `item.aged_cheese` stoklu günde seed'li aşırma olasılığı %20, günlük üst sınır bir, ürün alımından çıkışa yakalama penceresi en az 12 aktif saniyedir. Akü, kalıcı SKU ve üretim/tedarik yolu tanımlanana kadar hedef değildir. Kooperatif 100 kredi faizsiz/ücretsiz; Konsorsiyum 300 kredi ve bir defalık %5 ücretle toplam 315 kredi; aynı anda tek borç, sabit vade veya gecikme cezası yoktur. §38.6'nın günlük brüt satış cirosundan %10 kesintisi korunur. Faz A3'tür; test ve uygulama durumu ayrıdır.
+
+## D-041 — A–E adayları, ürün yönü ve denge hipotezleri
+
+**Köken:** Kullanıcının 27 Eylül 2026 A–E entegrasyon talebi ve devamında verdiği üç seçim: deneyim önerileri birebir ürün yönü olarak alınacak, ana anayasa çelişen kuralları açıkça revize edilecek, sekiz mekanik fazlı aday kalacak. Kaynak artık anayasa §64 ve revize §52–54/§60.2'dir; bu karar yeni bağımsız ürün kuralı üretmez.
+
+**Eski → yeni:** §52.2/§54.3 “hedef bitince otomatik yeni hedef açılmaz” → erişilebilir sonraki hedef HUD'da otomatik önerilir, ekonomik görev kabulü yapılmaz. §53 “sonsuz cliffhanger yok” → gerçek içerik varsa ufuktaki sonraki hedef sürekli gösterilebilir. §54.2 “oturum süresini büyütmek başarı değildir” → kesintisiz/uzun oturum tasarım hedefi ve ayrı ölçüdür. §60.2 kısa oturum basamakları → öğretim ara hedefi; zorunlu bitiş değil. Mevcut kayıt, çıkış, çevrimdışı durma ve reklam/ödeme sınırları korunur. RULES.md ve UX belgeleri bu yeni kaynağa uyarlanır.
+
+**Denge durumu:** Teşhir +%200 satış hızı (normalin 3×'i), doğal sürpriz %15–20, sıcak ürün +%25 kâr/ilk 3 aktif dakika, vardiya dalgası 60 aktif saniye, pazarlık +%20–30 kâr başlangıç hipotezidir; uygulanmış özellik veya kanıt değildir. Bu sayılar mevcut ziyaret bütçesi, fiyat, lot muhasebesi ve dekor sınırlarıyla çatışırsa uygulama öncesi yeniden değerlendirilir. Tier 5 yoktur; pazarlık adayı uygun Tier 4 ürünleriyle sınırlıdır. 0,3 saniye etkileşim beklemesi ve D-025 ses sınırı sürer; yeni evrensel taşıma cezası yaratılmaz.

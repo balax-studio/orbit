@@ -10,7 +10,7 @@ Domain birim testleri enjekte saat/RNG ile; Application entegrasyonu gerçek iş
 
 [KARARLAR.md](KARARLAR.md) D-007–D-016 için kabul kanıtı: render FPS'i değişirken aynı 100 ms tick sonucu; pause/resume'da sıfır çevrimdışı gelir; son makineyi satma veya erişimsiz bırakma reddi; dolu çıktı ve taşınan yükle save/load; yarım log/dolu diskten kayıpsız kurtarma; UI pointer'ın dünyaya sızmaması; context-loss sonrası aynı Domain durumuna dönüş. Beş tick/frame ve render bütçesi düşük/orta cihazda ölçülür.
 
-D-017–D-020 için ek kontrol: 6×6 m odada 2×2 yetiştirici ve 1×2 paketleyici servis/yürüme açıklığı; portre telefon/tablette aynı eylemin görünmesi; bir satışta tek `+12 kredi` geri bildirimi; durma nedeni ve eksik kredi mesajı; ilk öğretim müşterisinin normal RNG sayımına çift eklenmemesi; 40 saniye sabrın yalnız aktif kuyruk tick'lerinde azalması; P0 snapshot tipindeki her lotun tek konumu, makine partisinin tek çıktı üretmesi ve R3F/React render sayısının 10 Hz Domain tick'ine gereksiz bağlanmaması.
+D-017–D-020 için ek kontrol: 6×6 m odada şişeleme tezgâhı ve domates yatağının servis/yürüme açıklığı; portre telefon/tablette aynı eylemin görünmesi; satışta gerçek tutarın tek geri bildirimi; durma nedeni ve eksik kredi mesajı; ilk öğretim müşterisinin normal RNG sayımına çift eklenmemesi; 40 saniye sabrın yalnız aktif kuyruk tick'lerinde azalması; P0 snapshot tipindeki her lotun tek konumu, makine partisinin tek çıktı üretmesi ve R3F/React render sayısının 10 Hz Domain tick'ine gereksiz bağlanmaması.
 
 D-021–D-026 için hedefli kanıt: 500 mantıksal entity'de aktif kimlik indeksinin güncellenmesi ve kararlı tick sırası; 1 kredi/10.000 atom yuvarlama, `Number.MAX_SAFE_INTEGER` sınırı ve save round-trip; ağır frame'de en çok 5 tick ve çevrimdışı sıfır telafi; aynı seed/komutlarda aynı ekonomik sonuç; pointer etkileşiminde raycast maliyeti ile `renderer.info` draw-call ölçümü; WebGL context kaybında aynı Domain'e dönüş; kritik günlük yazımı sırasında kill ve son doğrulanmış snapshot'tan kurtarma; büyük snapshot JSON serileştirme p95 süresi; 10 eşzamanlı makine bitişinde ses/CPU; gerçek `npm run build`/`npm run lint` sonuçları ve seçilen paket yöneticisinin tek lockfile'ı. Bunlar yapılmış test iddiası değildir.
 
@@ -40,6 +40,10 @@ D-021–D-026 için hedefli kanıt: 500 mantıksal entity'de aktif kimlik indeks
 
 ## A3 — sistem entegrasyonu
 
+- [ ] Kaliteye uyarlanmış referansa göre 1,00×/0,80×/1,50× fiyat ve özel fiyat aynı seed/kapasitede kabul, ortalama kuyruk ve kayıp satışla karşılaştırılır; indirimde +%50 hedefin gerçekleşmesi veya sapması raporlanır, ek spawn/ikinci kabul zarı yoktur; pahalı ret stok/para/itibar değiştirmez ve sepet fiyatı korunur.
+- [ ] Raf SKU kilidi oyuncu ile görevli transferinde aynı sonucu verir; dolu rafta uyumsuz kilit değişimi ve kesintiden dönüş lot/rezervasyon kaybetmez.
+- [ ] Uygun `item.aged_cheese` stoklu günlerde seed ile %20 olay olasılığı ve en çok bir olay; stoksuz/olay kapalı günlerde sıfır olay; akü SKU'su olmadan seçilemez. Ürün alındıktan çıkışa en az 12 aktif saniye vardır. Yakalama, dolu hedef, kaçış, yinelenen komut ve save/load'da lot yalnız bir konumdadır.
+- [ ] Kooperatif 100→100 ve Konsorsiyum 300→315 kredi teklifleri, %5 ücretin yalnız bir kez eklenmesi, aynı anda tek borç, sıfır cirolu gün, nakit sınırı, %10 brüt satış cirosu kesintisi, gün sonu tekrar çağrısı ve yardım görevi doğrulanır; sabit vade/gecikme cezası oluşmaz.
 - [ ] Lot/slot ayrımı, kalite miktar ağırlığı, sabit hassasiyet, güç önceliği, servis ve kontrat çifte tahsis engeli.
 - [ ] Vardiya/mola, ücretin tek tahsili, oda etkileri, araştırma/XP/itibar tekil ödülleri.
 - [ ] Üretici/tüccar/karma yol aynı ilerlemeyi geçer; nakit/stock daralması elle kurtarılabilir.
@@ -47,7 +51,7 @@ D-021–D-026 için hedefli kanıt: 500 mantıksal entity'de aktif kimlik indeks
 
 ## A4 — final ve monetizasyon sandbox
 
-- [ ] 24 ürünün tarif/erişim bağımlılığı, üç kriz yolu, üç final ve kısmi teslim/ikame limitleri.
+- [ ] Tier 1–4 ürünlerin tarif/erişim bağımlılığı, üç kriz yolu, üç final, kısmi teslim ve yanlış SKU'nun finalde reddi.
 - [ ] Final 60 müşteri/80 ihtiyaç planı, aynı seed, bekleme/boşluk ölçümleri ve kesinti sonrası kalan süre.
 - [ ] Başarısız sınav teslim/yatırımı silmez; proje ödülü yalnız bir kez verilir.
 - [ ] Reklam success/failed/cancelled/unavailable; 24 saatte en çok 3 başarılı ödül, başarılar arası 20 dk; ücretsiz kozmetik görev alternatifi.
@@ -86,16 +90,18 @@ Her koşul: test ID/faz, build/commit/içerik sürümü, platform/OS/WebView/cih
 
 ## Tekrarlanabilir P0 fixture ve test kimlikleri
 
-Aşağıdaki başlangıç değerleri TEST VERİSİDİR; yeni oyun başlangıcı veya denge kuralı değildir. Her senaryoda temiz state, sabit seed, enjekte saat ve bağımsız kayıt alanı kullanılır. Test gerçek sonucu ölçer; production fonksiyonunun sonucunu aynı fonksiyonla yeniden hesaplayıp karşılaştırmaz.
+Aşağıda açıkça "fixture" denen para veya stok değerleri yalnız TEST VERİSİDİR. Su birimi, 3/8/18 saniyelik tarifler, 1/10/38 ham su miktarları ve seviye 1 debi ise §26 başlangıç denge değerleridir. Her senaryoda temiz state, sabit seed, enjekte saat ve bağımsız kayıt alanı kullanılır. Test gerçek sonucu ölçer; production fonksiyonunun sonucunu aynı fonksiyonla yeniden hesaplayıp karşılaştırmaz.
 
 | ID | Kurulum / eylem | Beklenen sonuç |
 |---|---|---|
 | T-P0-01 | 100 adet 100 ms tick; render ritmini değiştir | 10.000 ms aktif saat ve aynı ekonomik state; background eklenmez |
 | T-P0-02 | UI'da pointerdown, canvas'a sürükle, pointerup; joystick touchcancel | Dünya komutu 0; hareket vektörü nötr |
-| T-P0-03 | Kaynak 5 küp, hedefte 2 boş kapasite; 2 taşı, aynı ID'yi tekrarla | Kaynak 3, hedef +2; ikinci komut etkisiz |
-| T-P0-03b | 5 küpten 6 taşı veya 2 boş yere 3 bırak | State/ledger/rezervasyon değişmez |
-| T-P0-04 | 100 kredi, 1 küplük sepet, kilitli fiyat 12; satış callback 3 kez | 112 kredi, 1 satış, ürün bir kez çıkar |
-| T-P0-05 | Paketleyicide 2 yosun, çıktı boş; standart 8 sn parti | 79 tick henüz tamam değil; 80. tick tek küp; sonraki tick ikinci çıktı yok |
+| T-P0-03 | Kaynak 5 ham su, hedefte 2 boş kapasite; 2 taşı, aynı ID'yi tekrarla | Kaynak 3, hedef +2; ikinci komut etkisiz |
+| T-P0-03b | 5 ham sudan 6 taşı veya 2 boş yere 3 bırak | State/ledger/rezervasyon değişmez |
+| T-P0-04 | 100 kredi fixture bakiyesi, 1 küçük su, katalog fiyatı 1,50; satış callback 3 kez | 101,50 kredi, 1 satış, ürün bir kez çıkar |
+| T-P0-05 | Şişeleme tezgâhında 1 ham su ve 1 küçük şişe, çıktı boş; 3 sn parti | 29 tick henüz tamam değil; 30. tick tek küçük su, 0,03 kredi enerji gideri; sonraki tick ikinci çıktı yok |
+| T-P0-05c | 50 birim su haznesi, seviye 1; küçük/5 L/damacana/domates için sırasıyla 1/10/38/2 birim ayır | Toplam 51 birim gerekir; 2 aktif saniyede 1 yeni birim gelir, stok negatif olmaz |
+| T-P0-05d | Debi seviye 1'den 2'ye yükseltilir; aynı komut iki kez çağrılır | 80 kredi yalnız bir kez düşer, 120 birim hazne sınırı ve 1 birim/sn hız sonraki tick'ten itibaren geçerlidir; geçmiş zaman doldurulmaz |
 | T-P0-05b | Çıktı kapasitesi dolu | Ürün/girdi kaybolmaz; seçilen parti rezervasyon politikasıyla OutputBlocked veya başlamama; çıktı boşalınca tek sonuç |
 | T-P0-06 | Aynı satışın öncesi/yazım ortası/yazım sonrası crash | Tam durable kayıt yoksa satış yok; tam kayıt varsa bir satış, çift etki yok |
 | T-P0-07 | Oyuncu ve görevli son 1 ürünü aynı anda ister | Tek rezervasyon kazanır; toplam taşınan 1 |
@@ -137,3 +143,23 @@ Fixture'ların tamamı henüz plan durumundadır. Gerçek sonuç alanı uygulama
 ## Kanıt dosyası minimum içeriği
 
 Test ID, komut ve exit code, beklenen/gerçek sonuç, seed/config, commit/build/içerik sürümü, tarih, ölçüm süresi ve log/artifact yolu. Cihaz testi ayrıca model/OS/WebView, termal başlangıç, güç durumu ve profiler yöntemini içerir. p95 için örnek sayısı/pencere; FPS için ortalama yanında düşüş/ısınma; bellek için JS/GPU/native ayrımı raporlanır. Ölçülemeyen birleşik bellek değeri toplanmış gibi yazılmaz. Beş oyuncu denemesinde yardımlar, ilk satış zamanı ve oyuncunun yerleşim açıklaması ayrı tutulur.
+
+## A–E belge adayları için kabul senaryoları — KAYNAK §64
+
+Bunlar gelecekteki A4 uygulama testleridir; henüz çalıştırılmadı. Her test, ilgili aday ancak A3 önkoşulu ve içerik ID'si tamamlanınca açılır.
+
+| ID | Beklenen senaryo |
+|---|---|
+| T-AE-01 | VIP isteği teslim edilince tek stok/itibar/ödül işlemi; aynı event/transaction tekrarında ikinci etki yok, süre yalnız aktif tick'te ilerler. |
+| T-AE-02 | Hijyen sarfı tek lot tüketir; sarf yokken ücretsiz temizlik mümkün, kötü koku temel satış yolunu kilitlemez. |
+| T-AE-03 | Mahalle Bülteni puanı gerçek kuyruk/satış nedenine bağlanır; save/load sonrası aynı olay ikinci kez puan üretmez, boş veri sahte kullanıcı yorumuna dönüşmez. |
+| T-AE-04 | Teşhir için 3× hız hipotezi uygun gerçek talep altında ölçülür; boş raf, bütçesiz sepet veya ziyaret tavanında ek satış yoktur. |
+| T-AE-05 | Tier 4 pazarlık reddinde lot/kredi aynı kalır; kabulde tek ledger satışı olur, aynı komut tekrarı ikinci gelir yaratmaz. |
+| T-AE-06 | Trend ve 60 aktif saniyelik vardiya dalgası seed/save dönüşünde aynı olay ve müşteri sırasını sürdürür; arka plan süresi ilerlemez. |
+| T-AE-07 | Dekor cazibesi §32 tavanında kalır; ücretli görünüm/ücretsiz görünüm ekonomik olarak aynıdır. |
+| T-AE-08 | %15–20 bonus ve sıcaklık +%25 hipotezleri lot/maliyet/fiyat fixture'ıyla korunur; ilk 3 aktif dakika geçince yalnız normal fiyat uygulanır, ürün kaybolmaz. |
+| T-AE-09 | Hedef bitince sonraki erişilebilir hedef HUD'da görünür; görev kabulü, stok harcaması, reklam veya para işlemi otomatik olmaz. Kayıt/çıkış her durumda çalışır. |
+| T-AE-10 | Ses kapalı, az hareket, büyük metin ve ekran okuyucuda VIP/trend/teşhir/temizlik nedeni anlaşılır; UI pointer'ı dünya komutuna sızmaz. |
+| T-AE-11 | Düşük profilde müşteri/teşhir/dekor birlikte §63 draw call, üçgen, karakter ve DPR bütçesinde ölçülür; aşım olursa kozmetik yoğunluk düşürülür, simülasyon sonucu değişmez. |
+
+Oyuncu denemesinde devam isteği, hedef anlama, durma/kayıt kolaylığı ve oturum süresi ayrı raporlanır. Nörokimyasal veya “alfa transı” sonucu gözlem formundan çıkarılmaz.
