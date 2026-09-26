@@ -4,8 +4,8 @@ import { GameState } from './GameState';
 
 describe('Machine', () => {
   it('processes input into output over time', () => {
-    // Requires 2 raw_materials to make 1 product_a, takes 1000ms
-    const machine = new Machine('processor', 'raw_material', 2, 'product_a', 1, 1000);
+    // Requires 2 raw_materials to make 1 product_a, takes 1000ms, max capacity 2
+    const machine = new Machine('processor', 'raw_material', 2, 'product_a', 1, 1000, 2);
     
     // Add inputs
     expect(machine.addInput(1)).toBe(true);
