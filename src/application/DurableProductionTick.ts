@@ -1,0 +1,35 @@
+import { EconomyLedger } from '../domain/economy/ledger';
+import { InventoryManager } from '../domain/inventory/InventoryManager';
+import { ProductionManager } from '../domain/production/ProductionManager';
+import type { SaveTransaction } from '../infrastructure/save/SaveService';
+
+/** Returns a pending commit only when a tick creates an economic transition. */
+export function runDurableProductionTick<T>(
+  tick: number,
+  production: ProductionManager,
+  inventory: InventoryManager,
+  ledger: EconomyLedger,
+  capturePayload: () => T,
+  append: (transaction: SaveTransaction<T>) => Promise<unknown>
+): Promise<void> | null {
+  const beforeLedger = ledger.serialize();
+  const beforeInventory = inventory.serialize();
+  const beforeProduction = production.serialize();
+  production.tick(tick);
+  const afterProduction = production.serialize();
+  const newTransactions = afterProduction.committedTransactions.slice(beforeProduction.committedTransactions.length);
+  if (newTransactions.length === 0) return null;
+
+  return Promise.resolve().then(() => append({
+    transactionId: `production:tick:${tick}`,
+    type: 'PRODUCTION_TICK',
+    tick,
+    event: { transactions: newTransactions },
+    payload: capturePayload(),
+  })).then(() => undefined, (error: unknown) => {
+    ledger.restore(beforeLedger);
+    inventory.restore(beforeInventory);
+    production.restore(beforeProduction);
+    throw error;
+  });
+}

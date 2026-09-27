@@ -1,5 +1,36 @@
 # Devir durumu ve karar kaydı
 
+## 2026-09-27 D-044 — 100×100 m geniş başlangıç ve modüler alan
+
+- Kullanıcı ilk yerel ön izlemede oda/üretim alanını dar buldu; başlangıç dünyası 100×100 m, satış modülü 12×12 m, üretim bahçesi 12×16 m olacak şekilde büyütüldü. Makine footprint'leri katalog ölçüsünde kaldı.
+- Standart oda 12×12 m, en küçük oda 8×8 m, modül ölçü adımı ve geçit en az 4 m. Kapalı oda, açık mahalle ve dış üretim alanı ortak kararlı kayıtla eklenebilir; sınır aşıldığında zemin/gezinme alanı genişler ve eski koordinatlar sabit kalır. Komşu etkin odalar eşleşen 4 m geçit alır.
+- V1 save'deki aktör, görevli rota/hedefi ve raf hücresi normal açılışta ve kurtarma akışında bir defa 2× göç edilir; bakiye, stok, lot ve transaction'lar korunur. `worldLayoutVersion` ve kararlı `activeModuleIds` yeni kayıtları tanımlar.
+- `tests/unit/p0_world_input.test.ts` 15/15; `tests/unit/p0_placement.test.ts` 6/6; tam test 99/99; lint ve build geçti. Yerel tarayıcıda geniş oda/HUD açıldı, konsolda hata görülmedi; build 500 kB chunk uyarısı veriyor.
+- Orvant revizyon 145'te D-044 accepted. P0-02/P0-08 `todo/blocked`; save göçü değişikliğiyle yeniden açılan P0-06 da `todo/blocked`; P0-01 `done/needs_review`; P0-03/04/05/07 `review/blocked`; P0-09 `review/blocked`. P0-01'in eski kaynak kanıtı yenilenmeden bağımlı işler kabul edilemez.
+- Gerçek Android/iOS lifecycle ve dış oyuncu kabulü yapılmadı. Oyuncu transferiyle müşteri satışının App akışına bağlanması da hâlâ P0-09 engelidir. Ayrıntı: [P0-09 kabul raporu](docs/test_reports/P0_09_ACCEPTANCE.md).
+
+## 2026-09-27 P0-08 güvenli raf yerleşimi tamamlandı
+
+- Mevcut satış rafı 1 m hücreyle önizlenir; footprint, nesne çakışması, güney kapısı/iki hücreli koridor, servis, aktör ve kaynak→üretim→raf→kasa rotaları korunur. İnşa modu simülasyonu durdurur; iptal taslağı atar, onay aynı kuralları tekrar doğrular ve tek kayıt işlemini bekler.
+- `PlacementService` kayıtlı raf konumunu/işlem kimliğini tutar; `WorldLayout` dinamik fixture yürünebilirliği hesaplar, `SceneRenderer` rafı ve önizlemeyi çizer. Bahçe ve batı koridoru hücre kenarları 0,5 m rota örneklemesine bağlandı.
+- `tests/unit/p0_placement.test.ts` 6/6, tam `npm test` 91/91, build, lint, Capacitor sync ve `git diff --check` geçti. Rapor: [P0_08_VERIFICATION.md](docs/test_reports/P0_08_VERIFICATION.md). İki düzenin müşteri satış/boş raf etkisi ve gerçek cihaz dokunma kabulü P0-09'a açık.
+- Orvant P0-02…07 ortak dosya kanıtları yeniden doğrulandı; P0-08 revizyon 137'de `done`. Sıradaki P0-09.
+
+## 2026-09-27 P0-07 tek raf görevlisi tamamlandı
+
+- `ShelfWorkerManager` tek kaynak→raf ikmal işini rezervasyon, yürüyüş, görevli yükü ve teslim olarak yürütüyor. Rota kapanınca yük/rezervasyon kalıyor; kayıt dönüşünde ilişki doğrulanıp rota yeniden aranıyor. `InventoryManager` aynı rezervasyonun kaynak ucunu görevli yüküne taşıyıp raf kapasitesini koruyor.
+- App görevliyi save payload'ına ve native `executeAsync` kayıt onayına bağladı; görevli mesh'i yalnız konum çiziyor. Hazır ürün çıktısı varsa HUD'dan ikmal devredilebiliyor.
+- `tests/unit/p0_worker.test.ts` 3/3, tam `npm test` 85/85, build, lint, Capacitor sync ve `git diff --check` geçti. Rapor: [P0_07_VERIFICATION.md](docs/test_reports/P0_07_VERIFICATION.md). Gerçek cihaz/oyuncu döngüsü P0-09 için açık.
+- Orvant P0-02…06 ortak dosya etkisiyle tekrar doğrulandı; P0-07 revizyon 113'te `done`. Sıradaki P0-08.
+
+## 2026-09-27 P0-06 native kayıt entegrasyonu tamamlandı; P0-07 başladı
+
+- `SaveService` sürüm kontrollü snapshot, yedek, checksum günlük, işlem kimliğiyle tekilleştirme ve kurtarma içeriyor. Native App `AsyncSaveService`/Filesystem yoluna bağlandı; `CommandDispatcher.executeAsync` ve `runDurableProductionTick` yazım geri okunmadan sonucu onaylamıyor, hata halinde durum geri alınıp simülasyon bloklanıyor.
+- `npm test` 82/82, `npm run build`, `npm run lint`, `npx cap sync` geçti. Build 823.40 kB chunk uyarısı verdi. Bağımlılık değişmedi; önceki audit 0 bulguydu.
+- Kanıt raporu: [P0_06_VERIFICATION.md](docs/test_reports/P0_06_VERIFICATION.md). Testler kayıt/lifecycle bileşenlerini kapsar; gerçek cihaz veya browser E2E kanıtı değildir.
+- Kalan P0 oynanış/cihaz boşlukları: app'te oyuncunun kullandığı müşteri/satış ve transfer etkileşimi yok; Android build için Java/Android SDK, iOS build için Xcode/macOS yok; gerçek cihaz kesinti testi yapılmadı.
+- P0-01…05 değişen App/CommandDispatcher kanıtlarıyla yeniden doğrulandı; P0-06 revizyon 92'de `done`, P0-07 revizyon 93'te `doing`. Orvant kontrolünde uyarı kalmadı.
+
 ## 2026-09-27 P0-03 kodlama ve doğrulama tamamlandı — görev kabulü
 
 P0-03 ("Kapasite ve rezervasyon korumalı ürün transferini kur") Orvant iş akışıyla `start_task` -> kodlama -> kanıt sunumu -> `complete_task` döngüsüyle doğrulandı.
@@ -134,3 +165,6 @@ Her devamda değişen dosyalar, hedefli kontrol, gerçek cihaz kanıtı ve açı
 Kullanıcı isteğiyle yüzeysel uygulama alanları genişletildi: kaynak/karar/açık/kanıt ayrımı, komut önkoşulları, durum makineleri, save/crash protokolü, lot muhasebesi, pointer sahipliği, personel/final sınırları ve sayısal test fixture'ları. IMPLEMENTATION_RULES.md ile MONETIZATION_AND_PRIVACY.md eklendi. Mevcut 12 yan belge genişletildi; anayasa ve kod aynı kapsam sınırında korundu.
 
 Yeni teknik taslaklar uygulanmış API değildir. Önerilen atom ölçeği, komut reason isimleri, tick sırası ve müşteri durum isimleri uygulama sırasında karar olarak doğrulanacaktır. Reklam sağlayıcısı/güvenilir sunucu doğrulaması, gerçek saat anomalileri, bekleyen ödülde havuz tükenmesi ve iade edilmiş kozmetik fallback'i A4 açıklarıdır. Mevcut geliştirme kabulü ilerlemedi: P0 hâlâ tamamlanmadı, oyun build/test veya cihaz ölçümü bu belge işi sırasında çalıştırılmadı.
+# 2026-09-27 P0-09 başladı — kabul açık
+
+Orvant P0-09 revizyon 138'de başlatıldı. `npm run build` geçti; Android/iOS gerçek cihaz build ve yaşam döngüsü, dış oyuncu testi yapılmadı. Uygulamadaki oyuncu transferi ve müşteri satış etkileşimi eksik olduğundan P0 döngüsü henüz yardımsız kabul edilemez. Ayrı platform ve oyuncu kayıt şablonu [P0_09_ACCEPTANCE.md](docs/test_reports/P0_09_ACCEPTANCE.md) içinde; görev `doing` durumda tutuldu.

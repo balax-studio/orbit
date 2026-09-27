@@ -26,10 +26,10 @@ export interface LostSaleRecord {
 export interface CustomerManagerConfig {
   shelfLocation?: StockLocation;
   checkoutLocation?: StockLocation;
-  shelfServicePos?: WorldPosition;
-  checkoutServicePos?: WorldPosition;
-  checkoutQueueWaitPos?: WorldPosition;
-  entrancePos?: WorldPosition;
+  shelfServicePos: WorldPosition;
+  checkoutServicePos: WorldPosition;
+  checkoutQueueWaitPos: WorldPosition;
+  entrancePos: WorldPosition;
   basePatienceTicks?: number; // 40s = 400 ticks (KARARLAR.md D-019 D.2)
   walkSpeed?: number; // 0.15m per 100ms = 1.5 m/s
 }
@@ -57,8 +57,8 @@ export class CustomerManager {
     inventory: InventoryManager,
     ledger: EconomyLedger,
     dispatcher: CommandDispatcher,
-    seed: number = 42,
-    config: CustomerManagerConfig = {}
+    seed: number,
+    config: CustomerManagerConfig
   ) {
     this.inventory = inventory;
     this.ledger = ledger;
@@ -67,10 +67,10 @@ export class CustomerManager {
 
     this.shelfLocation = config.shelfLocation ?? { kind: 'shelf', ownerId: 'fixture.sales_shelf' };
     this.checkoutLocation = config.checkoutLocation ?? { kind: 'checkout', ownerId: 'fixture.checkout' };
-    this.shelfServicePos = config.shelfServicePos ?? { x: 13.5, z: 26.3 };
-    this.checkoutServicePos = config.checkoutServicePos ?? { x: 16.0, z: 22.5 };
-    this.checkoutQueueWaitPos = config.checkoutQueueWaitPos ?? { x: 16.0, z: 23.5 };
-    this.entrancePos = config.entrancePos ?? { x: 14.5, z: 28.0 };
+    this.shelfServicePos = config.shelfServicePos;
+    this.checkoutServicePos = config.checkoutServicePos;
+    this.checkoutQueueWaitPos = config.checkoutQueueWaitPos;
+    this.entrancePos = config.entrancePos;
     this.basePatienceTicks = config.basePatienceTicks ?? 400; // 40 saniye (D-019 D.2)
     this.walkSpeed = config.walkSpeed ?? 0.15;
   }

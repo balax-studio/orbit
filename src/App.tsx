@@ -1,15 +1,57 @@
 import { useEffect, useRef, useState } from 'react';
+import { App as CapacitorApp } from '@capacitor/app';
+import { Capacitor, type PluginListenerHandle } from '@capacitor/core';
 import { SceneRenderer } from './presentation/world/SceneRenderer';
 import { WorldLayout } from './presentation/world/WorldLayout';
 import { InputManager } from './presentation/input/InputManager';
 import { SimulationClock } from './domain/time/clock';
-import { EconomyLedger } from './domain/economy/ledger';
+import { EconomyLedger, InsufficientBalanceError, type EconomyLedgerSnapshot } from './domain/economy/ledger';
 import { ATOMS_PER_CREDIT } from './domain/constants';
+import { CommandDispatcher } from './application/commands';
+import { runDurableProductionTick } from './application/DurableProductionTick';
+import { ShelfWorkerManager, type ShelfWorkerSnapshot } from './application/ShelfWorkerManager';
+import { PlacementService, type PlacementSnapshot } from './application/PlacementService';
+import { InventoryManager, type InventorySnapshot } from './domain/inventory/InventoryManager';
+import { ProductionManager, type ProductionSnapshot } from './domain/production/ProductionManager';
+import { LifecycleCoordinator } from './app/lifecycle/LifecycleCoordinator';
+import { BrowserLocalStorageAdapter, SaveService } from './infrastructure/save/SaveService';
+import { AsyncSaveService } from './infrastructure/save/AsyncSaveService';
+import { CapacitorFilesystemSaveStorage } from './infrastructure/save/CapacitorFilesystemSaveStorage';
+import { migrateWorldSavePayload, WORLD_LAYOUT_VERSION } from './application/worldLayoutMigration';
+
+interface AppSavePayload {
+  ledger: EconomyLedgerSnapshot;
+  inventory?: InventorySnapshot;
+  production?: ProductionSnapshot;
+  worker?: ShelfWorkerSnapshot;
+  placement?: PlacementSnapshot;
+  worldLayoutVersion: number;
+  worldModules?: { activeModuleIds: string[] };
+  simulationTick: number;
+  playerPosition: { x: number; z: number };
+}
 
 export default function App() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const rendererRef = useRef<SceneRenderer | null>(null);
   const inputManagerRef = useRef<InputManager | null>(null);
+  const saveServiceRef = useRef<SaveService<AppSavePayload> | AsyncSaveService<AppSavePayload> | null>(null);
+  const captureSavePayloadRef = useRef<(() => AppSavePayload) | null>(null);
+  const dispatcherRef = useRef<CommandDispatcher | null>(null);
+  const inventoryRef = useRef<InventoryManager | null>(null);
+  const productionRef = useRef<ProductionManager | null>(null);
+  const workerRef = useRef<ShelfWorkerManager | null>(null);
+  const placementRef = useRef<PlacementService | null>(null);
+  const buildModeRef = useRef(false);
+  const buildWasPausedRef = useRef(false);
+  const draftCellRef = useRef<{ x: number; z: number } | null>(null);
+  const lifecycleRef = useRef<LifecycleCoordinator | null>(null);
+  const saveReadyRef = useRef(false);
+  const saveBlockedRef = useRef(false);
+  const saveBusyRef = useRef(false);
+  const uiPausedRef = useRef(false);
+  const lastCheckpointTickRef = useRef(0);
+  const lastRenderTimeRef = useRef(0);
 
   // Simülasyon saat ve ledger durumları
   const clockRef = useRef<SimulationClock>(new SimulationClock());
@@ -25,24 +67,229 @@ export default function App() {
   const [balanceCredits, setBalanceCredits] = useState(100);
   const [currentTick, setCurrentTick] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isSaveReady, setIsSaveReady] = useState(false);
+  const [isSaveBlocked, setIsSaveBlocked] = useState(false);
+  const [hasRecoveryCandidate, setHasRecoveryCandidate] = useState(false);
   const [nearestFixture, setNearestFixture] = useState<string>('Boşluk');
   const [hudMessage, setHudMessage] = useState<string>('Dünyaya dokunarak karakterinizi hareket ettirin.');
+  const [workerStatus, setWorkerStatus] = useState('Görev bekliyor');
+  const [isBuildMode, setIsBuildMode] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    const options = {
+      namespace: 'orbit-market-p0',
+      contentVersion: 'p0.1',
+    };
+    const isNativePlatform = Capacitor.isNativePlatform();
+    const saveService = isNativePlatform
+      ? new AsyncSaveService<AppSavePayload>(new CapacitorFilesystemSaveStorage(), options)
+      : new SaveService<AppSavePayload>(new BrowserLocalStorageAdapter(), options);
+    saveServiceRef.current = saveService;
+
+    const inventory = new InventoryManager();
+    inventoryRef.current = inventory;
+    const placement = new PlacementService();
+    placementRef.current = placement;
+    let production: ProductionManager | null = null;
+    let worker: ShelfWorkerManager | null = null;
+    const captureSavePayload = (): AppSavePayload => {
+      if (!production) throw new Error('ProductionManager is not initialized');
+      return {
+        ledger: ledgerRef.current.serialize(),
+        inventory: inventory.serialize(),
+        production: production.serialize(),
+        ...(worker ? { worker: worker.serialize() } : {}),
+        placement: placement.serialize(),
+        worldLayoutVersion: WORLD_LAYOUT_VERSION,
+        worldModules: { activeModuleIds: WorldLayout.getActiveModuleIds() },
+        simulationTick: clockRef.current.getTick(),
+        playerPosition: { ...playerPosRef.current },
+      };
+    };
+    captureSavePayloadRef.current = captureSavePayload;
+    const productionManager = new ProductionManager(inventory, ledgerRef.current, [], isNativePlatform ? undefined : (commit) => {
+      (saveService as SaveService<AppSavePayload>).appendTransaction({
+        transactionId: commit.transactionId,
+        type: commit.type,
+        tick: commit.tick,
+        event: commit,
+        payload: captureSavePayload(),
+      });
+    });
+    production = productionManager;
+    productionRef.current = productionManager;
+    const checkpoint = async () => {
+      const tick = clockRef.current.getTick();
+      if (isNativePlatform) {
+        saveBusyRef.current = true;
+        clockRef.current.pause();
+      }
+      try {
+        const write = saveService.checkpoint({ tick, payload: captureSavePayload() });
+        if (write instanceof Promise) await write;
+        lastCheckpointTickRef.current = tick;
+      } finally {
+        if (isNativePlatform) {
+          saveBusyRef.current = false;
+          if (!lifecycleRef.current?.isPaused()) clockRef.current.resume();
+        }
+      }
+    };
+    const onSaveError = (error: unknown) => {
+      saveBlockedRef.current = true;
+      saveReadyRef.current = false;
+      setIsSaveReady(false);
+      setIsSaveBlocked(true);
+      setHudMessage(`Kayıt hatası; simülasyon duraklatıldı: ${error instanceof Error ? error.message : String(error)}`);
+    };
+    const lifecycle = new LifecycleCoordinator(clockRef.current, () => saveReadyRef.current && !saveBusyRef.current ? checkpoint() : undefined, {
+      onPauseChanged: (paused) => {
+        setIsPaused(paused);
+        if (paused) {
+          joystickVecRef.current = { x: 0, z: 0 };
+          playerTargetRef.current = null;
+        }
+      },
+      onCheckpointError: onSaveError,
+      onResume: () => {
+        lastRenderTimeRef.current = performance.now();
+      },
+    });
+    lifecycleRef.current = lifecycle;
+
+    let effectDisposed = false;
+    const initializeSave = async () => {
+      let recoveryPending = false;
+      let worldLayoutMigrated = false;
+      try {
+      const loaded = await saveService.load();
+      if (effectDisposed) return;
+      if (loaded.payload) {
+        const migration = migrateWorldSavePayload(loaded.payload);
+        const payload = migration.payload;
+        worldLayoutMigrated = migration.migrated;
+        if (payload.worldModules) WorldLayout.restoreActiveModules(payload.worldModules.activeModuleIds);
+        if (
+          payload.simulationTick !== loaded.tick ||
+          !Number.isFinite(payload.playerPosition?.x) ||
+          !Number.isFinite(payload.playerPosition?.z)
+        ) {
+          throw new Error('Kayıt alanları doğrulanamadı');
+        }
+        if ((payload.inventory && !payload.production) || (!payload.inventory && payload.production)) {
+          throw new Error('Kayıt envanter ve üretim durumunun yalnızca birini içeriyor');
+        }
+        ledgerRef.current.restore(payload.ledger);
+        if (payload.inventory && payload.production) {
+          inventory.restore(payload.inventory);
+          production.restore(payload.production);
+          if (payload.placement) {
+            placement.restore(payload.placement);
+            rendererRef.current?.updateFixtures(placement.getFixtures());
+          }
+          if (payload.worker && worker) worker.restore(payload.worker);
+          if (worker?.serialize().task) setWorkerStatus('Kayıttan ikmal işine dönüyor');
+        }
+        clockRef.current.setState({ currentTick: loaded.tick, isPaused: false });
+        playerPosRef.current = { ...payload.playerPosition };
+        // Restore completes before the first simulation tick.
+        setCurrentTick(loaded.tick);
+        setBalanceCredits(ledgerRef.current.getBalanceCredits());
+        if (loaded.recovery) {
+          recoveryPending = true;
+          setHasRecoveryCandidate(true);
+          setHudMessage(`Kayıt doğrulaması gerekiyor: ${loaded.recovery.detail}`);
+          lifecycle.blockForSaveError(new Error(loaded.recovery.detail));
+        }
+      } else if (loaded.recovery) {
+        throw new Error(`Önceki kayıt doğrulanamadı: ${loaded.recovery.detail}`);
+      } else {
+        await checkpoint();
+      }
+      if (!recoveryPending) {
+        if (worldLayoutMigrated) await checkpoint();
+        if (loaded.payload && (!loaded.payload.inventory || !loaded.payload.production ||
+          !loaded.payload.worker || !loaded.payload.placement) && !worldLayoutMigrated) {
+          await checkpoint();
+        }
+        saveReadyRef.current = true;
+        setIsSaveReady(true);
+      }
+    } catch (error) {
+      lifecycle.blockForSaveError(error);
+      onSaveError(error);
+    }
+    };
+    void initializeSave();
+
+    const persistCommand = (command: Parameters<NonNullable<ConstructorParameters<typeof CommandDispatcher>[2]>>[0], result: Parameters<NonNullable<ConstructorParameters<typeof CommandDispatcher>[2]>>[1]) =>
+      saveService.appendTransaction({
+        transactionId: command.transactionId,
+        type: command.type,
+        tick: command.timestampTick,
+        event: { command, result },
+        payload: captureSavePayload(),
+      });
+    dispatcherRef.current = new CommandDispatcher(
+      ledgerRef.current,
+      inventory,
+      isNativePlatform ? undefined : (command, result) => { void persistCommand(command, result); },
+      isNativePlatform ? async (command, result) => { await persistCommand(command, result); } : undefined
+    );
+    worker = new ShelfWorkerManager(inventory, dispatcherRef.current, (x, z) => placement.isWalkable(x, z),
+      WorldLayout.PLAYER_SPAWN, () => WorldLayout.getWalkableBounds());
+    workerRef.current = worker;
+
+    const handleVisibilityChange = () => {
+      lifecycle.setPlatformActive('visibility', document.visibilityState === 'visible');
+    };
+    const handlePageHide = () => lifecycle.setPlatformActive('pagehide', false);
+    const handlePageShow = () => lifecycle.setPlatformActive('pagehide', true);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('pagehide', handlePageHide);
+    window.addEventListener('pageshow', handlePageShow);
+    let capacitorListeners: PluginListenerHandle[] = [];
+    if (Capacitor.isNativePlatform()) {
+      void Promise.all([
+        CapacitorApp.addListener('appStateChange', ({ isActive }) => {
+          lifecycle.setPlatformActive('capacitor-app-state', isActive);
+        }),
+        CapacitorApp.addListener('pause', () => lifecycle.setPlatformActive('capacitor-pause', false)),
+        CapacitorApp.addListener('resume', () => lifecycle.setPlatformActive('capacitor-pause', true)),
+      ]).then((listeners) => {
+        if (effectDisposed) {
+          void Promise.all(listeners.map((listener) => listener.remove()));
+          return;
+        }
+        capacitorListeners = listeners;
+      }).catch(onSaveError);
+    }
+    lifecycle.setPlatformActive('visibility', document.visibilityState === 'visible');
+
     // 1. Three.js Sahnesini Başlat
     const renderer = new SceneRenderer(canvas);
     rendererRef.current = renderer;
+    renderer.updateFixtures(placement.getFixtures());
 
     // 2. Input Manager ile Pointer Sahipliği ve Dokunmatik Kontrolleri Bağla
     const inputManager = new InputManager(canvas, (sx, sy) => renderer.raycastGround(sx, sy));
     inputManagerRef.current = inputManager;
 
     inputManager.setOnMoveTarget((targetX, targetZ) => {
+      if (buildModeRef.current) {
+        const cell = { x: Math.round(targetX), z: Math.round(targetZ) };
+        draftCellRef.current = cell;
+        const preview = placement.preview(cell, [playerPosRef.current, worker!.serialize().position]);
+        const shelf = placement.getFixtures(cell).find((fixture) => fixture.id === 'fixture.sales_shelf')!;
+        renderer.showPlacementPreview(shelf, preview.valid);
+        setHudMessage(preview.valid ? 'Raf yeri geçerli; onaylayabilir veya iptal edebilirsin.' : preview.reasons.join('; '));
+        return;
+      }
       // Hedef yürünebilir bir alanda mı?
-      if (WorldLayout.isWalkable(targetX, targetZ)) {
+      if (placement.isWalkable(targetX, targetZ)) {
         playerTargetRef.current = { x: targetX, z: targetZ };
         renderer.showTargetMarker(targetX, targetZ);
         setHudMessage(`Hedefe gidiliyor: (${targetX.toFixed(1)}, ${targetZ.toFixed(1)})`);
@@ -69,21 +316,66 @@ export default function App() {
 
     // 4. Render & Simülasyon Döngüsü (10 Hz Tick + 60 FPS Render)
     let animationFrameId: number;
-    let lastTimeMs = performance.now();
+    lastRenderTimeRef.current = performance.now();
 
     const loop = (currentTimeMs: number) => {
-      const deltaMs = currentTimeMs - lastTimeMs;
-      lastTimeMs = currentTimeMs;
+      const deltaMs = Math.max(0, currentTimeMs - lastRenderTimeRef.current);
+      lastRenderTimeRef.current = currentTimeMs;
 
       // Sabit 100 ms Simülasyon Saati
-      clockRef.current.update(deltaMs, (tick) => {
-        setCurrentTick(tick);
-      });
+      if (saveReadyRef.current && !saveBlockedRef.current && !saveBusyRef.current) {
+        clockRef.current.update(deltaMs, (tick) => {
+          setCurrentTick(tick);
+          try {
+            if (isNativePlatform) {
+              const commit = runDurableProductionTick(
+                tick, productionManager, inventory, ledgerRef.current, captureSavePayload,
+                (transaction) => Promise.resolve(saveService.appendTransaction(transaction))
+              );
+              if (commit) {
+                saveBusyRef.current = true;
+                clockRef.current.pause();
+                void commit.then(() => {
+                  saveBusyRef.current = false;
+                  if (!lifecycle.isPaused()) clockRef.current.resume();
+                }).catch((error: unknown) => {
+                  saveBusyRef.current = false;
+                  lifecycle.blockForSaveError(error);
+                });
+              }
+            } else productionManager.tick(tick);
+            if (!saveBusyRef.current && worker) {
+              const workerCommit = worker.step(tick);
+              const workerBlock = worker.serialize().blockedReason;
+              if (workerBlock) setWorkerStatus(workerBlock);
+              if (workerCommit) {
+                saveBusyRef.current = true;
+                clockRef.current.pause();
+                void workerCommit.then(() => {
+                  saveBusyRef.current = false;
+                  const state = worker?.serialize();
+                  setWorkerStatus(state?.task ? 'Ürün rafa taşınıyor' : 'İkmal tamamlandı');
+                  if (!lifecycle.isPaused()) clockRef.current.resume();
+                }).catch((error: unknown) => {
+                  saveBusyRef.current = false;
+                  lifecycle.blockForSaveError(error);
+                });
+              }
+            }
+          } catch (error) {
+            lifecycle.blockForSaveError(error);
+            return;
+          }
+          if (!saveBusyRef.current && tick - lastCheckpointTickRef.current >= 300) {
+            void checkpoint().catch((error: unknown) => lifecycle.blockForSaveError(error));
+          }
+        });
+      }
 
       // Oyuncu Hareketi (Render adımında pürüzsüz interpolasyon)
       const currentPos = playerPosRef.current;
       const speed = 4.0; // 4 m/s yürüyüş hızı
-      const dt = Math.min(deltaMs / 1000, 0.05);
+      const dt = clockRef.current.getPaused() ? 0 : Math.min(deltaMs / 1000, 0.05);
 
       let moveX = 0;
       let moveZ = 0;
@@ -114,11 +406,11 @@ export default function App() {
         const nextZ = currentPos.z + moveZ;
 
         // X ekseninde hareket kontrolü
-        if (WorldLayout.isWalkable(nextX, currentPos.z)) {
+        if (placement.isWalkable(nextX, currentPos.z)) {
           currentPos.x = nextX;
         }
         // Z ekseninde hareket kontrolü
-        if (WorldLayout.isWalkable(currentPos.x, nextZ)) {
+        if (placement.isWalkable(currentPos.x, nextZ)) {
           currentPos.z = nextZ;
         }
 
@@ -132,11 +424,12 @@ export default function App() {
         z: currentPos.z,
         rotation: playerRotationRef.current,
       });
+      if (worker) renderer.updateWorker(worker.serialize().position);
 
       // En yakın istasyonu tespit et
       let closestName = 'Boşluk';
       let minDist = 2.5;
-      for (const fixture of WorldLayout.FIXTURES) {
+      for (const fixture of placement.getFixtures()) {
         const dx = currentPos.x - fixture.serviceCell.x;
         const dz = currentPos.z - fixture.serviceCell.z;
         const d = Math.sqrt(dx * dx + dz * dz);
@@ -155,51 +448,266 @@ export default function App() {
     animationFrameId = requestAnimationFrame(loop);
 
     return () => {
+      effectDisposed = true;
       cancelAnimationFrame(animationFrameId);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('pagehide', handlePageHide);
+      window.removeEventListener('pageshow', handlePageShow);
+      void Promise.all(capacitorListeners.map((listener) => listener.remove()));
       window.removeEventListener('resize', handleResize);
       inputManager.destroy();
       renderer.destroy();
+      lifecycleRef.current = null;
+      dispatcherRef.current = null;
+      inventoryRef.current = null;
+      productionRef.current = null;
+      workerRef.current = null;
+      placementRef.current = null;
+      captureSavePayloadRef.current = null;
+      saveReadyRef.current = false;
     };
   }, []);
 
   const togglePause = () => {
-    if (clockRef.current.getPaused()) {
-      clockRef.current.resume();
-      setIsPaused(false);
-      setHudMessage('Simülasyon devam ediyor.');
-    } else {
-      clockRef.current.pause();
-      setIsPaused(true);
-      setHudMessage('Simülasyon duraklatıldı.');
-    }
+    if (buildModeRef.current) return;
+    const nextPaused = !uiPausedRef.current;
+    uiPausedRef.current = nextPaused;
+    lifecycleRef.current?.setUiPaused(nextPaused);
+    setHudMessage(nextPaused ? 'Simülasyon duraklatıldı.' : 'Simülasyon devam ediyor.');
   };
 
-  const handleTestDebit = () => {
+  const handleTestDebit = async () => {
     try {
-      ledgerRef.current.commitTransaction({
-        transactionId: `tx-ui-test-${Date.now()}`,
+      if (!saveReadyRef.current || saveBlockedRef.current || saveBusyRef.current || !dispatcherRef.current) return;
+      saveBusyRef.current = true;
+      await dispatcherRef.current.executeAsync({
+        type: 'DEBIT_ACCOUNT',
+        transactionId: `ui-debit-${clockRef.current.getTick()}-${ledgerRef.current.serialize().sequenceCounter + 1}`,
         timestampTick: clockRef.current.getTick(),
-        type: 'DEBIT',
         amountAtoms: 5 * ATOMS_PER_CREDIT, // 5 Kredi
         reason: 'PURCHASE',
       });
       setBalanceCredits(ledgerRef.current.getBalanceCredits());
       setHudMessage('5 Kredi test harcaması yapıldı.');
-    } catch (e: any) {
-      setHudMessage(`Hata: ${e.message}`);
+    } catch (error) {
+      if (error instanceof InsufficientBalanceError) {
+        setHudMessage(`İşlem reddedildi: ${error.message}`);
+      } else {
+        lifecycleRef.current?.blockForSaveError(error);
+      }
+    } finally {
+      saveBusyRef.current = false;
     }
   };
 
-  const handleTestCredit = () => {
-    ledgerRef.current.commitTransaction({
-      transactionId: `tx-ui-test-${Date.now()}`,
-      timestampTick: clockRef.current.getTick(),
-      type: 'CREDIT',
-      amountAtoms: 10 * ATOMS_PER_CREDIT, // 10 Kredi
-      reason: 'SALE',
-    });
-    setBalanceCredits(ledgerRef.current.getBalanceCredits());
-    setHudMessage('10 Kredi test geliri eklendi.');
+  const handleTestCredit = async () => {
+    try {
+      if (!saveReadyRef.current || saveBlockedRef.current || saveBusyRef.current || !dispatcherRef.current) return;
+      saveBusyRef.current = true;
+      await dispatcherRef.current.executeAsync({
+        type: 'CREDIT_ACCOUNT',
+        transactionId: `ui-credit-${clockRef.current.getTick()}-${ledgerRef.current.serialize().sequenceCounter + 1}`,
+        timestampTick: clockRef.current.getTick(),
+        amountAtoms: 10 * ATOMS_PER_CREDIT, // 10 Kredi
+        reason: 'SALE',
+      });
+      setBalanceCredits(ledgerRef.current.getBalanceCredits());
+      setHudMessage('10 Kredi test geliri yapıldı ve kaydedildi.');
+    } catch (error) {
+      lifecycleRef.current?.blockForSaveError(error);
+    } finally {
+      saveBusyRef.current = false;
+    }
+  };
+
+  const delegateRestock = async () => {
+    const worker = workerRef.current;
+    const inventory = inventoryRef.current;
+    if (!worker || !inventory || !saveReadyRef.current || saveBlockedRef.current || saveBusyRef.current) return;
+    if (worker.serialize().task) {
+      setHudMessage('Raf görevlisi mevcut ikmal işini tamamlıyor.');
+      return;
+    }
+    const shelf = { kind: 'shelf', ownerId: 'fixture.sales_shelf' } as const;
+    const sellable = new Set(['item.glass_water_small', 'item.water_jug_5l',
+      'item.water_carboy_19l', 'item.heirloom_tomato']);
+    const lot = inventory.getAllLots().find((candidate) => candidate.location.kind === 'machineOutput' &&
+      sellable.has(candidate.itemId) && inventory.getAvailableQuantity(candidate.location, candidate.itemId) > 0);
+    if (!lot) {
+      setHudMessage('Görevliye verilecek hazır ürün bulunmuyor; üretim çıktısını kontrol edin.');
+      return;
+    }
+    const fixtures = placementRef.current?.getFixtures() ?? WorldLayout.FIXTURES;
+    const sourceFixture = fixtures.find((fixture) => fixture.id === lot.location.ownerId);
+    const shelfFixture = fixtures.find((fixture) => fixture.id === shelf.ownerId);
+    if (!sourceFixture || !shelfFixture) return;
+    const quantity = Math.min(5, inventory.getAvailableQuantity(lot.location, lot.itemId),
+      inventory.getAvailableCapacity(shelf));
+    if (quantity < 1) {
+      setHudMessage('Raf dolu veya başka bir ikmal için ayrılmış.');
+      return;
+    }
+    saveBusyRef.current = true;
+    try {
+      await worker.delegate({ source: lot.location, target: shelf,
+        sourcePosition: sourceFixture.serviceCell, targetPosition: shelfFixture.serviceCell,
+        itemId: lot.itemId, quantity }, clockRef.current.getTick());
+      setWorkerStatus(`${quantity} ürün için yola çıktı`);
+      setHudMessage(`Raf görevlisine ${quantity} ürünlük ikmal devredildi.`);
+    } catch (error) {
+      if (error instanceof Error && /INSUFFICIENT_STOCK|EXCEEDS_CAPACITY|zaten bir ikmal/.test(error.message)) {
+        setHudMessage(error.message);
+      } else lifecycleRef.current?.blockForSaveError(error);
+    } finally {
+      saveBusyRef.current = false;
+    }
+  };
+
+  const showPlacementDraft = (cell: { x: number; z: number }) => {
+    const placement = placementRef.current;
+    const renderer = rendererRef.current;
+    if (!placement || !renderer) return;
+    draftCellRef.current = cell;
+    const actors = [playerPosRef.current];
+    const workerPosition = workerRef.current?.serialize().position;
+    if (workerPosition) actors.push(workerPosition);
+    const preview = placement.preview(cell, actors);
+    const shelf = placement.getFixtures(cell).find((fixture) => fixture.id === 'fixture.sales_shelf')!;
+    renderer.showPlacementPreview(shelf, preview.valid);
+    setHudMessage(preview.valid ? 'Raf yeri geçerli. Onayla veya iptal et.' : preview.reasons.join('; '));
+  };
+
+  const closeBuildMode = () => {
+    rendererRef.current?.hidePlacementPreview();
+    draftCellRef.current = null;
+    buildModeRef.current = false;
+    setIsBuildMode(false);
+    uiPausedRef.current = buildWasPausedRef.current;
+    lifecycleRef.current?.setUiPaused(buildWasPausedRef.current);
+  };
+
+  const beginBuildMode = () => {
+    if (!saveReadyRef.current || saveBlockedRef.current || saveBusyRef.current) return;
+    if (workerRef.current?.serialize().task) {
+      setHudMessage('Görevli yük taşırken raf yeri değiştirilemez.');
+      return;
+    }
+    const placement = placementRef.current;
+    if (!placement) return;
+    buildWasPausedRef.current = uiPausedRef.current;
+    uiPausedRef.current = true;
+    buildModeRef.current = true;
+    setIsBuildMode(true);
+    lifecycleRef.current?.setUiPaused(true);
+    playerTargetRef.current = null;
+    joystickVecRef.current = { x: 0, z: 0 };
+    showPlacementDraft(placement.serialize().shelfCell);
+  };
+
+  const confirmPlacement = async () => {
+    if (!buildModeRef.current || saveBusyRef.current) return;
+    const placement = placementRef.current;
+    const saveService = saveServiceRef.current;
+    const cell = draftCellRef.current;
+    if (!placement || !saveService || !cell || !captureSavePayloadRef.current) return;
+    if (workerRef.current?.serialize().task) {
+      setHudMessage('Görevli yük taşırken raf yeri değiştirilemez.');
+      return;
+    }
+    saveBusyRef.current = true;
+    try {
+      const tick = clockRef.current.getTick();
+      await placement.moveShelf({ transactionId: `move-shelf:${tick}:${placement.serialize().committedTransactions.length + 1}`,
+        cell, actors: [playerPosRef.current, workerRef.current!.serialize().position] },
+      async (transactionId) => {
+        await Promise.resolve(saveService.appendTransaction({ transactionId, type: 'MOVE_SHELF', tick,
+          payload: captureSavePayloadRef.current!() }));
+      });
+      rendererRef.current?.updateFixtures(placement.getFixtures());
+      closeBuildMode();
+      setHudMessage('Raf yeni yerine kaydedildi.');
+    } catch (error) {
+      if (error instanceof Error && /Raf |footprint|koridor|kapısı|servis|erişilemiyor|engelin/.test(error.message)) {
+        setHudMessage(error.message);
+      } else lifecycleRef.current?.blockForSaveError(error);
+    } finally {
+      saveBusyRef.current = false;
+    }
+  };
+
+  const reconcileSave = async (acceptVerifiedRecovery: boolean) => {
+    try {
+      if (saveBusyRef.current) return;
+      saveBusyRef.current = true;
+      const saveService = saveServiceRef.current;
+      if (!saveService) throw new Error('Kayıt servisi hazır değil');
+      const loaded = await saveService.load();
+      if (!loaded.payload) throw new Error('Kurtarılabilir bir kayıt bulunamadı; yeni kayıt otomatik oluşturulmadı.');
+      if (loaded.recovery && !acceptVerifiedRecovery) {
+        setHasRecoveryCandidate(true);
+        setHudMessage(`Son güvenilir kayıt bulundu: ${loaded.recovery.detail}`);
+        return;
+      }
+
+      const migration = migrateWorldSavePayload(loaded.payload);
+      const payload = migration.payload;
+      if (payload.worldModules) WorldLayout.restoreActiveModules(payload.worldModules.activeModuleIds);
+      if (
+        payload.simulationTick !== loaded.tick ||
+        !Number.isFinite(payload.playerPosition?.x) ||
+        !Number.isFinite(payload.playerPosition?.z)
+      ) {
+        throw new Error('Kayıt alanları doğrulanamadı');
+      }
+      ledgerRef.current.restore(payload.ledger);
+      const inventory = inventoryRef.current;
+      const production = productionRef.current;
+      const worker = workerRef.current;
+      const placement = placementRef.current;
+      if (!inventory || !production || !worker || !placement) throw new Error('Üretim, envanter, görevli veya yerleşim hazır değil');
+      if (payload.inventory || payload.production) {
+        if (!payload.inventory || !payload.production) {
+          throw new Error('Kayıt envanter ve üretim durumunun yalnızca birini içeriyor');
+        }
+        inventory.restore(payload.inventory);
+        production.restore(payload.production);
+        if (payload.placement) placement.restore(payload.placement);
+        if (payload.worker) worker.restore(payload.worker);
+        rendererRef.current?.updateFixtures(placement.getFixtures());
+        setWorkerStatus(worker.serialize().task ? 'İkmal işine dönüyor' : 'Görev bekliyor');
+      }
+      clockRef.current.setState({ currentTick: loaded.tick, isPaused: false });
+      playerPosRef.current = { ...payload.playerPosition };
+      await saveService.checkpoint({
+        tick: loaded.tick,
+        payload: {
+          ...payload,
+          inventory: inventory.serialize(),
+          production: production.serialize(),
+          worker: worker.serialize(),
+          placement: placement.serialize(),
+        },
+      });
+      lastCheckpointTickRef.current = loaded.tick;
+      saveReadyRef.current = true;
+      saveBlockedRef.current = false;
+      setIsSaveReady(true);
+      setIsSaveBlocked(false);
+      setHasRecoveryCandidate(false);
+      setCurrentTick(loaded.tick);
+      setBalanceCredits(ledgerRef.current.getBalanceCredits());
+      lifecycleRef.current?.clearSaveBlock();
+      setHudMessage(loaded.recovery ? 'Son güvenilir kayıt kurtarıldı ve doğrulandı.' : 'Kayıt yeniden doğrulandı.');
+    } catch (error) {
+      saveReadyRef.current = false;
+      saveBlockedRef.current = true;
+      setIsSaveReady(false);
+      setIsSaveBlocked(true);
+      lifecycleRef.current?.blockForSaveError(error);
+      setHudMessage(`Kayıt kurtarılamadı: ${error instanceof Error ? error.message : String(error)}`);
+    } finally {
+      saveBusyRef.current = false;
+    }
   };
 
   return (
@@ -239,6 +747,7 @@ export default function App() {
             <button
               data-ui="true"
               onClick={togglePause}
+              disabled={isBuildMode}
               className={`px-3 py-1.5 text-xs font-black border-2 border-[#171717] shadow-[2px_2px_0px_0px_#171717] transition-transform active:translate-x-0.5 active:translate-y-0.5 rounded ${
                 isPaused ? 'bg-amber-400 text-black' : 'bg-[#35D9E6] text-black'
               }`}
@@ -260,14 +769,49 @@ export default function App() {
             </span>
           </div>
 
-          <div className="text-xs font-medium text-stone-700 leading-tight">
+          <div role="status" aria-live="polite" className="max-h-16 overflow-y-auto break-words text-xs font-medium text-stone-700 leading-tight">
             {hudMessage}
           </div>
+          <div className="flex items-center justify-between gap-2 text-xs font-bold">
+            <span>RAF GÖREVLİSİ: {workerStatus}</span>
+            <button data-ui="true" disabled={!isSaveReady || isSaveBlocked || isBuildMode}
+              onClick={() => void delegateRestock()}
+              className="px-2 py-1.5 bg-[#35D9E6] border-2 border-black rounded disabled:opacity-50">
+              İKMALİ DEVRET
+            </button>
+          </div>
+
+          {!isBuildMode ? (
+            <button data-ui="true" disabled={!isSaveReady || isSaveBlocked}
+              onClick={beginBuildMode}
+              className="py-1.5 text-xs font-black bg-[#FFE156] border-2 border-black rounded disabled:opacity-50">
+              RAF YERLEŞİMİ
+            </button>
+          ) : (
+            <div className="flex flex-col gap-1 border-t-2 border-stone-300 pt-2 text-xs font-bold">
+              <span>Rafı taşımak için zemine dokun veya 1 m adımlarla seç.</span>
+              <div className="flex gap-1 justify-center">
+                {([['←', -1, 0], ['↑', 0, -1], ['↓', 0, 1], ['→', 1, 0]] as const).map(([label, dx, dz]) => (
+                  <button key={label} data-ui="true" onClick={() => {
+                    const cell = draftCellRef.current;
+                    if (cell) showPlacementDraft({ x: cell.x + dx, z: cell.z + dz });
+                  }} className="w-10 h-9 bg-white border-2 border-black rounded">{label}</button>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <button data-ui="true" onClick={() => void confirmPlacement()}
+                  className="flex-1 py-1.5 bg-[#A7EB52] border-2 border-black rounded">ONAYLA</button>
+                <button data-ui="true" onClick={closeBuildMode}
+                  className="flex-1 py-1.5 bg-white border-2 border-black rounded">İPTAL</button>
+              </div>
+            </div>
+          )}
 
           {/* Test Butonları (Pointer sahipliği kanıtı: bu butonlara tıklandığında karakter arkaya yürümez) */}
           <div className="flex gap-2 pt-1">
             <button
               data-ui="true"
+              disabled={!isSaveReady || isSaveBlocked || isBuildMode}
               onClick={handleTestDebit}
               className="flex-1 py-1.5 text-xs font-black bg-[#FF5733] text-white border-2 border-[#171717] shadow-[2px_2px_0px_0px_#171717] active:translate-x-0.5 active:translate-y-0.5 rounded"
             >
@@ -275,12 +819,34 @@ export default function App() {
             </button>
             <button
               data-ui="true"
+              disabled={!isSaveReady || isSaveBlocked || isBuildMode}
               onClick={handleTestCredit}
               className="flex-1 py-1.5 text-xs font-black bg-[#A7EB52] text-black border-2 border-[#171717] shadow-[2px_2px_0px_0px_#171717] active:translate-x-0.5 active:translate-y-0.5 rounded"
             >
               +10 Kredi
             </button>
           </div>
+
+          {isSaveBlocked && (
+            <div className="flex flex-wrap gap-2 pt-1">
+              <button
+                data-ui="true"
+                onClick={() => reconcileSave(false)}
+                className="flex-1 py-1.5 text-xs font-black bg-[#35D9E6] text-black border-2 border-[#171717] shadow-[2px_2px_0px_0px_#171717] rounded"
+              >
+                YENİDEN DENE
+              </button>
+              {hasRecoveryCandidate && (
+                <button
+                  data-ui="true"
+                  onClick={() => reconcileSave(true)}
+                  className="flex-1 py-1.5 text-xs font-black bg-[#FFE156] text-black border-2 border-[#171717] shadow-[2px_2px_0px_0px_#171717] rounded"
+                >
+                  SON İYİ KAYDI KURTAR
+                </button>
+              )}
+            </div>
+          )}
         </footer>
       </div>
     </div>

@@ -86,14 +86,26 @@ export type CommandResult =
   | { cancelled: boolean; reservationId: EntityId }
   | SaleResult;
 
+export type CommandCommitObserver = (command: ApplicationCommand, result: CommandResult) => void;
+export type AsyncCommandCommitObserver = (command: ApplicationCommand, result: CommandResult) => Promise<void>;
+
 export class CommandDispatcher {
   private ledger: EconomyLedger;
   private inventory?: InventoryManager;
   private completedSales: Map<string, SaleResult> = new Map();
+  private readonly onCommitted?: CommandCommitObserver;
+  private readonly onCommittedAsync?: AsyncCommandCommitObserver;
 
-  constructor(ledger: EconomyLedger, inventory?: InventoryManager) {
+  constructor(
+    ledger: EconomyLedger,
+    inventory?: InventoryManager,
+    onCommitted?: CommandCommitObserver,
+    onCommittedAsync?: AsyncCommandCommitObserver
+  ) {
     this.ledger = ledger;
     this.inventory = inventory;
+    this.onCommitted = onCommitted;
+    this.onCommittedAsync = onCommittedAsync;
   }
 
   public setInventory(inventory: InventoryManager): void {
@@ -101,6 +113,42 @@ export class CommandDispatcher {
   }
 
   public execute(command: ApplicationCommand): CommandResult {
+    if (this.onCommittedAsync) throw new Error('Use executeAsync for asynchronous durable commits');
+    if (!this.onCommitted) return this.executeCommand(command);
+
+    const ledgerBefore = this.ledger.serialize();
+    const inventoryBefore = this.inventory?.serialize();
+    const completedSalesBefore = new Map(this.completedSales);
+    try {
+      const result = this.executeCommand(command);
+      if (this.isDurableResult(command, result)) this.onCommitted(command, result);
+      return result;
+    } catch (error) {
+      this.ledger.restore(ledgerBefore);
+      if (inventoryBefore && this.inventory) this.inventory.restore(inventoryBefore);
+      this.completedSales = completedSalesBefore;
+      throw error;
+    }
+  }
+
+  public async executeAsync(command: ApplicationCommand): Promise<CommandResult> {
+    if (!this.onCommittedAsync) return this.execute(command);
+    const ledgerBefore = this.ledger.serialize();
+    const inventoryBefore = this.inventory?.serialize();
+    const completedSalesBefore = new Map(this.completedSales);
+    try {
+      const result = this.executeCommand(command);
+      if (this.isDurableResult(command, result)) await this.onCommittedAsync(command, result);
+      return result;
+    } catch (error) {
+      this.ledger.restore(ledgerBefore);
+      if (inventoryBefore && this.inventory) this.inventory.restore(inventoryBefore);
+      this.completedSales = completedSalesBefore;
+      throw error;
+    }
+  }
+
+  private executeCommand(command: ApplicationCommand): CommandResult {
     switch (command.type) {
       case 'CREDIT_ACCOUNT':
         return this.ledger.commitTransaction({
@@ -170,6 +218,23 @@ export class CommandDispatcher {
           };
         }
 
+        const existingLedgerEntry = this.ledger.getEntry(saleKey);
+        if (existingLedgerEntry?.reason === 'SALE') {
+          const metadata = existingLedgerEntry.metadata ?? {};
+          const result: SaleResult = {
+            success: true,
+            transactionId: saleKey,
+            customerId: String(metadata.customerId ?? command.customerId),
+            itemId: String(metadata.itemId ?? command.itemId) as ItemId,
+            quantity: Number(metadata.quantity ?? command.quantity),
+            amountAtoms: existingLedgerEntry.amountAtoms,
+            balanceAfterAtoms: existingLedgerEntry.balanceAfterAtoms,
+            isDuplicate: true,
+          };
+          this.completedSales.set(saleKey, { ...result, isDuplicate: false });
+          return result;
+        }
+
         const totalPriceAtoms = command.quantity * command.unitPriceAtoms;
 
         // 1. Stok düşümü (müşteri sepetinden veya raftan)
@@ -221,5 +286,11 @@ export class CommandDispatcher {
       default:
         throw new Error(`Bilinmeyen komut tipi: ${(command as Command).type}`);
     }
+  }
+
+  private isDurableResult(command: ApplicationCommand, result: CommandResult): boolean {
+    if ('isDuplicate' in result && result.isDuplicate) return false;
+    if (command.type === 'CANCEL_RESERVATION' && (!('cancelled' in result) || !result.cancelled)) return false;
+    return true;
   }
 }

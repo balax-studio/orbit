@@ -40,3 +40,7 @@ Test Aracı: Vitest v5.0.2, TypeScript v6.0.2, Oxlint v1.81.0
 - `npx oxlint`: 0 uyarı, 0 hata (24 dosyada 116 kuralla temiz).
 - `npx tsc -b`: 0 derleme hatası.
 - `npm run build`: `tsc -b && vite build` 688 ms'de başarıyla tamamlandı.
+
+## 3. 2026-09-27 Bağımlılık ve Üretim Commit Yeniden İncelemesi
+
+P0-03 güncel tamamlandıktan ve P0-06 üretim commit/rollback kancaları eklendikten sonra `npm test -- tests/unit/p0_production.test.ts` tekrar çalıştırıldı: 1 dosya, 12/12 test geçti. Eski bölüm ilk P0-05 doğrulamasının tarihsel sayısını korur; güncel hedefli sayı bu addendum'dur. Testler manager düzeyindedir ve gerçek App/runtime kayıt bağlantısı sağlamaz.

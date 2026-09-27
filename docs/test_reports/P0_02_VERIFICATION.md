@@ -2,10 +2,25 @@
 
 Tarih: 2026-09-27
 Görev: P0-02
-Durum: Doğrulandı
+Durum: Güncel web kontrolleri geçti; Orvant görevi D-044 sonrasında yeniden açıldı ve P0-01 kanıtı beklediği için henüz kabul edilmedi.
 Test Aracı: Vitest v5.0.2, TypeScript v6.0.2, Oxlint v1.81.0, Three.js v0.186.1
 
-## 1. Ölçüt Doğrulamaları
+## Güncel D-044 dünya ölçüleri ve kontroller
+
+- Başlangıç sınırı 100×100 m; P0 satış modülü `R3-C0` 12×12 m (`x23..35,z43..55`), üretim bahçesi 12×16 m (`x7..19,z39..55`).
+- Oda modülleri 12×12 m standart ölçüyle başlar; izinli en küçük boyut 8×8 m, değişken kenar adımı 4 m'dir. Açık mahalle/üretim modülleri aynı kimlikli kayıtla eklenir.
+- Dünya sınırını aşan yeni modül kaydı zemin ve gezinme sınırını büyütür; eski modül kimlikleri, P0 koordinatları ve kaydedilmiş aktör/raf koordinatları kaymaz. Etkin komşular en az 4 m çift yönlü geçitle bağlanır.
+- V1 kayıt koordinatları hem normal açılışta hem güvenilir yedekten kurtarmada oyuncu, görevli rotası/hedefi ve raf hücresi için bir kez 2× dönüştürülür; etkin modül kimlikleri geri yüklenir, para/stok/lot/transaction korunur.
+- `npx vitest run tests/unit/p0_world_input.test.ts`: 15/15 geçti. Bu dosyada 8×8 oda, 100 m sınırını aşan alan, açık üretim modülü, komşu oda kapısı, pointer sahipliği ve kamera kontrolleri bulunur.
+- Tam `npm test`: 11 dosyada 99/99; `npm run lint`: geçti; `npm run build`: geçti, 46 modül ve 849.99 kB ana JS chunk (500 kB Vite uyarısı).
+- `http://127.0.0.1:5173/` yerel ön izlemesinde 12×12 satış odası ve HUD açıldı. `SceneRenderer` eski gölge seçeneğinden `PCFShadowMap`'e alındı; son sayfa yüklemesinde yeni konsol hatası/uyarısı oluşmadı.
+- Orvant revizyon 143'te D-044 kabul edildi; P0-02 karara bağlandı ancak `todo/blocked` durumundadır, çünkü önkoşul P0-01'in güncel kanıtı bekleniyor. Bu rapor cihaz veya oyuncu kabulü değildir.
+
+## Tarihsel ilk 6×6 temel doğrulaması
+
+Aşağıdaki ilk uygulama kayıtları D-044 öncesi 6×6 dünyaya aittir; güncel boyutlar olarak okunmamalıdır.
+
+## 1. Tarihsel ölçüt doğrulamaları
 
 ### Ölçüt 0: Tek Satış Odası, Bahçe Kaynağı ve Başlangıç Footprint'leri
 - **Uygulama:** `src/presentation/world/WorldLayout.ts`, `src/presentation/world/SceneRenderer.ts`
@@ -38,3 +53,11 @@ Test Aracı: Vitest v5.0.2, TypeScript v6.0.2, Oxlint v1.81.0, Three.js v0.186.1
 - `npm test`: 25/25 birim test geçti (0 hata).
 - `npm run lint`: 0 uyarı, 0 hata (Oxlint 18 dosyada).
 - `npm run build`: `tsc -b && vite build` başarıyla tamamlandı (728 ms).
+
+## 3. 2026-09-27 Bağımlılık Yeniden İncelemesi
+
+P0-01'in yeniden doğrulanması sonrası mevcut P0-02 kaynakları güncel girdiye karşı tekrar kontrol edildi: `npm test -- tests/unit/p0_world_input.test.ts` 1 dosyada 10/10 test geçti. P0-06 değişikliklerinden sonraki tam build de başarılıdır; güncel ortak lint/build uyarıları P0-06 raporunda kayıtlıdır. Bu yeniden inceleme cihaz testi değildir.
+
+## 4. 2026-09-27 Capacitor/lifecycle değişikliği sonrası
+
+`src/App.tsx` P0-06 kapsamında kayıt ve Capacitor lifecycle bağlantıları için değişti; P0-02 dünya, input ve kamera sözleşmesi korunuyor. Güncel `npm test -- tests/unit/p0_world_input.test.ts`: 10/10 geçti. `npm run build` başarılı (817.20 kB chunk uyarısı); Android/iOS cihaz testi yapılmadı.

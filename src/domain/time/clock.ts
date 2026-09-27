@@ -60,7 +60,7 @@ export class SimulationClock {
 
     // ponytail: floating point delta birikiminde (örn. 8.333ms 120 FPS) mikro sapmaları önlemek için 1e-5 tolerans
     const EPSILON = 1e-5;
-    while (this.accumulatorMs + EPSILON >= TICK_DURATION_MS) {
+    while (!this.isPaused && this.accumulatorMs + EPSILON >= TICK_DURATION_MS) {
       if (ticksExecuted >= MAX_TICKS_PER_FRAME) {
         // Spiral of death önlemi: 5 tick sınırını aşan zaman atılır,
         // oyun donduğunda sonsuz döngüye girmesi engellenir.

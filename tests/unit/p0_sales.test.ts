@@ -7,6 +7,7 @@ import { CustomerManager } from '../../src/domain/customer/CustomerManager';
 import { EconomyLedger } from '../../src/domain/economy/ledger';
 import { InventoryManager } from '../../src/domain/inventory/InventoryManager';
 import type { StockLocation, StockLot } from '../../src/domain/types';
+import { WorldLayout } from '../../src/presentation/world/WorldLayout';
 
 describe('P0-04: Tek Müşteri, Raf, Kuyruk ve Satış Ledger Akışı', () => {
   let inventory: InventoryManager;
@@ -16,16 +17,21 @@ describe('P0-04: Tek Müşteri, Raf, Kuyruk ve Satış Ledger Akışı', () => {
 
   const shelfLoc: StockLocation = { kind: 'shelf', ownerId: 'fixture.sales_shelf' };
   const checkoutLoc: StockLocation = { kind: 'checkout', ownerId: 'fixture.checkout' };
+  const customerConfig = () => ({
+    shelfLocation: shelfLoc,
+    checkoutLocation: checkoutLoc,
+    shelfServicePos: WorldLayout.FIXTURES.find((fixture) => fixture.id === 'fixture.sales_shelf')!.serviceCell,
+    checkoutServicePos: WorldLayout.FIXTURES.find((fixture) => fixture.id === 'fixture.checkout')!.serviceCell,
+    checkoutQueueWaitPos: { x: 32, z: 46 },
+    entrancePos: { x: 29, z: 58 },
+  });
 
   beforeEach(() => {
     inventory = new InventoryManager();
     // Başlangıç sermayesi: 100 Kredi = 1.000.000 atom (§26.1)
     ledger = new EconomyLedger(1_000_000);
     dispatcher = new CommandDispatcher(ledger, inventory);
-    customerManager = new CustomerManager(inventory, ledger, dispatcher, 12345, {
-      shelfLocation: shelfLoc,
-      checkoutLocation: checkoutLoc,
-    });
+    customerManager = new CustomerManager(inventory, ledger, dispatcher, 12345, customerConfig());
 
     // Raf kapasitesi: 20 adet
     inventory.setCapacity(shelfLoc, 20);
@@ -342,7 +348,7 @@ describe('P0-04: Tek Müşteri, Raf, Kuyruk ve Satış Ledger Akışı', () => {
 
       const customer = customerManager.spawnCustomer({
         requestedItemId: 'item.glass_water_small',
-        startPos: { x: 13.5, z: 26.3 }, // Doğrudan raf önünde başlasın
+        startPos: customerManager.shelfServicePos, // Doğrudan raf servis hücresinde başlasın
       });
 
       // 1. Tick: Raftan ürünü almalı ve toCheckout'a geçmeli
@@ -372,7 +378,7 @@ describe('P0-04: Tek Müşteri, Raf, Kuyruk ve Satış Ledger Akışı', () => {
       expect(serialized.customers.length).toBe(1);
       expect(serialized.customers[0].id).toBe('c_save_1');
 
-      const newManager = new CustomerManager(inventory, ledger, dispatcher, 999);
+      const newManager = new CustomerManager(inventory, ledger, dispatcher, 999, customerConfig());
       newManager.restore(serialized);
 
       expect(newManager.getAllCustomers().length).toBe(1);
