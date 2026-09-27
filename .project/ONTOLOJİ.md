@@ -1,6 +1,6 @@
 # Orbit Market — Ontoloji
 
-Revizyon: 27. Canlı görünüm için `ontology` komutunu çalıştır.
+Revizyon: 30. Canlı görünüm için `ontology` komutunu çalıştır.
 
 ## Türler ve özellikler
 
@@ -36,7 +36,7 @@ Revizyon: 27. Canlı görünüm için `ontology` komutunu çalıştır.
 - **Tek oda ve dokunmatik kontrol** (`p0-world-input`, capability): {"behavior": "Paftadaki 6×6 satış odası ve bahçe kaynağında UI pointer sahipliği korunarak karaktere dokun-git veya joystick hareketi.", "phase": "P0", "status": "planned"}; durum: current; üretici: P0-02
 - **Rezervasyonlu fiziksel transfer** (`p0-transfer`, capability): {"behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.", "phase": "P0", "status": "planned"}; durum: current; üretici: P0-03
 - **Müşteri ve tekil satış işlemi** (`p0-sales`, capability): {"behavior": "Tek müşteri davranışı raftaki gerçek stoğu alır, kasada bir kez satış/ledger sonucu üretir ve kuyruk durumunu korur.", "phase": "P0", "status": "planned"}; durum: current; üretici: P0-04
-- **Su şişeleme ve domates hasadı** (`p0-production`, capability): {"behavior": "Çeşme suyu, ambalaj ve tohum lotları tarif/kapasite kurallarıyla üç su ürünü ve taze domatese dönüşür; bekleme nedeni görünürdür.", "phase": "P0", "status": "planned"}; durum: pending; üretici: P0-05
+- **Su şişeleme ve domates hasadı** (`p0-production`, capability): {"behavior": "Çeşme suyu, ambalaj ve tohum lotları tarif/kapasite kurallarıyla üç su ürünü ve taze domatese dönüşür; bekleme nedeni görünürdür.", "phase": "P0", "status": "planned"}; durum: current; üretici: P0-05
 - **Kesintiye dayanıklı yerel kayıt** (`p0-save`, capability): {"behavior": "Snapshot ve kritik işlem günlüğüyle kayıt/yükleme ekonomik işlemi bir kez korur; pause/background simülasyonu ilerletmez.", "phase": "P0", "status": "planned"}; durum: pending; üretici: P0-06
 - **Tek raf görevlisine iş devri** (`p0-worker`, capability): {"behavior": "Bir raf ikmal görevi gerçek yük/rota/rezervasyonla tamamlanır; kesinti veya yeniden yüklemede yük kaybolmaz.", "phase": "P0", "status": "planned"}; durum: pending; üretici: P0-07
 - **Güvenli yerleşim ve erişim** (`p0-placement`, capability): {"behavior": "Nesne yerleştirme önizlemesi footprint, servis hücresi, kapı, kasa ve taşıma yolunu denetler; iptal state değiştirmez.", "phase": "P0", "status": "planned"}; durum: pending; üretici: P0-08
@@ -97,7 +97,7 @@ Oklar kayıtlı ilişki yönüdür; değişiklik etkisinin yönü üstte ayrıca
 - **P0-02 — Tek oda dünyasını, dokunmatik hareketi ve pointer sahipliğini kur**: girdiler [constitution-p0, mvp-guide-p0, world-map-p0], çıktılar [p0-world-input], durum done.
 - **P0-03 — Kapasite ve rezervasyon korumalı ürün transferini kur**: girdiler [constitution-p0, p0-time-content, p0-world-input], çıktılar [p0-transfer], durum done.
 - **P0-04 — Tek müşteri, raf, kuyruk ve satış ledger akışını kur**: girdiler [constitution-p0, content-catalog-p0, p0-transfer], çıktılar [p0-sales], durum done.
-- **P0-05 — Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır**: girdiler [constitution-p0, mvp-guide-p0, content-catalog-p0, p0-transfer], çıktılar [p0-production], durum todo.
+- **P0-05 — Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır**: girdiler [constitution-p0, mvp-guide-p0, content-catalog-p0, p0-transfer], çıktılar [p0-production], durum done.
 - **P0-06 — Snapshot, kritik işlem günlüğü ve lifecycle dönüşünü kur**: girdiler [constitution-p0, mvp-guide-p0, p0-time-content], çıktılar [p0-save], durum todo.
 - **P0-07 — Tek raf görevlisinin ikmal işini güvenli devretmesini sağla**: girdiler [constitution-p0, p0-transfer, p0-production, p0-save], çıktılar [p0-worker], durum blocked.
 - **P0-08 — İnşa ve yerleşimde servis, kapı ve temel üretim erişimini koru**: girdiler [mvp-guide-p0, world-map-p0, p0-transfer, p0-worker], çıktılar [p0-placement], durum blocked.

@@ -83,15 +83,29 @@ export interface MachineBatch {
   }>;
 }
 
+export type ProductionWaitReason =
+  | 'WAITING_FOR_RECIPE'
+  | 'WAITING_FOR_INPUT'
+  | 'WAITING_FOR_POWER'
+  | 'WAITING_FOR_OUTPUT_SPACE'
+  | 'STORAGE_FULL'
+  | 'IN_PRODUCTION'
+  | 'PRODUCING'
+  | 'IDLE';
+
 export interface Machine {
   id: EntityId;
   typeId: MachineTypeId;
   gridPosition: GridCell;
   direction: Direction;
-  level: 1;
+  level: number;
   selectedRecipeId: RecipeId | null;
   status: 'Idle' | 'Running' | 'NoInput' | 'NoPower' | 'BlockedOutput' | 'Ready';
   batch: MachineBatch | null;
+  progressTicks?: number;
+  waitReason?: ProductionWaitReason;
+  missingInputs?: Array<{ itemId: ItemId; required: number; available: number }>;
+  energyCostAtoms?: number;
 }
 
 export interface CarrierTask {
@@ -162,7 +176,9 @@ export type TransactionReason =
   | 'PURCHASE'
   | 'MAINTENANCE'
   | 'INITIAL_CAPITAL'
-  | 'UPGRADE';
+  | 'UPGRADE'
+  | 'ENERGY_COST'
+  | 'PRODUCTION_COST';
 
 export interface LedgerEntry {
   sequence: number;

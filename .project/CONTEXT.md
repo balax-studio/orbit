@@ -1,6 +1,6 @@
 # Orbit Market — proje bağlamı
 
-Revision: 27 · Yetkili kaynak: .project/state.json
+Revision: 30 · Yetkili kaynak: .project/state.json
 
 Bu görünüm türetilmiştir. Güncel kanıt kontrolü için context komutunu çalıştır.
 
@@ -140,7 +140,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Etkin önkoşullar: P0-03
   - Üretici bağı: p0-transfer ← P0-03
   - Kabul güncelliği: güncel · tamamlanma sayısı: 1
-- P0-05 [todo] Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır (kayıt: todo)
+- P0-05 [done] Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır (kayıt: done)
   - Ölçüt: Küçük şişe, 5 L bidon ve 19 L damacana tarifleri ham su ve ilgili ambalaj lotunu tüketir.
   - Ölçüt: Domates hasadı katalogdaki su/tohum girdilerini kullanır; çıktı doluysa girdi/ürün kaybolmaz.
   - Ölçüt: Üretim süresi, enerji ve bekleme nedeni gerçek domain durumundan gösterilir.
@@ -149,7 +149,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Ürettiği nesneler: p0-production
   - Etkin önkoşullar: P0-03
   - Üretici bağı: p0-transfer ← P0-03
-  - Kabul güncelliği: henüz doğrulanmadı · tamamlanma sayısı: 0
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 1
 - P0-06 [todo] Snapshot, kritik işlem günlüğü ve lifecycle dönüşünü kur (kayıt: todo)
   - Ölçüt: Kritik satış/üretim/transfer sonucu durable kayıtla bir kez uygulanır.
   - Ölçüt: Yarım yazım veya bozuk kayıt sessizce sıfırlanmaz; görünür kurtarma yolu bulunur.
@@ -172,7 +172,6 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Üretici bağı: p0-save ← P0-06
   - Üretici bağı: p0-transfer ← P0-03
   - Kabul güncelliği: henüz doğrulanmadı · tamamlanma sayısı: 0
-  - Kontrol: dependency P0-05: todo
   - Kontrol: dependency P0-06: todo
 - P0-08 [blocked] İnşa ve yerleşimde servis, kapı ve temel üretim erişimini koru (kayıt: todo)
   - Ölçüt: Geçersiz footprint, kapı, servis hücresi veya rota yerleşimi reddedilir ve neden gösterilir.
@@ -202,14 +201,13 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Üretici bağı: p0-worker ← P0-07
   - Üretici bağı: p0-world-input ← P0-02
   - Kabul güncelliği: henüz doğrulanmadı · tamamlanma sayısı: 0
-  - Kontrol: dependency P0-05: todo
   - Kontrol: dependency P0-06: todo
   - Kontrol: dependency P0-07: blocked
   - Kontrol: dependency P0-08: blocked
 
 ## Çalışılabilir görevler
 
-P0-05, P0-06
+P0-06
 
 ## Uyarılar
 

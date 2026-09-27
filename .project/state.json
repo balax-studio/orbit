@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "revision": 27,
+  "revision": 30,
   "project": {
     "id": "orbit-market",
     "name": "Orbit Market",
@@ -2224,7 +2224,7 @@
     {
       "id": "P0-05",
       "title": "Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır",
-      "status": "todo",
+      "status": "done",
       "object_ids": [
         "p0-production",
         "constitution-p0",
@@ -2250,10 +2250,453 @@
         "Domates hasadı katalogdaki su/tohum girdilerini kullanır; çıktı doluysa girdi/ürün kaybolmaz.",
         "Üretim süresi, enerji ve bekleme nedeni gerçek domain durumundan gösterilir."
       ],
-      "evidence": [],
-      "input_snapshot": null,
-      "generation": 0,
-      "review_reasons": []
+      "evidence": [
+        {
+          "path": "docs/test_reports/P0_05_VERIFICATION.md",
+          "criterion": 0,
+          "note": "Küçük şişe, 5 L bidon ve 19 L damacana tariflerinin ham su ve ilgili ambalaj sarflarını tüketmesi ve eksik girdi kontrolleri doğrulandı.",
+          "reviewer": "agent",
+          "sha256": "a58247f50b0b2066462cdce90445041c08e9375a886400bb8284beaa5fb4db80"
+        },
+        {
+          "path": "src/domain/production/ProductionManager.ts",
+          "criterion": 0,
+          "note": "ProductionManager su şişeleme ve girdi tüketimi motoru.",
+          "reviewer": "agent",
+          "sha256": "3cb2e87b6763babf7b1ad52e7706d7a2dd9399a27082b4208f0326c198656f32"
+        },
+        {
+          "path": "docs/test_reports/P0_05_VERIFICATION.md",
+          "criterion": 1,
+          "note": "Domates hasadı su ve tohum girdileri; çıktı doluysa BlockedOutput ile parti ve ürünün kaybolmaması doğrulandı.",
+          "reviewer": "agent",
+          "sha256": "a58247f50b0b2066462cdce90445041c08e9375a886400bb8284beaa5fb4db80"
+        },
+        {
+          "path": "tests/unit/p0_production.test.ts",
+          "criterion": 1,
+          "note": "T-P0-05b çıktı dolu korunum akışı ve domates hasat testleri.",
+          "reviewer": "agent",
+          "sha256": "a8b9f8fda4bb48ff6f42be396518868d771a0c73482794fa8362ed42687e02aa"
+        },
+        {
+          "path": "docs/test_reports/P0_05_VERIFICATION.md",
+          "criterion": 2,
+          "note": "T-P0-05 30 tick parti ve enerji düşümü, T-P0-05c debi birikimi, T-P0-05d debi yükseltme ve bekleme nedenleri doğrulandı.",
+          "reviewer": "agent",
+          "sha256": "a58247f50b0b2066462cdce90445041c08e9375a886400bb8284beaa5fb4db80"
+        },
+        {
+          "path": "src/domain/production/ProductionManager.ts",
+          "criterion": 2,
+          "note": "ProductionManager süre, enerji bedeli, debi yükseltme ve bekleme nedenleri motoru.",
+          "reviewer": "agent",
+          "sha256": "3cb2e87b6763babf7b1ad52e7706d7a2dd9399a27082b4208f0326c198656f32"
+        }
+      ],
+      "input_snapshot": {
+        "sha256": "f2f45bc9b4831a1d151b59d901b120359644275db7eae7f488f836586e198943",
+        "manifest": {
+          "graph": {
+            "inputs": [
+              "constitution-p0",
+              "content-catalog-p0",
+              "mvp-guide-p0",
+              "p0-transfer"
+            ],
+            "objects": [
+              {
+                "id": "constitution-p0",
+                "type": "source_doc",
+                "properties": {
+                  "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                  "section": "§26, §58.1, §60–63",
+                  "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                }
+              },
+              {
+                "id": "content-catalog-p0",
+                "type": "source_doc",
+                "properties": {
+                  "file": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                  "section": "§2, §7, §26 ile eşlenen içerik",
+                  "scope_note": "Kaynak, üç su SKU'su, taze domates, istasyon ve açılış sarfları."
+                }
+              },
+              {
+                "id": "mvp-guide-p0",
+                "type": "source_doc",
+                "properties": {
+                  "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                  "section": "P0 sahnesi, P0-01…P0-09",
+                  "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                }
+              },
+              {
+                "id": "p0-transfer",
+                "type": "capability",
+                "properties": {
+                  "phase": "P0",
+                  "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                  "status": "planned"
+                }
+              }
+            ],
+            "object_types": [
+              {
+                "id": "capability",
+                "properties": {
+                  "phase": {
+                    "type": "string",
+                    "required": true,
+                    "enum": [
+                      "P0",
+                      "A2",
+                      "A3",
+                      "A4",
+                      "A5"
+                    ]
+                  },
+                  "behavior": {
+                    "type": "string",
+                    "required": true,
+                    "enum": null
+                  },
+                  "status": {
+                    "type": "string",
+                    "required": true,
+                    "enum": [
+                      "planned",
+                      "in_progress",
+                      "implemented",
+                      "verified"
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "source_doc",
+                "properties": {
+                  "file": {
+                    "type": "file",
+                    "required": true,
+                    "enum": null
+                  },
+                  "section": {
+                    "type": "string",
+                    "required": true,
+                    "enum": null
+                  },
+                  "scope_note": {
+                    "type": "string",
+                    "required": true,
+                    "enum": null
+                  }
+                }
+              }
+            ],
+            "relation_types": [
+              {
+                "id": "grounded_in",
+                "from_type": "capability",
+                "to_type": "source_doc",
+                "from_min": 1,
+                "from_max": null,
+                "to_min": 0,
+                "to_max": null,
+                "impact": "reverse"
+              }
+            ],
+            "relations": [
+              {
+                "id": "transfer-source-constitution",
+                "from": "p0-transfer",
+                "type": "grounded_in",
+                "to": "constitution-p0"
+              },
+              {
+                "id": "transfer-source-guide",
+                "from": "p0-transfer",
+                "type": "grounded_in",
+                "to": "mvp-guide-p0"
+              }
+            ],
+            "files": [
+              {
+                "object_id": "constitution-p0",
+                "property": "file",
+                "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                "sha256": "1b0154a3ced332a993d6eeae9b63f5066e853b4fa440307f0bd52e20529fe454"
+              },
+              {
+                "object_id": "content-catalog-p0",
+                "property": "file",
+                "path": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                "sha256": "076998b49b03fcc65f559dd35c93ad3dca56910738ae8f3433dfb2aafca726cc"
+              },
+              {
+                "object_id": "mvp-guide-p0",
+                "property": "file",
+                "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+              }
+            ]
+          },
+          "producer_generations": {
+            "P0-03": 3
+          },
+          "contract": {
+            "input_fields": {},
+            "acceptance_rules": [],
+            "support_groups": []
+          }
+        }
+      },
+      "generation": 1,
+      "review_reasons": [],
+      "run_snapshot": {
+        "sha256": "f2f45bc9b4831a1d151b59d901b120359644275db7eae7f488f836586e198943",
+        "manifest": {
+          "graph": {
+            "inputs": [
+              "constitution-p0",
+              "content-catalog-p0",
+              "mvp-guide-p0",
+              "p0-transfer"
+            ],
+            "objects": [
+              {
+                "id": "constitution-p0",
+                "type": "source_doc",
+                "properties": {
+                  "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                  "section": "§26, §58.1, §60–63",
+                  "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                }
+              },
+              {
+                "id": "content-catalog-p0",
+                "type": "source_doc",
+                "properties": {
+                  "file": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                  "section": "§2, §7, §26 ile eşlenen içerik",
+                  "scope_note": "Kaynak, üç su SKU'su, taze domates, istasyon ve açılış sarfları."
+                }
+              },
+              {
+                "id": "mvp-guide-p0",
+                "type": "source_doc",
+                "properties": {
+                  "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                  "section": "P0 sahnesi, P0-01…P0-09",
+                  "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                }
+              },
+              {
+                "id": "p0-transfer",
+                "type": "capability",
+                "properties": {
+                  "phase": "P0",
+                  "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                  "status": "planned"
+                }
+              }
+            ],
+            "object_types": [
+              {
+                "id": "capability",
+                "properties": {
+                  "phase": {
+                    "type": "string",
+                    "required": true,
+                    "enum": [
+                      "P0",
+                      "A2",
+                      "A3",
+                      "A4",
+                      "A5"
+                    ]
+                  },
+                  "behavior": {
+                    "type": "string",
+                    "required": true,
+                    "enum": null
+                  },
+                  "status": {
+                    "type": "string",
+                    "required": true,
+                    "enum": [
+                      "planned",
+                      "in_progress",
+                      "implemented",
+                      "verified"
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "source_doc",
+                "properties": {
+                  "file": {
+                    "type": "file",
+                    "required": true,
+                    "enum": null
+                  },
+                  "section": {
+                    "type": "string",
+                    "required": true,
+                    "enum": null
+                  },
+                  "scope_note": {
+                    "type": "string",
+                    "required": true,
+                    "enum": null
+                  }
+                }
+              }
+            ],
+            "relation_types": [
+              {
+                "id": "grounded_in",
+                "from_type": "capability",
+                "to_type": "source_doc",
+                "from_min": 1,
+                "from_max": null,
+                "to_min": 0,
+                "to_max": null,
+                "impact": "reverse"
+              }
+            ],
+            "relations": [
+              {
+                "id": "transfer-source-constitution",
+                "from": "p0-transfer",
+                "type": "grounded_in",
+                "to": "constitution-p0"
+              },
+              {
+                "id": "transfer-source-guide",
+                "from": "p0-transfer",
+                "type": "grounded_in",
+                "to": "mvp-guide-p0"
+              }
+            ],
+            "files": [
+              {
+                "object_id": "constitution-p0",
+                "property": "file",
+                "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                "sha256": "1b0154a3ced332a993d6eeae9b63f5066e853b4fa440307f0bd52e20529fe454"
+              },
+              {
+                "object_id": "content-catalog-p0",
+                "property": "file",
+                "path": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                "sha256": "076998b49b03fcc65f559dd35c93ad3dca56910738ae8f3433dfb2aafca726cc"
+              },
+              {
+                "object_id": "mvp-guide-p0",
+                "property": "file",
+                "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+              }
+            ]
+          },
+          "producer_generations": {
+            "P0-03": 3
+          },
+          "contract": {
+            "input_fields": {},
+            "acceptance_rules": [],
+            "support_groups": []
+          }
+        }
+      },
+      "output_snapshot": {
+        "sha256": "a0ba393482798b44d2a7b0704a479e742cf15be6d9c07a23b83b984dcb008909",
+        "manifest": {
+          "inputs": [
+            "p0-production"
+          ],
+          "objects": [
+            {
+              "id": "p0-production",
+              "type": "capability",
+              "properties": {
+                "phase": "P0",
+                "behavior": "Çeşme suyu, ambalaj ve tohum lotları tarif/kapasite kurallarıyla üç su ürünü ve taze domatese dönüşür; bekleme nedeni görünürdür.",
+                "status": "planned"
+              }
+            }
+          ],
+          "object_types": [
+            {
+              "id": "capability",
+              "properties": {
+                "phase": {
+                  "type": "string",
+                  "required": true,
+                  "enum": [
+                    "P0",
+                    "A2",
+                    "A3",
+                    "A4",
+                    "A5"
+                  ]
+                },
+                "behavior": {
+                  "type": "string",
+                  "required": true,
+                  "enum": null
+                },
+                "status": {
+                  "type": "string",
+                  "required": true,
+                  "enum": [
+                    "planned",
+                    "in_progress",
+                    "implemented",
+                    "verified"
+                  ]
+                }
+              }
+            }
+          ],
+          "relation_types": [
+            {
+              "id": "grounded_in",
+              "from_type": "capability",
+              "to_type": "source_doc",
+              "from_min": 1,
+              "from_max": null,
+              "to_min": 0,
+              "to_max": null,
+              "impact": "reverse"
+            }
+          ],
+          "relations": [
+            {
+              "id": "production-source-catalog",
+              "from": "p0-production",
+              "type": "grounded_in",
+              "to": "content-catalog-p0"
+            },
+            {
+              "id": "production-source-constitution",
+              "from": "p0-production",
+              "type": "grounded_in",
+              "to": "constitution-p0"
+            },
+            {
+              "id": "production-source-guide",
+              "from": "p0-production",
+              "type": "grounded_in",
+              "to": "mvp-guide-p0"
+            }
+          ],
+          "files": []
+        }
+      }
     },
     {
       "id": "P0-06",
@@ -20937,6 +21380,1894 @@
                 }
               },
               "support_snapshot": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "revision": 28,
+      "action": "start_task",
+      "actor": "agent",
+      "reason": "P0-05 üç su tarifini ve domates hasadını gerçek girdiyle çalıştırma görevine başlanıyor.",
+      "change": {
+        "task_changes": [
+          {
+            "task_id": "P0-05",
+            "before": {
+              "id": "P0-05",
+              "title": "Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır",
+              "status": "todo",
+              "object_ids": [
+                "p0-production",
+                "constitution-p0",
+                "mvp-guide-p0",
+                "content-catalog-p0",
+                "p0-transfer"
+              ],
+              "input_ids": [
+                "constitution-p0",
+                "mvp-guide-p0",
+                "content-catalog-p0",
+                "p0-transfer"
+              ],
+              "output_ids": [
+                "p0-production"
+              ],
+              "depends_on": [
+                "P0-03"
+              ],
+              "decision_ids": [],
+              "acceptance": [
+                "Küçük şişe, 5 L bidon ve 19 L damacana tarifleri ham su ve ilgili ambalaj lotunu tüketir.",
+                "Domates hasadı katalogdaki su/tohum girdilerini kullanır; çıktı doluysa girdi/ürün kaybolmaz.",
+                "Üretim süresi, enerji ve bekleme nedeni gerçek domain durumundan gösterilir."
+              ],
+              "evidence": [],
+              "input_snapshot": null,
+              "generation": 0,
+              "review_reasons": []
+            },
+            "after": {
+              "id": "P0-05",
+              "title": "Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır",
+              "status": "doing",
+              "object_ids": [
+                "p0-production",
+                "constitution-p0",
+                "mvp-guide-p0",
+                "content-catalog-p0",
+                "p0-transfer"
+              ],
+              "input_ids": [
+                "constitution-p0",
+                "mvp-guide-p0",
+                "content-catalog-p0",
+                "p0-transfer"
+              ],
+              "output_ids": [
+                "p0-production"
+              ],
+              "depends_on": [
+                "P0-03"
+              ],
+              "decision_ids": [],
+              "acceptance": [
+                "Küçük şişe, 5 L bidon ve 19 L damacana tarifleri ham su ve ilgili ambalaj lotunu tüketir.",
+                "Domates hasadı katalogdaki su/tohum girdilerini kullanır; çıktı doluysa girdi/ürün kaybolmaz.",
+                "Üretim süresi, enerji ve bekleme nedeni gerçek domain durumundan gösterilir."
+              ],
+              "evidence": [],
+              "input_snapshot": null,
+              "generation": 0,
+              "review_reasons": [],
+              "run_snapshot": {
+                "sha256": "f2f45bc9b4831a1d151b59d901b120359644275db7eae7f488f836586e198943",
+                "manifest": {
+                  "graph": {
+                    "inputs": [
+                      "constitution-p0",
+                      "content-catalog-p0",
+                      "mvp-guide-p0",
+                      "p0-transfer"
+                    ],
+                    "objects": [
+                      {
+                        "id": "constitution-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                          "section": "§26, §58.1, §60–63",
+                          "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                        }
+                      },
+                      {
+                        "id": "content-catalog-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                          "section": "§2, §7, §26 ile eşlenen içerik",
+                          "scope_note": "Kaynak, üç su SKU'su, taze domates, istasyon ve açılış sarfları."
+                        }
+                      },
+                      {
+                        "id": "mvp-guide-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                          "section": "P0 sahnesi, P0-01…P0-09",
+                          "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                        }
+                      },
+                      {
+                        "id": "p0-transfer",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                          "status": "planned"
+                        }
+                      }
+                    ],
+                    "object_types": [
+                      {
+                        "id": "capability",
+                        "properties": {
+                          "phase": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "P0",
+                              "A2",
+                              "A3",
+                              "A4",
+                              "A5"
+                            ]
+                          },
+                          "behavior": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "status": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "planned",
+                              "in_progress",
+                              "implemented",
+                              "verified"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "id": "source_doc",
+                        "properties": {
+                          "file": {
+                            "type": "file",
+                            "required": true,
+                            "enum": null
+                          },
+                          "section": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "scope_note": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          }
+                        }
+                      }
+                    ],
+                    "relation_types": [
+                      {
+                        "id": "grounded_in",
+                        "from_type": "capability",
+                        "to_type": "source_doc",
+                        "from_min": 1,
+                        "from_max": null,
+                        "to_min": 0,
+                        "to_max": null,
+                        "impact": "reverse"
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "id": "transfer-source-constitution",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      },
+                      {
+                        "id": "transfer-source-guide",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "mvp-guide-p0"
+                      }
+                    ],
+                    "files": [
+                      {
+                        "object_id": "constitution-p0",
+                        "property": "file",
+                        "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                        "sha256": "1b0154a3ced332a993d6eeae9b63f5066e853b4fa440307f0bd52e20529fe454"
+                      },
+                      {
+                        "object_id": "content-catalog-p0",
+                        "property": "file",
+                        "path": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                        "sha256": "076998b49b03fcc65f559dd35c93ad3dca56910738ae8f3433dfb2aafca726cc"
+                      },
+                      {
+                        "object_id": "mvp-guide-p0",
+                        "property": "file",
+                        "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                        "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+                      }
+                    ]
+                  },
+                  "producer_generations": {
+                    "P0-03": 3
+                  },
+                  "contract": {
+                    "input_fields": {},
+                    "acceptance_rules": [],
+                    "support_groups": []
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "revision": 29,
+      "action": "submit_evidence",
+      "actor": "agent",
+      "reason": "P0-05 üç su tarifi, domates hasadı, çıktı dolu korunum akışı, enerji ve bekleme nedenleri doğrulandı.",
+      "change": {
+        "task_changes": [
+          {
+            "task_id": "P0-05",
+            "before": {
+              "id": "P0-05",
+              "title": "Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır",
+              "status": "doing",
+              "object_ids": [
+                "p0-production",
+                "constitution-p0",
+                "mvp-guide-p0",
+                "content-catalog-p0",
+                "p0-transfer"
+              ],
+              "input_ids": [
+                "constitution-p0",
+                "mvp-guide-p0",
+                "content-catalog-p0",
+                "p0-transfer"
+              ],
+              "output_ids": [
+                "p0-production"
+              ],
+              "depends_on": [
+                "P0-03"
+              ],
+              "decision_ids": [],
+              "acceptance": [
+                "Küçük şişe, 5 L bidon ve 19 L damacana tarifleri ham su ve ilgili ambalaj lotunu tüketir.",
+                "Domates hasadı katalogdaki su/tohum girdilerini kullanır; çıktı doluysa girdi/ürün kaybolmaz.",
+                "Üretim süresi, enerji ve bekleme nedeni gerçek domain durumundan gösterilir."
+              ],
+              "evidence": [],
+              "input_snapshot": null,
+              "generation": 0,
+              "review_reasons": [],
+              "run_snapshot": {
+                "sha256": "f2f45bc9b4831a1d151b59d901b120359644275db7eae7f488f836586e198943",
+                "manifest": {
+                  "graph": {
+                    "inputs": [
+                      "constitution-p0",
+                      "content-catalog-p0",
+                      "mvp-guide-p0",
+                      "p0-transfer"
+                    ],
+                    "objects": [
+                      {
+                        "id": "constitution-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                          "section": "§26, §58.1, §60–63",
+                          "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                        }
+                      },
+                      {
+                        "id": "content-catalog-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                          "section": "§2, §7, §26 ile eşlenen içerik",
+                          "scope_note": "Kaynak, üç su SKU'su, taze domates, istasyon ve açılış sarfları."
+                        }
+                      },
+                      {
+                        "id": "mvp-guide-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                          "section": "P0 sahnesi, P0-01…P0-09",
+                          "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                        }
+                      },
+                      {
+                        "id": "p0-transfer",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                          "status": "planned"
+                        }
+                      }
+                    ],
+                    "object_types": [
+                      {
+                        "id": "capability",
+                        "properties": {
+                          "phase": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "P0",
+                              "A2",
+                              "A3",
+                              "A4",
+                              "A5"
+                            ]
+                          },
+                          "behavior": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "status": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "planned",
+                              "in_progress",
+                              "implemented",
+                              "verified"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "id": "source_doc",
+                        "properties": {
+                          "file": {
+                            "type": "file",
+                            "required": true,
+                            "enum": null
+                          },
+                          "section": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "scope_note": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          }
+                        }
+                      }
+                    ],
+                    "relation_types": [
+                      {
+                        "id": "grounded_in",
+                        "from_type": "capability",
+                        "to_type": "source_doc",
+                        "from_min": 1,
+                        "from_max": null,
+                        "to_min": 0,
+                        "to_max": null,
+                        "impact": "reverse"
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "id": "transfer-source-constitution",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      },
+                      {
+                        "id": "transfer-source-guide",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "mvp-guide-p0"
+                      }
+                    ],
+                    "files": [
+                      {
+                        "object_id": "constitution-p0",
+                        "property": "file",
+                        "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                        "sha256": "1b0154a3ced332a993d6eeae9b63f5066e853b4fa440307f0bd52e20529fe454"
+                      },
+                      {
+                        "object_id": "content-catalog-p0",
+                        "property": "file",
+                        "path": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                        "sha256": "076998b49b03fcc65f559dd35c93ad3dca56910738ae8f3433dfb2aafca726cc"
+                      },
+                      {
+                        "object_id": "mvp-guide-p0",
+                        "property": "file",
+                        "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                        "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+                      }
+                    ]
+                  },
+                  "producer_generations": {
+                    "P0-03": 3
+                  },
+                  "contract": {
+                    "input_fields": {},
+                    "acceptance_rules": [],
+                    "support_groups": []
+                  }
+                }
+              }
+            },
+            "after": {
+              "id": "P0-05",
+              "title": "Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır",
+              "status": "review",
+              "object_ids": [
+                "p0-production",
+                "constitution-p0",
+                "mvp-guide-p0",
+                "content-catalog-p0",
+                "p0-transfer"
+              ],
+              "input_ids": [
+                "constitution-p0",
+                "mvp-guide-p0",
+                "content-catalog-p0",
+                "p0-transfer"
+              ],
+              "output_ids": [
+                "p0-production"
+              ],
+              "depends_on": [
+                "P0-03"
+              ],
+              "decision_ids": [],
+              "acceptance": [
+                "Küçük şişe, 5 L bidon ve 19 L damacana tarifleri ham su ve ilgili ambalaj lotunu tüketir.",
+                "Domates hasadı katalogdaki su/tohum girdilerini kullanır; çıktı doluysa girdi/ürün kaybolmaz.",
+                "Üretim süresi, enerji ve bekleme nedeni gerçek domain durumundan gösterilir."
+              ],
+              "evidence": [
+                {
+                  "path": "docs/test_reports/P0_05_VERIFICATION.md",
+                  "criterion": 0,
+                  "note": "Küçük şişe, 5 L bidon ve 19 L damacana tariflerinin ham su ve ilgili ambalaj sarflarını tüketmesi ve eksik girdi kontrolleri doğrulandı.",
+                  "reviewer": "agent",
+                  "sha256": "a58247f50b0b2066462cdce90445041c08e9375a886400bb8284beaa5fb4db80"
+                },
+                {
+                  "path": "src/domain/production/ProductionManager.ts",
+                  "criterion": 0,
+                  "note": "ProductionManager su şişeleme ve girdi tüketimi motoru.",
+                  "reviewer": "agent",
+                  "sha256": "3cb2e87b6763babf7b1ad52e7706d7a2dd9399a27082b4208f0326c198656f32"
+                },
+                {
+                  "path": "docs/test_reports/P0_05_VERIFICATION.md",
+                  "criterion": 1,
+                  "note": "Domates hasadı su ve tohum girdileri; çıktı doluysa BlockedOutput ile parti ve ürünün kaybolmaması doğrulandı.",
+                  "reviewer": "agent",
+                  "sha256": "a58247f50b0b2066462cdce90445041c08e9375a886400bb8284beaa5fb4db80"
+                },
+                {
+                  "path": "tests/unit/p0_production.test.ts",
+                  "criterion": 1,
+                  "note": "T-P0-05b çıktı dolu korunum akışı ve domates hasat testleri.",
+                  "reviewer": "agent",
+                  "sha256": "a8b9f8fda4bb48ff6f42be396518868d771a0c73482794fa8362ed42687e02aa"
+                },
+                {
+                  "path": "docs/test_reports/P0_05_VERIFICATION.md",
+                  "criterion": 2,
+                  "note": "T-P0-05 30 tick parti ve enerji düşümü, T-P0-05c debi birikimi, T-P0-05d debi yükseltme ve bekleme nedenleri doğrulandı.",
+                  "reviewer": "agent",
+                  "sha256": "a58247f50b0b2066462cdce90445041c08e9375a886400bb8284beaa5fb4db80"
+                },
+                {
+                  "path": "src/domain/production/ProductionManager.ts",
+                  "criterion": 2,
+                  "note": "ProductionManager süre, enerji bedeli, debi yükseltme ve bekleme nedenleri motoru.",
+                  "reviewer": "agent",
+                  "sha256": "3cb2e87b6763babf7b1ad52e7706d7a2dd9399a27082b4208f0326c198656f32"
+                }
+              ],
+              "input_snapshot": {
+                "sha256": "f2f45bc9b4831a1d151b59d901b120359644275db7eae7f488f836586e198943",
+                "manifest": {
+                  "graph": {
+                    "inputs": [
+                      "constitution-p0",
+                      "content-catalog-p0",
+                      "mvp-guide-p0",
+                      "p0-transfer"
+                    ],
+                    "objects": [
+                      {
+                        "id": "constitution-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                          "section": "§26, §58.1, §60–63",
+                          "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                        }
+                      },
+                      {
+                        "id": "content-catalog-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                          "section": "§2, §7, §26 ile eşlenen içerik",
+                          "scope_note": "Kaynak, üç su SKU'su, taze domates, istasyon ve açılış sarfları."
+                        }
+                      },
+                      {
+                        "id": "mvp-guide-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                          "section": "P0 sahnesi, P0-01…P0-09",
+                          "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                        }
+                      },
+                      {
+                        "id": "p0-transfer",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                          "status": "planned"
+                        }
+                      }
+                    ],
+                    "object_types": [
+                      {
+                        "id": "capability",
+                        "properties": {
+                          "phase": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "P0",
+                              "A2",
+                              "A3",
+                              "A4",
+                              "A5"
+                            ]
+                          },
+                          "behavior": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "status": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "planned",
+                              "in_progress",
+                              "implemented",
+                              "verified"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "id": "source_doc",
+                        "properties": {
+                          "file": {
+                            "type": "file",
+                            "required": true,
+                            "enum": null
+                          },
+                          "section": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "scope_note": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          }
+                        }
+                      }
+                    ],
+                    "relation_types": [
+                      {
+                        "id": "grounded_in",
+                        "from_type": "capability",
+                        "to_type": "source_doc",
+                        "from_min": 1,
+                        "from_max": null,
+                        "to_min": 0,
+                        "to_max": null,
+                        "impact": "reverse"
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "id": "transfer-source-constitution",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      },
+                      {
+                        "id": "transfer-source-guide",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "mvp-guide-p0"
+                      }
+                    ],
+                    "files": [
+                      {
+                        "object_id": "constitution-p0",
+                        "property": "file",
+                        "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                        "sha256": "1b0154a3ced332a993d6eeae9b63f5066e853b4fa440307f0bd52e20529fe454"
+                      },
+                      {
+                        "object_id": "content-catalog-p0",
+                        "property": "file",
+                        "path": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                        "sha256": "076998b49b03fcc65f559dd35c93ad3dca56910738ae8f3433dfb2aafca726cc"
+                      },
+                      {
+                        "object_id": "mvp-guide-p0",
+                        "property": "file",
+                        "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                        "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+                      }
+                    ]
+                  },
+                  "producer_generations": {
+                    "P0-03": 3
+                  },
+                  "contract": {
+                    "input_fields": {},
+                    "acceptance_rules": [],
+                    "support_groups": []
+                  }
+                }
+              },
+              "generation": 0,
+              "review_reasons": [],
+              "run_snapshot": {
+                "sha256": "f2f45bc9b4831a1d151b59d901b120359644275db7eae7f488f836586e198943",
+                "manifest": {
+                  "graph": {
+                    "inputs": [
+                      "constitution-p0",
+                      "content-catalog-p0",
+                      "mvp-guide-p0",
+                      "p0-transfer"
+                    ],
+                    "objects": [
+                      {
+                        "id": "constitution-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                          "section": "§26, §58.1, §60–63",
+                          "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                        }
+                      },
+                      {
+                        "id": "content-catalog-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                          "section": "§2, §7, §26 ile eşlenen içerik",
+                          "scope_note": "Kaynak, üç su SKU'su, taze domates, istasyon ve açılış sarfları."
+                        }
+                      },
+                      {
+                        "id": "mvp-guide-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                          "section": "P0 sahnesi, P0-01…P0-09",
+                          "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                        }
+                      },
+                      {
+                        "id": "p0-transfer",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                          "status": "planned"
+                        }
+                      }
+                    ],
+                    "object_types": [
+                      {
+                        "id": "capability",
+                        "properties": {
+                          "phase": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "P0",
+                              "A2",
+                              "A3",
+                              "A4",
+                              "A5"
+                            ]
+                          },
+                          "behavior": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "status": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "planned",
+                              "in_progress",
+                              "implemented",
+                              "verified"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "id": "source_doc",
+                        "properties": {
+                          "file": {
+                            "type": "file",
+                            "required": true,
+                            "enum": null
+                          },
+                          "section": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "scope_note": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          }
+                        }
+                      }
+                    ],
+                    "relation_types": [
+                      {
+                        "id": "grounded_in",
+                        "from_type": "capability",
+                        "to_type": "source_doc",
+                        "from_min": 1,
+                        "from_max": null,
+                        "to_min": 0,
+                        "to_max": null,
+                        "impact": "reverse"
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "id": "transfer-source-constitution",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      },
+                      {
+                        "id": "transfer-source-guide",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "mvp-guide-p0"
+                      }
+                    ],
+                    "files": [
+                      {
+                        "object_id": "constitution-p0",
+                        "property": "file",
+                        "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                        "sha256": "1b0154a3ced332a993d6eeae9b63f5066e853b4fa440307f0bd52e20529fe454"
+                      },
+                      {
+                        "object_id": "content-catalog-p0",
+                        "property": "file",
+                        "path": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                        "sha256": "076998b49b03fcc65f559dd35c93ad3dca56910738ae8f3433dfb2aafca726cc"
+                      },
+                      {
+                        "object_id": "mvp-guide-p0",
+                        "property": "file",
+                        "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                        "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+                      }
+                    ]
+                  },
+                  "producer_generations": {
+                    "P0-03": 3
+                  },
+                  "contract": {
+                    "input_fields": {},
+                    "acceptance_rules": [],
+                    "support_groups": []
+                  }
+                }
+              },
+              "output_snapshot": {
+                "sha256": "a0ba393482798b44d2a7b0704a479e742cf15be6d9c07a23b83b984dcb008909",
+                "manifest": {
+                  "inputs": [
+                    "p0-production"
+                  ],
+                  "objects": [
+                    {
+                      "id": "p0-production",
+                      "type": "capability",
+                      "properties": {
+                        "phase": "P0",
+                        "behavior": "Çeşme suyu, ambalaj ve tohum lotları tarif/kapasite kurallarıyla üç su ürünü ve taze domatese dönüşür; bekleme nedeni görünürdür.",
+                        "status": "planned"
+                      }
+                    }
+                  ],
+                  "object_types": [
+                    {
+                      "id": "capability",
+                      "properties": {
+                        "phase": {
+                          "type": "string",
+                          "required": true,
+                          "enum": [
+                            "P0",
+                            "A2",
+                            "A3",
+                            "A4",
+                            "A5"
+                          ]
+                        },
+                        "behavior": {
+                          "type": "string",
+                          "required": true,
+                          "enum": null
+                        },
+                        "status": {
+                          "type": "string",
+                          "required": true,
+                          "enum": [
+                            "planned",
+                            "in_progress",
+                            "implemented",
+                            "verified"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "relation_types": [
+                    {
+                      "id": "grounded_in",
+                      "from_type": "capability",
+                      "to_type": "source_doc",
+                      "from_min": 1,
+                      "from_max": null,
+                      "to_min": 0,
+                      "to_max": null,
+                      "impact": "reverse"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "production-source-catalog",
+                      "from": "p0-production",
+                      "type": "grounded_in",
+                      "to": "content-catalog-p0"
+                    },
+                    {
+                      "id": "production-source-constitution",
+                      "from": "p0-production",
+                      "type": "grounded_in",
+                      "to": "constitution-p0"
+                    },
+                    {
+                      "id": "production-source-guide",
+                      "from": "p0-production",
+                      "type": "grounded_in",
+                      "to": "mvp-guide-p0"
+                    }
+                  ],
+                  "files": []
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "revision": 30,
+      "action": "complete_task",
+      "actor": "agent",
+      "reason": "P0-05 kabul ölçütleri (üç su tarifi, domates hasadı, çıktı dolu korunum akışı, enerji bedeli, debi yükseltme ve bekleme nedenleri) 12 birim test ve doğrulama raporu ile tamamlandı.",
+      "change": {
+        "task_changes": [
+          {
+            "task_id": "P0-05",
+            "before": {
+              "id": "P0-05",
+              "title": "Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır",
+              "status": "review",
+              "object_ids": [
+                "p0-production",
+                "constitution-p0",
+                "mvp-guide-p0",
+                "content-catalog-p0",
+                "p0-transfer"
+              ],
+              "input_ids": [
+                "constitution-p0",
+                "mvp-guide-p0",
+                "content-catalog-p0",
+                "p0-transfer"
+              ],
+              "output_ids": [
+                "p0-production"
+              ],
+              "depends_on": [
+                "P0-03"
+              ],
+              "decision_ids": [],
+              "acceptance": [
+                "Küçük şişe, 5 L bidon ve 19 L damacana tarifleri ham su ve ilgili ambalaj lotunu tüketir.",
+                "Domates hasadı katalogdaki su/tohum girdilerini kullanır; çıktı doluysa girdi/ürün kaybolmaz.",
+                "Üretim süresi, enerji ve bekleme nedeni gerçek domain durumundan gösterilir."
+              ],
+              "evidence": [
+                {
+                  "path": "docs/test_reports/P0_05_VERIFICATION.md",
+                  "criterion": 0,
+                  "note": "Küçük şişe, 5 L bidon ve 19 L damacana tariflerinin ham su ve ilgili ambalaj sarflarını tüketmesi ve eksik girdi kontrolleri doğrulandı.",
+                  "reviewer": "agent",
+                  "sha256": "a58247f50b0b2066462cdce90445041c08e9375a886400bb8284beaa5fb4db80"
+                },
+                {
+                  "path": "src/domain/production/ProductionManager.ts",
+                  "criterion": 0,
+                  "note": "ProductionManager su şişeleme ve girdi tüketimi motoru.",
+                  "reviewer": "agent",
+                  "sha256": "3cb2e87b6763babf7b1ad52e7706d7a2dd9399a27082b4208f0326c198656f32"
+                },
+                {
+                  "path": "docs/test_reports/P0_05_VERIFICATION.md",
+                  "criterion": 1,
+                  "note": "Domates hasadı su ve tohum girdileri; çıktı doluysa BlockedOutput ile parti ve ürünün kaybolmaması doğrulandı.",
+                  "reviewer": "agent",
+                  "sha256": "a58247f50b0b2066462cdce90445041c08e9375a886400bb8284beaa5fb4db80"
+                },
+                {
+                  "path": "tests/unit/p0_production.test.ts",
+                  "criterion": 1,
+                  "note": "T-P0-05b çıktı dolu korunum akışı ve domates hasat testleri.",
+                  "reviewer": "agent",
+                  "sha256": "a8b9f8fda4bb48ff6f42be396518868d771a0c73482794fa8362ed42687e02aa"
+                },
+                {
+                  "path": "docs/test_reports/P0_05_VERIFICATION.md",
+                  "criterion": 2,
+                  "note": "T-P0-05 30 tick parti ve enerji düşümü, T-P0-05c debi birikimi, T-P0-05d debi yükseltme ve bekleme nedenleri doğrulandı.",
+                  "reviewer": "agent",
+                  "sha256": "a58247f50b0b2066462cdce90445041c08e9375a886400bb8284beaa5fb4db80"
+                },
+                {
+                  "path": "src/domain/production/ProductionManager.ts",
+                  "criterion": 2,
+                  "note": "ProductionManager süre, enerji bedeli, debi yükseltme ve bekleme nedenleri motoru.",
+                  "reviewer": "agent",
+                  "sha256": "3cb2e87b6763babf7b1ad52e7706d7a2dd9399a27082b4208f0326c198656f32"
+                }
+              ],
+              "input_snapshot": {
+                "sha256": "f2f45bc9b4831a1d151b59d901b120359644275db7eae7f488f836586e198943",
+                "manifest": {
+                  "graph": {
+                    "inputs": [
+                      "constitution-p0",
+                      "content-catalog-p0",
+                      "mvp-guide-p0",
+                      "p0-transfer"
+                    ],
+                    "objects": [
+                      {
+                        "id": "constitution-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                          "section": "§26, §58.1, §60–63",
+                          "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                        }
+                      },
+                      {
+                        "id": "content-catalog-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                          "section": "§2, §7, §26 ile eşlenen içerik",
+                          "scope_note": "Kaynak, üç su SKU'su, taze domates, istasyon ve açılış sarfları."
+                        }
+                      },
+                      {
+                        "id": "mvp-guide-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                          "section": "P0 sahnesi, P0-01…P0-09",
+                          "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                        }
+                      },
+                      {
+                        "id": "p0-transfer",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                          "status": "planned"
+                        }
+                      }
+                    ],
+                    "object_types": [
+                      {
+                        "id": "capability",
+                        "properties": {
+                          "phase": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "P0",
+                              "A2",
+                              "A3",
+                              "A4",
+                              "A5"
+                            ]
+                          },
+                          "behavior": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "status": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "planned",
+                              "in_progress",
+                              "implemented",
+                              "verified"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "id": "source_doc",
+                        "properties": {
+                          "file": {
+                            "type": "file",
+                            "required": true,
+                            "enum": null
+                          },
+                          "section": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "scope_note": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          }
+                        }
+                      }
+                    ],
+                    "relation_types": [
+                      {
+                        "id": "grounded_in",
+                        "from_type": "capability",
+                        "to_type": "source_doc",
+                        "from_min": 1,
+                        "from_max": null,
+                        "to_min": 0,
+                        "to_max": null,
+                        "impact": "reverse"
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "id": "transfer-source-constitution",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      },
+                      {
+                        "id": "transfer-source-guide",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "mvp-guide-p0"
+                      }
+                    ],
+                    "files": [
+                      {
+                        "object_id": "constitution-p0",
+                        "property": "file",
+                        "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                        "sha256": "1b0154a3ced332a993d6eeae9b63f5066e853b4fa440307f0bd52e20529fe454"
+                      },
+                      {
+                        "object_id": "content-catalog-p0",
+                        "property": "file",
+                        "path": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                        "sha256": "076998b49b03fcc65f559dd35c93ad3dca56910738ae8f3433dfb2aafca726cc"
+                      },
+                      {
+                        "object_id": "mvp-guide-p0",
+                        "property": "file",
+                        "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                        "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+                      }
+                    ]
+                  },
+                  "producer_generations": {
+                    "P0-03": 3
+                  },
+                  "contract": {
+                    "input_fields": {},
+                    "acceptance_rules": [],
+                    "support_groups": []
+                  }
+                }
+              },
+              "generation": 0,
+              "review_reasons": [],
+              "run_snapshot": {
+                "sha256": "f2f45bc9b4831a1d151b59d901b120359644275db7eae7f488f836586e198943",
+                "manifest": {
+                  "graph": {
+                    "inputs": [
+                      "constitution-p0",
+                      "content-catalog-p0",
+                      "mvp-guide-p0",
+                      "p0-transfer"
+                    ],
+                    "objects": [
+                      {
+                        "id": "constitution-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                          "section": "§26, §58.1, §60–63",
+                          "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                        }
+                      },
+                      {
+                        "id": "content-catalog-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                          "section": "§2, §7, §26 ile eşlenen içerik",
+                          "scope_note": "Kaynak, üç su SKU'su, taze domates, istasyon ve açılış sarfları."
+                        }
+                      },
+                      {
+                        "id": "mvp-guide-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                          "section": "P0 sahnesi, P0-01…P0-09",
+                          "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                        }
+                      },
+                      {
+                        "id": "p0-transfer",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                          "status": "planned"
+                        }
+                      }
+                    ],
+                    "object_types": [
+                      {
+                        "id": "capability",
+                        "properties": {
+                          "phase": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "P0",
+                              "A2",
+                              "A3",
+                              "A4",
+                              "A5"
+                            ]
+                          },
+                          "behavior": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "status": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "planned",
+                              "in_progress",
+                              "implemented",
+                              "verified"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "id": "source_doc",
+                        "properties": {
+                          "file": {
+                            "type": "file",
+                            "required": true,
+                            "enum": null
+                          },
+                          "section": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "scope_note": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          }
+                        }
+                      }
+                    ],
+                    "relation_types": [
+                      {
+                        "id": "grounded_in",
+                        "from_type": "capability",
+                        "to_type": "source_doc",
+                        "from_min": 1,
+                        "from_max": null,
+                        "to_min": 0,
+                        "to_max": null,
+                        "impact": "reverse"
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "id": "transfer-source-constitution",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      },
+                      {
+                        "id": "transfer-source-guide",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "mvp-guide-p0"
+                      }
+                    ],
+                    "files": [
+                      {
+                        "object_id": "constitution-p0",
+                        "property": "file",
+                        "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                        "sha256": "1b0154a3ced332a993d6eeae9b63f5066e853b4fa440307f0bd52e20529fe454"
+                      },
+                      {
+                        "object_id": "content-catalog-p0",
+                        "property": "file",
+                        "path": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                        "sha256": "076998b49b03fcc65f559dd35c93ad3dca56910738ae8f3433dfb2aafca726cc"
+                      },
+                      {
+                        "object_id": "mvp-guide-p0",
+                        "property": "file",
+                        "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                        "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+                      }
+                    ]
+                  },
+                  "producer_generations": {
+                    "P0-03": 3
+                  },
+                  "contract": {
+                    "input_fields": {},
+                    "acceptance_rules": [],
+                    "support_groups": []
+                  }
+                }
+              },
+              "output_snapshot": {
+                "sha256": "a0ba393482798b44d2a7b0704a479e742cf15be6d9c07a23b83b984dcb008909",
+                "manifest": {
+                  "inputs": [
+                    "p0-production"
+                  ],
+                  "objects": [
+                    {
+                      "id": "p0-production",
+                      "type": "capability",
+                      "properties": {
+                        "phase": "P0",
+                        "behavior": "Çeşme suyu, ambalaj ve tohum lotları tarif/kapasite kurallarıyla üç su ürünü ve taze domatese dönüşür; bekleme nedeni görünürdür.",
+                        "status": "planned"
+                      }
+                    }
+                  ],
+                  "object_types": [
+                    {
+                      "id": "capability",
+                      "properties": {
+                        "phase": {
+                          "type": "string",
+                          "required": true,
+                          "enum": [
+                            "P0",
+                            "A2",
+                            "A3",
+                            "A4",
+                            "A5"
+                          ]
+                        },
+                        "behavior": {
+                          "type": "string",
+                          "required": true,
+                          "enum": null
+                        },
+                        "status": {
+                          "type": "string",
+                          "required": true,
+                          "enum": [
+                            "planned",
+                            "in_progress",
+                            "implemented",
+                            "verified"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "relation_types": [
+                    {
+                      "id": "grounded_in",
+                      "from_type": "capability",
+                      "to_type": "source_doc",
+                      "from_min": 1,
+                      "from_max": null,
+                      "to_min": 0,
+                      "to_max": null,
+                      "impact": "reverse"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "production-source-catalog",
+                      "from": "p0-production",
+                      "type": "grounded_in",
+                      "to": "content-catalog-p0"
+                    },
+                    {
+                      "id": "production-source-constitution",
+                      "from": "p0-production",
+                      "type": "grounded_in",
+                      "to": "constitution-p0"
+                    },
+                    {
+                      "id": "production-source-guide",
+                      "from": "p0-production",
+                      "type": "grounded_in",
+                      "to": "mvp-guide-p0"
+                    }
+                  ],
+                  "files": []
+                }
+              }
+            },
+            "after": {
+              "id": "P0-05",
+              "title": "Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır",
+              "status": "done",
+              "object_ids": [
+                "p0-production",
+                "constitution-p0",
+                "mvp-guide-p0",
+                "content-catalog-p0",
+                "p0-transfer"
+              ],
+              "input_ids": [
+                "constitution-p0",
+                "mvp-guide-p0",
+                "content-catalog-p0",
+                "p0-transfer"
+              ],
+              "output_ids": [
+                "p0-production"
+              ],
+              "depends_on": [
+                "P0-03"
+              ],
+              "decision_ids": [],
+              "acceptance": [
+                "Küçük şişe, 5 L bidon ve 19 L damacana tarifleri ham su ve ilgili ambalaj lotunu tüketir.",
+                "Domates hasadı katalogdaki su/tohum girdilerini kullanır; çıktı doluysa girdi/ürün kaybolmaz.",
+                "Üretim süresi, enerji ve bekleme nedeni gerçek domain durumundan gösterilir."
+              ],
+              "evidence": [
+                {
+                  "path": "docs/test_reports/P0_05_VERIFICATION.md",
+                  "criterion": 0,
+                  "note": "Küçük şişe, 5 L bidon ve 19 L damacana tariflerinin ham su ve ilgili ambalaj sarflarını tüketmesi ve eksik girdi kontrolleri doğrulandı.",
+                  "reviewer": "agent",
+                  "sha256": "a58247f50b0b2066462cdce90445041c08e9375a886400bb8284beaa5fb4db80"
+                },
+                {
+                  "path": "src/domain/production/ProductionManager.ts",
+                  "criterion": 0,
+                  "note": "ProductionManager su şişeleme ve girdi tüketimi motoru.",
+                  "reviewer": "agent",
+                  "sha256": "3cb2e87b6763babf7b1ad52e7706d7a2dd9399a27082b4208f0326c198656f32"
+                },
+                {
+                  "path": "docs/test_reports/P0_05_VERIFICATION.md",
+                  "criterion": 1,
+                  "note": "Domates hasadı su ve tohum girdileri; çıktı doluysa BlockedOutput ile parti ve ürünün kaybolmaması doğrulandı.",
+                  "reviewer": "agent",
+                  "sha256": "a58247f50b0b2066462cdce90445041c08e9375a886400bb8284beaa5fb4db80"
+                },
+                {
+                  "path": "tests/unit/p0_production.test.ts",
+                  "criterion": 1,
+                  "note": "T-P0-05b çıktı dolu korunum akışı ve domates hasat testleri.",
+                  "reviewer": "agent",
+                  "sha256": "a8b9f8fda4bb48ff6f42be396518868d771a0c73482794fa8362ed42687e02aa"
+                },
+                {
+                  "path": "docs/test_reports/P0_05_VERIFICATION.md",
+                  "criterion": 2,
+                  "note": "T-P0-05 30 tick parti ve enerji düşümü, T-P0-05c debi birikimi, T-P0-05d debi yükseltme ve bekleme nedenleri doğrulandı.",
+                  "reviewer": "agent",
+                  "sha256": "a58247f50b0b2066462cdce90445041c08e9375a886400bb8284beaa5fb4db80"
+                },
+                {
+                  "path": "src/domain/production/ProductionManager.ts",
+                  "criterion": 2,
+                  "note": "ProductionManager süre, enerji bedeli, debi yükseltme ve bekleme nedenleri motoru.",
+                  "reviewer": "agent",
+                  "sha256": "3cb2e87b6763babf7b1ad52e7706d7a2dd9399a27082b4208f0326c198656f32"
+                }
+              ],
+              "input_snapshot": {
+                "sha256": "f2f45bc9b4831a1d151b59d901b120359644275db7eae7f488f836586e198943",
+                "manifest": {
+                  "graph": {
+                    "inputs": [
+                      "constitution-p0",
+                      "content-catalog-p0",
+                      "mvp-guide-p0",
+                      "p0-transfer"
+                    ],
+                    "objects": [
+                      {
+                        "id": "constitution-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                          "section": "§26, §58.1, §60–63",
+                          "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                        }
+                      },
+                      {
+                        "id": "content-catalog-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                          "section": "§2, §7, §26 ile eşlenen içerik",
+                          "scope_note": "Kaynak, üç su SKU'su, taze domates, istasyon ve açılış sarfları."
+                        }
+                      },
+                      {
+                        "id": "mvp-guide-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                          "section": "P0 sahnesi, P0-01…P0-09",
+                          "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                        }
+                      },
+                      {
+                        "id": "p0-transfer",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                          "status": "planned"
+                        }
+                      }
+                    ],
+                    "object_types": [
+                      {
+                        "id": "capability",
+                        "properties": {
+                          "phase": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "P0",
+                              "A2",
+                              "A3",
+                              "A4",
+                              "A5"
+                            ]
+                          },
+                          "behavior": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "status": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "planned",
+                              "in_progress",
+                              "implemented",
+                              "verified"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "id": "source_doc",
+                        "properties": {
+                          "file": {
+                            "type": "file",
+                            "required": true,
+                            "enum": null
+                          },
+                          "section": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "scope_note": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          }
+                        }
+                      }
+                    ],
+                    "relation_types": [
+                      {
+                        "id": "grounded_in",
+                        "from_type": "capability",
+                        "to_type": "source_doc",
+                        "from_min": 1,
+                        "from_max": null,
+                        "to_min": 0,
+                        "to_max": null,
+                        "impact": "reverse"
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "id": "transfer-source-constitution",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      },
+                      {
+                        "id": "transfer-source-guide",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "mvp-guide-p0"
+                      }
+                    ],
+                    "files": [
+                      {
+                        "object_id": "constitution-p0",
+                        "property": "file",
+                        "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                        "sha256": "1b0154a3ced332a993d6eeae9b63f5066e853b4fa440307f0bd52e20529fe454"
+                      },
+                      {
+                        "object_id": "content-catalog-p0",
+                        "property": "file",
+                        "path": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                        "sha256": "076998b49b03fcc65f559dd35c93ad3dca56910738ae8f3433dfb2aafca726cc"
+                      },
+                      {
+                        "object_id": "mvp-guide-p0",
+                        "property": "file",
+                        "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                        "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+                      }
+                    ]
+                  },
+                  "producer_generations": {
+                    "P0-03": 3
+                  },
+                  "contract": {
+                    "input_fields": {},
+                    "acceptance_rules": [],
+                    "support_groups": []
+                  }
+                }
+              },
+              "generation": 1,
+              "review_reasons": [],
+              "run_snapshot": {
+                "sha256": "f2f45bc9b4831a1d151b59d901b120359644275db7eae7f488f836586e198943",
+                "manifest": {
+                  "graph": {
+                    "inputs": [
+                      "constitution-p0",
+                      "content-catalog-p0",
+                      "mvp-guide-p0",
+                      "p0-transfer"
+                    ],
+                    "objects": [
+                      {
+                        "id": "constitution-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                          "section": "§26, §58.1, §60–63",
+                          "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                        }
+                      },
+                      {
+                        "id": "content-catalog-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                          "section": "§2, §7, §26 ile eşlenen içerik",
+                          "scope_note": "Kaynak, üç su SKU'su, taze domates, istasyon ve açılış sarfları."
+                        }
+                      },
+                      {
+                        "id": "mvp-guide-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                          "section": "P0 sahnesi, P0-01…P0-09",
+                          "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                        }
+                      },
+                      {
+                        "id": "p0-transfer",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                          "status": "planned"
+                        }
+                      }
+                    ],
+                    "object_types": [
+                      {
+                        "id": "capability",
+                        "properties": {
+                          "phase": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "P0",
+                              "A2",
+                              "A3",
+                              "A4",
+                              "A5"
+                            ]
+                          },
+                          "behavior": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "status": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "planned",
+                              "in_progress",
+                              "implemented",
+                              "verified"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "id": "source_doc",
+                        "properties": {
+                          "file": {
+                            "type": "file",
+                            "required": true,
+                            "enum": null
+                          },
+                          "section": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "scope_note": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          }
+                        }
+                      }
+                    ],
+                    "relation_types": [
+                      {
+                        "id": "grounded_in",
+                        "from_type": "capability",
+                        "to_type": "source_doc",
+                        "from_min": 1,
+                        "from_max": null,
+                        "to_min": 0,
+                        "to_max": null,
+                        "impact": "reverse"
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "id": "transfer-source-constitution",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      },
+                      {
+                        "id": "transfer-source-guide",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "mvp-guide-p0"
+                      }
+                    ],
+                    "files": [
+                      {
+                        "object_id": "constitution-p0",
+                        "property": "file",
+                        "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                        "sha256": "1b0154a3ced332a993d6eeae9b63f5066e853b4fa440307f0bd52e20529fe454"
+                      },
+                      {
+                        "object_id": "content-catalog-p0",
+                        "property": "file",
+                        "path": "OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md",
+                        "sha256": "076998b49b03fcc65f559dd35c93ad3dca56910738ae8f3433dfb2aafca726cc"
+                      },
+                      {
+                        "object_id": "mvp-guide-p0",
+                        "property": "file",
+                        "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                        "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+                      }
+                    ]
+                  },
+                  "producer_generations": {
+                    "P0-03": 3
+                  },
+                  "contract": {
+                    "input_fields": {},
+                    "acceptance_rules": [],
+                    "support_groups": []
+                  }
+                }
+              },
+              "output_snapshot": {
+                "sha256": "a0ba393482798b44d2a7b0704a479e742cf15be6d9c07a23b83b984dcb008909",
+                "manifest": {
+                  "inputs": [
+                    "p0-production"
+                  ],
+                  "objects": [
+                    {
+                      "id": "p0-production",
+                      "type": "capability",
+                      "properties": {
+                        "phase": "P0",
+                        "behavior": "Çeşme suyu, ambalaj ve tohum lotları tarif/kapasite kurallarıyla üç su ürünü ve taze domatese dönüşür; bekleme nedeni görünürdür.",
+                        "status": "planned"
+                      }
+                    }
+                  ],
+                  "object_types": [
+                    {
+                      "id": "capability",
+                      "properties": {
+                        "phase": {
+                          "type": "string",
+                          "required": true,
+                          "enum": [
+                            "P0",
+                            "A2",
+                            "A3",
+                            "A4",
+                            "A5"
+                          ]
+                        },
+                        "behavior": {
+                          "type": "string",
+                          "required": true,
+                          "enum": null
+                        },
+                        "status": {
+                          "type": "string",
+                          "required": true,
+                          "enum": [
+                            "planned",
+                            "in_progress",
+                            "implemented",
+                            "verified"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "relation_types": [
+                    {
+                      "id": "grounded_in",
+                      "from_type": "capability",
+                      "to_type": "source_doc",
+                      "from_min": 1,
+                      "from_max": null,
+                      "to_min": 0,
+                      "to_max": null,
+                      "impact": "reverse"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "production-source-catalog",
+                      "from": "p0-production",
+                      "type": "grounded_in",
+                      "to": "content-catalog-p0"
+                    },
+                    {
+                      "id": "production-source-constitution",
+                      "from": "p0-production",
+                      "type": "grounded_in",
+                      "to": "constitution-p0"
+                    },
+                    {
+                      "id": "production-source-guide",
+                      "from": "p0-production",
+                      "type": "grounded_in",
+                      "to": "mvp-guide-p0"
+                    }
+                  ],
+                  "files": []
+                }
+              }
             }
           }
         ]
