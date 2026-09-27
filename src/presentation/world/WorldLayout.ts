@@ -55,21 +55,21 @@ export class WorldLayout {
   // P0 Sabit İstasyonları ve Mobilyaları
   public static readonly FIXTURES: WorldFixture[] = [
     {
-      id: 'machine.water_spring',
+      id: 'source.spring_water',
       name: 'Memba Çeşmesi',
       bounds: { minX: 5, maxX: 6, minZ: 21, maxZ: 22 },
       serviceCell: { x: 7, z: 21.5 },
       color: '#35D9E6',
     },
     {
-      id: 'machine.tomato_patch',
+      id: 'source.crop_plot',
       name: 'Domates Yatağı',
       bounds: { minX: 5, maxX: 6, minZ: 25, maxZ: 26 },
       serviceCell: { x: 7, z: 25.5 },
       color: '#FF5733',
     },
     {
-      id: 'machine.bottling_table',
+      id: 'station.bottler',
       name: 'Şişeleme Tezgâhı',
       bounds: { minX: 12, maxX: 12.8, minZ: 22, maxZ: 23.8 },
       serviceCell: { x: 13.5, z: 22.5 },

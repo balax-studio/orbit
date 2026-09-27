@@ -4,7 +4,7 @@
 export type EntityId = string;
 export type ItemId = `item.${string}`;
 export type RecipeId = `recipe.${string}`;
-export type MachineTypeId = `machine.${string}`;
+export type MachineTypeId = `machine.${string}` | `station.${string}` | `source.${string}`;
 
 export interface GridCell {
   x: number;
@@ -117,6 +117,17 @@ export interface Worker {
   idleCell: GridCell;
 }
 
+export type LostSaleReason =
+  | 'OUT_OF_STOCK'
+  | 'PRICE_REJECTED'
+  | 'BUDGET_REJECTED'
+  | 'PATIENCE_EXHAUSTED'
+  | 'PATH_BLOCKED';
+
+export type CustomerLeaveReason =
+  | 'PURCHASE_COMPLETED'
+  | LostSaleReason;
+
 export interface Customer {
   id: EntityId;
   profileId: string;
@@ -128,6 +139,8 @@ export interface Customer {
   patienceRemainingTicks: number;
   queueIndex: number | null;
   purchaseThreshold: number;
+  budgetAtoms: number;
+  leaveReason?: CustomerLeaveReason;
 }
 
 export interface Reservation {

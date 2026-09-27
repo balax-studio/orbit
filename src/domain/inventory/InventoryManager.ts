@@ -36,11 +36,24 @@ export interface TransferResult {
   transferredLots: Array<{ lotId: EntityId; quantity: number }>;
 }
 
+export interface ConsumeResult {
+  success: boolean;
+  transactionId: string;
+  timestampTick: number;
+  location: StockLocation;
+  itemId: ItemId;
+  quantity: number;
+  isDuplicate: boolean;
+  consumedLots: Array<{ lotId: EntityId; quantity: number }>;
+}
+
+export type InventoryTransactionResult = TransferResult | ConsumeResult;
+
 export interface InventorySnapshot {
   lots: StockLot[];
   reservations: Reservation[];
   capacities: Array<[string, number]>;
-  committedTransactions: Array<[string, TransferResult]>;
+  committedTransactions: Array<[string, InventoryTransactionResult]>;
 }
 
 export class InventoryManager {
@@ -49,7 +62,7 @@ export class InventoryManager {
   private lots: Map<EntityId, StockLot>;
   private reservations: Map<EntityId, Reservation>;
   private capacities: Map<string, number>;
-  private committedTransactions: Map<string, TransferResult>;
+  private committedTransactions: Map<string, InventoryTransactionResult>;
 
   constructor() {
     this.lots = new Map();
@@ -241,7 +254,7 @@ export class InventoryManager {
   }): TransferResult {
     // 1. Idempotency kontrolü: aynı transactionId daha önce işlendiyse ikinci etki yok
     const existing = this.committedTransactions.get(params.transactionId);
-    if (existing) {
+    if (existing && 'transferredLots' in existing) {
       return {
         ...existing,
         isDuplicate: true,
@@ -331,7 +344,7 @@ export class InventoryManager {
     if (targetLots.length > 0) {
       targetLots[0].quantity += params.quantity;
     } else {
-      const newLotId = `lot_${params.transactionId}_${Date.now()}`;
+      const newLotId = `lot_${params.transactionId}_${params.timestampTick}`;
       const newLot: StockLot = {
         id: newLotId,
         itemId: params.itemId,
@@ -370,6 +383,64 @@ export class InventoryManager {
     return result;
   }
 
+  public consumeStock(params: {
+    transactionId: string;
+    timestampTick: number;
+    location: StockLocation;
+    itemId: ItemId;
+    quantity: number;
+  }): ConsumeResult {
+    // 1. Idempotency kontrolü: aynı transactionId daha önce işlendiyse ikinci etki yok
+    const existing = this.committedTransactions.get(params.transactionId);
+    if (existing && 'consumedLots' in existing) {
+      return {
+        ...existing,
+        isDuplicate: true,
+      };
+    }
+
+    if (params.quantity <= 0 || !Number.isInteger(params.quantity)) {
+      throw new Error(`Geçersiz tüketim miktarı: ${params.quantity}`);
+    }
+
+    const available = this.getAvailableQuantity(params.location, params.itemId);
+    if (available < params.quantity) {
+      throw new Error(
+        `INSUFFICIENT_STOCK: ${locationKey(params.location)} konumunda yeterli ${params.itemId} yok (talep: ${params.quantity}, mevcut: ${available})`
+      );
+    }
+
+    const lots = this.getLotsAt(params.location).filter((l) => l.itemId === params.itemId);
+    let remainingToConsume = params.quantity;
+    const consumedLots: Array<{ lotId: EntityId; quantity: number }> = [];
+
+    for (const lot of lots) {
+      if (remainingToConsume <= 0) break;
+      const take = Math.min(lot.quantity, remainingToConsume);
+      lot.quantity -= take;
+      remainingToConsume -= take;
+      consumedLots.push({ lotId: lot.id, quantity: take });
+
+      if (lot.quantity === 0) {
+        this.lots.delete(lot.id);
+      }
+    }
+
+    const result: ConsumeResult = {
+      success: true,
+      transactionId: params.transactionId,
+      timestampTick: params.timestampTick,
+      location: { ...params.location },
+      itemId: params.itemId,
+      quantity: params.quantity,
+      isDuplicate: false,
+      consumedLots,
+    };
+
+    this.committedTransactions.set(params.transactionId, result);
+    return result;
+  }
+
   public serialize(): InventorySnapshot {
     return {
       lots: Array.from(this.lots.values()).map((l) => ({ ...l, location: { ...l.location } })),
@@ -381,12 +452,18 @@ export class InventoryManager {
       capacities: Array.from(this.capacities.entries()),
       committedTransactions: Array.from(this.committedTransactions.entries()).map(([k, v]) => [
         k,
-        {
-          ...v,
-          source: { ...v.source },
-          target: { ...v.target },
-          transferredLots: [...v.transferredLots],
-        },
+        'transferredLots' in v
+          ? {
+              ...v,
+              source: { ...v.source },
+              target: { ...v.target },
+              transferredLots: [...v.transferredLots],
+            }
+          : {
+              ...v,
+              location: { ...v.location },
+              consumedLots: [...v.consumedLots],
+            },
       ]),
     };
   }
@@ -413,12 +490,21 @@ export class InventoryManager {
 
     this.committedTransactions.clear();
     for (const [k, v] of snapshot.committedTransactions) {
-      this.committedTransactions.set(k, {
-        ...v,
-        source: { ...v.source },
-        target: { ...v.target },
-        transferredLots: [...v.transferredLots],
-      });
+      this.committedTransactions.set(
+        k,
+        'transferredLots' in v
+          ? {
+              ...v,
+              source: { ...v.source },
+              target: { ...v.target },
+              transferredLots: [...v.transferredLots],
+            }
+          : {
+              ...v,
+              location: { ...v.location },
+              consumedLots: [...v.consumedLots],
+            }
+      );
     }
   }
 }

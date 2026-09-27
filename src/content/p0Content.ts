@@ -1,5 +1,5 @@
 // Orbit Market - P0 Validated Content Catalog
-// Reference: OYUN_GELISTIRME_DEVIR_DOSYASI.md §26, §58.1, OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md
+// Reference: OYUN_GELISTIRME_DEVIR_DOSYASI.md §26, §58.1, OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md §2-3
 
 import type {
   ItemId,
@@ -25,6 +25,7 @@ export interface GameContent {
 }
 
 export const P0_PRODUCTS: Record<ItemId, ProductDefinition> = {
+  // --- Kanonik P0 Ürünleri (OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md §3) ---
   'item.raw_water': {
     id: 'item.raw_water',
     displayNameKey: 'item.raw_water.name',
@@ -33,36 +34,36 @@ export const P0_PRODUCTS: Record<ItemId, ProductDefinition> = {
     baseRetailPriceAtoms: null, // Doğrudan satılmaz
     phase: 'P0',
   },
-  'item.water_bottle_empty': {
-    id: 'item.water_bottle_empty',
-    displayNameKey: 'item.water_bottle_empty.name',
+  'item.small_bottle': {
+    id: 'item.small_bottle',
+    displayNameKey: 'item.small_bottle.name',
     category: 'raw',
     stackSize: 50,
     baseRetailPriceAtoms: null,
     phase: 'P0',
   },
-  'item.water_jug_empty': {
-    id: 'item.water_jug_empty',
-    displayNameKey: 'item.water_jug_empty.name',
+  'item.jug_5l_empty': {
+    id: 'item.jug_5l_empty',
+    displayNameKey: 'item.jug_5l_empty.name',
     category: 'raw',
     stackSize: 20,
     baseRetailPriceAtoms: null,
     phase: 'P0',
   },
-  'item.water_carboy_empty': {
-    id: 'item.water_carboy_empty',
-    displayNameKey: 'item.water_carboy_empty.name',
+  'item.carboy_19l_empty': {
+    id: 'item.carboy_19l_empty',
+    displayNameKey: 'item.carboy_19l_empty.name',
     category: 'raw',
     stackSize: 10,
     baseRetailPriceAtoms: null,
     phase: 'P0',
   },
-  'item.water_bottle_small': {
-    id: 'item.water_bottle_small',
-    displayNameKey: 'item.water_bottle_small.name',
+  'item.glass_water_small': {
+    id: 'item.glass_water_small',
+    displayNameKey: 'item.glass_water_small.name',
     category: 'final',
     stackSize: 30,
-    baseRetailPriceAtoms: 10_000, // 1.0 Kredi
+    baseRetailPriceAtoms: 15_000, // 1.50 Kredi (Katalog §3)
     phase: 'P0',
   },
   'item.water_jug_5l': {
@@ -70,7 +71,7 @@ export const P0_PRODUCTS: Record<ItemId, ProductDefinition> = {
     displayNameKey: 'item.water_jug_5l.name',
     category: 'final',
     stackSize: 15,
-    baseRetailPriceAtoms: 80_000, // 8.0 Kredi
+    baseRetailPriceAtoms: 80_000, // 8.00 Kredi (Katalog §3)
     phase: 'P0',
   },
   'item.water_carboy_19l': {
@@ -78,7 +79,7 @@ export const P0_PRODUCTS: Record<ItemId, ProductDefinition> = {
     displayNameKey: 'item.water_carboy_19l.name',
     category: 'final',
     stackSize: 5,
-    baseRetailPriceAtoms: 250_000, // 25.0 Kredi
+    baseRetailPriceAtoms: 240_000, // 24.00 Kredi (Katalog §3)
     phase: 'P0',
   },
   'item.tomato_seed': {
@@ -89,21 +90,104 @@ export const P0_PRODUCTS: Record<ItemId, ProductDefinition> = {
     baseRetailPriceAtoms: null,
     phase: 'P0',
   },
-  'item.fresh_tomato': {
-    id: 'item.fresh_tomato',
-    displayNameKey: 'item.fresh_tomato.name',
+  'item.heirloom_tomato': {
+    id: 'item.heirloom_tomato',
+    displayNameKey: 'item.heirloom_tomato.name',
     category: 'final',
     stackSize: 40,
-    baseRetailPriceAtoms: 15_000, // 1.5 Kredi
+    baseRetailPriceAtoms: 40_000, // 4.00 Kredi (Katalog §3)
+    phase: 'P0',
+  },
+
+  // --- Geriye Uyumlu Takma İsimler (Test / Eski Referans Desteği) ---
+  'item.water_bottle_empty': {
+    id: 'item.water_bottle_empty',
+    displayNameKey: 'item.small_bottle.name',
+    category: 'raw',
+    stackSize: 50,
+    baseRetailPriceAtoms: null,
+    phase: 'P0',
+  },
+  'item.water_jug_empty': {
+    id: 'item.water_jug_empty',
+    displayNameKey: 'item.jug_5l_empty.name',
+    category: 'raw',
+    stackSize: 20,
+    baseRetailPriceAtoms: null,
+    phase: 'P0',
+  },
+  'item.water_carboy_empty': {
+    id: 'item.water_carboy_empty',
+    displayNameKey: 'item.carboy_19l_empty.name',
+    category: 'raw',
+    stackSize: 10,
+    baseRetailPriceAtoms: null,
+    phase: 'P0',
+  },
+  'item.water_bottle_small': {
+    id: 'item.water_bottle_small',
+    displayNameKey: 'item.glass_water_small.name',
+    category: 'final',
+    stackSize: 30,
+    baseRetailPriceAtoms: 10_000,
+    phase: 'P0',
+  },
+  'item.fresh_tomato': {
+    id: 'item.fresh_tomato',
+    displayNameKey: 'item.heirloom_tomato.name',
+    category: 'final',
+    stackSize: 40,
+    baseRetailPriceAtoms: 15_000,
     phase: 'P0',
   },
 };
 
 export const P0_MACHINES: Record<MachineTypeId, MachineDefinition> = {
+  // --- Kanonik P0 İstasyon ve Kaynakları (OYUN_GELISTIRME_DEVIR_DOSYASI.md §26 / DUNYA_YERLESIM_PLANI.md §13) ---
+  'source.spring_water': {
+    id: 'source.spring_water',
+    displayNameKey: 'source.spring_water.name',
+    purchasePriceAtoms: 0,
+    footprint: { width: 2, depth: 2 },
+    serviceCells: [{ x: 7, z: 21 }],
+    inputCapacity: 0,
+    outputCapacity: 80,
+    powerE: 0,
+    recipeIds: ['recipe.collect_spring_water'],
+  },
+  'station.bottler': {
+    id: 'station.bottler',
+    displayNameKey: 'station.bottler.name',
+    purchasePriceAtoms: 50_000,
+    footprint: { width: 1, depth: 2 },
+    serviceCells: [{ x: 13, z: 22 }],
+    inputCapacity: 40,
+    outputCapacity: 20,
+    powerE: 1,
+    recipeIds: [
+      'recipe.bottle_glass_water_small',
+      'recipe.bottle_jug_5l',
+      'recipe.bottle_carboy_19l',
+      'recipe.bottle_small',
+    ],
+  },
+  'source.crop_plot': {
+    id: 'source.crop_plot',
+    displayNameKey: 'source.crop_plot.name',
+    purchasePriceAtoms: 30_000,
+    footprint: { width: 2, depth: 2 },
+    serviceCells: [{ x: 7, z: 25 }],
+    inputCapacity: 20,
+    outputCapacity: 40,
+    powerE: 0,
+    recipeIds: ['recipe.grow_heirloom_tomato', 'recipe.grow_tomato'],
+  },
+
+  // --- Geriye Uyumlu Takma İsimler ---
   'machine.water_spring': {
     id: 'machine.water_spring',
-    displayNameKey: 'machine.water_spring.name',
-    purchasePriceAtoms: 0, // Başlangıçta bahçede hazır bulunur
+    displayNameKey: 'source.spring_water.name',
+    purchasePriceAtoms: 0,
     footprint: { width: 2, depth: 2 },
     serviceCells: [{ x: 0, z: -1 }],
     inputCapacity: 0,
@@ -113,7 +197,7 @@ export const P0_MACHINES: Record<MachineTypeId, MachineDefinition> = {
   },
   'machine.bottling_table': {
     id: 'machine.bottling_table',
-    displayNameKey: 'machine.bottling_table.name',
+    displayNameKey: 'station.bottler.name',
     purchasePriceAtoms: 50_000,
     footprint: { width: 2, depth: 1 },
     serviceCells: [{ x: 0, z: -1 }],
@@ -124,29 +208,73 @@ export const P0_MACHINES: Record<MachineTypeId, MachineDefinition> = {
       'recipe.bottle_small',
       'recipe.bottle_jug_5l',
       'recipe.bottle_carboy_19l',
+      'recipe.bottle_glass_water_small',
     ],
   },
   'machine.tomato_patch': {
     id: 'machine.tomato_patch',
-    displayNameKey: 'machine.tomato_patch.name',
+    displayNameKey: 'source.crop_plot.name',
     purchasePriceAtoms: 30_000,
     footprint: { width: 2, depth: 2 },
     serviceCells: [{ x: 0, z: -1 }],
     inputCapacity: 20,
     outputCapacity: 40,
     powerE: 0,
-    recipeIds: ['recipe.grow_tomato'],
+    recipeIds: ['recipe.grow_tomato', 'recipe.grow_heirloom_tomato'],
   },
 };
 
 export const P0_RECIPES: Record<RecipeId, RecipeDefinition> = {
+  // --- Kanonik P0 Tarifleri ---
   'recipe.collect_spring_water': {
     id: 'recipe.collect_spring_water',
-    machineTypeId: 'machine.water_spring',
+    machineTypeId: 'source.spring_water',
     inputs: [],
     outputs: [{ itemId: 'item.raw_water', quantity: 1 }],
-    durationTicks: 5, // 0.5 saniye
+    durationTicks: 20, // 2 saniye = 0.5 ham su / saniye (§26.1)
   },
+  'recipe.bottle_glass_water_small': {
+    id: 'recipe.bottle_glass_water_small',
+    machineTypeId: 'station.bottler',
+    inputs: [
+      { itemId: 'item.raw_water', quantity: 1 },
+      { itemId: 'item.small_bottle', quantity: 1 },
+    ],
+    outputs: [{ itemId: 'item.glass_water_small', quantity: 1 }],
+    durationTicks: 30, // 3 saniye
+  },
+  'recipe.bottle_jug_5l': {
+    id: 'recipe.bottle_jug_5l',
+    machineTypeId: 'station.bottler',
+    inputs: [
+      { itemId: 'item.raw_water', quantity: 10 },
+      { itemId: 'item.jug_5l_empty', quantity: 1 },
+    ],
+    outputs: [{ itemId: 'item.water_jug_5l', quantity: 1 }],
+    durationTicks: 80, // 8 saniye
+  },
+  'recipe.bottle_carboy_19l': {
+    id: 'recipe.bottle_carboy_19l',
+    machineTypeId: 'station.bottler',
+    inputs: [
+      { itemId: 'item.raw_water', quantity: 38 },
+      { itemId: 'item.carboy_19l_empty', quantity: 1 },
+    ],
+    outputs: [{ itemId: 'item.water_carboy_19l', quantity: 1 }],
+    durationTicks: 180, // 18 saniye
+  },
+  'recipe.grow_heirloom_tomato': {
+    id: 'recipe.grow_heirloom_tomato',
+    machineTypeId: 'source.crop_plot',
+    inputs: [
+      { itemId: 'item.tomato_seed', quantity: 1 },
+      { itemId: 'item.raw_water', quantity: 2 },
+    ],
+    outputs: [{ itemId: 'item.heirloom_tomato', quantity: 1 }], // Katalog §3: 1 salkım
+    durationTicks: 80, // 8 saniye
+  },
+
+  // --- Geriye Uyumlu Takma İsimler ---
   'recipe.bottle_small': {
     id: 'recipe.bottle_small',
     machineTypeId: 'machine.bottling_table',
@@ -155,27 +283,7 @@ export const P0_RECIPES: Record<RecipeId, RecipeDefinition> = {
       { itemId: 'item.water_bottle_empty', quantity: 1 },
     ],
     outputs: [{ itemId: 'item.water_bottle_small', quantity: 1 }],
-    durationTicks: 30, // 3 saniye
-  },
-  'recipe.bottle_jug_5l': {
-    id: 'recipe.bottle_jug_5l',
-    machineTypeId: 'machine.bottling_table',
-    inputs: [
-      { itemId: 'item.raw_water', quantity: 10 },
-      { itemId: 'item.water_jug_empty', quantity: 1 },
-    ],
-    outputs: [{ itemId: 'item.water_jug_5l', quantity: 1 }],
-    durationTicks: 80, // 8 saniye
-  },
-  'recipe.bottle_carboy_19l': {
-    id: 'recipe.bottle_carboy_19l',
-    machineTypeId: 'machine.bottling_table',
-    inputs: [
-      { itemId: 'item.raw_water', quantity: 38 },
-      { itemId: 'item.water_carboy_empty', quantity: 1 },
-    ],
-    outputs: [{ itemId: 'item.water_carboy_19l', quantity: 1 }],
-    durationTicks: 180, // 18 saniye
+    durationTicks: 30,
   },
   'recipe.grow_tomato': {
     id: 'recipe.grow_tomato',
@@ -185,7 +293,7 @@ export const P0_RECIPES: Record<RecipeId, RecipeDefinition> = {
       { itemId: 'item.raw_water', quantity: 2 },
     ],
     outputs: [{ itemId: 'item.fresh_tomato', quantity: 4 }],
-    durationTicks: 120, // 12 saniye
+    durationTicks: 120,
   },
 };
 
@@ -233,8 +341,14 @@ export function validateContent(content: GameContent): void {
     if (machine.id !== id) {
       throw new ContentValidationError(`Makine ID uyumsuzluğu: anahtar '${id}', tanım '${machine.id}'`);
     }
-    if (!machine.id.startsWith('machine.')) {
-      throw new ContentValidationError(`Makine ID 'machine.' ön eki taşımalıdır: '${machine.id}'`);
+    if (
+      !machine.id.startsWith('machine.') &&
+      !machine.id.startsWith('station.') &&
+      !machine.id.startsWith('source.')
+    ) {
+      throw new ContentValidationError(
+        `Makine ID 'machine.', 'station.' veya 'source.' ön eki taşımalıdır: '${machine.id}'`
+      );
     }
     if (machine.footprint.width <= 0 || machine.footprint.depth <= 0) {
       throw new ContentValidationError(`Makine footprint pozitif olmalıdır: '${machine.id}'`);

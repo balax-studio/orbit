@@ -50,22 +50,46 @@ export interface CancelReservationCommand extends Command {
   reservationId: EntityId;
 }
 
+export interface CompleteSaleCommand extends Command {
+  type: 'COMPLETE_SALE';
+  customerId: EntityId;
+  shelfLocation: StockLocation;
+  customerLocation: StockLocation;
+  itemId: ItemId;
+  quantity: number;
+  unitPriceAtoms: number;
+}
+
+export interface SaleResult {
+  success: boolean;
+  transactionId: string;
+  customerId: EntityId;
+  itemId: ItemId;
+  quantity: number;
+  amountAtoms: number;
+  balanceAfterAtoms: number;
+  isDuplicate: boolean;
+}
+
 export type ApplicationCommand =
   | CreditTransactionCommand
   | DebitTransactionCommand
   | TransferStockCommand
   | ReserveStockCommand
-  | CancelReservationCommand;
+  | CancelReservationCommand
+  | CompleteSaleCommand;
 
 export type CommandResult =
   | LedgerEntry
   | TransferResult
   | Reservation
-  | { cancelled: boolean; reservationId: EntityId };
+  | { cancelled: boolean; reservationId: EntityId }
+  | SaleResult;
 
 export class CommandDispatcher {
   private ledger: EconomyLedger;
   private inventory?: InventoryManager;
+  private completedSales: Map<string, SaleResult> = new Map();
 
   constructor(ledger: EconomyLedger, inventory?: InventoryManager) {
     this.ledger = ledger;
@@ -135,6 +159,64 @@ export class CommandDispatcher {
           cancelled: this.inventory.cancelReservation(command.reservationId),
           reservationId: command.reservationId,
         };
+
+      case 'COMPLETE_SALE': {
+        const saleKey = command.transactionId;
+        const existingSale = this.completedSales.get(saleKey);
+        if (existingSale) {
+          return {
+            ...existingSale,
+            isDuplicate: true,
+          };
+        }
+
+        const totalPriceAtoms = command.quantity * command.unitPriceAtoms;
+
+        // 1. Stok düşümü (müşteri sepetinden veya raftan)
+        if (this.inventory) {
+          const hasInBasket =
+            this.inventory.getAvailableQuantity(command.customerLocation, command.itemId) >=
+            command.quantity;
+          const consumeLocation = hasInBasket ? command.customerLocation : command.shelfLocation;
+
+          this.inventory.consumeStock({
+            transactionId: `consume_${command.transactionId}`,
+            timestampTick: command.timestampTick,
+            location: consumeLocation,
+            itemId: command.itemId,
+            quantity: command.quantity,
+          });
+        }
+
+        // 2. Kredi atom muhasebesi (10.000 atom/kredi, tek transaction atomikliği)
+        const ledgerEntry = this.ledger.commitTransaction({
+          transactionId: command.transactionId,
+          timestampTick: command.timestampTick,
+          type: 'CREDIT',
+          amountAtoms: totalPriceAtoms,
+          reason: 'SALE',
+          metadata: {
+            customerId: command.customerId,
+            itemId: command.itemId,
+            quantity: command.quantity,
+            unitPriceAtoms: command.unitPriceAtoms,
+          },
+        });
+
+        const result: SaleResult = {
+          success: true,
+          transactionId: command.transactionId,
+          customerId: command.customerId,
+          itemId: command.itemId,
+          quantity: command.quantity,
+          amountAtoms: totalPriceAtoms,
+          balanceAfterAtoms: ledgerEntry.balanceAfterAtoms,
+          isDuplicate: false,
+        };
+
+        this.completedSales.set(saleKey, result);
+        return result;
+      }
 
       default:
         throw new Error(`Bilinmeyen komut tipi: ${(command as Command).type}`);

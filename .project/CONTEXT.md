@@ -1,6 +1,6 @@
 # Orbit Market — proje bağlamı
 
-Revision: 9 · Yetkili kaynak: .project/state.json
+Revision: 27 · Yetkili kaynak: .project/state.json
 
 Bu görünüm türetilmiştir. Güncel kanıt kontrolü için context komutunu çalıştır.
 
@@ -109,7 +109,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Girdiler: constitution-p0, mvp-guide-p0, content-catalog-p0
   - Ürettiği nesneler: p0-time-content
   - Etkin önkoşullar: yok
-  - Kabul güncelliği: güncel · tamamlanma sayısı: 1
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 2
 - P0-02 [done] Tek oda dünyasını, dokunmatik hareketi ve pointer sahipliğini kur (kayıt: done)
   - Ölçüt: P0 sahnesi paftadaki tek satış odası, bahçe kaynağı ve geçerli başlangıç footprint'lerini kullanır.
   - Ölçüt: Klavyesiz dokunmatik hareket çalışır; UI üzerinde başlayan pointer dünya komutuna dönüşmez.
@@ -118,7 +118,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Girdiler: constitution-p0, mvp-guide-p0, world-map-p0
   - Ürettiği nesneler: p0-world-input
   - Etkin önkoşullar: P0-01
-  - Kabul güncelliği: güncel · tamamlanma sayısı: 1
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 2
 - P0-03 [done] Kapasite ve rezervasyon korumalı ürün transferini kur (kayıt: done)
   - Ölçüt: Kaynak, taşıyıcı ve hedef konumları ile kapasite/rezervasyon doğrulanır.
   - Ölçüt: İptal veya yinelenen komut ürün çoğaltmaz, silmez ya da kayıtsız konuma bırakmaz.
@@ -129,8 +129,8 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Etkin önkoşullar: P0-01, P0-02
   - Üretici bağı: p0-time-content ← P0-01
   - Üretici bağı: p0-world-input ← P0-02
-  - Kabul güncelliği: güncel · tamamlanma sayısı: 1
-- P0-04 [todo] Tek müşteri, raf, kuyruk ve satış ledger akışını kur (kayıt: todo)
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 3
+- P0-04 [done] Tek müşteri, raf, kuyruk ve satış ledger akışını kur (kayıt: done)
   - Ölçüt: Satışta gerçek raf stoku ve kayıtlı fiyat kullanılır; ürün ve bakiye tek işlem sonucunda güncellenir.
   - Ölçüt: Aynı transaction yeniden işlendiğinde ikinci satış veya bakiye etkisi oluşmaz.
   - Ölçüt: Boş raf, fiyat/bütçe reddi ve kuyruk sonucu gerçek nedenleriyle ayrılır.
@@ -139,7 +139,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Ürettiği nesneler: p0-sales
   - Etkin önkoşullar: P0-03
   - Üretici bağı: p0-transfer ← P0-03
-  - Kabul güncelliği: henüz doğrulanmadı · tamamlanma sayısı: 0
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 1
 - P0-05 [todo] Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır (kayıt: todo)
   - Ölçüt: Küçük şişe, 5 L bidon ve 19 L damacana tarifleri ham su ve ilgili ambalaj lotunu tüketir.
   - Ölçüt: Domates hasadı katalogdaki su/tohum girdilerini kullanır; çıktı doluysa girdi/ürün kaybolmaz.
@@ -202,7 +202,6 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Üretici bağı: p0-worker ← P0-07
   - Üretici bağı: p0-world-input ← P0-02
   - Kabul güncelliği: henüz doğrulanmadı · tamamlanma sayısı: 0
-  - Kontrol: dependency P0-04: todo
   - Kontrol: dependency P0-05: todo
   - Kontrol: dependency P0-06: todo
   - Kontrol: dependency P0-07: blocked
@@ -210,7 +209,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
 
 ## Çalışılabilir görevler
 
-P0-04, P0-05, P0-06
+P0-05, P0-06
 
 ## Uyarılar
 
