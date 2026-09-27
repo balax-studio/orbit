@@ -48,7 +48,7 @@ Aşağıdaki ID'ler PLAN/TEST takibi içindir; kodda mevcut fonksiyon adı deği
 | P0-02 Dünya/girdi | P0-01 | Tek oda, kameraya uygun hareket, touchcancel, UI sahipliği | T-P0-02 |
 | P0-03 Transfer | P0-01/02 | Kaynak/taşıyıcı/hedef, kapasite, rezervasyon | T-P0-03 |
 | P0-04 Satış | P0-03 | Tek müşteri, sepet, kasa, stok/para tek sonuç | T-P0-04 |
-| P0-05 Üretim | P0-03 | İki tarif, girdi tüketimi, süre, dolu çıktıda bekleme | T-P0-05 |
+| P0-05 Üretim | P0-03 | Üç şişelenmiş su tarifi ve sulamayla domates hasadı; girdi tüketimi, süre, dolu çıktıda bekleme | T-P0-05 |
 | P0-06 Kayıt | P0-01; transferle beraber geliştirilir | Günlük/checkpoint/yedek/lifecycle | T-P0-06 |
 | P0-07 Görevli | P0-03/05/06 | Tek raf işi, rota, devir ve kayıt | T-P0-07 |
 | P0-08 Yerleşim | P0-02/03/07 | Geçerli taşıma, iptal, erişim, karşılaştırma | T-P0-08 |
@@ -64,6 +64,6 @@ Görevli: Uygun iş ara → kaynak/hedef ayır → kaynağa yürü → yük al �
 
 ## İlk ekranın somut bilgi ve eylemleri
 
-HUD: kredi, taşınan SKU/adet/kapasite, tek öğretim hedefi, duraklat ve inşa. İstasyon: uyumlu eylem, girdi/çıktı miktarı, kalan üretim süresi veya bekleme nedeni. Dolap üzerinde “Prototip tedariki” görünür. Boş rafın nedeni ölçülmeden “daha fazla makine al” tavsiyesi verilmez. HUD seçili hedefi ve karakteri kapatıyorsa sahne/kamera uyarlanır.
+HUD: kredi, taşınan SKU/adet/kapasite, tek öğretim hedefi, duraklat ve inşa. İstasyon: uyumlu eylem, girdi/çıktı miktarı, kalan üretim süresi veya bekleme nedeni. P0 açılış sarfı gerçek lot olarak görünür; prototip tedarik dolabı ve dış alım butonu gösterilmez. Boş rafın nedeni ölçülmeden “daha fazla makine al” tavsiyesi verilmez. HUD seçili hedefi ve karakteri kapatıyorsa sahne/kamera uyarlanır.
 
 P0-08 karşılaştırmasında aynı seed, talep, fiyat, stok, personel ve eşit aktif süre kullanılır. Mesafe, toplam yürüyüş ve talep varken boş raf süresi ayrı kaydedilir. Yalnız daha güzel görünen düzen iyileşme kanıtı değildir.

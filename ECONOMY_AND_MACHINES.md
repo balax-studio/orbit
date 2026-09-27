@@ -6,7 +6,7 @@ Kaynak: [anayasa](OYUN_GELISTIRME_DEVIR_DOSYASI.md) §26, §33–41, §47–48. 
 
 Tek kaynak suyu şişeleme ve sulama arasında paylaştırılır. Kullanılabilir stok = fiziksel stok − rezerve stok. Üç su boyutu ve taze domates satışında girdi, çıktı, raf ve para tek işlem kimliğiyle değişir. Yükseltme anında geçmiş üretim doldurulmaz; arka planda su birikmez. Eksik su, ambalaj veya çıktı alanı görünür bekleme nedenidir. Son temel su satış yolu [KARARLAR.md](KARARLAR.md) D-001 uyarınca korunur.
 
-## A2 — gerçek maliyet ve fiyat
+## A2 — gerçek maliyet; A3 — fiyat düzenleme
 
 Ürün kimlikleri ve tarif yönü [yerel ürün ağacından](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md), bağlayıcı kapsam [ana kaynak §26'dan](OYUN_GELISTIRME_DEVIR_DOSYASI.md) alınır. Katalogdaki fiyat, ham maliyet ve kâr sayıları denge hipotezidir. Ambalaj, tohum, enerji, nakliye ve ara lot maliyetleri doğrulanmadan gerçek kâr raporu oluşturulmaz. Ledger 10.000 atom/kredi tamsayı hassasiyetini kullanır; UI sunumu ledger değerini değiştirmez. Eski küp ve buz bazlı maliyet hesabı kullanılmaz.
 
@@ -18,7 +18,7 @@ Müşteri ihtiyaç RNG'si girişte kaydedilir; boş raf talebi silmez. Kuyruk h�
 
 P0 öğretim gelişinin ayrı tetiklenmesi, sonrasındaki `56/9000` seed'li tick geliş olasılığı ve 40 aktif saniyelik P0 kuyruk sabrı D-019 D.1–D.3 kararıdır. İlk su ürünlerinin referans fiyatı katalogdadır; P0 ritmi doğrulanmış oyuncu sonucu değildir. A2 profil sabrı 40/55/30 sn ve bölüm ziyaret hedefleri anayasa §38'den alınır.
 
-A2 üç profil ve bir ikameyle başlar; §38–39'un tam entegrasyonu A3 derinliğine bağlanır. Raf fiyatı oyuncu seçimiyle değişebilir; oyuncunun nakdine göre gizlice değişmez. Sepetteki fiyat kilitlenir. Stok ve bütçe filtresinden sonra:
+A2 üç profil ve bir ikameyle başlar; §38–39'un tam entegrasyonu A3 derinliğine bağlanır. A2'de müşteri sabit referans raf fiyatına tepki verir; oyuncunun raf fiyatını değiştirmesi A3'te açılır. Fiyat hiçbir fazda oyuncunun nakdine göre gizlice değişmez. Sepetteki fiyat kilitlenir. Stok ve bütçe filtresinden sonra:
 
 ```text
 fairPrice = baseRetail × (1 + alpha × qualityPremium)
@@ -70,7 +70,7 @@ A2 bozulma kapalı; A3 isteğe bağlıdır. Yeni ürün ailelerinin raf ömürle
 
 - 20 adet ×7 kredi +20 taşıma →160 nakit çıkışı, birim lot maliyeti 8. 12 adet ×12 satış →144 gelir, 96 satılan mal maliyeti, 48 brüt katkı, 64 kalan stok, −16 net nakit (§34.4).
 - Kalite girdi95/kalibrasyon90/uzmanlık80 →90,5; Özel. İki girdinin adetleri 1 ve 3, skorları 40 ve 80 ise girdi ortalaması 70'tir; 60 değildir.
-- Standart küp kontratı 20×12×0,82=196,80 gelir; 80 maliyete karşı 116,80 katkı (§41.2).
+- Kontrat katkısı güncel SKU'nun gerçek lot ve sarf maliyetiyle hesaplanır; eski küp örneği geçerli değildir (§41.2).
 - Aynı rezervasyon iki görevliye atanırsa ikinci görev ürün yaratamaz; sipariş iadesi ikinci callback'te tekrar para vermez.
 
 ## A4 market adaylarının ekonomi sözleşmesi — KAYNAK §64

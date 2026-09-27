@@ -1,7 +1,7 @@
 # PROJECT ORBIT MARKET — Sıfırdan geliştirme ve ajan devir dosyası
 
-Sürüm: 3.0 — Three.js + Capacitor — 26 Eylül 2026  
-Durum: Uygulanabilir tasarım başlangıcı; henüz geliştirilmiş veya test edilmiş oyun değildir.  
+Sürüm: 3.0 — Three.js + Capacitor — 26 Eylül 2026
+Durum: Uygulanabilir tasarım başlangıcı; henüz geliştirilmiş veya test edilmiş oyun değildir.
 Güncel tasarım sözleşmesi: Yayın hedefi iOS ve Android'dir. Three.js/TypeScript ile web oyunu oluşturulur ve Capacitor ile yerel uygulama olarak paketlenir. Önce kısa özet ve bölüm 61–63 platform, görsel ve prototip sözleşmesini oku. Önceki Unity, PC ve Steam teknik hedefleri geçersizdir. Belgede anlatılanlar şartnamedir; çalışan uygulama iddiası değildir.
 Çalışma adı: Orbit Market. Yayın öncesinde isim ve marka uygunluğu ayrıca araştırılmalıdır.
 
@@ -75,7 +75,7 @@ Hiçbir referansın logosunu, arayüzünü, karakterini, özgün modelini veya s
 
 20–60 saniyelik döngü: Kaynağı al → makineyi besle → ürünü taşı → rafı doldur → müşteriye hizmet et → gelir ve geri bildirim al.
 
-3–8 dakikalık döngü: Darboğazı gör → bir yerleşim/atama kararı ver → küçük teslim veya satış hedefini tamamla. Uzun üretim ve kontrat birden fazla oturumda devam edebilir.
+3–8 dakikalık döngü: Darboğazın nedenini gör → uygun tek yerleşim/atama veya stok kararını ver → kaynağın makineden rafa, oradan müşteriye geçtiğini izle → küçük teslim veya satış hedefini tamamla. Uzun üretim ve kontrat birden fazla oturumda devam edebilir. Bu görünür neden–eylem–sonuç yönünün faz ve sınırları §67'dedir.
 
 Uzun döngü: Bölge ihtiyacını öğren → üretim dalında uzmanlaş → topluluk/şirket kararını ver → yeni alan aç → final sözleşmesini tamamla.
 
@@ -91,10 +91,10 @@ Taşıma başlangıçta 6 yığın birimiyle sınırlıdır; yükseltmeler 8/10/
 | 2–5 dk | İki müşteriye satış yapar | Raf ve kasa | İlk gelir |
 | 5–8 dk | Kaynak suyunu şişeler ve domates toplar | Üretim ile raf paylaşımı | Kendi ürünü |
 | 8–12 dk | Rafı taşır, koridor açar | Modüler düzen | Daha kısa servis yolu |
-| 12–16 dk | İlk beceriyi seçer | RPG kimliği | Yeni aktif seçenek |
-| 16–20 dk | İlk çalışanı atar | Otomasyon | Oyuncuya serbest zaman |
+| 12–16 dk | Stok/rota darboğazını inceler | Bir düzen kararının sonucu | Gerekçesi görülen iyileşme |
+| 16–20 dk | İlk raf görevlisini atar | Temel otomasyon ve devir | Oyuncuya serbest zaman |
 
-Öğretim kısa bağlamsal görevlerle yapılır. Hızlı oyuncu atlayabilir; yardım günlüğünden tekrar okuyabilir. Süreler zorunlu zamanlayıcı değildir.
+Öğretim kısa bağlamsal görevlerle yapılır. Hızlı oyuncu atlayabilir; yardım günlüğünden tekrar okuyabilir. Süreler zorunlu zamanlayıcı değildir. Beceri seçimi P0 öğretimi değildir; §58.1 uyarınca A3 RPG kapsamındadır.
 
 ## 7. Market ve müşteriler
 
@@ -129,6 +129,8 @@ Makine durumları: Idle, WaitingInput, Running, OutputBlocked, NoPower, Paused. 
 Kalite üç seviyedir: Standart, Nitelikli, Özel. Kalite deterministik olarak girdi kalitesi, makine kalibrasyonu ve çalışan uzmanlığıyla hesaplanır. Gizli kalite zarları ilk sürümde yoktur.
 
 ## 9. Modüler yerleşim
+
+Varsayılan oda, dış alan, kapı, yol, ağaç ve fazlı genişleme koordinatları [DUNYA_YERLESIM_PLANI.md](DUNYA_YERLESIM_PLANI.md) teknik paftasındadır. Pafta aşağıdaki erişim ve oyuncunun izinli modül taşıma kurallarını değiştirmez; açık ürün bedeli veya yeni ekonomi sistemi yaratmaz.
 
 - 1 m hücreli ızgara; varsayılan oda 6×6 hücre, bağlantı koridoru en az 2 hücre genişliğindedir.
 - Modüller: Market, depo, sera, işleme, atölye, personel alanı, enerji ve topluluk alanı.
@@ -633,10 +635,10 @@ Olay sonunda kısa sonuç: Kaybedilen tahmini satış, kullanılan alternatif ü
 ## 30. Yeni sistemlerin uygulama sırası ve kabul testleri
 
 1. Tier 1–4 yerel ürün kataloğunu tamamla; ID, tedarik, tarif grafiği ve maliyet doğrulayıcısını kur.
-2. P0 su kaynağı, üç şişelenmiş su boyutu ve taze domates satışını kanıtlar; A2 ilk işlenmiş gıda ve mandıra hatlarını açar.
-3. A2'de raf görevlisi ve bir personel olayı; A3'te sekiz rol, yerel geçmişler ve tercih sistemi.
-4. A3'te festival ve durgunlukla EventDirector; A4'te tam olay kataloğu.
-5. A2'de görünüm değiştirme ve test kataloğu; A5'te doğrulanmış platform ödemesi. Gerçek sağlayıcı hazır değilse oyun ücretsiz yayımlanabilir; sahte çalışan ödeme butonu yayımlanmaz.
+2. P0 su kaynağı, üç şişelenmiş su boyutu ve taze domates satışını kanıtlar; A2 ilk işlenmiş gıda, kümes/mandıra ve sıcak içecek hatlarını açar.
+3. P0'da tek raf görevlisine iş devri kanıtlanır; A2'de temel mola/personel, A3'te vardiya ve tanımlı rol derinliği, A4'te tam rol/olay içeriği açılır (§58.1).
+4. A3'te sınırlı olaylar ve EventDirector, A4'te tam olay kataloğu açılır (§58.1).
+5. Görünüm içeriği oyunun zorunlu üretim yolundan ayrıdır; A4'te kozmetik ödeme/reklam sandbox doğrulanır, A5'te seçilen platform ödemesi yayın kapısından geçer (§58.1). Gerçek sağlayıcı hazır değilse oyun ücretsiz yayımlanabilir; sahte çalışan ödeme butonu yayımlanmaz.
 
 Ek veri tanımları: StaffDefinition, StaffOriginDefinition, StaffTraitDefinition, StaffEventDefinition, WorldEventDefinition, EconomyModifier, CosmeticSkuDefinition, EntitlementRecord. Oyun simülasyonu ödeme katmanından referans alamaz; kozmetik uygulayıcı yalnız görünüm verisi okur.
 
@@ -720,6 +722,8 @@ Oda türü duvar, kapı, geçerli zemin alanı ve gerekli eşyalardan hesaplanı
 
 Sera, işleme, enerji ve topluluk alanları önceki modül kataloğunda kalır. A4'teki eski “8 modül tipi” üst sınırı kaldırılmıştır: bu ekle toplam 14 işlevsel oda türü hedeflenir; atölye ve bakım atölyesi aynı türdür. İlk prototip bunların tümünü içermez.
 
+Müşteri dinlenme köşesinin işlevsel 4×4 asgari alanı A4'te marketin batı-önündeki ayrı, cam cepheli ferah pavyonla sağlanır; varsayılan hücreler ve yaya bağlantısı [yerleşim paftası §13](DUNYA_YERLESIM_PLANI.md) içindedir. Satış odasındaki eski 2×2 şişeleme nişi taşınmadan sonra boş nefes alanı olarak kalır; 160 kredilik oda, koltuk kapasitesi veya konfor etkisi sayılmaz. 6×6 odalar tablodaki 4×4 **asgari** alan koşulunu sağlar; kabuk bedelleri tabloda yazdığı gibi oda türü başınadır, alan başına çarpılmaz. Oda kabuğu bedeli donanımı kapsamaz.
+
 ### 32.2 Dekor ve donanım etkileri
 
 | Nesne | Oyun içi fiyat | Etki | Üst sınır |
@@ -776,6 +780,8 @@ Onayda tahmini slotlar rezerve edilir. Rezerve raf satılamaz; sipariş başka g
 Boş yer kalmazsa sevkiyat AwaitingSpace olur: mal kaybolmaz, NPC kamyonu yolda sonsuz kuyruk oluşturmaz. Oyuncu yer açar, başka bölge seçer veya açık maliyetli iade yapar. İlk sürümde bekleme/depolama cezası yoktur; yeni otomatik siparişler kapasite doluyken durur. Kabul öncesi soğuk zincir tedarikçi sorumluluğundadır.
 
 Kabul sırasında miktar ve kalite teklifle karşılaştırılır. Temel sürümde rastgele eksik teslimat yoktur. İleride sözleşme uyuşmazlığı eklenirse açık olay olarak uygulanır; stok ve para sessizce eksiltilmez.
+
+**A2 geçici teslim pedi:** A2'nin tek yerel kooperatif öğretimi için `R3-C2` açık hava pedinde siparişin `Arrived → Inspecting → Accepted/AwaitingSpace` adımları aynı Application komutu ve §33.3 ledger/lot kurallarıyla yürür. Ped ücretsizdir, **oda/depo değildir**, 12 slotluk mal kabul tamponu veya ilave stok kapasitesi vermez; ürün ancak önceden rezerve edilmiş geçerli depo/raf alanına kabul edilip fiziksel aktarım tamamlanınca kullanılabilir. Yer yoksa sipariş `AwaitingSpace` kalır ve pedde tek temsilî kasa görünür; ikinci kabul için bedava ikinci yer açılmaz. Ücretli 4×4 asgari mal kabul odası (200 kredi kabuk + teslim portu/kontrol masası) kurulduğunda §33.1'in 12 slot tamponu ve tam oda işlevi açılır. Pedden odaya geçiş aynı bekleyen sipariş/lot kimliğini korur; daha önce kabul edilmiş stok yeniden eklenmez.
 
 ### 33.4 Üret veya satın al kararı
 
@@ -873,15 +879,15 @@ Eski kayıtta lot yoksa mevcut miktar için bir geçiş lotu oluştur; eski kay�
 
 Bu rapor tasarım incelemesidir; uygulama veya oyun testi bulgusu değildir. Belge kapsamlıdır fakat henüz oynanabilir oyunda doğrulanmış mekanik bulunmamaktadır. “P0” geliştirmeden önce/ilk dilimde, “P1” ana oyun tamamlanmadan, “P2” çekirdek doğrulandıktan sonra ele alınır.
 
-Sürüm 1.3 durum notu: Bu rapordaki ekonomi tablosu, fiyat tepkileri, ürün ikamesi, bakım, final hedefleri, kontrat dengesi ve işletme haritası eksikleri bölüm 37–43 ile tasarım düzeyinde karşılanmıştır. Uygulama, 30 günlük simülasyon ve dış oyuncu testleri hâlâ beklemektedir. Aşağıdaki tablo başlangıç incelemesinin kaydıdır; güncel kabul planı bölüm 44'tür.
+Sürüm 1.3 durum notu: Bu rapordaki ekonomi tablosu, fiyat tepkileri, ürün ikamesi, bakım, final hedefleri, kontrat dengesi ve işletme haritası eksikleri bölüm 37–43 ile tasarım düzeyinde karşılanmıştır. Uygulama, 30 günlük simülasyon ve dış oyuncu testleri hâlâ beklemektedir. Aşağıdaki P0/P1/P2 etiketleri eski **risk önceliğidir**, §58.1 geliştirme fazı değildir; somut teslimin fazı son sütunda belirtilir. Güncel kabul planı bölüm 44'tür.
 
-| Öncelik | Eksik veya risk | Öneri / somut teslim | Doğrulama |
+| Risk önceliği | Eksik veya risk | Öneri / somut teslim | Doğrulama ve faz |
 |---|---|---|---|
-| P0 | Sistem sayısı ilk deneyimi ağırlaştırabilir | İlk 20 dakikada yalnız taşıma, satış, tek üretim, tek mola; dış alımı sonraki öğretim görevine koy | Dış oyuncu yardımsız ilk döngüyü bitirir |
-| P0 | Ham madde fiyatları ve talep bütçeleri tam tanımlı değil | Kaynak alış fiyatı, müşteri bütçesi ve günlük hacim içeren tek denge tablosu | Her ürünün maliyeti ve katkısı hesaplanır |
-| P0 | Kredi kazanma, günlük ücret ve 900 sn gün ölçeği birlikte test edilmedi | En az 30 günlük sabit seed ekonomi simülasyonu | Hem üretim hem dış alım işletmesi sürdürülebilir |
-| P0 | Çok sayıda rezervasyon stok kilitleyebilir | Birleşik rezervasyon defteri, süreli görev kiraları ve teşhis paneli | İptal, mola, oda taşıma ve kayıt sonrası sızıntı yok |
-| P0 | Kâr ve nakit kolay karışabilir | Lot maliyeti, nakit akışı ve gelir tablosunu ayrı sun | Bölüm 34 örneği otomatik testten geçer |
+| P0 | Sistem sayısı ilk deneyimi ağırlaştırabilir | P0 ilk 3–8 dakikada taşıma, su/domates üretimi, raf ve satışla başlar; mola ve dış alım öğretimi A2'ye kalır | Dış oyuncu yardımsız ilk döngüyü bitirir; P0 |
+| P0 | Ham madde fiyatları ve talep bütçeleri tam tanımlı değil | P0 §26 açılış lotları/sabit fiyat; A2'de kaynak alış fiyatı, üç müşteri bütçesi ve günlük hacimle denge tablosu | Gerçek lot maliyeti ve katkı A2'de hesaplanır |
+| P0 | Kredi kazanma, günlük ücret ve 900 sn gün ölçeği birlikte test edilmedi | P0 ilk satış/para korunumu; A2'de en az 30 günlük sabit seed ekonomi simülasyonu | Üretim ve dış alım işletmesi A2'de ölçülür |
+| P0 | Çok sayıda rezervasyon stok kilitleyebilir | P0 birleşik rezervasyon defteri ve görev kiraları; mola/oda taşıma A2+ sınamasına eklenir | P0 transfer/iptal/kayıt, A2+ mola/oda geçişinde sızıntı yok |
+| P0 | Kâr ve nakit kolay karışabilir | P0 ledger doğru kalsın; A2 lot maliyeti, nakit akışı ve gelir tablosu ayrı sunulsun | Bölüm 34 örneği A2'de otomatik testten geçer |
 | P1 | Müşteri fiyat esnekliği sadece soyut | Üç profil için bütçe, ikame ürün ve kalite tercih eğrisi tanımla | En pahalı fiyat her koşulda en iyi strateji olmaz |
 | P1 | Üretim mi dış alım mı seçimi tek doğruya dönüşebilir | Tarif kapasitesi, tedarik kotası ve kontratları birlikte dengele | İki işletme modeli de en az bir bölümde güçlü olur |
 | P1 | Bakım atölyesinin işi yeterince ayrıntılı değil | Makine çalışma saati, önleyici bakım ve açık arıza eşiği ekle | Bakım ihmalinde açıklanabilir duruş, stok kaybı yok |
@@ -1683,6 +1689,10 @@ Ana dünya malzemeleri mat ve en fazla 2–3 düz renk/faset varyantlıdır. Tek
 
 Dünya renk yönü: koyu mürekkep renkli raf metali, kırık beyaz mağaza duvarı, doygun cyan makineler, sarı etkileşimli/oyuncu seçili parçalar, pembe ikazlı fakat güvenli hikâye nesneleri. UI ve world paleti ortak token'lar taşır ama iki katmanda aynı anda bütün aksan renkleri kullanılmaz. Seçim outline'ı yüksek kontrastlı ve ayarlanabilirdir.
 
+Dış çevrenin hayvan, bitki, otopark, araç ve yol bakım kapsamı §65'te tanımlanır; bu çevre mevcut mağaza/bahçe yerleşimini tamamlar.
+
+Oda ve dış dünya yüzeylerinin malzeme/ışık/yaşam ritmi için [DUNYA_YERLESIM_PLANI.md](DUNYA_YERLESIM_PLANI.md) §8 sanat paftası uygulanır. Bu paftadaki dünya tonları yukarıdaki UI tokenlarını değiştirmez; §63 mobil bütçesini ve §62.3 kamera sınırını aşmaz.
+
 ### 62.3 Kamera ve kompozisyon
 
 Portrait kompozisyonunda oynanabilir yerleşim ekranın orta %65'inde; üst %12'de kredi/görev; alt %18'de hareket/eylem kontrolü. Bunlar safe-area hariç başlangıç oranlarıdır; küçük iPhone/Android'de prototip testiyle düzenlenir. Karakter veya ana makine HUD altında saklanmaz. Kamera 30–35° aşağı eğim ve 45° yatay grid dönüşüyle gerçek izometrik algı oluşturur; 90° inşa döndürmesi nesne içindir, kamera için değil. Tablet daha geniş sahne gösterir, UI konumunu breakpoint ile değiştirir.
@@ -1842,13 +1852,15 @@ Bu bölüm A–E önerilerini fazlı **ürün adayı** olarak kaydeder; §58.1 P
 | Aday / ilk değerlendirme fazı | Oyuncu kararı ve ekonomik bağ | Görünür sonuç, başarısızlık ve sınır |
 |---|---|---|
 | VIP teftişi / A3 olay altyapısından sonra A4 | Kooperatif başkanı veya Baş Mühendis'in önceden görünen ürün/hizmet isteğini karşıla ya da geç; ödül/itibar olay tanımında açık olur. | Süre yalnız aktif oyun zamanıdır; eksik teslim açıkça sonuçlanır, stok yalnız gerçek teslimde düşer. Aynı ziyaret kayıt dönüşünde ikinci ödül vermez. |
-| Hijyen ve koku / A3 oda sistemi sonrası A4 | Kirlenmeyi gör, ücretsiz temizlik yap veya uygun Şifahane sabun/kolonyası lotunu kullan. Sarf kullanımı tek stok işlemidir. | Hijyen hizmet deneyimini etkiler; gizli satış çarpanı değildir. Sarf yoksa ücretsiz temizlik yolu açık kalır, raf veya temel zincir kilitlenmez. |
-| Mahalle Bülteni / A3 teşhis sonrası A4 | Gerçek satış, kuyruk ve hizmet olaylarının nedenini oku; önerilen iyileştirmeyi seç. | NPC değerlendirmesi gerçekleşmiş olaya bağlanır; sahte sosyal kullanıcı veya ayrı itibar ledgeri kurulmaz. Olumsuz puan nedeni ve yapılabilir adım görünür. |
+| Hijyen ve koku / A3 oda sistemi sonrası A4 | Somut ve seyrek kirlenme olayını gör; ücretsiz temizle veya uygun Şifahane sabun/kolonyası lotunu kullan. Sarf kullanımı tek stok işlemidir. | Sürekli temizlik sayacı/angaryası oluşturmaz. Hijyen hizmet deneyimini etkiler; gizli satış çarpanı değildir. Sarf yoksa ücretsiz temizlik yolu açık kalır, raf veya temel zincir kilitlenmez. |
+| Mahalle Bülteni / A3 teşhis sonrası A4 | Gerçek satış, kuyruk ve hizmet olayının nedenini → seçilen müdahaleyi → gözlenen sonucu oku. | Tek kaynak mevcut olay ve teşhis kaydıdır; bağımsız puan/itibar döngüsü, sahte sosyal kullanıcı veya ayrı ledger kurulmaz. Olumsuz sonuçta yapılabilir adım görünür. |
 | Günün Hasadı teşhiri / A3 fiyat-raf sistemi sonrası A4 | Tek uygun SKU'yu vurgu tezgâhına ata veya kaldır. Başlangıç hipotezi normal satış hızına **+%200**, yani 3× hedefidir. | Gerçek stok, müşteri talebi, bütçe, kuyruk ve mevcut fiyat sınırları geçerlidir; stok yoksa satış yoktur. Teşhir talebi ve olay çarpanı üst üste gizlice katlanmaz; hız mevcut müşteri gelişini aşamaz. |
 | Esnaf pazarlığı / A4 | Yalnız katalogda uygunluğu tanımlanan Tier 4 zanaat ürünü için isteğe bağlı teklif seç; Tier 5 açılmaz. | Başlangıç kâr hedefi +%20–30 hipotezidir; kabul edilmeyen teklifte lot korunur. Kabul, mevcut fiyat/zarar uyarısı ve satış ledger'ından geçer; mini oyun ikinci para kaynağı değildir. |
 | Sabah haberi ve trend / A3 sınırlı olaylardan sonra A4 | Ön habere göre stok, fiyat veya vardiya planla. | Olay mevcut EventDirector takvimi ve sınırını kullanır. Başlangıçtaki “balık iki katı” yalnız örnektir; katalog/§37–38 fiyat sınırı doğrulanmadan bağlayıcı olmaz. Olay kapalıysa trend de doğmaz. |
 | Vardiya değişimi dalgası / A3 vardiya sistemi sonrası A4 | Ön haberle raf ve personeli hazırla veya müşteri alımını yönet. Başlangıç penceresi 60 **aktif** saniyedir. | Mevcut müşteri kapasitesi ve kuyruk/sabır kuralları sürer; onlarca yeni aktör zorunlu değildir. Kayıt/arka plan dönüşünde pencere aynı tick'ten devam eder, tekrar müşteri çekilmez. |
 | Dekor cazibesi / A3 oda sistemi sonrası A4 | Ücretsiz işlevsel saksı, kilim, fener veya tabela yerleştir; cazibe alt skorunu gör. | §32 oda/dekor üst sınırı içinde hesaplanır; mevcut estetik etkisi ikinci kez sayılmaz. Ücretli görünüm aynı işlevsel nesneden daha fazla cazibe veya zengin müşteri hakkı vermez. |
+
+**Birleşik sunum:** VIP isteği, sabah trendi ve vardiya dalgası ayrı zorunlu açılır pencere/ödev listesi oluşturmaz. A3 olay altyapısı doğrulandıktan sonra A4'te değerlendirilecek tek Mahalle Gündemi kartı en yakın gerçek olayın ön bilgisini, oyuncunun isteğe bağlı tek hazırlık kararını ve sonucu gösterir. EventDirector, kapasite, cooldown, kayıt ve olayları kapatma seçeneği korunur. Kart hiçbir görevi kendiliğinden kabul etmez; bir olay bitince ekonomik işlem veya yeni olay otomatik çalışmaz.
 
 **Deneyim yönü:** P0 al–taşı–rafla–sat döngüsü deterministik ve okunur kalır. Uyumlu istasyondaki 0,3 saniyelik bekleme mevcut §60.1/D-018 etkileşim süresidir; suyun üretim veya transfer süresini 0,3 saniyeye indirmez. Taşıma yükü ancak mevcut ekipman/hız kuralına göre yavaşlatır; yeni evrensel −%10 ceza yoktur. Alma, taşıma ve koyma için üç aşamalı ses/hareket ritmi A4 sanat adayıdır: hafif haptik isteğe bağlı, ses kapatılabilir, D-025 eşzamanlı ses sınırı geçerlidir. Tam ekran panel yerine bağlama uygun küçük DOM paneli tercih edilir; kayıt hatası, erişilebilirlik ve kritik onay ekranları gerektiğinde tam görünür kalır.
 
@@ -1857,3 +1869,85 @@ Bu bölüm A–E önerilerini fazlı **ürün adayı** olarak kaydeder; §58.1 P
 **Sürpriz ve fırsat hipotezleri:** Seed'li ekonomik RNG'de hasat/av için %15–20 küçük bonus sıklığı bir deney değeridir; tanımlı girdi, ürün ID'si, lot ve kayıt sürümü olmadan uygulanmaz. Nadir inci katalogdaki gerçek üründür; rastgele ödülün yerine kozmetik sandık veya ücretli çekiliş konmaz. Sıcak ekmeğin ilk 3 aktif dakikada rafa konmasına +%25 kâr önerisi fiyat, maliyet ve raf lotu korunumu doğrulanınca test edilir; süre geçince ürün yalnız normal fiyata döner. Bu bonuslar VIP, trend, teşhir, kalite ve dekor ile gizli çarpım zinciri oluşturmaz. 50→150→300→500 kredi mikro hedefleri ve “her üç dakikada zafer” ifadesi bağlayıcı ekonomi değeri değildir; §26/katalog maliyetleri değiştirilmeden hedef sunumu denenir.
 
 **Bilimsel iddia sınırı:** Dopamin ödül tahmin hatası öğrenmeyle ilişkili bir modeldir; belirli bir Orbit eyleminin “dopamin patlaması”, kalıcı alışkanlık veya zorunlu sıkılma yarattığı sonucu çıkarılamaz ([Schultz](https://www.nature.com/articles/nrn.2015.26)). Özerklik, yetkinlik ve ait olma tasarım gerekçesidir ([Self-Determination Theory](https://selfdeterminationtheory.org/topics/application-basic-psychological-needs/)). Schüll'ün “machine zone” kavramı kumar bağlamında incelenmiştir; burada oyuncu durumu veya 8–12 Hz alfa dalgası ölçülmüş değildir ([kitap bölümü](https://assets.press.princeton.edu/chapters/i9156.pdf)). Freud, Lacan, Han ve Jung göndermeleri anlatı/sanat metaforudur; klinik ya da nörolojik etkinlik kanıtı değildir.
+
+## 65. Yaşayan dış çevre, otopark ve yol bakımı — 27 Eylül 2026
+
+**Kapsam:** Kullanıcının yaşayan dünya talebiyle A4 çevre içeriği olarak eklenmiştir. §58.1 P0 → A2 → A3 → A4 → A5 sırası korunur; P0'nun tek oda ve temel üretim kanıtına yeni sistem eklemez. §62'nin kübik low-poly dili ve §63'ün toplam cihaz bütçesi geçerlidir. Aşağıdaki davranışlar tasarım sözleşmesidir; üretilmiş asset, çalışan kod veya oyuncu/cihaz kanıtı değildir.
+
+### 65.1 Yerleşim ve doğal çevre
+
+Marketin önünde kaldırım, açık yaya girişi, otopark ve bağlantı yolu bulunur. Bahçe kenarında ağaçlar, çalılar, ot/çiçek kümeleri, küçük taşlar ve seyrek kayalar yerleşime çeşitlilik verir. Bank, çöp kutusu, bisiklet parkı, yol lambası ve alçak çit çevreyi tamamlayan sanat seçimleridir. Teslim alanı ve müşteri girişi ayrı okunur; dekor kapı, kasa, servis hücresi ve temel üretim rotasını kapatmaz. Dünya mevcut işletme çevresinde kalır; sınırsız arazi veya uzak bölge seyahati eklenmez.
+
+Ağaç ve taşlar bu kapsamda peyzajdır; kendiliğinden odun/maden kaynağı veya hasat edilebilir nesne sayılmaz. Bitki salınımı, yaprak hareketi ve renk/siluet çeşitleri görseldir; yeni mevsim, hava veya ürün verimi kuralı oluşturmaz.
+
+### 65.2 Hayvanlar ve çevrede yaşam
+
+Kedi, köpek ve koyun dünyada görünür. Kediler sakin kenarlarda dolaşır, gerinir ve uyur; köpekler kısa gezinme, çevreyi izleme ve dinlenme davranışları gösterir. Koyunlar bahçe yanındaki çevrili yeşil alanda otlanır ve küçük gruplar halinde yer değiştirir. Seyrek kuş konması/uçuşu isteğe bağlı sanat ayrıntısıdır. Davranışlar tek uzun tekrar yerine bekleme ve kısa hareketlerle çeşitlenir.
+
+Hayvanlar bu çevre kapsamıyla müşteri, çalışan veya üretim makinesi olmaz; koyun görünmesi süt/yün stoku yaratmaz. Besleme, sahiplenme veya hayvancılık ekonomisi ayrıca tanımlanmadıkça satın alma/ödül eylemi gösterilmez. Hayvan rotaları mağaza iş akışından ve araç yolundan ayrılır; çarpılma, saldırı veya oyuncuya zorunlu müdahale olayı eklenmez. Yakındaki hayvan ana makine seçimini çalmaz.
+
+### 65.3 Market önü otoparkı ve araçlar
+
+Araç akışı yaklaşma → uygun park yerini ayırma → park etme → bekleme → çıkış yolunu kullanma → sahne dışına ayrılmadır. Görünür yer sayısıyla doluluk tutarlı olur; aynı park yeri iki araca verilmez, ayrılan aracın yeri serbest kalır. Park doluysa yeni ortam aracı güvenli biçimde geçip gider; girişte sınırsız kuyruk oluşmaz. Yaya geçişi ve teslimat erişimi açık tutulur.
+
+Başlangıç araç sanatı küçük otomobil ve van gibi birkaç tekrar kullanılabilir siluettir. Oyuncunun araç kullanması bu kapsamda yoktur. Ortam araçları müşteri spawn'ı, talep, satış veya park geliri üretmez. Gerçek müşteri araçla temsil edilecekse aynı ziyaret kimliğiyle eşlenir; araçtan inme ikinci müşteri yaratmaz, park doluluğu mevcut talebi azaltmaz. Gerçek teslimatla eşlenen van yalnız kayıtlı teslim durumunu gösterir; araç animasyonu ürün kabulü veya stok aktarımı yapmaz.
+
+### 65.4 Zamanla aşınan yol ve dönemsel tadilat
+
+Yol görsel olarak bakımlı → kullanılmış → aşınmış → bakımda → yenilenmiş evrelerinden geçer. Çizgilerin solması, hafif lastik izleri, çatlak ve yama katmanları aşınmayı gösterir. Dönemsel bakımda sınırlı bir yol parçasında koni, bariyer, bakım ekibi ve küçük servis aracı görünür; tamamlanınca ekip ayrılır, yeni kaplama/yama ve çizgiler kalır. Her seferinde bütün yolun aynı anda eskimesi veya kapanması gerekmez.
+
+Aşınma ve bakım evresi yalnız aktif simülasyon zamanıyla ilerler; cihazın gerçek saati ve arka planda geçen süre uygulanmaz. Yol kesiminin kimliği, evresi, birikmiş aktif süresi ve devam eden bakım olayı kayıtta korunur; yüklemede yol bedelsiz sıfırlanmaz veya bakım baştan başlamaz. Kalıcı durum Domain'de tutulur, sahne yalnız görünümünü üretir. Görsel varyasyon için ekonomi RNG'sinden ayrı seed kullanılır.
+
+Şantiye yerleşimi market girişi, yaya geçişi, teslim ve araç çıkışını açık bırakacak şekilde seçilir. Erişimi koruyamayan kesimde bakım başlatılmaz; sahte engelle oyuncu kilitlenmez. Bu kapsamda aşınma satış cezası, araç hasarı, teslim gecikmesi veya zorunlu tamir borcu doğurmaz. Gelecekte işletme etkisi istenirse ayrı kaynak/ekonomi ve kurtarma kuralları gerekir.
+
+### 65.5 Sunum, kayıt ve kabul sınırları
+
+Hayvanlar, araçlar ve ekipler mevcut sahne bütçesini paylaşır; her yeni sınıfa ayrı 25 karakter hakkı verilmez. Statik bitki/taşlar tekrar kullanılabilir mesh/atlas ile, kalabalık çevre düşük profilde azaltılmış yoğunlukla sunulur. Görsel azaltma kayıtlı yol evresini veya gerçek müşteri/teslimat sonucunu değiştirmez. Sesler seyrek ve kapatılabilir, az harekette bitki salınımı ve ikincil animasyonlar sadeleşir.
+
+Yol evresi ve bakım ilerlemesi kalıcıdır; salt dekoratif hayvan/araç pozları güvenli başlangıç noktalarından yeniden kurulabilir. Yeniden kurulum park rezervasyonlarını tutarlı yeniden oluşturur; gerçek müşteri/teslimata bağlı kimlikleri çoğaltmaz. Telefon HUD'suna yeni zorunlu menü eklenmez; gerekirse yol seçilince kısa bakım durumu gösterilir, kamera otomatik olarak olayın üzerine çekilmez.
+
+**A4 başlangıç sanat/ritim değerleri:** [Yerleşim paftası §13](DUNYA_YERLESIM_PLANI.md) dört görünür park cebi, çevre aktörü üst sınırı, 30–60 aktif saniyelik seyrek araç beklemesi ve W1–W3 yol kesimleri için aktif saniye eşikleri verir. Bunlar ekonomi, talep veya araç geliri üretmeyen **ölçülecek başlangıç hipotezleridir**; gerçek cihaz yoğunluğu ve oyuncu okunurluğu sonucuyla revize edilir. A4 kabulünde dolu park, kesinti/yükleme, güvenli erişim, yanlış dokunma, ses/az hareket ve bütünleşik performans senaryoları kontrol edilir; ayrıntılar [TEST_STRATEGY.md](TEST_STRATEGY.md) ve [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md) §10'dadır.
+
+## 66. Açılış, ekran düğmeleri ve oyun ansiklopedisi — 27 Eylül 2026
+
+Kullanıcı isteğiyle açılıştan oyun içi yönetim panellerine kadar düğme ve içerik sözleşmesi [EKRAN_VE_MENU_AKISI.md](EKRAN_VE_MENU_AKISI.md) içinde tanımlanmıştır. Bu belge §66'nın ayrıntılı uygulama kataloğudur; ekonomi ve erişim kuralları kendi kaynak bölümlerinden alınır. §58.1 faz sırası korunur; sonraki faz düğmeleri P0'da çalışıyor gibi gösterilmez.
+
+### 66.1 Açılış ve HUD
+
+İlk açılışta dünya görünür; §15/§60 ve UI tasarımındaki landing/sinematik kapak olmaması korunur. Gerçek yükleme sonrası ilk kayıtta Oyuna başla/Ayarlar, mevcut kayıtta Devam et/Menü vardır. Kayıt hatası görünür kurtarma akışına gider. Menü oyun üzerinde açılır ve Devam et, Kayıtlar, Ayarlar, Yeni oyun içerir; yeni oyun eski kaydı sessizce ezmez.
+
+Üst sol kredi/kayıt durumu, üst orta tek hedef ve oyun içi saat, üst sağ Menü; alt sol hareket/yük, alt sağ en fazla üç ana eylem İnşa/Yönetim/Karaktere dön olarak yerleşir. Sol el tercihi alt bölgeleri aynalar. §62 oranları başlangıç kompozisyonudur; piksel konumları cihazda doğrulanır. Ana yönetim, ayarlar ve ansiklopedi panelleri UI nedeniyle duraklatır; platform duraklatması kalkmadan panel kapatma oyunu başlatamaz.
+
+### 66.2 Ayarlar içindeki Oyun Ansiklopedisi
+
+Ayarlar'ın bilgi grubunda **Oyun Ansiklopedisi** düğmesi bulunur. Bu oyun içi wiki, kurulu içerikle çevrimdışı çalışır. Ürünler, girdi/çıktı miktarlı üretim şemaları, makineler, footprint/servis alanı, süre/kapasite ve fazı geldikçe depo/personel/araştırma gibi sistemlerin açıklamaları bulunur. Sayısal bilgi oyunla aynı sürümlü içerik tanımlarından alınır; bağımsız ikinci tarif veya ekonomi kaynağı tutulmaz.
+
+Arama, kategori/açılanlar filtresi, ürün–tarif–makine bağlantıları ve geri geçmişi vardır. Üretim şemasının okunabilir metin alternatifi sunulur. Kilitli tanımlı içerik önkoşulunu gösterir; hikâye sürprizleri açılmadan açıklanmaz. Eksik içerik uydurulmaz. Okumak para/stok değiştirmez, tarif açmaz veya üretim başlatmaz. Kurulu makineye Dünyada bul geçişi aynı nesne kimliğini seçer ve kullanıcı Devam et diyene kadar oyun durur.
+
+### 66.3 Faz ve kabul
+
+P0 ansiklopedi kabuğu yalnız mevcut su/domates, makine ve temel kontrol/kayıt bilgisini içerir; A2–A4 maddeleri ilgili sistem teslimiyle büyür. Dil ve yayın ayarları hazır içerik/platform desteğiyle açılır. Her düğmenin konumu, hedef ekranı, koşulu, onayı ve hata davranışı ekran kataloğunda yer alır. Uygulama kabulü çevrimdışı okuma, veri eşleşmesi, geri/odak sırası, kayıt koruma, pending tekrarları, büyük metin ve yaşam döngüsü kontrollerini gerektirir; belge yazılması bu kontrollerin geçtiği anlamına gelmez.
+
+## 67. Ürün omurgası: görünür zincir ve mahalle etkisi — 27 Eylül 2026
+
+Bu bölüm [konsept karşılaştırma raporundaki](KONSEPT_KARSILASTIRMA_RAPORU.md) yönün ürün kararıdır. Orbit'in ayırt edici vaadi: oyuncu ürünün kaynaktan üretime, stoktan rafa, raftan müşteriye gidişini ve işletme kararının dünyadaki sonucunu anlayabilir. Çok sayıda ayrı yüzde/puan kartı bu temel akışın yerine geçmez. §58.1 fazları ve mevcut kaynak/ekonomi sınırları geçerlidir. Yeni içeriklerin uygulanmış olduğu iddia edilmez.
+
+### 67.1 P0: tek okunur darboğaz
+
+İlk su rafı boşaldığında oyun mevcut Domain durumundan doğru tek ana nedeni gösterir: ham madde eksik, istasyon girdi bekliyor, üretim sürüyor, çıktı dolu, taşıma/görevli bekliyor, raf uyumsuz/dolu, yol erişimsiz veya satış sonrası ikmal gecikmiş. Aynı anda birden çok neden varsa oyuncunun giderebileceği en yakın engel seçilir; diğerleri istasyon/raf detayında erişilebilir kalır. Neden metni nesneye bağlıdır ve bir yapılabilir eyleme gider: ilgili kaynağı/istasyonu/rafı göster, mevcut stok aktarımını yap veya inşa/rota önizlemesini aç. Para/stok değişikliği yine kendi Application komutundan geçer.
+
+Müdahaleden sonra ekran nedenin giderildiğini, gerçek ürünün makineden rafa ve müşteri satışına hangi aşamada geçtiğini güncel durumdan gösterir. Sahte ürün animasyonu veya önceden verilmiş satış ödülü kullanılmaz. Oyun Ansiklopedisi aynı tarif/makine kimliğine salt okunur açıklama sağlar. Öğretimde **neden → müdahale → gözlenen sonuç** akışı denenir; dış oyuncunun boş raf nedenini anlayıp doğru müdahaleyi seçme süresi ölçülür. Rapordaki 10 saniye oyuncu denemesi için başlangıç hedefidir, kanıtlanmış kabul eşiği veya simülasyon zamanlayıcısı değildir.
+
+### 67.2 A2–A3: kararın işletmede karşılığı
+
+A2 depo, tedarik, personel ve ilk işlenmiş ürünler açıldığında teşhis aynı ürün/lot/istasyon/raf kimliklerine bağlanır. İki farklı yerleşimin rota ve boş raf süresi aynı koşullarda karşılaştırılır; bir dekor veya görsel hız animasyonu ekonomik farkı taklit etmez. A3 fiyat, bakım, vardiya ve kontrat teşhisleri aynı kayıtlı olaylardan neden ve çözüm üretir. Dokuz tanımlı A3 yetenek düğümü önce uygulanıp ölçülür; kalan 21 düğüm ve tam rol/oda çeşitliliği §58.1 A4 içeriğidir ve davranış/önkoşul tanımlanmadan aktif gösterilmez.
+
+### 67.3 A4: tek mahalle anlatısı, seçili adaylar
+
+§64 VIP, trend ve vardiya dalgası adayları tek Mahalle Gündemi sunumundan gösterilir; ayrı EventDirector, ziyaretçi sayacı veya zorunlu hedef akışı kurulmaz. Mahalle Bülteni mevcut satış/hizmet olayının nedenini, seçilen müdahaleyi ve gözlenen sonucu izler; bağımsız puan kaynağı değildir. Hijyen yalnız somut seyrek olay olarak değerlendirilir; sürekli temizlik angaryası ve temel satış kilidi oluşturmaz. Günün Hasadı ve esnaf pazarlığı mevcut müşteri, lot, fiyat, rezervasyon ve ledger sınırlarında kalır. 3× hız, +%20–30 kâr ve 60 aktif saniye §64'teki denge hipotezleridir; ölçümden önce oyuncuya kesin sonuç vaadi olarak yazılmaz.
+
+Bölgesel kriz tek ana hikâye olayıdır; §46'daki üretici/tüccar/toplulukçu yolları aynı ilerlemeyi açar. Seçilen yolun ve §48.5'teki finalin izleri dünyadaki pano, diyalog ve sevkiyat görünümünden okunur. §65'in hayvan, otopark ve yol sanatı bu yaşayan mahalleyi tamamlar. Gerçek teslimat vanla, gerçek ziyaret mevcut müşteri kimliğine bağlı araçla temsil edilebilir; dekor yeni müşteri/satış yaratmaz. Çevre ayrıntısı seçili aktörü, erişimi veya düşük cihaz profilini bozarsa yoğunluk azaltılır.
+
+### 67.4 Aday kabul kapısı
+
+A4'te her §64 adayı aynı anda zorunlu olmaz. A3 altyapı kanıtı, ekonomi korunumu, kayıt/kesinti, cihaz bütçesi ve oyuncunun neden–sonuç anlayışı görülür; yeni ayrı menü/puan/tekrar döngüsü gerektiren aday kapsam takasına gider. İki referans oyuna benzer temel al–taşı–rafla–sat hareketi korunur; Orbit farkı bu eylemlerin kaynak ve mahalle sonuçlarıdır. Bu karar yeni SKU, yeni gizli çarpan veya yeni monetizasyon yetkisi vermez.

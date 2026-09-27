@@ -1,8 +1,8 @@
 # Orbit Market — sıfırdan mağaza yayınına uygulama planı
 
-Sürüm: 2.0 · 26 Eylül 2026. Ana kaynak: [OYUN_GELISTIRME_DEVIR_DOSYASI.md](OYUN_GELISTIRME_DEVIR_DOSYASI.md) §58, §60–63 ve ilgili sistem bölümleri. Bu dosya mevcut PLAN.md'nin genişletilmiş halidir; ikinci bağımsız yol haritası değildir.
+Sürüm: 2.0 · ilk taslak 26 Eylül 2026, belge gözden geçirmesi 27 Eylül 2026. Ana kaynak: [OYUN_GELISTIRME_DEVIR_DOSYASI.md](OYUN_GELISTIRME_DEVIR_DOSYASI.md) §58, §60–63 ve ilgili sistem bölümleri. Bu dosya mevcut PLAN.md'nin genişletilmiş halidir; ikinci bağımsız yol haritası değildir.
 
-**Mevcut durum:** Tasarım/yan belgeler hazır; depoda başlangıç iskeleti bulunduğu önceki incelemede kaydedildi. Çalışan oyun, geçmiş test, cihaz build'i veya mağaza yayını kabulü yoktur. İlk uygulama hedefi P0'dır. “Sıfırdan” mevcut dosyaları silme talimatı değildir; geliştirme öncesi gerçek durum yeniden doğrulanır. Bu revizyon yalnız planı düzenler, aşağıdaki işleri yürütmez.
+**Mevcut durum:** Tasarım/yan belgeler yazıldı; depoda başlangıç iskeleti bulunduğu önceki incelemede kaydedildi. Bu kayıt çalışan oyun, geçmiş test, cihaz build'i veya mağaza yayını kabulü değildir. İlk uygulama hedefi P0'dır. “Sıfırdan” mevcut dosyaları silme talimatı değildir; geliştirme öncesi gerçek durum yeniden doğrulanır. Bu plan aşağıdaki işleri yürütmez.
 
 ## 1. Planın kullanımı ve tamamlanma kuralı
 
@@ -22,7 +22,7 @@ Takvim ekip kapasitesi, araç/hesap erişimi ve P0 ölçümünden sonra tahmin e
 | P0.2 | Dokunma, transfer, üretim, satış | İlk oynanabilir döngü | P0.1 |
 | P0.3 | Kayıt, görevli ve yerleşim | Kesintiye dayanıklı prototip | P0.2; kayıt temeli P0.1'de |
 | P0.4 | Cihaz ve oyuncu doğrulaması | Devam/düzelt/durdur raporu | P0.1–3 |
-| A2.1 | Gerçek ekonomi ve tedarik | Üç ürünlü dilim | P0 kabulü |
+| A2.1 | Gerçek ekonomi ve tedarik | İlk işlenmiş gıda, kümes/mandıra ve sıcak içecek hatlarıyla dikey dilim | P0 kabulü |
 | A2.2 | Mola, müşteri, öğretim ve teşhis | 20–30 dk toplam oynanış | A2.1 |
 | A2.3 | İki platform dilim kabulü | Cihaz/parite raporu | A2.1–2 |
 | A3.1 | Depo, kalite, güç ve bakım | Derin işletme sistemleri | A2 kabulü |
@@ -55,6 +55,7 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 - [ ] Mobil hedefi, dikey dokunma, Three.js/TypeScript/Vite/Capacitor ve ilk DOM/CSS UI sözleşmesini sabitle.
 - [ ] Mevcut React/R3F/Zustand iskeletinin hedefe uyum yolunu incele; gerekçesiz yeniden yazım veya yeni framework ekleme.
 - [ ] P0 kapsamını tek oda, su kaynağı/şişeleme/domates yatağı, üç su ürünü, taze domates ve tek görevli olarak kilitle; tam oyun backlog'unu ayrı tut.
+- [ ] [Dünya paftası §13](DUNYA_YERLESIM_PLANI.md) ve [içerik kataloğu §7](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md) kararlarını gerçek P0 içerik/rota verisine aktar; A2/A3/A4 parselleri, kaynakları ve ritmini kendi fazında cihaz/oyuncu ölçümüyle doğrula. Belge kararı kod kabulü değildir.
 - [ ] İçerik kataloğundaki açık tanımları fazlara ata: 21 ileri yetenek, personel üretimi, bonus birleşimi, oda taban skorları ve sağlayıcı doğrulaması.
 - [ ] Ekip/kapasite, asset bütçesi, cihaz erişimi, hedef yaş grubu ve yayın sorumlusunu kaydet; bilinmeyeni olmuş gibi işaretleme.
 
@@ -78,6 +79,8 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 
 ### P0.1 — iskelet, veri, saat ve kabuk
 
+- [ ] [Dünya yerleşim paftasındaki](DUNYA_YERLESIM_PLANI.md) `R3-C0` 6×6 oda, batı bahçe, iki hücrelik bağlantı ve kamera dünya kaydırmasını tek koordinat sistemiyle kur; gelecekteki odaları erken açma.
+- [ ] §66/[ekran kataloğu](EKRAN_VE_MENU_AKISI.md): dünya üstü açılış/devam, HUD yerleşimi, menü/ayarlar/kayıt akışı ve yalnız P0 içerikli Oyun Ansiklopedisi (su/domates, makineler, erişilebilir üretim şemaları).
 - [ ] Saf domain, sabit 10 Hz saat, seed'li RNG, tek ledger, sabit hassasiyet ve komut/transaction kimliği.
 - [ ] Minimum içerik doğrulayıcı; `item.raw_water` ile üç şişelenmiş su SKU'su ayrı ID; kaynak/şişeleme/domates tarif ve kapasite verisi.
 - [ ] Three.js WebGL2 sahnesi, grid, portre kamera, placeholder karakter ve Neo-Brutalist HUD.
@@ -91,6 +94,7 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 - [ ] Kaynak → taşıyıcı → makine → çıktı → raf transferleri; kaynak/hedef kapasite rezervasyonu.
 - [ ] Bahçe su kaynağı; şişeleme tezgâhında üç su boyutu ve domates yatağında sulama/hasat zinciri.
 - [ ] Eksik girdi/dolu çıktı/erişimsiz hedef için görünür gerekçe; sessiz ürün kaybı yok.
+- [ ] §67 ilk boş su rafında Domain nedenini → tek uygulanabilir müdahaleyi → gerçek ürün/satış sonucunu aynı kimliklerle göster; ansiklopedi bağlantısı salt okunur olsun. Birden çok engelde en yakın giderilebilir nedeni seç, kalanları detayda tut.
 - [ ] Tek müşteri davranışı, sepet, kasa ve atomik satış; tekrarlanan çağrı ikinci para üretmez.
 - [ ] İlk 60 sn hareket/taşıma, 1–3 dk satış, 3–5 dk kendi üretimi hedefleyen kısa ipuçları.
 
@@ -108,6 +112,7 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 - [ ] 20 arka plan/dönüş ve farklı işlem noktalarında sonlandırma; offline açılış, context-loss, UI-raycast yalıtımı.
 - [ ] Android ve iPhone'da 3–8 dk klavyesiz döngü; P0 cihazda en az 10 dk test.
 - [ ] En az beş dış oyuncu: ≥4/5 ilk satışı yardımsız 5 dk içinde; ≥3/5 düzen iyileştirmesinin nedenini açıklayabilmeli.
+- [ ] Beş oyuncuda boş su rafı nedenini anlama, doğru müdahale seçme ve sonucu açıklama sürelerini ayrı kaydet; 10 saniyeyi deneme hedefi olarak kullan, ölçülmüş eşik diye sunma.
 - [ ] Aynı kritik stok/para hatası iki oyuncuda tekrarlanırsa düzelt; yeni özellik ekleyerek sonucu örtme.
 
 **Teslim:** Oynanabilir P0, çalıştırma/build talimatı, cihaz raporu ve devam/düzelt/durdur kararı. **Çıkış:** İlk satış, devir, kesintiden doğru dönüş ve ölçülebilir yerleşim etkisi kanıtlı.
@@ -120,6 +125,7 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 
 ### A2.1 — gerçek başlangıç ve ekonomi
 
+- [ ] Paftadaki `R2-C0` işleme, `R3-C1` kuru depo, `R2-C1` dinlenme ve `R3-C2` geçici mal kabul pedini gerçek açılış/bedel koşullarıyla bağla; kapı eşikleri ve iki hücrelik omurga açılsın.
 - [ ] [KARARLAR.md](KARARLAR.md) D-002–D-004 uyarınca su kaynağı, üç şişelenmiş su SKU'su ve domates zincirini gerçek lotlarla kur; ilk mandıra ve işlenmiş gıda erişimini doğrula.
 - [ ] §26 ve [ürün ağacındaki](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md) 100 kredi, 50 ham su, 12/4/2 ambalaj, 8 tohum ve seviye 1 debiyi uygula; ilk 3–8 dakikalık oturumda stok/talep dengesini ölç.
 - [ ] İlk işleme istasyonlarının satın alımı, enerji/sarf ve lot muhasebesini doğrula.
@@ -131,6 +137,7 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 - [ ] Bir çalışan, iki koltuklu mola köşesi, güvenli görev bırakma ve dinlenme öğretimi.
 - [ ] Üç müşteri profili, bütçe/fiyat tepkisi, tek ikame ve kayıp satış nedenleri.
 - [ ] İki teşhis katmanı, beş öğretim görevi ve kısa oturumlar arasında kaydedilen ilerleme.
+- [ ] Ürün/lot/istasyon/raf kimliğini teşhis ve ansiklopedi arasında koru; depo/tedarik/çalışan kararı sonrası rotanın ve boş raf süresinin gerçekten değiştiğini göster.
 - [ ] İki farklı yerleşim deneyi; telefon HUD'unda küçük masaüstü tablolarını sıkıştırmak yerine okunabilir detaylar.
 - [ ] A2 sanat hedefini oynanış kapsamıyla karıştırma: 8 makine silueti hazırlığı 8 oynanabilir makine izni değildir.
 
@@ -149,6 +156,7 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 
 ### A3.1 — işletme altyapısı
 
+- [ ] [Paftadaki](DUNYA_YERLESIM_PLANI.md) soğuk depo, bakım, enerji ve yönetim odalarını yalnız gerçek içerik/bedel/açılış koşuluyla kur; iki hücrelik iç omurga ve servis erişimi her odada doğrulansın.
 - [ ] Lot/slot ayrımı, rezervasyon, FIFO/FEFO, gelişmiş tedarik ve isteğe bağlı raf ömrü.
 - [ ] Kalite skoru/kademesi, kaynak kalite erişimi, kalibrasyon ve yükseltme; gerçek skor lot boyunca korunur.
 - [ ] Güç kapasitesi/önceliği, kesintide kalan parti süresi ve temel elle döngü.
@@ -180,7 +188,7 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 
 ### A3 sonrası A–E adayları için önkoşul kapısı
 
-§64 adayları P0/A2 teslimi değildir. A3'te mevcut olay, vardiya, fiyat/raf, oda/dekor ve teşhis sistemleri doğrulandıktan sonra A4 aday işi açılır: VIP ve günlük haber için tek EventDirector; hijyen ve cazibe için §32 oda sınırı; Bülten için gerçek olay verisi; teşhir/pazarlık için satış ledger'ı ve fiyat kontrolü; vardiya dalgası için kayıtlı müşteri RNG'si. Her aday, aynı iş yükünü artırıyorsa §58.3 kapsam takası veya süre/bütçe etkisiyle H0 karar listesine döner. Bu paragraf adayları uygulanmış veya A4 zorunlu teslim saymaz.
+§64 adayları P0/A2 teslimi değildir. A3'te mevcut olay, vardiya, fiyat/raf, oda/dekor ve teşhis sistemleri doğrulandıktan sonra A4 aday işi açılır: VIP, günlük haber ve vardiya dalgası için tek EventDirector ve tek Mahalle Gündemi sunumu; hijyen ve cazibe için §32 oda sınırı; Bülten için gerçek olayın neden–müdahale–sonuç izi; teşhir/pazarlık için satış ledger'ı ve fiyat kontrolü. Önce dokuz tanımlı A3 yetenek düğümünün davranışı kanıtlanır; A4'ün kalan 21 düğümü boş ad/bedelle doldurulmaz. Her aday ayrı zorunlu menü, puan veya tekrar döngüsü ekliyorsa §58.3 kapsam takasına veya süre/bütçe etkisiyle H0 karar listesine döner. Bu paragraf adayları uygulanmış veya A4 zorunlu teslim saymaz.
 
 ## 8. A4 — tam oyun, son içerik ve sandbox
 
@@ -195,16 +203,17 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 
 ### A4 aday mekanik paketleri — yalnız A3 kapısından sonra
 
-- [ ] VIP teftişi ve sabah trendini aynı olay takviminde; tekrar ziyaret/ödül olmadan dene.
-- [ ] Hijyen, Mahalle Bülteni ve dekor cazibesini gerçek oda/hizmet olaylarıyla bağla; ücretsiz temizlik ve ücretli kozmetik eşitliği korunur.
+- [ ] VIP teftişi, sabah trendi ve vardiya dalgasını tek Mahalle Gündemi kartı/olay takviminde dene; aynı anda tek yaklaşan hazırlık kararı, zorunlu modal veya tekrar ziyaret/ödül yok.
+- [ ] Seyrek hijyen olayı, Mahalle Bülteni'nin neden–müdahale–gözlenen sonuç izi ve dekor cazibesini gerçek oda/hizmet olaylarıyla bağla; sürekli temizlik angaryası, yeni bülten puanı ve ücretli kozmetik avantajı yok.
 - [ ] Günün Hasadı teşhiri ve Tier 4 pazarlığını mevcut fiyat, talep, stok rezervasyonu ve ledger üzerinde dene; 3× hız ve +%20–30 kâr hipotezlerini ayrı ölç.
-- [ ] 60 aktif saniyelik vardiya dalgasını müşteri kapasitesi, kayıt dönüşü ve düşük cihaz profiliyle doğrula.
+- [ ] 60 aktif saniyelik vardiya dalgası hipotezini Mahalle Gündemi içinde müşteri kapasitesi, kayıt dönüşü ve düşük cihaz profiliyle doğrula.
 - [ ] §52–54/§60.2 sürekli hedef akışı, üç aşamalı ses/haptik ritmi, dükkân adı ve görsel yükseltmeleri erişilebilirlik ve cihaz bütçesi içinde dene; %15–20 sürpriz ve +%25 sıcaklık hipotezlerini ancak içerik/korunum testinden sonra aç.
 
 **Aday kabul kapısı:** [TEST_STRATEGY.md](TEST_STRATEGY.md) A–E senaryoları, gerçek oyuncu geri bildirimi, ekonomi korunumu ve cihaz profili görülmeden aday ilk sürüm zorunluluğuna dönüşmez. P0 → A2 → A3 → A4 → A5 sırası değişmez.
 
 ### A4.2 — başlangıçtan finale
 
+- [ ] Tek bölgesel krizin üretici/tüccar/toplulukçu seçeneklerini aynı ana ilerlemeyle sınayıp seçimin pano, ziyaret ve sevkiyat izlerini §48.5 ile eşleştir; üç ayrı zorunlu kampanya oluşturma.
 - [ ] Altı oyun bölümü erişimi, araştırma ve topluluk itibarı tutarlı.
 - [ ] Bölgesel krizin üç çözümü, kısmi teslim ve aynı ana ilerleme.
 - [ ] Üç finalin §42'deki dört dalgası, yatırım, ikamesiz teslim ve geri çekilemeyen proje kabulü.
@@ -214,6 +223,11 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 
 ### A4.3 — sanat, ses ve yerelleştirme
 
+- [ ] [Dünya sanat paftası](DUNYA_YERLESIM_PLANI.md) §8'e göre satış seramiği, tüm açılmış oda yüzeyleri, dış cephe, yol/peyzaj, ışık/çatı kesmesi, animasyon ve ses varlıklarını fazlı üret; cihazda renk/okunurluk ve toplam render bütçesini ölç.
+- [ ] §65 dış çevresini [paftadaki](DUNYA_YERLESIM_PLANI.md) yol, dört başlangıç park cebi, ağaç/taş peyzajı ve hayvan bölgelerine yerleştir; gerçek cihazda görünürlük/erişim/bütçe ölçülürse koordinat ve kayıt etkisini açık revize et.
+- [ ] §66 düğme kataloğunu fazlarda açılan sistemlerle tamamla; ansiklopedi Tier 1–4 tanımlı içerikle, kilit/spoiler kurallarıyla ve TR/EN çevirileriyle aynı sürümde olsun. P0 sonrası ansiklopedi maddeleri ilgili A2/A3 sistemleri teslim edilirken eklenir.
+- [ ] §65 yaşayan dış çevreyi kur: hayvan/bitki/taş kitleri, market önü otoparkı, araç giriş–park–çıkış rotaları ve yaya güvenli alanı.
+- [ ] Yol aşınması → bakım → yenilenme döngüsünü aktif zaman ve kalıcı kayıtla bağla; erişim, dolu park, kesinti/dönüş ve düşük cihaz profili kabul senaryolarını doğrula. Süre, yoğunluk ve park kapasitesini prototipten sonra belirle.
 - [ ] Placeholder yerine gerekli kübik low-poly kit, karakter/makine silueti, ürün/UI ikonları ve animasyonlar.
 - [ ] Neo-Brutalist token'lar, buton/hata/pending durumları ve ekran okuyucu semantiği.
 - [ ] Müzik/efekt, ses/titreşim kapatma, az hareket ve arka planda ses davranışı.

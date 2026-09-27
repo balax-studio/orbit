@@ -86,7 +86,7 @@ Kayıt sürüm göçü, TR/EN metin/erişilebilirlik, lisanslar, release URL/sec
 
 ## Rapor şablonu
 
-Her koşul: test ID/faz, build/commit/içerik sürümü, platform/OS/WebView/cihaz, giriş verisi/seed, adımlar, beklenen/gerçek sonuç, ölçüm/log yolu ve durum (geçti/kaldı/çalıştırılmadı/engelli). Test yoksa boş başarı kutusu yerine engel ve sonraki iş yazılır. Belge revizyonunda yalnız Markdown kapsamı, yerel bağlantılar, kaynak uyumu ve anayasanın değişmediği doğrulanır; oyun testleri yapılmış sayılmaz.
+Her koşul: test ID/faz, build/commit/içerik sürümü, platform/OS/WebView/cihaz, giriş verisi/seed, adımlar, beklenen/gerçek sonuç, ölçüm/log yolu ve durum (geçti/kaldı/çalıştırılmadı/engelli). Test yoksa boş başarı kutusu yerine engel ve sonraki iş yazılır. Belge revizyonunda Markdown kapsamı, yerel bağlantılar ve kaynak uyumu doğrulanır; anayasa değişmişse önceki kural ve fazlarla farkı ayrıca kontrol edilir. Oyun testleri yapılmış sayılmaz.
 
 ## Tekrarlanabilir P0 fixture ve test kimlikleri
 
@@ -103,6 +103,7 @@ Aşağıda açıkça "fixture" denen para veya stok değerleri yalnız TEST VER�
 | T-P0-05c | 50 birim su haznesi, seviye 1; küçük/5 L/damacana/domates için sırasıyla 1/10/38/2 birim ayır | Toplam 51 birim gerekir; 2 aktif saniyede 1 yeni birim gelir, stok negatif olmaz |
 | T-P0-05d | Debi seviye 1'den 2'ye yükseltilir; aynı komut iki kez çağrılır | 80 kredi yalnız bir kez düşer, 120 birim hazne sınırı ve 1 birim/sn hız sonraki tick'ten itibaren geçerlidir; geçmiş zaman doldurulmaz |
 | T-P0-05b | Çıktı kapasitesi dolu | Ürün/girdi kaybolmaz; seçilen parti rezervasyon politikasıyla OutputBlocked veya başlamama; çıktı boşalınca tek sonuç |
+| T-P0-05e | Yeni kayıtta 12/4/2 ambalaj ve 8 tohum; ilgili istasyon giriş tamponu, kayıt/yükleme, bir parti ve ikinci yükleme | Tampon kapasitesi açılış lotunu taşır; lotlar tek fiziksel konumda, parti sarfı bir kez düşer; yeniden yükleme başlangıç lotunu tekrar vermez |
 | T-P0-06 | Aynı satışın öncesi/yazım ortası/yazım sonrası crash | Tam durable kayıt yoksa satış yok; tam kayıt varsa bir satış, çift etki yok |
 | T-P0-07 | Oyuncu ve görevli son 1 ürünü aynı anda ister | Tek rezervasyon kazanır; toplam taşınan 1 |
 | T-P0-08 | Geçersiz footprint/onay; geçerli önizleme/iptal | Para/yerleşim değişmez; gerekçe görünür |
@@ -152,10 +153,10 @@ Bunlar gelecekteki A4 uygulama testleridir; henüz çalıştırılmadı. Her tes
 |---|---|
 | T-AE-01 | VIP isteği teslim edilince tek stok/itibar/ödül işlemi; aynı event/transaction tekrarında ikinci etki yok, süre yalnız aktif tick'te ilerler. |
 | T-AE-02 | Hijyen sarfı tek lot tüketir; sarf yokken ücretsiz temizlik mümkün, kötü koku temel satış yolunu kilitlemez. |
-| T-AE-03 | Mahalle Bülteni puanı gerçek kuyruk/satış nedenine bağlanır; save/load sonrası aynı olay ikinci kez puan üretmez, boş veri sahte kullanıcı yorumuna dönüşmez. |
+| T-AE-03 | Mahalle Bülteni gerçek kuyruk/satış olayının neden–müdahale–sonuç izini gösterir; save/load sonrası olay çoğalmaz, bağımsız puan/itibar üretilmez, boş veri sahte kullanıcı yorumuna dönüşmez. |
 | T-AE-04 | Teşhir için 3× hız hipotezi uygun gerçek talep altında ölçülür; boş raf, bütçesiz sepet veya ziyaret tavanında ek satış yoktur. |
 | T-AE-05 | Tier 4 pazarlık reddinde lot/kredi aynı kalır; kabulde tek ledger satışı olur, aynı komut tekrarı ikinci gelir yaratmaz. |
-| T-AE-06 | Trend ve 60 aktif saniyelik vardiya dalgası seed/save dönüşünde aynı olay ve müşteri sırasını sürdürür; arka plan süresi ilerlemez. |
+| T-AE-06 | Trend ve 60 aktif saniyelik vardiya dalgası tek Mahalle Gündemi kartında gösterilir; seed/save dönüşünde aynı olay ve müşteri sırası sürer, arka plan süresi ilerlemez, kart yeni görev veya satış başlatmaz. |
 | T-AE-07 | Dekor cazibesi §32 tavanında kalır; ücretli görünüm/ücretsiz görünüm ekonomik olarak aynıdır. |
 | T-AE-08 | %15–20 bonus ve sıcaklık +%25 hipotezleri lot/maliyet/fiyat fixture'ıyla korunur; ilk 3 aktif dakika geçince yalnız normal fiyat uygulanır, ürün kaybolmaz. |
 | T-AE-09 | Hedef bitince sonraki erişilebilir hedef HUD'da görünür; görev kabulü, stok harcaması, reklam veya para işlemi otomatik olmaz. Kayıt/çıkış her durumda çalışır. |
@@ -163,3 +164,83 @@ Bunlar gelecekteki A4 uygulama testleridir; henüz çalıştırılmadı. Her tes
 | T-AE-11 | Düşük profilde müşteri/teşhir/dekor birlikte §63 draw call, üçgen, karakter ve DPR bütçesinde ölçülür; aşım olursa kozmetik yoğunluk düşürülür, simülasyon sonucu değişmez. |
 
 Oyuncu denemesinde devam isteği, hedef anlama, durma/kayıt kolaylığı ve oturum süresi ayrı raporlanır. Nörokimyasal veya “alfa transı” sonucu gözlem formundan çıkarılmaz.
+
+## Görünür zincir ve kapsam kapısı — KAYNAK §67
+
+Bunlar ilgili faz uygulandığında çalıştırılacak senaryolardır; bu belge değişikliğinde oyun testi yapılmadı.
+
+| ID | Beklenen senaryo |
+|---|---|
+| T-CORE-01 / P0 | İlk su rafı boşken gerçek stok/istasyon/rota nedenlerinden en yakın giderilebilir engel gösterilir; diğer nedenler detayda kalır. Yanlış müdahale stok/para değiştirmez. |
+| T-CORE-02 / P0 | Neden kartı, ansiklopedi ve istasyon/raf aynı kararlı ürün/tarif/makine kimliklerini kullanır; müdahaleden sonra ancak gerçek üretim/transfer/satış olunca ilgili aşama tamamlanmış görünür. |
+| T-CORE-03 / P0 | En az beş dış oyuncuda boş raf nedenini anlama, doğru müdahale seçme ve sonucu açıklama süreleri ayrı ölçülür; 10 saniye yalnız başlangıç deneme hedefidir, sonuç diye yazılmaz. |
+| T-CORE-04 / A2 | İki yerleşim aynı başlangıç/seed ve gerçek müşteri rotasında karşılaştırılır; rota/boş raf farkı açıklanır, animasyon hızı veya dekor satış sayısını değiştirmez. |
+| T-CORE-05 / A3 | Fiyat, bakım, vardiya ve kontrat nedenleri gerçek kayıtlı olaydan gelir; dokuz tanımlı düğüm dışında adı/etkisi eksik yetenek aktif görünmez. |
+| T-CORE-06 / A4 | VIP, trend ve vardiya için tek Gündem kartı vardır; olay kapalıyken yoktur. Aynı olay çoklu modal, ikinci sayaç veya otomatik kabul üretmez. |
+| T-CORE-07 / A4 | Seyrek hijyen olayında ücretsiz çözüm vardır; sürekli temizleme zorunluluğu, temel satış kilidi veya gizli çarpan yoktur. Teşhir/pazarlık hipotezleri gerçek lot/ziyaret/ledger sınırında ölçülür. |
+| T-CORE-08 / A4 | Krizin üç çözümü aynı ana ilerlemeye çıkar; seçilen çözüm ve finalin pano/diyalog/sevkiyat izi kayıt dönüşünde sürer, çevre aracı ikinci müşteri/teslimat üretmez. |
+
+## Yaşayan dış çevre kabul senaryoları — KAYNAK §65
+
+A4 uygulaması için planlanan kontrollerdir; bu belge revizyonunda çalıştırılmadı.
+
+| ID | Beklenen senaryo |
+|---|---|
+| T-ENV-01 | Kedi/köpek/koyun davranışları mağaza, yaya ve araç rotalarını kapatmaz; seçimde ana makine hedefi korunur. Peyzaj veya hayvan görünümü kaynak/para üretmez. |
+| T-ENV-02 | Araç giriş–park–çıkışında tek yer tek araca ayrılır; dolu parkta araç geçip gider, kalıcı kuyruk ve çıkış kilidi oluşmaz. |
+| T-ENV-03 | Ortam araçları açılıp kapatıldığında aynı Domain müşteri/satış/teslimat sonucu korunur; gerçek ziyaretle eşlenen araç save/load sonrası ikinci ziyaret veya stok oluşturmaz. |
+| T-ENV-04 | Yol aşınması ve devam eden bakım aktif süresi kesinti/yükleme sonrası korunur; arka planda evre ilerlemez, yükleme bakım süresini sıfırlamaz. |
+| T-ENV-05 | Her bakım alanında kapı, kasa, servis, teslimat, yaya ve araç çıkışı erişilebilir kalır; güvenli alan yoksa bakım başlamaz. Aşınma kredi veya satıştan gizli kesinti yapmaz. |
+| T-ENV-06 | Sahne yeniden kurulduğunda dekoratif park rezervasyonları tutarlıdır; aynı yerde iki araç veya yarım kalmış görünmez engel yoktur. |
+| T-ENV-07 | Hayvan, araç, bitki ve bakım ekibi müşterilerle birlikte düşük cihaz profilinde ölçülür; toplam §63 bütçesi aşılırsa ortam yoğunluğu azalır, oyun sonucu değişmez. |
+| T-ENV-08 | Ses kapatma, az hareket ve küçük portre ekranda çevre hareketi kontrol/okunabilirliği bozmaz; yol olayı kamera veya modal ile oyuncunun işini kesmez. |
+
+## Ekran akışı ve ansiklopedi kabul senaryoları — KAYNAK §66
+
+İlgili fazların uygulamasında çalıştırılacak senaryolardır; bu belge revizyonunda çalıştırılmadı. Düğme envanteri [EKRAN_VE_MENU_AKISI.md](EKRAN_VE_MENU_AKISI.md) içindedir.
+
+| ID | Beklenen senaryo |
+|---|---|
+| T-UI-01 | Kayıtsız/sağlam kayıtlı/bozuk kayıtlı açılış doğru başlangıç/devam/kurtarma yoluna gider; kayıt doğrulanmadan simülasyon veya ikinci başlangıç işlemi yoktur. |
+| T-UI-02 | Yeni oyun, yükleme ve yedek kurtarma iptalinde mevcut kayıt korunur; kayıt/yedek yazımı başarısızken üzerine yazma veya yükleme sürdürülmez. |
+| T-UI-03 | Ayarlar → Ansiklopedi → şema → makine → Geri geçmişi, arama ve ayar taslağı korunur; Kapat Ayarlar'a döner. |
+| T-UI-04 | İnternet kapalıyken kurulu maddeler ve üretim şemaları okunur; arama yok sonucu, filtre temizleme, kilit nedeni ve gizli hikâye ayrıntısı doğru davranır. |
+| T-UI-05 | Tarif girdisi/çıktısı, süre, kapasite ve footprint ortak içerik kimliği/sürümüyle eşleşir; temel değer ve oyuncu etkisi ayrılır, eksik veri uydurulmaz. |
+| T-UI-06 | Ansiklopedi gezinme/filtreleme para, stok, araştırma ve tarif erişimini değiştirmez; Dünyada bul aynı kurulu nesneyi seçer ve oyunu duraklatılmış tutar. |
+| T-UI-07 | Küçük portre, tablet, büyük metin ve sol el düzeninde üç ana eylem sınırı, dokunma alanları, safe-area ve şemanın metin alternatifi okunur. |
+| T-UI-08 | UI pointer'ı dünyaya sızmaz; Android geri ve ekran okuyucu odağı doğru sırayı izler; platform pause'u varken panel kapanması oyunu başlatmaz. |
+| T-UI-09 | Her ekonomik düğmede hızlı tekrar, pending/hata ve eski önizleme tek transaction sonucunu korur; başarı yalnız kalıcı onaydan sonra görünür. |
+| T-UI-10 | Ayar Uygula/iptal/varsayılana dön akışı tercihi doğru korur; varsayılana dön oyun kaydını silmez, yayın veri silme ayrı onay ister. |
+| T-UI-11 | Her fazda yalnız teslim edilmiş işlevler aktif görünür; wiki kataloğu fazın içerik sürümüyle büyür, A3 fiyat düzenlemesi P0/A2'de yanlış açılmaz. |
+
+## Dünya paftası yerleşim kabulü — KARAR D-042, KAYNAK §9/§58.1/§65
+
+[DUNYA_YERLESIM_PLANI.md](DUNYA_YERLESIM_PLANI.md) uygulanınca yürütülecek kontrollerdir; belge revizyonu bunların geçtiği anlamına gelmez.
+
+| ID | Beklenen senaryo |
+|---|---|
+| T-MAP-01 / P0 | `x12..17,z22..27` satış odası ve `x4..9,z20..27` bahçe dışında oynanabilir oda kurulmaz; içerikteki gerçek makine/raf/kasa/bitki footprint ve servis hücreleri ayrılan yerle uyuşur veya pafta uygulamadan önce revize edilir. |
+| T-MAP-02 / P0 | Market güney kapısı, batı bahçe bağlantısı, raf, kasa, şişeleme ve domates yatağı arasında iki hücrelik yapısal rota ve her servis hücresine erişim vardır; müşteri kuyruğu tek çıkışı kalıcı kapatmaz. |
+| T-MAP-03 / P0 | D-017 yerel kamera hedefinin dünya kaydırması aynı 6×6 odayı gösterir; küçük portre ve tablette oyuncu/makine HUD altında kalmaz, geometri en-boy oranıyla esnemez. |
+| T-MAP-04 / A2 | İşleme, depo ve dinlenme ancak gerçek faz/bedel koşuluyla açılır; ortak duvarlarda iki hücrelik kapı eşikleri vardır. Mal kabul pedi yaya/yük yolunu açık tutar; kayıttaki nesne taşınması kimlik/parti/stoku korur. |
+| T-MAP-05 / A3 | İnşa/taşıma/elden çıkarma ve her yeni oda açılışında kapı, kasa, servis, bahçe, depo ve teslim grafiği tekrar doğrulanır; son temel üretim zinciri kilitlenmez. |
+| T-MAP-06 / A4 | P1–P4 tek araç rezervasyonu kullanır; güney yaya aksı, park girişi ve doğu servis girişi açık kalır. Gerçek teslimat/ziyaretin görsel aracı ikinci stok/müşteri oluşturmaz. |
+| T-MAP-07 / A4 | Yol bakımının W1–W3 kesimleri giriş/çıkışları ve yaya yolunu kapatmaz; ağaç/kaya/hayvan ayrılan peyzaj dışına collider koymaz, düşük cihaz bütçesi toplam sahnede ölçülür. |
+| T-MAP-08 / tüm fazlar | Save/load ve background dönüş aynı gerçek oda/nesne kimliği ve koordinatını kurar; değişen pafta eski kaydı sessizce yeniden yerleştirmez, göç veya açık geliştirme kaydı kararı gerekir. |
+| T-MAP-09 / tüm fazlar | Her açılmış odanın köşe işlev cepleri gerçek içerik footprint ve servis hücresini taşır; merkezi iki hücrelik yatay/dikey omurgada sabit mobilya yoktur. Şişeleme başarılı ve kalıcı taşındıktan sonra satış nişi boş kalır; A4 işlevsel müşteri pavyonu ayrı 4×4 alanda, ücret/koltuk ve açık yaya yoluyla kurulur. |
+| T-MAP-10 / P0–A2 | §13'teki P0 kasa/raf/çeşme/yatak portları, bir müşteriyle P0; kasada, rafta ve dış beklemede eşzamanlı aktörlerle A2 denetlenir. Kuyruk rezervasyonu giriş veya iki hücreli orta aksı kalıcı kapatmaz. |
+| T-MAP-11 / A2–A3 | A2 ücretsiz ped siparişi yalnız §33 ledger/kabul komutuyla ve depo kapasitesiyle işler; 12 slot tampon/oda bonusu açmaz. Tam mal kabul odası aynı lotu ikinci kez kabul etmez. Dört `zone.*` sınırı/yolu ve her yeni istasyonun işlem portu gerçek ID ile doğrulanır. |
+| T-MAP-12 / A4 | `x6..9,z28..31` cam pavyon, park-yaya araları ve W1–W3 bakım döngüsü collider, yükleme/kayıt, azaltılmış hareket ve düşük cihaz performansında sınanır; yalnız belge sayıları başarı kanıtı değildir. |
+| T-MAP-13 / A3–A4 | Katalog §7'de 57 satılabilir SKU'nun her biri tek fiziksel çıktı portuyla eşleşir; `item.comb_honey` ile `item.natural_beeswax` aynı 14 sn/0 E işleminde birlikte, tek transaction/iki lot çıkar. Genel `item.salt` tarifi `item.lake_salt`ı sessizce tüketmez; göl tuzu tarifi kooperatif tuzunu kullanmaz. Yinelenen komut ikinci çıktı veya ikinci maliyet yaratmaz. |
+
+## Dünya malzemesi ve yaşayan sahne kabulü — SANAT KARARI pafta §8
+
+Uygulanmış asset ve gerçek cihazda yapılacak görsel kontrollerdir; bu belge düzenlemesinde çalıştırılmadı.
+
+| ID | Beklenen senaryo |
+|---|---|
+| T-VIS-01 / P0 | Açık krem mat seramik, kırık beyaz duvar, koyu raf/kasa ve sakin cyan şişeleme ayrışır; karo derzi 1 m oyun grid'iyle karışmaz, boş raf/istasyon nedeni küçük portrede okunur. |
+| T-VIS-02 / A2–A3 | Satış, işleme, depo, dinlenme, soğuk ve bakım alanı yalnız malzeme/siluetle tanınır; açılmamış rezerv oda tamamlanmış görünmez, görsel aşınma sahte hijyen/bakım durumu bildirmez. |
+| T-VIS-03 / A4 | Araç, hayvan, ağaç, yol bakımı ve gerçek iş aktörleri birlikteyken seçili ürün/kapı/kasa örtülmez; olay animasyonu ikinci müşteri/stok/satış üretmez. |
+| T-VIS-04 / tüm fazlar | Sessiz, az hareket, büyük metin, yüksek kontrast ve küçük portrede bilgi kaybı yoktur; ışık/çatı kesmesi collider veya rota değiştirmez. |
+| T-VIS-05 / cihaz | Toplam draw call/üçgen/animasyonlu karakter/DPR §63 düşük profilde ölçülür; aşımda önce uzak dekor/ikincil hareket azalır, Domain ve temel ürün silueti aynı kalır. |

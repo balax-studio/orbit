@@ -1,5 +1,37 @@
 # Devir durumu ve karar kaydı
 
+## 2026-09-27 Markdown tutarlılık denetimi — belge revizyonu
+
+Kök projedeki 23 Markdown dosyası kaynak önceliğiyle tarandı. Eski görsel referans rehberi bağlayıcı mekanik sanılmayacak şekilde yeniden yazıldı; P0 dört ürün/çok girdili su-domates, A2 müşteri fiyat tepkisi/A3 fiyat düzenleme, güncel 57 SKU, P0 fiziksel açılış sarf konumu, A2+ isteğe bağlı gün sonu ve güncel faz/karar bağlantıları eşlendi. Eski küp/spor/prototip dolabı, 24 SKU, dört jüri ve yanlış görsel yolları aktif talimatlardan çıkarıldı. Yerel Markdown bağlantıları ve `git diff --check` kontrol edildi. Bu yalnız belge denetimidir; kod, asset, build, cihaz ve oyuncu kabulü yapılmadı.
+
+## 2026-09-27 dünya paftası açık kararları kapatıldı — belge revizyonu
+
+Kullanıcı isteğiyle denetim maddeleri [DUNYA_YERLESIM_PLANI.md](DUNYA_YERLESIM_PLANI.md) §13, [katalog](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md) §2/§7, anayasa §32.1/§33.3 ve KARARLAR D-043 içine işlendi. P0 footprint/servis ve sıra; 4×4 cam dış müşteri pavyonu; A2 kapasite vermeyen gerçek teslim pedi; dört A3 parsel ve 17 kaynak/istasyonun 57 SKU'ya port eşlemesi; ayrı iki tuz ID'si ve tek arılık balmumu işlemi açıklandı. Geçici inceleme raporu kullanıcı isteğiyle silindi. Bunlar belge/başlangıç denge kararlarıdır; kod, asset veya cihaz doğrulaması değildir.
+
+## 2026-09-27 oda, müşteri, istasyon ve SKU görsel sözleşmesi — belge revizyonu
+
+Kullanıcı geri bildirimiyle [DUNYA_YERLESIM_PLANI.md](DUNYA_YERLESIM_PLANI.md) §9–12 genişletildi: yapı kiti ve 13 oda ile açık servis avlusunun duvar/kapı/pencere/eşyası, müşteri profilleri/rotası ve 57 satılabilir SKU için tekil siluet/ambalaj tarifi yazıldı. Sonraki §13 revizyonu R0 rezervlerini koşullu işleme kopyası yaptı ve katalog fiziksel portları 17'ye tamamladı. Oyun varlığı, render ve cihaz testi yapılmadı.
+
+## 2026-09-27 dünya malzeme ve atmosfer paftası — belge revizyonu
+
+Kullanıcı isteğiyle DUNYA_YERLESIM_PLANI.md §8'e marketin mat krem seramik zemini, kırık beyaz duvar/cephe, üretim/depo/soğuk/dinlenme/diğer oda yüzeyleri, raf/makine/kasa malzemeleri, asfalt/kaldırım/toprak/bitki/kaya/su kartelası, ışık/çatı kesmesi, hayvan–araç–müşteri hareket ritmi ve fazlı sanat kabulü yazıldı. Anayasa §62.2, AGENTS, UI_DESIGN_SYSTEM, RULES, PLAN ve TEST_STRATEGY paftaya bağlandı. Hex değerleri kaynak UI tokenı değil başlangıç dünya sanat seçimidir; efektler para/stok/kayıt üretmez. Asset, render ve cihaz kanıtı henüz yoktur.
+
+## 2026-09-27 dünya yerleşim paftası — belge kararı
+
+Kullanıcı isteğiyle DUNYA_YERLESIM_PLANI.md oluşturuldu: 1 m hücreli `x0..47,z0..39` planlama ızgarası; P0 satış odası `x12..17,z22..27`, batı bahçe, P0 makine/raf/kasa kapıları ve iki hücrelik geçişler; A2–A4 oda matrisi; güney yol, park/servis girişleri ve peyzaj/hayvan bölgeleri koordinatlandı. AGENTS, ana kaynak §9, RULES, UI_DESIGN_SYSTEM, PLAN, KARARLAR ve TEST_STRATEGY paftaya bağlandı. Bu sayılar ürün kaynağındaki hazır koordinatlar değil, varsayılan uygulama seçimidir. Gerçek içerik footprint'i/servis hücresi ve cihazda rota doğrulanmadan sahne kabul edilmiş sayılmaz. Kod/native proje değiştirilmedi; önceki çalışma ağacı değişiklikleri korunur.
+
+## 2026-09-27 görünür üretim zinciri ve mahalle yönü — belge kararı
+
+Kullanıcının konsept karşılaştırma raporundaki iyileştirmeleri uygulama isteğiyle §67 ürün omurgası eklendi: P0 boş su rafında gerçek neden → uygun müdahale → gözlenen ürün/satış sonucu; A2 aynı kimlikli teşhis ve yerleşim etkisi; A3 kanıtlı dokuz yetenek/olay altyapısı; A4 tek Mahalle Gündemi kartı, seyrek hijyen, bültende neden–müdahale–sonuç, kriz seçiminin dünyada izi. §5/§6/§64'te çelişen eski ifadeler, PLAN, UI_DESIGN_SYSTEM, RULES, EKRAN_VE_MENU_AKISI ve TEST_STRATEGY eşlendi. §64 yüzdeleri hâlâ ölçülmemiş hipotez; hiçbir oyun kodu, ekonomi işlemi, cihaz veya oyuncu testi bu belge işiyle tamamlanmış değildir. Önceden var olan çalışma ağacı değişiklikleri korunur.
+
+## 2026-09-27 ekran akışı ve oyun ansiklopedisi — belge revizyonu
+
+Kullanıcı isteğiyle §66 ve EKRAN_VE_MENU_AKISI.md eklendi: dünya üstü açılış, HUD konumları, menü/kayıt/ayarlar, bütün mevcut panel düğmeleri ve geri/onay/hata yolları tanımlandı. Ayarlar'daki Oyun Ansiklopedisi çevrimdışı üretim şemaları, ürün/makine ve sistem rehberini ortak içerikten gösterir. P0 çekirdek maddelerle başlar; sonraki içerik kendi fazında gelir. UI_DESIGN_SYSTEM, CONTROLS_AND_UX, RULES, PLAN ve TEST_STRATEGY eşlendi; UI özetindeki A2 fiyat onayı ifadesi §58.1'e uygun A3 düzenleme/A2 tepki ayrımıyla düzeltildi. Belge düzenlemesidir; ekran/oyun kodu uygulanmadı, oyun veya cihaz testi çalıştırılmadı.
+
+## 2026-09-27 yaşayan dış çevre — belge revizyonu
+
+Kullanıcı isteğiyle ana kaynağa §65 eklendi: kedi/köpek/koyun, bitki/taş peyzajı, market önü otoparkı, gelip park eden ve ayrılan araçlar, aktif zamanda yol aşınması ve dönemsel tadilat. Görsel davranışlar UI_DESIGN_SYSTEM §10'a, uygulama listesi RULES'a, A4.3 işleri PLAN'a ve gelecekteki kabul senaryoları TEST_STRATEGY'ye işlendi. Otopark/çevre doğrudan yeni talep, kaynak veya bakım borcu üretmez. Süreler, yoğunluk ve park kapasitesi açık; P0 kapsamı değişmedi. Bu kayıt belge durumudur, çalışan özellik veya cihaz testi değildir.
+
 ## 2026-09-27 A–E market ritmi — belge revizyonu
 
 Kullanıcı talebindeki sekiz market mekaniği ve deneyim yönü ana kaynak §64'e fazlı aday olarak işlendi. §52–54 ve §60.2'de eski kısa oturum/otomatik hedef sınırları ile yeni sürekli hedef akışı arasındaki değişim açık yazıldı; D-041 karar kaydı, PLAN aday kapısı ve ilgili katalog/domain/ekonomi/UI/UX/test belgeleri eşlendi. Tier 5 açılmadı. 3× teşhir, %15–20 sürpriz, +%25 sıcaklık, 60 aktif saniyelik dalga ve pazarlık +%20–30 değerleri denge hipotezidir. Bu satır belge durumudur; çalışan özellik, test veya cihaz kanıtı değildir. Önceden var olan çalışma ağacı değişiklikleri bu iş kapsamında sahiplenilmez.
@@ -8,13 +40,13 @@ Kullanıcı talebindeki sekiz market mekaniği ve deneyim yönü ana kaynak §64
 
 Ana kaynak §26 ve Tier 1–4 katalogunda 1 ham su = 0,5 L; şişe/5 L/damacana 1/10/38 birim, 3/8/18 aktif saniye. Seviye 1 memba 0,5 birim/sn ve 80 birim hazne; yeni kayıt 100 kredi, 50 su, 12/4/2 ambalaj ve 8 domates tohumu. Ambalaj/tohum edinim bedelleri ve 3–8 dakikalık ilk döngü gerekçesi katalogdadır. İleri girdi tedariki/yerel açılış yolları ile üç finalin dört dalgalı yeni SKU/adetleri belgelendi. Sayılar tasarım ve aritmetik kontrolüdür; çalışan kod, cihaz veya oyuncu testi kanıtı değildir.
 
-Tarih: 26 Eylül 2026. Ana kaynak [OYUN_GELISTIRME_DEVIR_DOSYASI.md](OYUN_GELISTIRME_DEVIR_DOSYASI.md) sürüm 3.0; faz sırası [PLAN.md](PLAN.md).
+İlk depo incelemesi: 26 Eylül 2026. Ana kaynak [OYUN_GELISTIRME_DEVIR_DOSYASI.md](OYUN_GELISTIRME_DEVIR_DOSYASI.md) sürüm 3.0; faz sırası [PLAN.md](PLAN.md). Üstteki 27 Eylül kayıtları sonraki belge çalışmalarını anlatır.
 
 ## Doğrulanmış mevcut durum
 
 Depoda Vite/React/TypeScript başlangıç iskeleti vardır. package.json React, R3F/Drei, Three.js ve Zustand beyan eder; src/App.tsx sayaçlı başlangıç ekranıdır. Bu gözlem bağımlılıkların başarıyla kurulduğunu, build/test geçtiğini veya oyun döngüsünün çalıştığını kanıtlamaz. Aktif hedef P0'dır; önceki “Phase 2 / altyapı tamamlandı” kaydı geçerli kabul kanıtı değildir.
 
-Bu revizyonda diğer 12 Markdown dosyası ana kaynakla uyumlu olarak düzenlendi. Anayasa, kaynak kod, bağımlılıklar ve yapılandırma değiştirilmedi. Çalışan oyun, native proje veya mağaza çıktısı teslim edilmedi; oyun build/test komutları çalıştırılmadı.
+26 Eylül incelemesinde 12 yan Markdown dosyası ana kaynakla uyumlu olarak düzenlenmişti. Sonraki 27 Eylül çalışmalarında anayasa ve başka belgeler ayrıca değişti; bu eski satır güncel dosya değişikliklerinin tam listesi değildir. Çalışan oyun, native proje veya mağaza çıktısı bu belge çalışmalarında teslim edilmedi; oyun build/test komutları çalıştırılmadı.
 
 ## 2026-09-26 belge kararları
 
@@ -27,7 +59,7 @@ Bu revizyonda diğer 12 Markdown dosyası ana kaynakla uyumlu olarak düzenlendi
 | Kayıt | Tek JSON/localStorage örneği yerine snapshot+günlük+durable işlem | Uygulama bekliyor |
 | Monetizasyon | A4 sandbox; A5 yayın/mağaza doğrulaması | Entegrasyon yapılmadı |
 | İçerik ayrıntısı | Anayasa kataloğuna referans; uydurma eşik/bonus/API zorunluluğu kaldırıldı | Belgelendi |
-| D-001–D-006 | Üretim zinciri koruması, su kimliği, P0 tedarik noktası, A2 kapsamı, 9 yetenek bedeli, personel trait alanları | [KARARLAR.md](KARARLAR.md); henüz kod/test değil |
+| D-001–D-006 | Üretim zinciri koruması, su kimliği ve açılış sarf konumu, A2 kapsamı, 9 yetenek bedeli, personel trait alanları | [KARARLAR.md](KARARLAR.md); henüz kod/test değil |
 | D-007–D-016 | Yapıştırılan 100 sorunun simülasyon, kayıt, kamera, UI, stok, ekonomi, müşteri, çalışan, makine ve kurtarma cevapları | [KARARLAR.md](KARARLAR.md); cihaz/oyuncu doğrulaması bekliyor |
 | D-017–D-020 | A–E görsel, UI, geri bildirim, P0 müşteri matematiği ve somut P0 veri şeması | [KARARLAR.md](KARARLAR.md), [DOMAIN_MODEL.md](DOMAIN_MODEL.md); uygulanmadı |
 | D-021–D-026 | Runtime kimlik indeksleri, 10.000 atom/kredi, 5 tick sınırı, 3B hit/context kurtarma, JSON/lifecycle, ses sınırı, npm ve kod kapısı | [KARARLAR.md](KARARLAR.md); mimari karar, henüz kod/cihaz kanıtı değil |

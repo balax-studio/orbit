@@ -1,6 +1,6 @@
 # Orbit Market — karar günlüğü
 
-Tarih: 26 Eylül 2026 · Durum: Etkin teknik/ürün kararları · Kaynak önceliği: [anayasa](OYUN_GELISTIRME_DEVIR_DOSYASI.md) sürüm 3.0. Bu kayıt ana kaynakta eksik kalan veya yan belgelerde çelişen noktaları uygulanabilir hale getirir. Anayasanın açıkça sabitlediği değerleri değiştirmez. Yeni kanıt gelirse ilgili karar yeni tarih/revizyonla değiştirilir; geçmiş kayıt silinmez.
+Başlangıç: 26 Eylül 2026 · Güncel belge revizyonu: 27 Eylül 2026 · Durum: Etkin teknik/ürün kararları · Kaynak önceliği: [anayasa](OYUN_GELISTIRME_DEVIR_DOSYASI.md) sürüm 3.0. Bu kayıt ana kaynakta eksik kalan veya yan belgelerde çelişen noktaları uygulanabilir hale getirir. Anayasanın açıkça sabitlediği değerleri değiştirmez. Eski kararın yürürlükten kalktığı yer açıkça belirtilir; önceki metin Git geçmişinde izlenir.
 
 ## D-001 — Temel üretim zincirinin satışı
 
@@ -18,7 +18,7 @@ Tarih: 26 Eylül 2026 · Durum: Etkin teknik/ürün kararları · Kaynak önceli
 
 ## D-003 — P0 kaynak ve ambalaj
 
-**Güncel karar:** P0 suyu bahçe kaynağından üretir; prototip tedarik dolabı temel su kaynağı değildir. Üç su ürününün ambalajı görünür ve maliyeti olan sarftır. §26.1'deki 50 birim başlangıç suyu ve katalogdaki 12/4/2 ambalaj ile 8 tohum lotu açılış verisidir; sessiz sınırsız ambalaj yoktur. Domates sulaması aynı ham su lotunu kullanır.
+**Güncel karar:** P0 suyu bahçe kaynağından üretir; eski prototip tedarik dolabı oyuncu dünyasında başlangıç nesnesi veya girdi kaynağı değildir. Üç su ürününün ambalajı görünür ve maliyeti olan sarftır. §26.1'deki 50 birim başlangıç suyu çeşme haznesindedir. 12/4/2 ambalaj lotu kurulu `station.bottler` giriş tamponunda, 8 tohum lotu kurulu domates `source.crop_plot` giriş tamponundadır; bunlar §26.1'in yeni miktarları değil, açılış lotlarının teknik konum kararıdır. Her tamponun gerçek içerik kapasitesi açılış lotlarına yetmeli; partiye ayrılan sarf aynı lotta işaretlenmeli, kayıt/yüklemede ikinci kez verilmemelidir. Sessiz sınırsız ambalaj yoktur. Domates sulaması aynı ham su lotunu kullanır. P0 testleri yeni fixture ile tekrarlanır; A2 dış alım sistemi P0'a taşınmaz.
 
 ## D-004 — İlk ürün kapsamı
 
@@ -51,7 +51,7 @@ Tarih: 26 Eylül 2026 · Durum: Etkin teknik/ürün kararları · Kaynak önceli
 ## Uygulama sırası ve değişiklik yönetimi
 
 1. D-001 satış işlemi/ekonomi ve kurtarma senaryosundan önce.
-2. D-002 yeni kayıt fixture'ı ve D-003 P0 prototip dolabı kurulurken.
+2. D-002/D-003 yeni kayıt fixture'ı ve açılış sarf lotları kurulurken.
 3. D-004 A2 ürün/tarif verisi girilirken.
 4. D-005 yetenek verisi ve UI'si A3'te uygulanırken.
 5. D-006 aday şeması ve işe alım üretimi A3/A4'te uygulanırken.
@@ -123,12 +123,12 @@ Kaynak: anayasa §60.1, §62.1, §63.3; [CONTROLS_AND_UX.md](CONTROLS_AND_UX.md)
 Kaynak: anayasa §17–18, §26, §33–34, §48.1; [DOMAIN_MODEL.md](DOMAIN_MODEL.md).
 
 41. Mantıkta her elma mesh/ID değildir; item ID + adet + kalite + maliyet/kaynak lotu ve fiziksel slot/reservation tutulur. Görsel yığın temsilidir; farklı kalite/maliyet lotu muhasebede kaybolmaz.
-42. Kaynak/dolap/depo/raf/makine/taşıyıcı fiziksel konum ve kapasiteye sahiptir. Her yerden erişilen görünmez ortak havuz yoktur. P0 prototip dolabı ayrı özel kaynak noktasıdır.
+42. Kaynak/depo/raf/makine/taşıyıcı fiziksel konum ve kapasiteye sahiptir. Her yerden erişilen görünmez ortak havuz yoktur. P0 başlangıcı §26.1'deki yerleştirilmiş kaynak ve sarf lotlarıyla yapılır; eski prototip dolabı oyuncu mekaniği değildir.
 43. Taşıma hedefi doluysa işlem başlamaz veya ayrılmış miktar kapasite kadar açıkça onaylanır; fazlalık kaynağında kalır. Kapasite aşımında gizli zemine düşürme yoktur.
 44. Üretilen nihai ürün makine çıkışında bekleyebilir, sonra uyumlu depo/rafa taşınır. Raf zorunlu satış konumudur; depo stoku doğrudan kasada satılmış sayılmaz.
 45. İptal edilen transferde eşya kaynakta veya taşıyıcının yükünde kalır; otomatik yere atılmaz. Oyuncunun açık atık eylemi varsa işaretli atık noktasına kayıtlı lot konur, rastgele despawn yoktur.
-46. P0 tek SKU için arama/sıralama gerekli değildir; A2 çoklu stok panelinde aile/konum filtresi ve ad sırası vardır. Değer sırası ancak muhasebe değeri açık gösteriliyorsa eklenir.
-47. P0 etiketli dolap prototip için kontrollü girdi sağlar. A2 gerçek tedarikçi, kota, fiyat, teslim ve depo kapasitesi kullanır; sınırsız ücretsiz hammadde kaynağı oyuna taşınmaz.
+46. P0 dört satılabilir SKU için aile/konum filtresi ve sıralama gerekli değildir; A2 çoklu stok panelinde aile/konum filtresi ve ad sırası vardır. Değer sırası ancak muhasebe değeri açık gösteriliyorsa eklenir.
+47. P0 girdileri §26.1 açılış sarf lotları ve bahçe kaynağıyla sınırlıdır. A2 gerçek tedarikçi, kota, fiyat, teslim ve depo kapasitesi kullanır; sınırsız ücretsiz hammadde kaynağı oyuna taşınmaz.
 48. P0 lot kaydı kalite alanını taşıyabilir ama tek başlangıç kalitesiyle işler; A3 kalite farkları ayrı lot olarak açılır. Ürün ID'si kalite etiketiyle değiştirilmez.
 49. Ayrı, sınırsız gelir sağlayan “çöp kutusu” mekaniği eklenmez. Atık/elden çıkarma açık onay, kayıp maliyet ve muhasebe hareketiyle uygulanır; son kurtarılabilir temel zinciri yok edemez.
 50. Satış/elden çıkarma fiziksel stoktan atomik düşer; istatistikte işlem/lot özeti kalır. Sonsuza dek bireysel eşya nesnesi saklanmaz.
@@ -139,7 +139,7 @@ Kaynak: anayasa §34, §37, §38, §40.3, §48.4; [ECONOMY_AND_MACHINES.md](ECON
 
 51. Para sabit hassasiyetli tamsayı atom veya eşdeğer kesin decimal sözleşmesiyle tutulur; gösterim iki ondalıktır. `float` toplamı ledger kaynağı olamaz; atom ölçeği/yuvarlama tek kayıtlı teknik sözleşmeyle doğrulanır.
 52. Gerçek satış tamamlandığında bakiye hemen HUD'da güncellenir; toplamak gereken bozuk para düşmez. Küçük para animasyonu yalnız tamamlanmış işlem geri bildirimidir.
-53. P0 referans fiyat sabittir. A2 fiyat kararı ve müşteri fiyat tepkisi açılır; arka arkaya satış kendi kendine gizli fiyat değişimi yaratmaz.
+53. P0 referans fiyat sabittir. A2 temel müşteri fiyat tepkisi açılır; oyuncunun raf fiyatı seçimi ve SKU kilidi A3 kapsamındadır (§58.1/§38.4). Arka arkaya satış kendi kendine gizli fiyat değişimi yaratmaz.
 54. Yetersiz para düğmesi pasif görünür ve “X kredi eksik” nedenini erişilebilir biçimde gösterir. Boşa basınca kırmızı ceza animasyonu veya yanlış satın alma yoktur.
 55. Makine satışı tam iade değildir. §40.3'teki aşınma ve duruma bağlı ikinci el formülü uygulanır; D-001'in son temel zincir koruması önce kontrol edilir.
 56. Yetersiz bakiye işlemi atomik reddedilir; `Math.max(0,bakiye)` ile eksik tutar gizlenmez. Negatif kredi durumu oluşamaz.
@@ -167,7 +167,7 @@ Kaynak: anayasa §18, §38–39, §42, §60.2; [UI_DESIGN_SYSTEM.md](UI_DESIGN_S
 
 Kaynak: anayasa §18, §27–28, §46.2; [CONTROLS_AND_UX.md](CONTROLS_AND_UX.md), [RPG_AND_PROGRESSION.md](RPG_AND_PROGRESSION.md).
 
-71. P0 görevlisi önce boş rafın mevcut müşteri ihtiyacını ve bozulabilecek çıkışı ele alır, sonra girdi/uzun vadeli ikmal işine geçer; yol mesafesi aynı öncelikte bağ kırar. Kontrat/A3 rezervasyon sırası §41.3'e uyar. Her tick sınırsız görev yeniden üretimi yoktur.
+71. P0 görevlisi önce boş rafın mevcut müşteri ihtiyacını, sonra girdi/uzun vadeli ikmal işini ele alır; yol mesafesi aynı öncelikte bağ kırar. Bozulma P0'da yoktur. Kontrat/A3 rezervasyon sırası §41.3'e uyar. Her tick sınırsız görev yeniden üretimi yoktur.
 72. Oyuncu ve çalışan aynı lot için mevcut rezervasyonu paylaşamaz: önce başarıyla rezervasyon alan işlemi sürdürür; diğeri `reserved/stale` sonucu alıp görevi yeniden planlar. Görsel dokunuş tek başına mülkiyet vermez.
 73. P0 oyuncunun odada fiziksel karakteri ve sınırlı taşıma kapasitesi vardır. Kamera tanrı eliyle anlık stok teleportu sağlamaz.
 74. İşsiz çalışan erişilebilir iş istasyonunu kapatmayacak tanımlı bekleme hücresine gider; uygun hücre yoksa güvenli mevcut hücrede durur. Görsel idle hareketi ekonomik iş üretmez.
@@ -188,7 +188,7 @@ Kaynak: anayasa §26, §40, §47.3; [ECONOMY_AND_MACHINES.md](ECONOMY_AND_MACHIN
 84. P0/A2 hazır çıktı alınmayınca yanmaz veya gizli bozulmaz, makine çıkışında bekler. A3 açık raf ömrü kategorisi uygulanır; yeni “overcook” cezası eklenmez.
 85. P0 makine verisi seviye I içerir; yükseltme davranışı A3/A4 kaynak tablosundan açılır. Hız ×2/kapasite ×3 uydurulmaz; yürüyen parti yükseltmeyle çift çıktı üretmez.
 86. Makine state'i `Running/Blocked/NoInput/NoPower/Ready` gibi görsel/ses işaretlerine yansır; düşük cihaz profilinde partikül düşer, metin/ikon sürer. Efekt üretim commit'ini tetiklemez.
-87. P0 biyoyetiştirici tarifi zaten iki girdi kullanır: su + spor. Mimari input listesini baştan destekler; tek girdili arayüzle kısıtlanmaz.
+87. P0 domates hasadı su ve tohum girdisi kullanır; şişeleme tarifleri ham su ve ilgili ambalaj girdisini kullanır (§26.1). Mimari tarif başına birden çok girdiyi destekler; kaldırılmış spor/biyoyetiştirici zinciri uygulanmaz.
 88. P0 aşınma/servis davranışı açılmaz; A3 W=0–100 kalıcı durum ve §40 servis koşulları eklenir. Yeni save sürümü göçü olmadan varsayılan saha sessizce değişmez.
 89. Makine footprint'i ve servis hücresi grid üzerindedir; serbest x,z yerleşim yoktur. 1×1/2×2 tanımlar content'ten gelir.
 90. Yer değiştirirken aynı instance ID, lotlar, mevcut parti, kalan tick, aşınma ve enerji durumu korunur. Taşınma sırasında işlem durur; hedef erişim/çakışma doğrulanmazsa eski yerinde kalır. Makineyi kaldırmak üretim/stoğu sıfırlamaz.
@@ -229,12 +229,12 @@ Bu filtre P0 dış oyuncu denemesinde ölçülür: oyuncu ilk üretim–raf–sa
 |---|---|---|
 | A.1 | Mat düz renkli, az fasetli **low-poly kübik/blok biçimli** mağaza. Küp ve prizma siluetleri kullanılır; Minecraft dokusu, gerçekçi PBR ve cel-shaded anime hedef değildir. | Anayasa §62.2; [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md) §2. |
 | A.2 | Başlangıç satış odası **6×6 hücre**; bağlantı koridoru en az 2 hücre geniştir. P0 tek oda bununla başlar; sonraki modüller ayrı eklenir. | Anayasa §9. |
-| A.3 | **1 grid hücresi = 1 metre = Three.js dünyasında 1 yatay birim** uygulama kararıdır. P0 şişeleme tezgâhı 1×2 footprint kullanır; domates yatağı içerik tanımından okunur; kasa, raf ve dolap kendi içerik tanımından okunur. Müşteri bir yürüme hücresini geçici kullanır, makine gibi kalıcı 1×1 yerleşim nesnesi değildir. | §9/§26 footprint; metre→Three.js birimi eşlemesi teknik karar. |
+| A.3 | **1 grid hücresi = 1 metre = Three.js dünyasında 1 yatay birim** uygulama kararıdır. P0 şişeleme tezgâhı 1×2, domates yatağı ve çeşme 2×2, kasa ve raf 1×1 footprint kullanır; kesin servis hücreleri pafta §13.1'dedir. Müşteri bir yürüme hücresini geçici kullanır, makine gibi kalıcı 1×1 yerleşim nesnesi değildir. | §9/§26 ve katalog/pafta §13.1 footprint; metre→Three.js birimi eşlemesi teknik karar. |
 | A.4 | Hafif ambient/hemisphere ve bir yön ışığıyla mat renkler; blob veya baked gölge varsayılan. Her makine/aktör için gerçek zamanlı gölge yoktur. Düşük cihazda görsel kalite azalırken oyun kuralı aynı kalır. | §62.2/§63.1. |
-| A.5 | Ortografik kamera, yatay düzlemde 45° çapraz, aşağıya 30–35°; P0 başlangıç kararı **32°**. 6×6 oda için hedef `(3,0,3)`, başlangıç kamera pozu yaklaşık **`(11,7.07,11)`** (`d=8`, yükseklik `√2·8·tan(32°)`). Ortografik görüş yüksekliği safe-area ve ekran oranına göre hesaplanır; cihaz değişince dünya ölçeği/koordinatı değişmez. | §62.3 açıyı sabitler; bu poz ve responsive görüş hacmi uygulama kararı. |
+| A.5 | Ortografik kamera, yatay düzlemde 45° çapraz, aşağıya 30–35°; P0 başlangıç kararı **32°**. 6×6 oda için yerel hedef `(3,0,3)` ve yerel kamera pozu yaklaşık **`(11,7.07,11)`** (`d=8`, yükseklik `√2·8·tan(32°)`). D-042 paftasında oda dünyada `x12..17,z22..27` olduğundan hedef `(15,0,25)`, aynı ofsetle başlangıç pozu yaklaşık `(23,7.07,33)` olur. Ortografik görüş yüksekliği safe-area ve ekran oranına göre hesaplanır; cihaz değişince dünya ölçeği/koordinatı değişmez. | §62.3 açıyı sabitler; bu poz ve responsive görüş hacmi uygulama kararı. |
 | A.6 | P0 iki parmakla sınırlı pan ve pinch zoom, “karaktere dön” kontrolü vardır; serbest orbit yoktur. 90° inşa döndürmesi nesneyi döndürür, kamerayı değil. | §60.1/§62.3; [CONTROLS_AND_UX.md](CONTROLS_AND_UX.md). |
 
-P0 gerçek cihaz kontrolü: 6×6 odanın ana eylemi HUD altında kalmamalı; 2×2 yetiştiricinin servis hücresi ile 1×2 paketleyicinin girdi/çıktı ve yürüme yolu yerleştirme önizlemesinde doğrulanmalıdır. Kamera `d`/zoom sınırı bu kontrolle kayda alınır, kaynakta verilmemiş sabit sayı uydurulmaz.
+P0 gerçek cihaz kontrolü: 6×6 odanın ana eylemi HUD altında kalmamalı; 2×2 domates yatağının servis hücresi ile 1×2 şişeleme tezgâhının girdi/çıktı ve yürüme yolu yerleştirme önizlemesinde doğrulanmalıdır. D-042 paftasındaki dünya kaydırması kamera hedefine uygulanır; `d`/zoom sınırı cihaz kontrolüyle kayda alınır, kaynakta verilmemiş sabit sayı uydurulmaz.
 
 ## D-018 — B. UI, hareket ve yerleştirme
 
@@ -255,7 +255,7 @@ P0 gerçek cihaz kontrolü: 6×6 odanın ana eylemi HUD altında kalmamalı; 2×
 | C.3 | Para/erişim yokken satın alma düğmesi pasif görünür, yanında **“X kredi eksik”** veya somut sebep okunur. Stale durum onay anında tekrar denetlenir; kısa bildirim ve ilgili alan etiketi gösterilir. Yalnız kırmızı titreşim veya sessiz pasif düğme kullanılmaz. | §60.1; D-012. |
 | D.1 | P0 öğretim müşterisi ilk raflı satışı gösterecek tanımlı tetikle çıkar; sonrası P0 ritmi **56 ziyaret / 900 aktif saniye** tabanıyla seed'li geliş sürecini sınar: her 100 ms tick'te `p=56/9000` (yaklaşık 0,00622), uygun kapı/kapasite varsa müşteri RNG'siyle karar. Bu **ortalama** 16,1 sn aralıktır, tam zaman garantisi değildir. Öğretim gelişini normal RNG ziyareti olarak iki kez sayma. A2+ taban ziyaret sayıları bölüm tablosundan; küresel olay etkisi yalnız geliş oranına, aile etkisi sepet ağırlığına uygulanır. Fiyat tepkisi talepte ayrıca hesaplanır. | §37.3/§44; P0 RNG uygulama kararı. |
 | D.2 | P0 tek örnek müşteri için **40 aktif simülasyon saniyesi** kuyruk sabrı kararı; geri sayım yalnız kasadaki beklemede işler, yürüyüşte/uygulama kapalıyken işlemez. A2 üç profil için anayasadaki **40/55/30 sn** değerleri geçerlidir; rahatlık ayarı kaynak sınırlarına uyar. P0 değeri dış oyuncu denemesiyle ayarlanabilir. | §38.1; P0 profil eşlemesi uygulama kararı. |
-| D.3 | P0'da dinamik fiyat yoktur: küçük su için başlangıç katalog fiyatı **1,50 kredi** (§26 ve yerel ürün ağacı). Fiyatı art arda satış veya oyuncu nakdi değiştirmez. A2 raf fiyatı seçimi ve müşteri fiyat tepkisi ayrı açılır. | §26/§38; D-012. |
+| D.3 | P0'da dinamik fiyat yoktur: küçük su için başlangıç katalog fiyatı **1,50 kredi** (§26 ve yerel ürün ağacı). Fiyatı art arda satış veya oyuncu nakdi değiştirmez. A2 temel müşteri fiyat tepkisi, A3 oyuncunun raf fiyatı seçimi açılır. | §26/§38.4/§58.1; D-012. |
 
 ### Psikolojik oyun ilkesi ve ölçüm
 
@@ -386,3 +386,19 @@ Neo-Brutalist DOM arayüzünde `env(safe-area-inset-top/right/bottom/left)` orta
 **Eski → yeni:** §52.2/§54.3 “hedef bitince otomatik yeni hedef açılmaz” → erişilebilir sonraki hedef HUD'da otomatik önerilir, ekonomik görev kabulü yapılmaz. §53 “sonsuz cliffhanger yok” → gerçek içerik varsa ufuktaki sonraki hedef sürekli gösterilebilir. §54.2 “oturum süresini büyütmek başarı değildir” → kesintisiz/uzun oturum tasarım hedefi ve ayrı ölçüdür. §60.2 kısa oturum basamakları → öğretim ara hedefi; zorunlu bitiş değil. Mevcut kayıt, çıkış, çevrimdışı durma ve reklam/ödeme sınırları korunur. RULES.md ve UX belgeleri bu yeni kaynağa uyarlanır.
 
 **Denge durumu:** Teşhir +%200 satış hızı (normalin 3×'i), doğal sürpriz %15–20, sıcak ürün +%25 kâr/ilk 3 aktif dakika, vardiya dalgası 60 aktif saniye, pazarlık +%20–30 kâr başlangıç hipotezidir; uygulanmış özellik veya kanıt değildir. Bu sayılar mevcut ziyaret bütçesi, fiyat, lot muhasebesi ve dekor sınırlarıyla çatışırsa uygulama öncesi yeniden değerlendirilir. Tier 5 yoktur; pazarlık adayı uygun Tier 4 ürünleriyle sınırlıdır. 0,3 saniye etkileşim beklemesi ve D-025 ses sınırı sürer; yeni evrensel taşıma cezası yaratılmaz.
+
+## D-042 — Varsayılan dünya koordinatları ve fazlı oda paftası
+
+**Köken:** Kullanıcının market içi, odalar, üretim alanı, yol, otopark, ağaç ve diğer alanların yerini uygulayıcı ajan için kesinleştirme isteği. Ürün kaynakları §9'un 1 m/6×6/iki hücre koridoru, §58.1 fazları, §62–63 kamera/cihaz ve §65 dış çevresidir. Tam hücre koordinatları bu kaynaklarda verilmediği için [DUNYA_YERLESIM_PLANI.md](DUNYA_YERLESIM_PLANI.md) teknik varsayılan yerleşimidir; kanıtlanmış cihaz ölçüsü değildir.
+
+**Karar:** 48×40 planlama ızgarasında P0 satış `x12..17,z22..27`, bahçe `x4..9,z20..27`, market önü güney `z28..34`, ana yol `z35..38` ve fazlı 6×6 oda matrisi kullanılır. Kapılar iki hücrelik merkezi eşiklerdir. A4 ağaç/taş, hayvan, dört başlangıç park cebi ve bakım kesimleri paftadaki rezervlerin içinde kalır. P0'da yalnız satış/bahçe ve gerçek temel nesneler yapılır; sonraki oda/park/araçlar rezerv olarak durur. D-017 yerel kamera hedefi dünya konumuna kaydırılır; açı/değer değişmez.
+
+**Değişiklik ve kanıt:** İnşa edilebilir modüller §9'a göre hareket edebilir; kayıttaki gerçek koordinat paftanın varsayılanından üstündür. Yaya/servis/kapı/yol altyapısı korunur. İçerik footprint'i veya servis hücresi ayrılan nesne rezerviyle uyuşmazsa aynı sahnede sessiz kaydırma yapılmaz; pafta, rota grafiği ve gerekiyorsa kayıt göçü birlikte revize edilir. P0 gerçek cihazda iki hücre geçişi, kasa/raf/makine erişimi ve HUD altında kalmama; A2–A4'te faz kapıları, teslim ve park/servis ayrımı ayrıca ölçülür. Bu belge yerleşimi tanımlar, çalışan kod/test sonucu değildir.
+
+## D-043 — Ferah pafta, kesin portlar ve dört arazi
+
+**Köken:** Kullanıcının dünya paftasındaki açık noktaları cevaplama ve klostrofobik olmayan market isteği. Üst kaynak §9/§26/§32/§33/§58.1/§65, içerik kaynağı [katalog §2/§7](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md), tek koordinat/varlık kararı [pafta §13](DUNYA_YERLESIM_PLANI.md). D-042'nin P0 ve dış alan varsayılanları §13 ayrıntısıyla tamamlanır.
+
+**Karar:** P0 satış 6×6 kalır; raf `fixture.sales_shelf` ve kasa `fixture.checkout` 1×1, çeşme ve domates `source.crop_plot` 2×2, şişeleme 1×2'dir. Gerçek servis/alışveriş yüzleri ve P0 tek müşteri/A2 mantıksal sıra rezervasyonları pafta §13.1'dir. Satış içindeki eski 2×2 makine nişi boş görüş alanıdır; işlevsel müşteri dinlenme odası A4'te ayrı, cam cepheli 4×4 `x6..9,z28..31` pavyondur ve §32.1'deki 160 kredi kabuk ile gerekli donanım kuralını kullanır. A2 geçici teslim pedi §33.3 sipariş komutuyla gerçek kabul yapabilir, ancak oda/12 slot tampon kapasitesi vermez; 200 kredi oda sonradan alınırsa aynı lot ikinci kez kabul edilmez. Göl, mera, bağ/zeytinlik ve tarla parselleri ile iki hücreli erişimleri §13.3'tedir. Yeni içerik portlarının bedelleri katalogda başlangıç denge hipotezidir.
+
+**Teknik ve sanat sınırı:** Duvar/kapı ölçüsü, 90° oda dönüşünde yeniden türeyen geçit/collider, park-yaya araları, küçük dekor cepleri, A4 hayvan/araç ritmi ve W1–W3 bakım döngüsü pafta §13'tedir. 57 SKU'nun fiziksel işlem portu katalog §7'de ID ile eşlenir. Genel `item.salt` ile `item.lake_salt` ayrı lot; balmumu petek balıyla aynı 14 sn/0 E işlemdir. Varsayılan görsel yoğunluk test edilmeyen sanatsal hedeftir; Domain stok/para kuralı veya tamamlanmış cihaz kanıtı değildir. Kod, save göçü ve cihaz/oyuncu kabulü ilgili PLAN fazlarında ayrıca yapılır.

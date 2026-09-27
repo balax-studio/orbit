@@ -6,7 +6,7 @@ Tek bağlayıcı ürün kaynağı [OYUN_GELISTIRME_DEVIR_DOSYASI.md](OYUN_GELIST
 
 Orbit Market, iOS/Android için dikey izometrik 3B market oyunudur. Çekirdek döngü taşı → üret → rafla → sat; kısa oturum hedefi 3–8 dakikadır. Three.js/TypeScript web oyunu Capacitor ile paketlenir. Yerel simülasyon çevrimdışıdır; ödeme ve isteğe bağlı kozmetik reklam bağlantı ister.
 
-26 Eylül 2026 depo incelemesi: Vite/React/TypeScript başlangıç iskeleti ve React/R3F/Drei/Zustand bağımlılık beyanları vardır; App.tsx başlangıç sayaç ekranıdır. Bu, çalışan oyun veya P0 kabulü değildir. Hedef ilk UI DOM/CSS/TypeScript'tir; mevcut bağımlılıklar zorunlu mimari sayılmaz. Kod geçişi ayrı geliştirme işidir. Bu revizyonda yalnız diğer Markdown dosyaları düzenlenmiştir; anayasa, kaynak kod ve paket ayarları değiştirilmemiştir.
+26 Eylül 2026 depo incelemesi: Vite/React/TypeScript başlangıç iskeleti ve React/R3F/Drei/Zustand bağımlılık beyanları vardı; App.tsx başlangıç sayaç ekranıydı. Bu tarihsel inceleme çalışan oyun veya P0 kabulü değildir. Hedef UI DOM/CSS/TypeScript'tir; mevcut bağımlılıklar zorunlu mimari sayılmaz. Kod durumu geliştirme başlamadan yeniden doğrulanır. Sonraki belge revizyonları anayasayı ve yan belgeleri de değiştirmiştir; bunlar çalışan özellik kanıtı değildir.
 
 ## Okuma sırası
 
@@ -18,8 +18,10 @@ Orbit Market, iOS/Android için dikey izometrik 3B market oyunudur. Çekirdek d�
 4. [ARCHITECTURE.md](ARCHITECTURE.md) ve [DOMAIN_MODEL.md](DOMAIN_MODEL.md): teknik sınırlar ve veri sahipliği.
 5. [CONTROLS_AND_UX.md](CONTROLS_AND_UX.md) ve [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md): mobil etkileşim ve görsel sözleşme.
 6. [ECONOMY_AND_MACHINES.md](ECONOMY_AND_MACHINES.md), [RPG_AND_PROGRESSION.md](RPG_AND_PROGRESSION.md), [STORY_AND_FACTIONS.md](STORY_AND_FACTIONS.md): ilgili fazda açılacak sistemler.
-7. [KARARLAR.md](KARARLAR.md): D-001–D-039 kararları, 100 ek soru, A–E görsel/UI/veri, derin mimari, reklam/IAP/gizlilik ve mobil dayanıklılık cevapları; çelişkide anayasa üstün gelir.
+7. [KARARLAR.md](KARARLAR.md): D-001–D-043 kararları; teknik varsayımlar, yerleşim ve açık bırakılan uygulama seçimleri. Çelişkide anayasa üstün gelir.
 8. [TEST_STRATEGY.md](TEST_STRATEGY.md) ve [MEMORY.md](MEMORY.md): kabul kanıtları, mevcut durum ve kalan açık kararlar.
+
+Sabit dünya koordinatları, oda/kapı/port ve görsel malzeme için [DUNYA_YERLESIM_PLANI.md](DUNYA_YERLESIM_PLANI.md); açılıştan oyun içi panele düğmeler için [EKRAN_VE_MENU_AKISI.md](EKRAN_VE_MENU_AKISI.md) okunur. [Tycoon görsel referansları](TYCOON_MEKANIKLERI_VE_GORSEL_REFERANSLAR.md) bağlayıcı mekanik kaynağı değildir.
 
 ## Çalıştırma ve paketleme durumu
 

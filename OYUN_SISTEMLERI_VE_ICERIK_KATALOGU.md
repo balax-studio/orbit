@@ -4,6 +4,8 @@ Bu belge, [ana ürün sözleşmesi §26](OYUN_GELISTIRME_DEVIR_DOSYASI.md) kapsa
 
 **Başlangıç kimlikleri:** `source.spring_water` aktif simülasyon zamanında `item.raw_water` üretir; 1 birim 0,5 litredir. Ham su şişeleme ve sulama arasında paylaşılır; şişelenmiş üç SKU ayrı lotlardır. `item.heirloom_tomato` doğrudan rafta satılır veya püre/salça hattına ayrılır. Başlangıç haznesi, debi ve sarf lotları [ana kaynak §26.1](OYUN_GELISTIRME_DEVIR_DOSYASI.md) ile aynıdır.
 
+**P0 fiziksel içerik tanımı:** `source.spring_water` 2×2; `source.crop_plot`un başlangıç domates örneği 2×2; `station.bottler` 1×2; `fixture.sales_shelf` 1×1 ve `fixture.checkout` 1×1'dir. Kasa/rafın `fixture.*` kimliği satılabilir SKU veya yeni ücretli açılış değildir. Yön, kesin servis/alışveriş hücresi ve başlangıç koordinatı [pafta §13.1](DUNYA_YERLESIM_PLANI.md) tablosunda tek tek verilir; içerik tanımı o tabloyla aynı kalmalıdır. Daha sonraki 90° dönüşte footprint ve port birlikte döner, geçersiz rota reddedilir.
+
 **Tarif tamamlama kapısı:** Tabloda girdisi yazılan fakat kaynağı veya ara tarifi yazılmayan püre, çay yaprağı, kahve, maya, ceviz, sirke, baharat ve benzeri öğeler kendiliğinden oluşmaz. Her biri yerel üretim veya fiyatı görünen tedarik SKU'su olarak tanımlanır. Kaynağı olmayan tarif kilitli kalır; A4 içerik doğrulaması bu eksikleri raporlar. Adet/süre ve ekonomik denge doğrulanmadan faz kabulü verilmez.
 
 ---
@@ -66,6 +68,14 @@ Bu belge, [ana ürün sözleşmesi §26](OYUN_GELISTIRME_DEVIR_DOSYASI.md) kapsa
 * **Taş Fırın & Esnaf Ocağı (`station.stone_oven` - 1×2 Grid, 2 E):** Ekmek, pide, boyoz, menemen, kavurma ve pekmezli köme pişirir.
 * **El Dokuma & Terzi Tezgâhı (`station.loom` - 1×2 Grid, 1 E):** Kumaş, yün şal, mumlu branda ve heybe diker.
 * **Damıtma İbiği & Şifahane (`station.distillery` - 1×2 Grid, 1 E):** Sabun, sirke ve esans hazırlar.
+* **Ürün Parseli (`source.crop_plot` - 2×2 Grid, 0 E):** Yalnız atanmış tek mahsul kimliğiyle domates, salatalık, biber, siyez, ayçiçeği, mısır, pamuk, zeytin, üzüm veya tanımlı ot/fidan ürününü yetiştirir. P0 domates yatağı bu kimliğin `item.heirloom_tomato` varyantıdır; her mahsulün kendi tarif süresi/girdisi korunur. Ağaç/asma/yatak görsel varyantı bedelsiz ikinci kaynak değildir.
+* **Kümes (`source.chicken_coop` - 2×2 Grid, 0 E):** A2'de buğday girdisiyle taze yumurtanın tek üretim portu; fiyatı/edinimi ayrıca görünür olmalı, başlangıç nesnesi değildir.
+* **İnek Mandırası & Yayık (`source.cow_dairy` - 2×2 Grid, tarifteki E):** A2'de süt üretimi ve açılmış ayran/tereyağı tarifleri aynı nesnenin sıralı işleri; aynı anda üç ayrı ücretsiz çıktı vermez.
+* **Saklama/Salamura Tezgâhı (`station.preservation_table` - 1×2 Grid, tarifteki E):** Sele zeytin, olgun peynir, turşu ve zeytinyağlı kuru domatesin tek işlem portu; yalnız erişilebilir tarif çalışır.
+* **Güneşleme Askısı (`station.drying_rack` - 1×2 Grid, 0 E):** Üzüm kurutmanın dış parsel portu; güneşleme yeni hava/mevsim kuralı değildir.
+* **Göl Tuzu Havuzu (`source.salt_pan` - 2×2 Grid, 1 E):** Göl parselinde 6 aktif saniyede bir `item.lake_salt` üretir; satılabilir torba ile tarif girdisi aynı lot kimliğidir.
+
+**Yeni fiziksel portların başlangıç kurulum bedeli (denge hipotezi):** P0 kurulu domates `source.crop_plot`u ücretsiz açılış nesnesidir; sonradan alınan 2×2 `source.crop_plot` kabuğu 40 kredi (tohum/fide ayrı), `source.chicken_coop` 90 kredi, `source.cow_dairy` 140 kredi, `station.preservation_table` 100 kredi, `station.drying_rack` 60 kredi, `source.salt_pan` 120 kredidir. Bunlar oda kabuğu/zone bedeli değildir ve onları bedelsiz vermez. Satın alma teklifi kurulum ile zorunlu girdiyi ayrı gösterir; gerçek cihaz/oyuncu ekonomi testinden sonra değerler revize edilir. P0 başlangıç nesneleri ikinci kez ücretlendirilmez.
 
 ---
 
@@ -92,11 +102,12 @@ P0 açılış sarfı 3–8 dakikalık döngüyü taşır. A2'de Yerel Kooperatif
 | Girdi | Kooperatif birim bedeli | Yerel kaynak / açılış | Tariflerdeki rolü |
 |---|---:|---|---|
 | `item.lemon_mint_bundle` | 0,80 kredi | Bahçe ot yatağı / A3 | Limonata |
+| `item.einkorn_wheat` | 1,80 kredi | Geniş tarla `source.crop_plot` / A3 | A2 kümes yumurtasının görünür kooperatif yem girdisi; A3'te yerel üretim alternatifi |
 | `item.tea_leaf` | 0,60 kredi | Bahçe çay fidanı / A3 | Semaver çayı |
 | `item.coffee_bean` | 1,00 kredi | Bahçe kahve fidanı / A3 | Dibek kahvesi |
 | `item.yeast` | 0,40 kredi | Kendi mayasını ayırma / A3 | Ekmek ve hamur |
 | `item.fodder` | 0,40 kredi | 1 siyez → 2 yem, değirmen 4 sn / A3 | Mandıra/ağıl |
-| `item.salt` | 0,30 kredi | Göl tuzu havuzu / A3 | Peynir, salça, salamura |
+| `item.salt` | 0,30 kredi | Kooperatif; yerel göl tuzu bununla aynı lot değildir | Genel tuz yazan tarifler |
 | `item.wood_fuel` | 0,30 kredi | Bağ/zeytinlik budaması / A3 | Odun ateşi ve tütsü |
 | `item.walnut` | 2,50 kredi | Bahçe ceviz ağacı / A3 | Cevizli köme |
 | `item.herb_bundle` | 0,20 kredi | Bahçe ot yatağı / A3 | Kekik ve ot |
@@ -104,7 +115,7 @@ P0 açılış sarfı 3–8 dakikalık döngüyü taşır. A2'de Yerel Kooperatif
 | `item.salep_tuber` | 2,00 kredi | Mera bitki yatağı / A3 | Sıcak salep |
 | `item.jar` | 0,40 kredi | Görünür ambalaj tedariki / A2 | Turşu ve kavanozlu ürün |
 
-A3 yerel alternatiflerinde tek yatak/fidan çıktısı sıralı çalışır: ot yatağı 8 sn, çay fidanı 10 sn, kahve fidanı 12 sn, ceviz ağacı 15 sn, baharat yatağı 10 sn, mera salep yatağı 12 sn; her hasat 1 ürün ve 1 ham su tüketir. Kurulum bedelleri sırasıyla 60/80/100/120/80/120 kredidir. Her kaynak 8 çıktı kapasiteli tampon kullanır; çakışan hasat ikinci çıktı üretmez. Bağ/zeytinlik budamasında 20 saniyede 2 odun sarfı, göl tuzu havuzunda 6 saniyede 1 tuz çıkar; bu ikisi de ilgili satın alınmış araziye bağlıdır. Bunlar başlangıç denge değerleridir ve P0 döngüsünü yavaşlatmaz. Bir tarifin ilk kez açılması için kullanılan girdinin tedarik yolu erişilebilir olmalıdır. Standart kooperatif nakliyesi 5 kredi/sipariş ve §33 kapasite/kota sınırlarıyla çalışır; P0'daki ilk sarf açılış lotudur, bedelsiz tekrar verilemez.
+A3 yerel alternatiflerinde tek yatak/fidan çıktısı sıralı çalışır: ot yatağı 8 sn, çay fidanı 10 sn, kahve fidanı 12 sn, ceviz ağacı 15 sn, baharat yatağı 10 sn, mera salep yatağı 12 sn; her hasat 1 ürün ve 1 ham su tüketir. Kurulum bedelleri sırasıyla 60/80/100/120/80/120 kredidir. Her kaynak 8 çıktı kapasiteli tampon kullanır; çakışan hasat ikinci çıktı üretmez. Bağ/zeytinlik budamasında 20 saniyede 2 odun sarfı, göl tuzu havuzunda 6 saniyede 1 `item.lake_salt` çıkar; bu ikisi de ilgili satın alınmış araziye bağlıdır. `item.salt` yalnız genel tuz tariflerine kooperatiften gelir; “göl tuzu” diyen tarifler doğrudan `item.lake_salt` tüketir, iki ID birbirine ücretsiz çevrilmez. Bunlar başlangıç denge değerleridir ve P0 döngüsünü yavaşlatmaz. Bir tarifin ilk kez açılması için kullanılan girdinin tedarik yolu erişilebilir olmalıdır. Standart kooperatif nakliyesi 5 kredi/sipariş ve §33 kapasite/kota sınırlarıyla çalışır; P0'daki ilk sarf açılış lotudur, bedelsiz tekrar verilemez.
 
 | Ara ürün | Kaynak tarifi | İstasyon / aktif süre | Erişim |
 |---|---|---|---|
@@ -112,7 +123,7 @@ A3 yerel alternatiflerinde tek yatak/fidan çıktısı sıralı çalışır: ot 
 | `item.cotton_thread` | 2 ham pamuk → 2 iplik | Değirmen/çırçır, 8 sn, 1 E | A3 |
 | `item.vinegar` | 2 siyah üzüm + 1 ham su → 1 sirke | Damıtma tezgâhı, 8 sn, 1 E | A3 |
 
-Fırın/ocak tarifinde odun ateşi yazıyorsa `item.wood_fuel` bir sarf olarak rezerve edilir; tuz, maya, baharat, ot ve kavanoz da yazıldıkları tarifte stoktan düşer. `item.natural_beeswax` ayrı bedelsiz hasat değildir: arılıkta tek 14 saniyelik hasat aynı işlemde 1 petek balı ve 1 balmumu verir; girdinin lot maliyeti iki çıktıya paylaştırılır. Böylece arılığı iki kez çalıştırıp aynı çiçek kaynağından çift ürün çıkarma yolu açılmaz.
+Fırın/ocak tarifinde odun ateşi yazıyorsa `item.wood_fuel` bir sarf olarak rezerve edilir; tuz, maya, baharat, ot ve kavanoz da yazıldıkları tarifte stoktan düşer. `item.natural_beeswax` ayrı bedelsiz hasat değildir: arılıkta tek **14 saniye, 0 E** hasat aynı işlem kimliğiyle 1 petek balı ve 1 balmumu verir; girdinin lot maliyeti iki çıktıya paylaştırılır. Balmumunun tabloda görülen 1,50 kredi maliyeti bu ortak işlemin ayrılan payıdır, ikinci bir enerji/işlem ücreti değildir. Böylece arılığı iki kez çalıştırıp aynı çiçek kaynağından çift ürün çıkarma yolu açılmaz.
 
 | SKU Kimliği | Türkçe Ürün Adı | Girdiler & Ara Formlar | Süre (sn) | Güç (E) | Yük Slotu | Ham Maliyet | Taban Satış | Birim Kâr | Kâr Oranı |
 |---|---|---|---|---|---|---|---|---|---|
@@ -142,12 +153,12 @@ Fırın/ocak tarifinde odun ateşi yazıyorsa `item.wood_fuel` bir sarf olarak r
 | `item.grape_molasses` | Kazan Kaynatması Üzüm Pekmezi| 3 Siyah Üzüm + Odun Ateşi | 14 | 2 | 1 | 6,00 | 20,00 | +14,00 | %233 |
 | `item.walnut_sausage` | Cevizli Pekmez Kömesi / Sucuk| 1 Üzüm Pekmezi + 1 Ceviz (2.50)| 16 | 2 | 1 | 8,50 | 32,00 | +23,50 | %276 |
 | **Tier 2.5: Hayvancılık, Mandıra & Arılık** | | | | | | | | | |
-| `item.farm_egg` | Taze Köy Yumurtası | 1 Buğday (Kümes) | 6 | 0 | 1 | 1,80 | 4,50 | +2,70 | %150 |
+| `item.farm_egg` | Taze Köy Yumurtası | 1 `item.einkorn_wheat` (Kümes) | 6 | 0 | 1 | 1,80 | 4,50 | +2,70 | %150 |
 | `item.fresh_milk` | Taze İnek Sütü | 2 Su + 1 Ot (Mandıra) | 8 | 1 | 1 | 2,00 | 5,50 | +3,50 | %175 |
 | `item.churned_ayran` | Köy Yayık Ayranı | 1 Taze Süt + 1 Su + Tuz | 8 | 1 | 1 | 2,70 | 7,50 | +4,80 | %177 |
 | `item.farm_butter` | Geleneksel Köy Tereyağı | 2 Taze Süt (Yayık) | 10 | 1 | 1 | 4,00 | 12,00 | +8,00 | %200 |
 | `item.comb_honey` | Karakovan Petek Balı | Bostan Çiçekleri (Arılık) | 14 | 0 | 1 | 2,50 | 18,00 | +15,50 | %620 |
-| `item.natural_beeswax` | Saf Doğal Balmumu | Arılık Hasat Yan Ürünü | 12 | 1 | 1 | 1,50 | 12,00 | +10,50 | %700 |
+| `item.natural_beeswax` | Saf Doğal Balmumu | Petek balıyla aynı arılık hasadı | 14 | 0 | 1 | 1,50 | 12,00 | +10,50 | %700 |
 | `item.raw_wool` | Kırkılmış Ham Koyun Yünü | 1 Buğday/Ot (Ağıl) | 12 | 0 | 2 | 1,80 | 8,00 | +6,20 | %344 |
 | `item.goat_milk` | Yağlı Keçi Sütü | 2 Su + 1 Dağ Otu (Ağıl) | 8 | 1 | 1 | 2,20 | 6,50 | +4,30 | %195 |
 | `item.aged_cheese` | Ezine Tipi Olgun Koyun Peyniri| 2 Keçi Sütü + 1 Göl Tuzu + Maya | 16 | 1 | 1 | 5,50 | 22,00 | +16,50 | %300 |
@@ -192,7 +203,7 @@ Fırın/ocak tarifinde odun ateşi yazıyorsa `item.wood_fuel` bir sarf olarak r
 ## 5. İlerleme ve Arazi Açılma Aşamaları (P0 → A3)
 
 1. **P0 (Su & Manav Siftahı):** Memba çeşmesi, şişeleme ve domates yatağı. Müşteriler su ve taze domates alarak ilk nakit döngüsünü kurar.
-2. **A2 (Mandıra, Çay Ocağı ve Taş Fırın):** Kümes, inek mandırası ve semaver kurulur. Taze yumurta, süt, yayık ayranı, sıcak çay, ekmek ve menemen tezgaha çıkar.
+2. **A2 (Mandıra, Çay Ocağı ve İlk İşleme):** Kümes, inek mandırası ve semaver kurulur. Taze yumurta, süt, yayık ayranı, tereyağı ve sıcak çay tezgâha; tereyağı ilk işlenmiş satılabilir gıdadır. A2 domates püresi işlenmiş **ara ürün** olarak üretim hattına çıkar. Ekmek ve menemen Tier 3 tarifleriyle A3'te açılır; A2'de hazır satış dekoru değildir.
 3. **A3 (Göl, Mera, Zeytinlik ve Bağ Genişlemesi):**
    - Göl (800 Kr), Mera (500 Kr), Zeytinlik/Bağ (450 Kr) ve Tarla (400 Kr) arazileri açılır.
    - Sele zeytini, sızma zeytinyağı, üzüm pekmezi, cevizli köme, alabalık tütsüsü, ezine peyniri, petek balı ve çemenli pastırma devreye girer.
@@ -201,3 +212,30 @@ Fırın/ocak tarifinde odun ateşi yazıyorsa `item.wood_fuel` bir sarf olarak r
 ## 6. §64 adayları için içerik kapısı
 
 Bu katalog Tier 1–4 ile sınırlıdır; Tier 5, Termal Akü veya Altın Karakovan Balı adının örnekte geçmesi bunları satılabilir SKU yapmaz. VIP isteği, hijyen sabun/kolonya sarfı, vurgu tezgâhı, Tier 4 pazarlığa uygun ürün, doğal bonus çıktısı ve sıcaklık fırsatı için kalıcı ID, edinim/tarif yolu, süre, maliyet, fiyat ve faz tanımı tamamlanmadan ekonomik etki açılmaz. İnci mevcut göl ürünüdür; bonus çıkışında da gerçek lot olur. Aday dekorlar §32 işlevsel dekor tavanına bağlı ücretsiz nesnelerdir; kozmetik görünüm yeni cazibe puanı taşımaz. %15–20, +%25 ve 3× değerleri §64 başlangıç hipotezidir, katalog fiyatı veya uygulanmış özellik değildir.
+
+## 7. Ürün → fiziksel işlem portu eşlemesi
+
+Bu eşleme [yerleşim paftası §11–13](DUNYA_YERLESIM_PLANI.md) ile birlikte kullanılır. Aynı hücredeki tek istasyon **sıralı** parti işler; ürün listesi bedava paralel makine demek değildir. Görsel malzeme üretimi başlatmaz. Ücretli A2/A3 kaynak ve istasyonların açılma/edinim koşulları kendi fazında görünür teklif olarak tanımlanır; P0 açılışında yalnız §26.1 nesneleri kurulu gelir. Kimliklerin burada bir porta atanması tek başına satın alma, bedava yerleştirme veya ekonomi dengesi onayı değildir.
+
+| Fiziksel kaynak/istasyon | Satılabilir SKU kimlikleri ve gerekli ara port |
+|---|---|
+| `station.bottler` | `item.glass_water_small`, `item.water_jug_5l`, `item.water_carboy_19l`, `item.fresh_lemonade`, `item.brewed_tea`, `item.mortar_coffee`, `item.mountain_salep` |
+| `source.crop_plot` | `item.heirloom_tomato`, `item.local_cucumber`, `item.village_pepper`, `item.einkorn_wheat`, `item.sunflower`, `item.sweet_corn`, `item.aegean_cotton`, `item.fresh_olives`, `item.black_grapes` |
+| `station.stone_oven` | `item.roasted_corn`, `item.walnut_sausage`, `item.sourdough_bread`, `item.village_tomato_paste`, `item.pot_confit`, `item.baked_pastry`, `item.sucuk_pide`, `item.canned_menemen`, `item.tarhana_soup`; ara port: `item.tomato_puree` |
+| `station.oil_press` | `item.extra_virgin_olive_oil`, `item.sunflower_oil`, `item.grape_molasses` |
+| `station.preservation_table` | `item.cured_olives`, `item.aged_cheese`, `item.jarred_pickle`, `item.marinated_sun_tomatoes`, `item.village_breakfast`, `item.pastirma_wrap`, `item.smoked_fish_wrap` |
+| `station.drying_rack` | `item.raisins` |
+| `source.chicken_coop` | `item.farm_egg` |
+| `source.cow_dairy` | `item.fresh_milk`, `item.churned_ayran`, `item.farm_butter` |
+| `station.beehive_apiary` | Aynı 14 saniye/0 E/tek transaction: `item.comb_honey` + `item.natural_beeswax` |
+| `station.sheep_pen` | `item.raw_wool`, `item.goat_milk`, `item.raw_meat` |
+| `station.fishing_dock` | `item.fresh_trout`, `item.lake_reeds`, `item.freshwater_pearl` |
+| `source.salt_pan` | `item.lake_salt` |
+| `station.smokehouse` | `item.smoked_trout`, `item.cured_pastirma` |
+| `station.loom` | `item.woven_basket`, `item.woven_fabric`, `item.wool_shawl`, `item.waxed_canvas`, `item.insulated_bag` |
+| `station.mill_gin` | `item.einkorn_flour`; ara port: `item.cotton_thread` |
+| `station.distillery` | Ara port: `item.vinegar`; sabun/esans satılabilir SKU değildir |
+
+**Tuz kuralı:** “Göl Tuzu” adı yazan `item.roasted_corn`, `item.cured_olives`, `item.aged_cheese`, `item.smoked_trout` tarifleri `item.lake_salt` lotu ister. “Tuz” adı yazan `item.churned_ayran`, `item.village_tomato_paste`, `item.pot_confit`, `item.cured_pastirma` tarifleri `item.salt` lotu ister. İki kimlik birbirinin gizli ikamesi değildir. Genel tuz kooperatiften, göl tuzu açılmış göl parselindeki `source.salt_pan`dan gelir. Tablodaki eski ham maliyetler denge hipotezidir; gerçek lot edinim bedeli ledger'da korunur.
+
+**İçerik kapısı:** Üstteki yeni portların kurulum bedelleri başlangıç hipotezidir; her alışverişte gerçekten erişilebilir faz, parsel, oda, girdi ve stok kapasitesi denetlenir. Katalogda hâlâ tanımlanmamış sabun/esans gibi satış SKU'su veya hayalî istasyon butonu açılmaz. Ekonomik kabul, §33 ledger ve A2/A3 oyuncu/cihaz testiyle ayrıdır.

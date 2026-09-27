@@ -1,5 +1,7 @@
 # Mobil kontroller ve kullanıcı deneyimi
 
+Açılış, oyun HUD'u, menü, Ayarlar ve Oyun Ansiklopedisi için düğme/geri yolu sözleşmesi: [EKRAN_VE_MENU_AKISI.md](EKRAN_VE_MENU_AKISI.md), kaynak §66. Ayarlar → Ansiklopedi geçişinde ayar taslağı korunur; ansiklopediden geri Ayarlar'a gider. Ana yönetim/ansiklopedi paneli oyunu duraklatır; platform duraklatması ayrıca korunur.
+
 Kaynak: [anayasa](OYUN_GELISTIRME_DEVIR_DOSYASI.md) hızlı özet, §52–54, §60.1–60.3, §62–63. Hedef dikey telefon ve tek başparmakla temel işletmedir; klavye yalnız debug yardımcısıdır.
 
 ## P0 — hareket ve güvenli etkileşim

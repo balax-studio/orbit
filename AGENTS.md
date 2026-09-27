@@ -10,6 +10,7 @@ Bu dosya geliştirme iş akışını düzenler. Ürün kuralları için [OYUN_GE
 - Kaynak kuralı, teknik karar, açık konu ve çalıştırılmış kanıtı birbirinden ayır. Belgedeki örnek tip veya package.json bağımlılığı çalışan özellik kanıtı değildir.
 - P0 → A2 → A3 → A4 → A5 sırasını koru. Görev yalnız belge düzenlemesiyse kaynak kod, bağımlılık veya native proje üretimini buna ekleme.
 - UI, etkileşim veya görsel dünya işinde [RULES.md](RULES.md) uygulama kontrol listesini oku; ayrıntı için orada bağlanan sistem bölümünü kullan. RULES.md yeni bir ürün anayasası değildir.
+- Dünya, market odaları, inşa, kamera, yol, otopark, peyzaj, malzeme veya ışık işinde [DUNYA_YERLESIM_PLANI.md](DUNYA_YERLESIM_PLANI.md) koordinat/kapı/rota, §8 malzeme/atmosfer, §9 oda/duvar/kapı, §10 müşteri, §11 istasyon, §12 ürün ve §13 uygulama tanımlarını oku. Pafta §9/§58.1/§62–63/§65 uygulama seçimidir; içerik footprint'i, ürün fazı ve gerçek kayıt koordinatı önceliklidir. Koordinat değişikliği kayıt/rota etkisi ve pafta revizyonu gerektirir.
 
 ## 2. Mimari ve performans sınırları
 

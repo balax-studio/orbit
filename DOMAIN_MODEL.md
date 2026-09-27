@@ -159,7 +159,7 @@ type P0Snapshot = {
 };
 ```
 
-`ProductDefinition`, `MachineDefinition` ve `RecipeDefinition` sürümlü içerik manifestindedir; her snapshot'a kopyalanmaz. Ekran mesh'i, DOM seçimi, anlık interpolasyon, pause nedeni ve işlev referansı snapshot'a girmez. İşlem günlüğü `P0Snapshot` içine gömülmez: ayrı kayıtlarda transaction ID, artan sequence, tam komut/olay sonucu ve checksum taşır. Yeni kayıt oluştururken `room.entrance` ve bütün başlangıç nesnelerinin konumu **gerçek seçilmiş 6×6 yerleşim fixture'ında** tanımlanır; bu şema verilmemiş `(x,z)` koordinatlarını olmuş gibi iddia etmez. A2/A3'ün ücret, yorgunluk, kalite, bakım, tedarik ve diğer alanları ayrı sürümlü şemayla eklenir; P0'daki dar tipleri tüm oyun modeli sayılmaz.
+`ProductDefinition`, `MachineDefinition` ve `RecipeDefinition` sürümlü içerik manifestindedir; her snapshot'a kopyalanmaz. Ekran mesh'i, DOM seçimi, anlık interpolasyon, pause nedeni ve işlev referansı snapshot'a girmez. İşlem günlüğü `P0Snapshot` içine gömülmez: ayrı kayıtlarda transaction ID, artan sequence, tam komut/olay sonucu ve checksum taşır. Yeni kayıt oluştururken `room.entrance` ve bütün başlangıç nesnelerinin konumu [dünya paftası §13](DUNYA_YERLESIM_PLANI.md) varsayılanından üretilen sürümlü 6×6 yerleşim fixture'ında tanımlanır; bu taslak TypeScript şeması koordinatların kodda kurulduğu veya test edildiği anlamına gelmez. A2/A3'ün ücret, yorgunluk, kalite, bakım, tedarik ve diğer alanları ayrı sürümlü şemayla eklenir; P0'daki dar tipleri tüm oyun modeli sayılmaz.
 
 ## A2 — lotlar ve müşteriler
 

@@ -39,6 +39,8 @@ Basışta içerik 2 px iner, gölge 1 px'e küçülür; az harekette öteleme ka
 
 ### Dünya malzemeleri
 
+Market içi seramik, duvar, üretim/depo/diğer oda yüzeyleri, dış yol/bitki/taş, ışık ve hareketin ayrıntılı renk/malzeme kartelası [DUNYA_YERLESIM_PLANI.md](DUNYA_YERLESIM_PLANI.md) §8'dedir. Bu bölüm üst sözleşmenin kısa özetidir; paftanın sanat renkleri UI tokenı veya ölçülmüş cihaz sonucu değildir.
+
 KAYNAK §62.2: mat, 2–3 düz renk/faset varyantı, küp/prizma ve az faset. Kırık beyaz mağaza, mürekkep taşıyıcı metal, cyan üretim, sarı etkileşim. Dünya doygunluğu HUD'dan düşüktür; bütün aksanlar aynı anda kullanılmaz. Bloom kapalı; blob/baked gölge tercih edilir. Her küpte pahalı outline yok; seçili nesne ve UI'da kontur yoğunlaşır.
 
 Sanat malzeme aileleri: mağaza paneli, koyu metal, opak ambalaj, mat tekstil, blok bitki, kaya. Cam küçük sınırlı yüzey; gerçek zamanlı kırılma/yansıma gerekmez. Vida/çizik/etiket atlasla sade tutulur. Servis hattının daha aşınmış görünmesi yeni hijyen/temizlik metriği değildir. Karanlık tema HUD varyantıdır, gün/gece ekonomisi değildir; kesin koyu renk çiftleri AÇIK ve kontrast testi ister.
@@ -69,6 +71,8 @@ Alt safe area
 Panel seçili nesneyi kapatıyorsa panel/kamera kontrollü uyarlanır. Yakın duvar/çatı üstü görsel kesilebilir; collider ve erişim değişmez. İnşa grid'i normal oyunda görünmez. Otomatik kamera sarsıntısı/dramatik zoom yoktur. Yakın/uzak görünümler aynı geometri LOD düzenindedir. Kesin zoom sınırı/model ölçüsü AÇIK prototip kararıdır; kaynak footprint değiştirilmez.
 
 ## 4. Market dışı ve mağaza çevresi
+
+Market/oda/dış alanların kesin varsayılan hücreleri, yaya–araç ayrımı, peyzaj cepleri ve fazlı açılması [DUNYA_YERLESIM_PLANI.md](DUNYA_YERLESIM_PLANI.md) paftasındadır. Aynı paftanın §9–13 bölümleri oda duvarı/kapısı, müşteri, katalogdaki 17 kaynak/istasyon ve 57 satılabilir SKU için görsel ve yerleşim tarifidir. Aşağıdaki görsel tarif koordinatları genişletmez; ağaç, kaya ve hayvan kolajı tanımlı geçişleri kapatamaz.
 
 KAYNAK: küçük mağaza ve bahçe parselleri ile bağlantı yolları; sınırsız arazi üretimi yoktur. Oynanabilir bölüm ile uzak dekor birbirinden ayrılır.
 
@@ -166,6 +170,25 @@ Kuyrukta baş çevirme/ağırlık değiştirme aynı sabır süresini korur. Her
 
 İsteğe bağlı A4 ortam sakinleri bütçe içinde, müşteri satış işareti taşımadan görünür. Collider ile işletme yolunu kapatmaz, ihtiyaç/satış sayacı oluşturmaz. İş aktörleri önceliklidir; bütçe dolunca dekoratif NPC azaltılır. Oyuncu hangisinin müşteri olduğunu ayıramıyorsa biçim değiştirilir veya ortam NPC'si kaldırılır.
 
+### Dış çevre, hayvanlar ve otopark — KAYNAK §65
+
+A4'te market önü; girişe uzanan kaldırım, yaya geçişi, otopark ve yol ile okunur. Bahçe kenarı ağaç, çalı, ot, çiçek ve taş kümeleriyle çerçevelenir. Bank, çöp kutusu, bisiklet parkı, aydınlatma ve alçak çit yerleşimi tamamlar; dekor giriş, servis veya teslim alanıyla karışmaz.
+
+| Öğe | Görsel davranış | Yerleşim ve okunabilirlik |
+|---|---|---|
+| Kedi | Kısa dolaşma, koklama, gerinme, oturma/uyuma | Kaldırımın sakin kenarı; kritik seçim hedeflerinden uzak |
+| Köpek | Çevreyi izleme, kısa gezinme, dinlenme | Yaya hattı dışında güvenli bekleme noktaları |
+| Koyun | Otlanma, baş kaldırma, küçük grup halinde yer değiştirme | Bahçe yanındaki çevrili yeşil alan; mağaza ve yol dışında |
+| Küçük kuşlar | Zeminde kısa duruş, dala konma, kısa uçuş | İsteğe bağlı düşük yoğunluk; kamera önünde sürü yok |
+| Ağaç/çalı/ot | Farklı boy ve siluet; hafif, eşzamanlı olmayan salınım | Seçili aktörü kapatmayan kümeler; az harekette salınım azalır |
+| Taş/kaya | Küçük taş grubu ve seyrek büyük kaya | Yürünebilir hücreden ayrılan peyzaj sınırı |
+| Araç | Yaklaşma → boş yere dönüş → park → çıkış | Basit otomobil/van siluetleri; park ve yaya rotası ayrılır |
+| Yol/tadilat | Solan çizgi ve çatlak → koni/bariyer/ekip → yama/yenileme | Aktif şantiye sınırı açık, market erişimi sürekli korunur |
+
+Otopark kapasitesi görünür park yerleriyle tutarlıdır; aynı yere iki araç konmaz. Dolu otoparka gelen araç geçip gider; yol üstünde sonsuz kuyruk oluşmaz. Araç alışverişle ilişkilendirilecekse mevcut gerçek müşteri kimliğini temsil eder; görsel araçtan ikinci müşteri üretilmez. Tedarik vanı gerçek teslimatla ilişkilendirilmeden ürün boşaltma göstermez.
+
+Hayvan, araç ve bakım ekibi için hareket döngüleri kısa ve aralıklıdır; korna/havlama/meleme sürekli yinelenmez. Ortam sesi ayrı kısılabilir. Dekoratif öğeler ana eylem sarısı, satış simgesi veya görev işareti taşımaz. Yol bakımı için yeni ana ekran düğmesi gerekmez; incelenebilir kısa durum etiketi yeterlidir. Yol aşaması ve bakım alanı kayıtlı durumdan çizilir; çizik/desen varyasyonu görsel seed'den üretilebilir.
+
 ## 11. Odaların yaşanabilir görünümü
 
 KAYNAK oda etkileri içerik kataloğuyla sınırlı; aşağıdaki görsel ayrıntılar yeni bonus değildir.
@@ -181,7 +204,7 @@ KAYNAK oda etkileri içerik kataloğuyla sınırlı; aşağıdaki görsel ayrın
 | Bakım atölyesi | Alet tezgâhı | Servise hazırlık | Servis kuyruğu |
 | Soğuk depo | Yalıtımlı raf | Kabul/çekme | Ömür/güç |
 | Mal kabul | Port/kontrol masası | Kontrol/taşıma | Sipariş |
-| Müşteri köşesi | Oturma/yönlendirme | Desteklenen bekleme | Konfor/erişim |
+| A4 dış müşteri pavyonu | 4×4 cam cepheli oturma/yönlendirme | Satın alınmış işlevsel odada desteklenen bekleme | Konfor/erişim; satış içindeki eski makine nişi değildir |
 | Sera | Blok bitki yatakları | Biyohat | Tarif/girdi |
 | İşleme | Makine portları | Üretim/servis | Darboğaz |
 | Enerji | Modül/bağlantı yüzeyi | Durum işareti | Kapasite/öncelik |
@@ -215,6 +238,8 @@ Görsel katman kayıtlı olay aktifken görünür; bitince yalnız o katman kalk
 
 ## 13. Ekran ve panel kataloğu
 
+§66'nın açılış → oyun → menü → ayarlar → ansiklopedi akışı, HUD düğmelerinin konumları, bütün panel eylemleri ve geri/hata davranışları [EKRAN_VE_MENU_AKISI.md](EKRAN_VE_MENU_AKISI.md) içinde tek katalog olarak tutulur. Aşağıdaki tablo ekranların kısa özetidir.
+
 Makine detayının DOM paneli, ilerleme işaretinin görsel sunumu, font fallback'i, haptic ve kayıt durum mesajları [KARARLAR.md](KARARLAR.md) D-008/D-010'a uyar. Yakın nesnelerde seçim belirsizliği oyuncuya seçici panelle gösterilir (D-009).
 
 B.1–B.5 ve C.1–C.3: portre güvenli alan oranları, Neo-Brutalist renkler, 0,3 sn güvenli al/bırak, onaylı inşa, satış commit'inden sonra tek para vurgusu, makinede okunur süre/durma nedeni ve yetersiz kredide somut gerekçe [KARARLAR.md](KARARLAR.md) D-018/D-019'da sabitlenmiştir.
@@ -231,7 +256,7 @@ KAYNAK §15/§60: telefon alt sayfa, tablet yan detay; aynı anda tek ana yönet
 | Geri dönüş | Son eylem, tek sonraki iş | Devam/kapat | İsteğe bağlı, FOMO yok | P0 |
 | Depo | Serbest/rezerve/yoldaki, slot/lot | Bölge/filtre/detay | Boş/dolu/ayrılmış | A2 |
 | Tedarik | Teklif, ücret, süre, kota | Onay/iptal/kabul | AwaitingSpace/iade | A2 |
-| Raf fiyatı | SKU, kalite, fiyat, maliyet | Fiyat onayı | Bütçe/fiyat reddi | A2 |
+| Raf fiyatı | SKU, kalite, fiyat, maliyet | A3 fiyat/SKU kilidi onayı; A2 basit fiyat tepkisi | Bütçe/fiyat reddi | A2/A3 |
 | Personel | Enerji, memnuniyet, iş, mola, ücret | Atama/eğitim/vardiya | İzin/askı/devir | A2/A3 |
 | İşletme haritası | Katman, pencere, neden/güven | Nesneye git/incele | Yetersiz örnek | A2/A3 |
 | Bakım/güç | W, E, süre/bedel/plan | Servis/öncelik | Duruş/no power | A3 |
@@ -244,6 +269,7 @@ KAYNAK §15/§60: telefon alt sayfa, tablet yan detay; aynı anda tek ana yönet
 | Destekle | Belirli ödül/ücretsiz görev | İsteğe bağlı reklam | Kapalı/offline/pending | A4 |
 | Gün sonu | Nakit, katkı, stok, hizmet, tıkanma | Tek öneriyi incele | Yetersiz örnek | A2+ |
 | Ayarlar | Ses/titreşim, metin/kontrast, hareket, girdi | Önizle/uygula | Kalıcı tercih | P0+ |
+| Oyun Ansiklopedisi | Ürünler, üretim şemaları, makineler, sistem ve hata rehberi | Ayarlar'dan aç, ara/filtrele, bağlantılı maddeyi incele | Çevrimdışı, boş sonuç, kilit nedeni, sürüm uyumu | P0 çekirdek; A2–A4 içerikle büyür |
 
 Gün sonu ölçüm seçimi UX kararıdır; kaynak beş ölçüm/bir öneri ister. Rapor kritik işlemi bölen zorunlu modal değildir. Yeni oyunda kayıt üzerine yazma sıradan kapat düğmesine bağlanmaz.
 
@@ -336,7 +362,7 @@ Semantik button/heading/label, ikon erişilebilir adı, mantıklı odak, modal k
 | ID | Senaryo | Beklenen kanıt |
 |---|---|---|
 | VIS-01 | Küçük ekran ilk açılış | Dünya/karakter/tek hedef görünür, klavyesiz eylem |
-| VIS-02 | 24 SKU siluet/renksiz görünüm | Ürünler şekille ayrılır; karışanlar revize |
+| VIS-02 | Fazda açık SKU'ların siluet/renksiz görünümü (tam katalogda 57 satılabilir SKU) | Ürünler şekille ayrılır; karışanlar revize |
 | VIS-03 | Raf 0/1/orta/tam/rezerve | Sayı doğru, boş raf boş, rezervasyon ürün silmez |
 | VIS-04 | Makine tüm bekleme/çalışma durumları | Farklı ikon/metin; sahte üretim yok |
 | VIS-05 | Yüklü yürüyüş/bekleme/mola/devir | Yük korunur, yerinde koşma/koltuk çakışması yok |
@@ -366,6 +392,8 @@ Uygulama, asset manifest'i ve görsel kabul raporu bu belgeyle izlenir. Kodun bu
 
 ## 21. §64 market ritmi ve görsel adayları
 
-A4 sanat adayları: kooperatif başkanı/Baş Mühendis ziyaretinin okunur kimliği; kirli/temiz oda işareti; gerçek satış/kuyruk verisini açıklayan Mahalle Bülteni DOM paneli; tek SKU'lu Günün Hasadı teşhiri; Tier 4 pazarlık kartı; sabah trend kartı; vardiya dalgası ön haberi; ücretsiz işlevsel dekorun mevcut §32 estetik skorunu gösteren etiket. Bu ekranlar yeni ekonomi kaynağı değildir. DOM paneli safe-area, büyük metin, odak sırası ve pointer sahipliğini korur; kritik kayıt/kabul ekranı gerekli olduğunda tam görünür kalır.
+A4 sanat adayları: VIP ziyareti, sabah trendi ve vardiya dalgasının aynı **Mahalle Gündemi** kartındaki ön haberi; seyrek ve somut kirlenme işareti; gerçek satış/kuyruk olayının neden–müdahale–sonuç izini açıklayan Mahalle Bülteni DOM paneli; tek SKU'lu Günün Hasadı teşhiri; Tier 4 pazarlık kartı; ücretsiz işlevsel dekorun mevcut §32 estetik skorunu gösteren etiket. Bunlar ayrı zorunlu menü/puan döngüsü veya yeni ekonomi kaynağı değildir. HUD'da aynı anda tek yaklaşan olay okunur; büyük metin, odak sırası, pointer sahipliği ve kritik kayıt/kabul ekranı korunur.
+
+§67'nin ayırıcı görsel akışı P0 su rafı için kaynak → istasyon → çıktı → raf → müşteri zincirini aynı ürün kimliğiyle işaretler. Boş raf gerekçesi ve önerilen tek müdahale kısa DOM panelindedir; fiili ürün hareketi kayıtlı üretim/transfer/satış durumuna bağlıdır. A2'de depo, çalışan ve iki yerleşim kararı aynı zincirin rota/boş raf sonucunu değiştirir. A4'te kriz çözümü ve final izleri pano/diyalog/sevkiyat görünümünde kalır; çevre araçları aynı teslim/ziyaret kimliğini temsil eder.
 
 Alma–taşıma–koyma için üç aşamalı görsel/ses ritmi, yükte hafif yaylanma ve yerine oturan temsilî ürün yığını tasarlanır. Haptik isteğe bağlıdır, az hareket animasyonu azaltır, sessiz mod metin/ikon geri bildirimini korur; D-025 ses ve §63 düşük profil bütçesi uygulanır. Gerçek yükseltme paslı demir→pirinç, tahta→oymalı tezgâh/taş fırın görünümünü; ham→işlenmiş→ileri zincir mat/koyu→açık→sıcak/altın paleti tetikleyebilir. Kilitli göl ve sonraki alanlar yalnız gerçek erişim koşuluyla siluetlenir. Oyuncu dükkân adı güvenli metin alanında düzenlenir ve tabela/NPC hitabında kayıtlı aynı değerden okunur. Bunlar asset tamamlandı veya cihaz kabul edildi iddiası değildir.

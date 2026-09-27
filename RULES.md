@@ -28,14 +28,16 @@ UI DOM/CSS tabanlı Neo-Brutalist; dünya mat low-poly kübik/prizmatiktir. Mevc
 - İkonlar kalın, okunur SVG; ürün arayüzünde emoji ikon sistemi kullanma. İkonun erişilebilir adı olsun.
 - Renk tek anlam taşıyıcısı değildir: hata/başarı/seçim ikon, kontur ve metinle de anlaşılır.
 - Dünya UI aksanlarından daha düşük doygunluktadır; mat yüzey ve 2–3 faset tonu kullan. Bütün nesneleri aynı anda parlatma.
+- Market seramiği, duvar ve oda malzemeleri, dış peyzaj/yol, ışık, gölge ve yaşayan dünya ritmi [DUNYA_YERLESIM_PLANI.md](DUNYA_YERLESIM_PLANI.md) §8'deki başlangıç sanat seçimlerine uyar. Malzeme hasarı/hijyen veya üretim etkisi gerçek Domain olayı yokken gösterilmez.
 
 ## 3. Ekran, kamera ve yerleşim
 
+- Oda modülleri, P0 yerleşimi, kapı eşikleri, bahçe, otopark, yol ve ağaç bölgelerinin koordinat kaynağı [DUNYA_YERLESIM_PLANI.md](DUNYA_YERLESIM_PLANI.md). Oda/duvar/kapı §9, müşteri §10, istasyon §11, SKU §12 ve kesin port/parsel/ferah alan §13 tarifine uyar; kilitli komşuya kapı veya kaynaksız ürün/NPC üretme. İzinli oyuncu taşımasında değişen gerçek koordinat kaydedilir; statik pafta kayıttaki hareketli nesneyi ezmez.
 - Telefon/tablet portre düzeni; 9:16–9:21 telefon oranı ve portre tablet kabulü. Safe-area, çentik ve home indicator hesaba katılır.
 - Başlangıç bölgeleri: üst yaklaşık %12 kredi/görev/duraklat, orta yaklaşık %65 dünya, alt yaklaşık %18 hareket ve en fazla üç ana eylem. Bunlar katı piksel koordinatı veya toplamı %100 olan zorunlu bölüşüm değildir.
 - Telefon detayları alt panel, tablette uygun yan panel olarak açılır; aynı anda bir ana yönetim sayfası vardır. Seçili nesne HUD altında kaybolmaz.
-- §9 varsayılan oda 6×6 hücre, hücre 1 metre; koridor en az 2 hücre. Makine footprint'i katalogdan alınır; P0 yetiştirici 2×2, paketleyici 1×2.
-- Ortografik kamera 45° yatay/30–35° aşağı eğim. D-017 P0 seçimi 32°, hedef `(3,0,3)`, başlangıç yaklaşık `(11,7.07,11)`; frustum ekrana göre ayarlanır.
+- §9 varsayılan oda 6×6 hücre, hücre 1 metre; koridor en az 2 hücre. Makine footprint'i katalog/pafta §13'ten alınır; P0 domates yatağı 2×2, şişeleme tezgâhı 1×2.
+- Ortografik kamera 45° yatay/30–35° aşağı eğim. D-017 P0 seçimi 32°; yerel `(3,0,3)` hedefi paftadaki oda konumunda dünyada `(15,0,25)` olur. Frustum ekrana göre ayarlanır.
 - İki parmak pan/zoom ve karaktere dön vardır; serbest orbit yoktur. İnşa döndürmesi nesneye aittir. Aspect ratio değişince dünya esnetilmez.
 - Duvar seçili aktörü kapatıyorsa yalnız örten görsel parça soluklaşır/kesilir veya siluet kullanılır; collider değişmez.
 
@@ -51,6 +53,10 @@ UI DOM/CSS tabanlı Neo-Brutalist; dünya mat low-poly kübik/prizmatiktir. Mevc
 - Çalışan makine gibi grid'e yerleştirilmez: personel panelinden işe alınır ve göreve atanır; faz erişimi korunur.
 
 ## 5. Ekran ve durum sözleşmesi
+
+§67 gereği boş raf/istasyon seçimi gerçek durumdan **neden → yapılabilir müdahale → gözlenen sonuç** gösterir. Tek hedef kartında en yakın giderilebilir engel öne çıkar; diğer nedenler detayda kalır. Ansiklopedi aynı ürün/tarif/makine kimliğine bağlanır. A4 adaylarının VIP, trend ve vardiya bilgisi tek Mahalle Gündemi kartında değerlendirilir; aynı olay için üç ayrı zorunlu modal açılmaz.
+
+§66 ve [EKRAN_VE_MENU_AKISI.md](EKRAN_VE_MENU_AKISI.md) düğme/konum/içerik sözleşmesidir. Alt sağ ana eylemler İnşa, Yönetim ve Karaktere dön; sağ üst Menü'dür. Ayarlar içindeki Oyun Ansiklopedisi çevrimdışı, ortak içerik verisinden okunur; üretim şeması/makine bilgisi ikinci ekonomi tablosuna dönüşmez. Okuma düğmesi satın alma veya üretim yapmaz.
 
 | Ekran | Gösterilecek bilgi | Temel eylem/hata |
 |---|---|---|
@@ -89,6 +95,8 @@ Her uygulanmış panel normal, boş, seçili, pasif, işlem bekliyor, başarıl�
 - A4 ortam NPC'leri iş aktörlerini ve yolları kapatmaz; müşteri/talep sayılmaz. İlerlemeyle açılan ücretsiz sahne ayrıntıları kayıtlı hikâye sonucundan türetilir.
 - A4 adaylarında VIP, hijyen, Bülten, teşhir, Tier 4 pazarlığı, trend, vardiya dalgası ve cazibe yalnız gerçek Domain olayından görünür. Teşhir boş rafı satmaz; değerlendirme uydurma sosyal kullanıcıya dayanmaz; kozmetik dekor fazladan puan vermez (§64).
 - Ürün/makine siluetleri, market içi/dışı ve odaların tam listesi [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md) §4–12'dedir; burada ikinci bağımsız katalog oluşturma.
+
+- §65 A4 dış çevresinde kedi/köpek/koyun, bitki/taş kümeleri ve market önü otoparkı bulunur. Araç giriş–park–çıkışı yaya rotasından ayrılır; dolu park yeni müşteri veya satış üretmez. Yol aşınması ve tadilat kayıttan sürer; bariyerler temel erişimi kapatmaz. Çevre animasyonları mevcut toplam cihaz bütçesine dahildir; ayrıntılı katalog [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md) §10'dadır.
 
 ## 8. Erişilebilirlik ve oyuncu deneyimi
 
