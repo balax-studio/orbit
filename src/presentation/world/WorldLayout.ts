@@ -71,21 +71,21 @@ export class WorldLayout {
     {
       id: 'station.bottler',
       name: 'Şişeleme Tezgâhı',
-      bounds: { minX: 12, maxX: 12.8, minZ: 22, maxZ: 23.8 },
+      bounds: { minX: 12, maxX: 12, minZ: 22, maxZ: 23 },
       serviceCell: { x: 13.5, z: 22.5 },
       color: '#FFE156',
     },
     {
       id: 'fixture.sales_shelf',
       name: 'Satış Rafı',
-      bounds: { minX: 12, maxX: 12.8, minZ: 25.8, maxZ: 26.8 },
+      bounds: { minX: 12, maxX: 12, minZ: 26, maxZ: 26 },
       serviceCell: { x: 13.5, z: 26.3 },
       color: '#A7EB52',
     },
     {
       id: 'fixture.checkout',
       name: 'Kasa Masası',
-      bounds: { minX: 16.5, maxX: 17, minZ: 22, maxZ: 23 },
+      bounds: { minX: 17, maxX: 17, minZ: 22, maxZ: 22 },
       serviceCell: { x: 16, z: 22.5 },
       color: '#F4F0E6',
     },
@@ -129,10 +129,10 @@ export class WorldLayout {
     for (const fixture of this.FIXTURES) {
       const margin = 0.2; // Karakter yarıçapı payı
       if (
-        x >= fixture.bounds.minX - margin &&
-        x <= fixture.bounds.maxX + margin &&
-        z >= fixture.bounds.minZ - margin &&
-        z <= fixture.bounds.maxZ + margin
+        x >= fixture.bounds.minX - 0.5 - margin &&
+        x <= fixture.bounds.maxX + 0.5 + margin &&
+        z >= fixture.bounds.minZ - 0.5 - margin &&
+        z <= fixture.bounds.maxZ + 0.5 + margin
       ) {
         return false;
       }

@@ -31,6 +31,81 @@ describe('P0-04: Tek Müşteri, Raf, Kuyruk ve Satış Ledger Akışı', () => {
     inventory.setCapacity(shelfLoc, 20);
   });
 
+  describe('Satış komutu güvenlik sınırları', () => {
+    const saleCommand = {
+      type: 'COMPLETE_SALE' as const,
+      transactionId: 'sale-guard-1',
+      timestampTick: 1,
+      customerId: 'customer-guard',
+      shelfLocation: shelfLoc,
+      customerLocation: { kind: 'customer' as const, ownerId: 'customer-guard' },
+      itemId: 'item.glass_water_small',
+      quantity: 1,
+      unitPriceAtoms: 15_000,
+    };
+
+    it('sepet boşken raftaki ürünü satmaz', () => {
+      inventory.addLot({ id: 'guard-shelf', itemId: saleCommand.itemId, quantity: 1,
+        qualityScore: 40, unitCostAtoms: 0, sourceId: 'station.bottler', location: shelfLoc });
+      expect(() => dispatcher.execute(saleCommand)).toThrow('Müşteri sepetinde yeterli ürün yok');
+      expect(inventory.getPhysicalQuantity(shelfLoc, saleCommand.itemId)).toBe(1);
+      expect(ledger.getBalanceAtoms()).toBe(1_000_000);
+    });
+
+    it('envanter yokken para yazmaz', () => {
+      const withoutInventory = new CommandDispatcher(ledger);
+      expect(() => withoutInventory.execute(saleCommand)).toThrow('InventoryManager bağlı değil');
+      expect(ledger.getBalanceAtoms()).toBe(1_000_000);
+    });
+
+    it('ledger işlem kimliği kullanılmışsa sepeti tüketmez', () => {
+      inventory.addLot({ id: 'guard-basket', itemId: saleCommand.itemId, quantity: 1,
+        qualityScore: 40, unitCostAtoms: 0, sourceId: 'station.bottler', location: saleCommand.customerLocation });
+      ledger.commitTransaction({ transactionId: saleCommand.transactionId, timestampTick: 0,
+        type: 'CREDIT', amountAtoms: 1, reason: 'SALE' });
+      expect(() => dispatcher.execute(saleCommand)).toThrow('zaten kullanılmış');
+      expect(inventory.getPhysicalQuantity(saleCommand.customerLocation, saleCommand.itemId)).toBe(1);
+      expect(ledger.getBalanceAtoms()).toBe(1_000_001);
+    });
+
+    it('aynı satış kimliği farklı miktar veya fiyatla yeniden kullanılamaz', () => {
+      inventory.addLot({ id: 'guard-price-basket', itemId: saleCommand.itemId, quantity: 1,
+        qualityScore: 40, unitCostAtoms: 0, sourceId: 'station.bottler', location: saleCommand.customerLocation });
+      dispatcher.execute(saleCommand);
+      expect(() => dispatcher.execute({ ...saleCommand, unitPriceAtoms: 30_000 }))
+        .toThrow('farklı satış');
+      expect(ledger.getBalanceAtoms()).toBe(1_015_000);
+    });
+  });
+
+  it('raf doluysa sabrı tükenen müşteriyi sepetindeki ürünle kuyrukta tutar ve yer açılınca iade eder', () => {
+    inventory.setCapacity(shelfLoc, 1);
+    inventory.addLot({ id: 'timeout-shelf', itemId: 'item.glass_water_small', quantity: 1,
+      qualityScore: 40, unitCostAtoms: 0, sourceId: 'station.bottler', location: shelfLoc });
+    const customer = customerManager.spawnCustomer({ id: 'timeout-customer' });
+    customerManager.inspectAndPickFromShelf(customer.id, 1);
+    customerManager.joinQueue(customer.id);
+    inventory.addLot({ id: 'timeout-refill', itemId: 'item.glass_water_small', quantity: 1,
+      qualityScore: 40, unitCostAtoms: 0, sourceId: 'station.bottler', location: shelfLoc });
+
+    customerManager.handlePatienceTimeout(customer.id, 2);
+    const basket = { kind: 'customer' as const, ownerId: customer.id };
+    expect(customer.phase).toBe('queued');
+    expect(customer.basketLotId).not.toBeNull();
+    expect(inventory.getPhysicalQuantity(basket, customer.requestedItemId)).toBe(1);
+    expect(customerManager.getLostSales()).toHaveLength(0);
+
+    inventory.transferStock({ transactionId: 'clear-shelf', timestampTick: 3,
+      source: shelfLoc, target: { kind: 'player', ownerId: 'player_1' },
+      itemId: customer.requestedItemId, quantity: 1 });
+    customerManager.handlePatienceTimeout(customer.id, 4);
+    expect(customer.phase).toBe('leaving');
+    expect(customer.basketLotId).toBeNull();
+    expect(inventory.getPhysicalQuantity(basket, customer.requestedItemId)).toBe(0);
+    expect(inventory.getPhysicalQuantity(shelfLoc, customer.requestedItemId)).toBe(1);
+    expect(customerManager.getLostSales()).toHaveLength(1);
+  });
+
   describe('T-P0-04a: Gerçek raf stoku ve kayıtlı fiyat ile atomik satış', () => {
     it('100 kredi nakit + 1 küçük su (1.50 kredi) raftan satıldığında bakiye tam 101.50 kredi olur ve stok 1 azalır', () => {
       // 1. Setup: Rafta 1 adet küçük şişe su (15.000 atom = 1.50 Kredi)
@@ -64,6 +139,7 @@ describe('P0-04: Tek Müşteri, Raf, Kuyruk ve Satış Ledger Akışı', () => {
       // Raftaki stok 0'a düşmüş olmalı, ürün müşterinin sepetinde
       expect(inventory.getPhysicalQuantity(shelfLoc, 'item.glass_water_small')).toBe(0);
       const customerLoc: StockLocation = { kind: 'customer', ownerId: customer.id };
+      expect(customer.basketLotId).toBe(inventory.getLotsAt(customerLoc)[0].id);
       expect(inventory.getPhysicalQuantity(customerLoc, 'item.glass_water_small')).toBe(1);
 
       // 3. Kuyruğa girme
@@ -117,6 +193,23 @@ describe('P0-04: Tek Müşteri, Raf, Kuyruk ve Satış Ledger Akışı', () => {
     });
   });
 
+  it('aynı müşteri kimliğini veya ikinci raf seçimini stok kaybetmeden reddeder', () => {
+    inventory.addLot({ id: 'single-customer-shelf', itemId: 'item.glass_water_small', quantity: 2,
+      qualityScore: 40, unitCostAtoms: 0, sourceId: 'station.bottler', location: shelfLoc });
+    const customer = customerManager.spawnCustomer({ id: 'unique-customer' });
+    expect(() => customerManager.spawnCustomer({ id: customer.id })).toThrow('Müşteri ID zaten kullanımda');
+    customerManager.inspectAndPickFromShelf(customer.id, 1);
+    expect(() => customerManager.inspectAndPickFromShelf(customer.id, 2)).toThrow('uygun durumda değil');
+    expect(inventory.getPhysicalQuantity(shelfLoc, customer.requestedItemId)).toBe(1);
+    expect(inventory.getPhysicalQuantity({ kind: 'customer', ownerId: customer.id }, customer.requestedItemId)).toBe(1);
+  });
+
+  it('P0 katalogunda satılmayan ham ürüne müşteri talebi açmaz', () => {
+    expect(() => customerManager.spawnCustomer({ requestedItemId: 'item.raw_water' }))
+      .toThrow("P0'da satılmayan ürün");
+    expect(customerManager.getAllCustomers()).toHaveLength(0);
+  });
+
   describe('T-P0-04b: İşlem tekilliği ve dedup (idempotency)', () => {
     it('Aynı transactionId ile 3 kez çağrıldığında 2. ve 3. çağrılar bakiye ve stoku ikinci kez değiştirmez', () => {
       const waterLot: StockLot = {
@@ -144,6 +237,10 @@ describe('P0-04: Tek Müşteri, Raf, Kuyruk ve Satış Ledger Akışı', () => {
       expect(result1.isDuplicate).toBe(false);
       expect(result1.amountAtoms).toBe(15_000);
       expect(ledger.getBalanceAtoms()).toBe(1_015_000);
+
+      const managerRetry = customerManager.checkoutCustomer(customer.id, 21, fixedTxId);
+      expect(managerRetry.isDuplicate).toBe(true);
+      expect(customerManager.getCompletedSales()).toHaveLength(1);
 
       // 2. Çağrı: Aynı transaction ID ile tekrar
       const customerLoc: StockLocation = { kind: 'customer', ownerId: customer.id };

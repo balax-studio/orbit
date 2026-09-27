@@ -116,10 +116,17 @@ export class CustomerManager {
     patienceTicks?: number;
     startPos?: WorldPosition;
   } = {}): Customer {
+    const id = params.id ?? `customer_${this.customerCounter + 1}`;
+    if (this.customers.has(id)) {
+      throw new Error(`Müşteri ID zaten kullanımda: ${id}`);
+    }
     this.customerCounter += 1;
-    const id = params.id ?? `customer_${this.customerCounter}`;
 
     const requestedItemId = params.requestedItemId ?? 'item.glass_water_small';
+    const requestedProduct = P0_PRODUCTS[requestedItemId];
+    if (!requestedProduct || requestedProduct.baseRetailPriceAtoms === null) {
+      throw new Error(`P0'da satılmayan ürün: ${requestedItemId}`);
+    }
     // Varsayılan bütçe 30.00 Kredi = 300.000 atom (Yerleşim çalışanı 20-45 kredi aralığı §38.1)
     const budgetAtoms = params.budgetAtoms ?? 300_000;
     const patienceRemainingTicks = params.patienceTicks ?? this.basePatienceTicks;
@@ -153,6 +160,9 @@ export class CustomerManager {
     if (!customer) {
       throw new Error(`Müşteri bulunamadı: ${customerId}`);
     }
+    if (customer.basketLotId || (customer.phase !== 'entering' && customer.phase !== 'toShelf')) {
+      throw new Error(`Müşteri raf seçimi için uygun durumda değil: ${customerId}`);
+    }
 
     // 1. Stok kontrolü
     const availableStock = this.inventory.getAvailableQuantity(
@@ -175,7 +185,10 @@ export class CustomerManager {
 
     // 2. Fiyat ve bütçe kontrolü
     const product = P0_PRODUCTS[customer.requestedItemId];
-    const retailPriceAtoms = product?.baseRetailPriceAtoms ?? 15_000;
+    if (!product || product.baseRetailPriceAtoms === null) {
+      throw new Error(`P0'da satılmayan ürün: ${customer.requestedItemId}`);
+    }
+    const retailPriceAtoms = product.baseRetailPriceAtoms;
 
     if (customer.budgetAtoms < retailPriceAtoms) {
       this.recordLostSale(
@@ -190,23 +203,8 @@ export class CustomerManager {
       return false;
     }
 
-    // 3. Fiyat kabul testi (§38.2)
-    // P0'da katalog fiyatı adil fiyattır (D-019 D.3). Fiyat aşırı yüksek girilmişse red üretir.
-    const fairPrice = product?.baseRetailPriceAtoms ?? 15_000;
-    if (retailPriceAtoms > fairPrice * 2.5) {
-      this.recordLostSale(
-        customer.id,
-        customer.requestedItemId,
-        'PRICE_REJECTED',
-        currentTick,
-        `Ürün fiyatı (${retailPriceAtoms} atom) adil fiyatın (${fairPrice} atom) çok üzerinde`
-      );
-      customer.phase = 'leaving';
-      customer.leaveReason = 'PRICE_REJECTED';
-      return false;
-    }
-
-    // 4. Sepete alma (Raftan müşterinin sepetine 1 adet transfer)
+    // P0 fiyatı katalogda sabittir; oyuncu fiyat tepkisi A2'de açılır (D-019 D.3).
+    // Sepete alma (Raftan müşterinin sepetine 1 adet transfer)
     const customerBasketLoc: StockLocation = { kind: 'customer', ownerId: customer.id };
     const transferResult = this.inventory.transferStock({
       transactionId: `pick_${customer.id}_${currentTick}`,
@@ -221,7 +219,7 @@ export class CustomerManager {
       throw new Error(`Raftan sepete transfer başarısız: ${customer.id}`);
     }
 
-    customer.basketLotId = transferResult.transferredLots[0].lotId;
+    customer.basketLotId = transferResult.targetLotId;
     customer.lockedPriceAtoms = retailPriceAtoms;
     customer.phase = 'toCheckout';
     return true;
@@ -234,6 +232,9 @@ export class CustomerManager {
     const customer = this.customers.get(customerId);
     if (!customer) {
       throw new Error(`Müşteri bulunamadı: ${customerId}`);
+    }
+    if (customer.phase !== 'toCheckout') {
+      throw new Error(`Müşteri kasa kuyruğuna giremez: ${customerId}`);
     }
 
     const queued = this.getQueuedCustomers();
@@ -256,9 +257,21 @@ export class CustomerManager {
     currentTick: number,
     customTxId?: string
   ): SaleResult {
+    if (customTxId) {
+      const previousSale = this.completedSales.find((sale) => sale.transactionId === customTxId);
+      if (previousSale) {
+        if (previousSale.customerId !== customerId) {
+          throw new Error(`İşlem ID farklı müşteri için kullanılmış: ${customTxId}`);
+        }
+        return { ...previousSale, isDuplicate: true };
+      }
+    }
     const customer = this.customers.get(customerId);
     if (!customer) {
       throw new Error(`Müşteri bulunamadı: ${customerId}`);
+    }
+    if (customer.phase !== 'queued' || customer.queueIndex !== 0) {
+      throw new Error(`Müşteri kasa sırasında değil: ${customerId}`);
     }
 
     if (!customer.basketLotId || customer.lockedPriceAtoms === null) {
@@ -316,7 +329,9 @@ export class CustomerManager {
           quantity: 1,
         });
       } catch {
-        // Raf doluysa bile ürün silinmez, müşteri ayrılırken rafta kalır
+        // Raf doluyken sepeti ve kuyruk durumunu koru; sonraki tick'te yeniden dene.
+        // Müşteri ayrılırsa sepetindeki lot erişilemez hale gelir.
+        return;
       }
       customer.basketLotId = null;
     }

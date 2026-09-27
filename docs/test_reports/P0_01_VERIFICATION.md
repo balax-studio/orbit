@@ -1,5 +1,7 @@
 # P0-01 Doğrulama Raporu: Sabit Simülasyon Saati, Seed ve İçerik Doğrulayıcı Temeli
 
+> Tarihsel rapor. Güncel kod ve kanıt durumu için [P0-01–P0-04 denetimine](P0_01_04_AUDIT_2026-09-27.md) bakın; Orvant yeniden inceleme istiyor.
+
 Tarih: 2026-09-27
 Görev: P0-01
 Durum: Doğrulandı

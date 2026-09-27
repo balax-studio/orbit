@@ -34,6 +34,7 @@ export interface TransferResult {
   quantity: number;
   isDuplicate: boolean;
   transferredLots: Array<{ lotId: EntityId; quantity: number }>;
+  targetLotId: EntityId;
 }
 
 export interface ConsumeResult {
@@ -153,9 +154,12 @@ export class InventoryManager {
     if (lot.quantity <= 0 || !Number.isInteger(lot.quantity)) {
       throw new Error(`Geçersiz lot adedi: ${lot.quantity}`);
     }
+    if (this.lots.has(lot.id)) {
+      throw new Error(`Lot ID zaten kullanımda: ${lot.id}`);
+    }
     const currentTotal = this.getPhysicalQuantity(lot.location);
     const maxCap = this.getCapacity(lot.location);
-    if (currentTotal + lot.quantity > maxCap) {
+    if (currentTotal + this.getReservedIncoming(lot.location) + lot.quantity > maxCap) {
       throw new Error(
         `Kapasite aşıldı: ${locationKey(lot.location)} kapasitesi ${maxCap}, mevcut ${currentTotal}, eklenmek istenen ${lot.quantity}`
       );
@@ -179,6 +183,41 @@ export class InventoryManager {
     return Array.from(this.reservations.values()).filter((r) => r.status === 'ACTIVE');
   }
 
+  private reservedOnLot(lotId: EntityId, exceptReservationId?: EntityId): number {
+    let reserved = 0;
+    for (const reservation of this.reservations.values()) {
+      if (reservation.status === 'ACTIVE' && reservation.lotId === lotId &&
+          reservation.id !== exceptReservationId) {
+        reserved += reservation.quantity;
+      }
+    }
+    return reserved;
+  }
+
+  private selectLots(
+    location: StockLocation,
+    itemId: ItemId,
+    quantity: number,
+    reservation?: Reservation
+  ): Array<{ lot: StockLot; quantity: number }> {
+    const selected: Array<{ lot: StockLot; quantity: number }> = [];
+    let remaining = quantity;
+    for (const lot of this.getLotsAt(location)) {
+      if (lot.itemId !== itemId || (reservation?.lotId && lot.id !== reservation.lotId)) continue;
+      const available = Math.max(0, lot.quantity - this.reservedOnLot(lot.id, reservation?.id));
+      const take = Math.min(available, remaining);
+      if (take > 0) {
+        selected.push({ lot, quantity: take });
+        remaining -= take;
+      }
+      if (remaining === 0) break;
+    }
+    if (remaining > 0) {
+      throw new Error(`INSUFFICIENT_STOCK: ${locationKey(location)} konumunda ${itemId} için ${remaining} birim eksik`);
+    }
+    return selected;
+  }
+
   public createReservation(params: {
     id: EntityId;
     ownerId: EntityId;
@@ -195,7 +234,11 @@ export class InventoryManager {
 
     if (this.reservations.has(params.id)) {
       const existing = this.reservations.get(params.id)!;
-      if (existing.status === 'ACTIVE') {
+      if (existing.status === 'ACTIVE' && existing.ownerId === params.ownerId &&
+          isSameLocation(existing.source, params.source) &&
+          isSameLocation(existing.target, params.target) &&
+          existing.itemId === params.itemId && existing.quantity === params.quantity &&
+          existing.lotId === params.lotId) {
         return existing;
       }
       throw new Error(`Rezervasyon ID zaten kullanımda: ${params.id}`);
@@ -206,6 +249,14 @@ export class InventoryManager {
       throw new Error(
         `INSUFFICIENT_STOCK: ${locationKey(params.source)} konumunda ${params.itemId} için yeterli serbest stok yok (talep: ${params.quantity}, serbest: ${availableStock})`
       );
+    }
+
+    if (params.lotId) {
+      const lot = this.lots.get(params.lotId);
+      if (!lot || !isSameLocation(lot.location, params.source) || lot.itemId !== params.itemId ||
+          lot.quantity - this.reservedOnLot(lot.id) < params.quantity) {
+        throw new Error(`INSUFFICIENT_STOCK: seçilen lot için yeterli serbest stok yok: ${params.lotId}`);
+      }
     }
 
     const availableCapacity = this.getAvailableCapacity(params.target);
@@ -254,11 +305,16 @@ export class InventoryManager {
   }): TransferResult {
     // 1. Idempotency kontrolü: aynı transactionId daha önce işlendiyse ikinci etki yok
     const existing = this.committedTransactions.get(params.transactionId);
-    if (existing && 'transferredLots' in existing) {
-      return {
-        ...existing,
-        isDuplicate: true,
-      };
+    if (existing) {
+      if ('transferredLots' in existing) {
+        if (!isSameLocation(existing.source, params.source) ||
+            !isSameLocation(existing.target, params.target) ||
+            existing.itemId !== params.itemId || existing.quantity !== params.quantity) {
+          throw new Error(`İşlem ID farklı transfer için kullanılmış: ${params.transactionId}`);
+        }
+        return { ...existing, isDuplicate: true };
+      }
+      throw new Error(`İşlem ID farklı envanter işlemi için kullanılmış: ${params.transactionId}`);
     }
 
     if (params.quantity <= 0 || !Number.isInteger(params.quantity)) {
@@ -303,8 +359,7 @@ export class InventoryManager {
     }
 
     // 2. Kaynak lotlardan eksiltme (FIFO / lot bazlı korunum)
-    const sourceLots = this.getLotsAt(params.source).filter((l) => l.itemId === params.itemId);
-    let remainingToTransfer = params.quantity;
+    const sourceLots = this.selectLots(params.source, params.itemId, params.quantity, reservation);
     const transferredLots: Array<{ lotId: EntityId; quantity: number }> = [];
 
     // Transfer edilecek lotların maliyet ve kalite ağırlıklı ortalaması
@@ -312,11 +367,8 @@ export class InventoryManager {
     let accumulatedQuality = 0;
     let fallbackSourceId = 'transfer';
 
-    for (const lot of sourceLots) {
-      if (remainingToTransfer <= 0) break;
-      const takeAmount = Math.min(lot.quantity, remainingToTransfer);
+    for (const { lot, quantity: takeAmount } of sourceLots) {
       lot.quantity -= takeAmount;
-      remainingToTransfer -= takeAmount;
 
       accumulatedCost += lot.unitCostAtoms * takeAmount;
       accumulatedQuality += lot.qualityScore * takeAmount;
@@ -329,10 +381,6 @@ export class InventoryManager {
       }
     }
 
-    if (remainingToTransfer > 0) {
-      throw new Error(`Yetersiz fiziksel stok: ${remainingToTransfer} eksik kaldı.`);
-    }
-
     const avgUnitCost = Math.round(accumulatedCost / params.quantity);
     const avgQuality = Math.round(accumulatedQuality / params.quantity);
 
@@ -341,10 +389,17 @@ export class InventoryManager {
       (l) => l.itemId === params.itemId && l.unitCostAtoms === avgUnitCost && l.qualityScore === avgQuality
     );
 
+    let targetLotId: EntityId;
     if (targetLots.length > 0) {
       targetLots[0].quantity += params.quantity;
+      targetLotId = targetLots[0].id;
     } else {
-      const newLotId = `lot_${params.transactionId}_${params.timestampTick}`;
+      const lotIdBase = `lot_${params.transactionId}_${params.timestampTick}`;
+      let newLotId = lotIdBase;
+      let suffix = 1;
+      while (this.lots.has(newLotId)) {
+        newLotId = `${lotIdBase}_${suffix++}`;
+      }
       const newLot: StockLot = {
         id: newLotId,
         itemId: params.itemId,
@@ -355,6 +410,7 @@ export class InventoryManager {
         location: { ...params.target },
       };
       this.lots.set(newLot.id, newLot);
+      targetLotId = newLot.id;
     }
 
     // 4. Rezervasyon varsa çözme
@@ -377,6 +433,7 @@ export class InventoryManager {
       quantity: params.quantity,
       isDuplicate: false,
       transferredLots,
+      targetLotId,
     };
 
     this.committedTransactions.set(params.transactionId, result);
@@ -392,11 +449,15 @@ export class InventoryManager {
   }): ConsumeResult {
     // 1. Idempotency kontrolü: aynı transactionId daha önce işlendiyse ikinci etki yok
     const existing = this.committedTransactions.get(params.transactionId);
-    if (existing && 'consumedLots' in existing) {
-      return {
-        ...existing,
-        isDuplicate: true,
-      };
+    if (existing) {
+      if ('consumedLots' in existing) {
+        if (!isSameLocation(existing.location, params.location) ||
+            existing.itemId !== params.itemId || existing.quantity !== params.quantity) {
+          throw new Error(`İşlem ID farklı tüketim için kullanılmış: ${params.transactionId}`);
+        }
+        return { ...existing, isDuplicate: true };
+      }
+      throw new Error(`İşlem ID farklı envanter işlemi için kullanılmış: ${params.transactionId}`);
     }
 
     if (params.quantity <= 0 || !Number.isInteger(params.quantity)) {
@@ -410,15 +471,11 @@ export class InventoryManager {
       );
     }
 
-    const lots = this.getLotsAt(params.location).filter((l) => l.itemId === params.itemId);
-    let remainingToConsume = params.quantity;
+    const lots = this.selectLots(params.location, params.itemId, params.quantity);
     const consumedLots: Array<{ lotId: EntityId; quantity: number }> = [];
 
-    for (const lot of lots) {
-      if (remainingToConsume <= 0) break;
-      const take = Math.min(lot.quantity, remainingToConsume);
+    for (const { lot, quantity: take } of lots) {
       lot.quantity -= take;
-      remainingToConsume -= take;
       consumedLots.push({ lotId: lot.id, quantity: take });
 
       if (lot.quantity === 0) {

@@ -70,6 +70,19 @@ describe('P0-02 Acceptance Criteria Verification', () => {
       // Kasa Masası (x17, z22)
       expect(WorldLayout.isWalkable(16.8, 22.3)).toBe(false);
     });
+
+    it('paftadaki 2×2 ve 1×2 footprint hücrelerini tam boyutta engeller', () => {
+      const spring = WorldLayout.FIXTURES.find((fixture) => fixture.id === 'source.spring_water')!;
+      const crop = WorldLayout.FIXTURES.find((fixture) => fixture.id === 'source.crop_plot')!;
+      const bottler = WorldLayout.FIXTURES.find((fixture) => fixture.id === 'station.bottler')!;
+      expect(spring.bounds.maxX - spring.bounds.minX + 1).toBe(2);
+      expect(crop.bounds.maxZ - crop.bounds.minZ + 1).toBe(2);
+      expect(bottler.bounds.maxX - bottler.bounds.minX + 1).toBe(1);
+      expect(bottler.bounds.maxZ - bottler.bounds.minZ + 1).toBe(2);
+      expect(WorldLayout.isWalkable(6.4, 21.5)).toBe(false);
+      expect(WorldLayout.isWalkable(12.4, 23.4)).toBe(false);
+      expect(WorldLayout.isWalkable(7, 21.5)).toBe(true);
+    });
   });
 
   // =========================================================================
@@ -151,24 +164,24 @@ describe('P0-02 Acceptance Criteria Verification', () => {
   // HUD altında bırakmaz.
   // =========================================================================
   describe('Criterion 3: Portrait Camera Framing & HUD Offset Compensation', () => {
-    it('Kamera takip noktasında alt HUD için Z kompanzasyonu (+1.8m) uygular', () => {
+    it('ortografik kamera 45° yatay ve yaklaşık 32° aşağı bakar; HUD hedef kaydırmasını uygular', () => {
       const portraitAspect = 9 / 16; // 0.5625 (tipik mobil portre)
       const portraitCam = new PortraitCamera(portraitAspect);
 
       const playerPos = { x: 14.5, y: 0.6, z: 24.5 };
       portraitCam.follow(playerPos, 1.0); // Anında odaklan
 
-      // Kameranın baktığı hedef nokta oyuncu Z'sinden ileride olmalıdır (HUD kompanzasyonu)
-      // Kamera position.z = lookAt.z + 12 = 24.5 + 1.8 + 12 = 38.3
-      expect(portraitCam.camera.position.z).toBeCloseTo(24.5 + 1.8 + 12, 1);
+      expect(portraitCam.camera.isOrthographicCamera).toBe(true);
+      expect(portraitCam.camera.position.x - playerPos.x).toBeCloseTo(8, 2);
+      expect(portraitCam.camera.position.z).toBeCloseTo(24.5 + 1.8 + 8, 2);
+      const elevation = Math.atan2(7.07, Math.hypot(8, 8)) * 180 / Math.PI;
+      expect(elevation).toBeCloseTo(32, 0);
     });
 
-    it('Dar portre ekranlarda FOV sahnenin yanlarını kesmeyecek şekilde dinamik genişler', () => {
-      const landscapeCam = new PortraitCamera(16 / 9); // Yatay ekran
-      expect(landscapeCam.camera.fov).toBe(45);
-
-      const portraitCam = new PortraitCamera(9 / 16); // Dar dikey ekran (aspect ~0.56)
-      expect(portraitCam.camera.fov).toBeGreaterThan(45);
+    it('dar portrede görüş genişliği en az 8 dünya birimi kalır', () => {
+      const portraitCam = new PortraitCamera(9 / 21);
+      expect(portraitCam.camera.right - portraitCam.camera.left).toBeCloseTo(8);
+      expect(portraitCam.camera.top - portraitCam.camera.bottom).toBeGreaterThan(14);
     });
   });
 });

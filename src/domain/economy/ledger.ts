@@ -54,7 +54,7 @@ export class EconomyLedger {
   private processedIds: Set<string>;
 
   constructor(initialBalanceAtoms: number = 0, initialEntries: LedgerEntry[] = []) {
-    if (initialBalanceAtoms < 0 || !Number.isInteger(initialBalanceAtoms)) {
+    if (initialBalanceAtoms < 0 || !Number.isSafeInteger(initialBalanceAtoms)) {
       throw new Error(`Initial balance must be a non-negative integer: ${initialBalanceAtoms}`);
     }
     this.balanceAtoms = initialBalanceAtoms;
@@ -97,13 +97,16 @@ export class EconomyLedger {
       throw new DuplicateTransactionError(transactionId);
     }
 
-    if (!Number.isInteger(amountAtoms) || amountAtoms <= 0) {
+    if (!Number.isSafeInteger(amountAtoms) || amountAtoms <= 0) {
       throw new InvalidTransactionAmountError(amountAtoms);
     }
 
     let newBalance: number;
     if (type === 'CREDIT') {
       newBalance = this.balanceAtoms + amountAtoms;
+      if (!Number.isSafeInteger(newBalance)) {
+        throw new Error('Balance exceeds safe integer precision');
+      }
     } else {
       if (this.balanceAtoms < amountAtoms) {
         throw new InsufficientBalanceError(amountAtoms, this.balanceAtoms);

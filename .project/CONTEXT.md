@@ -1,6 +1,6 @@
 # Orbit Market — proje bağlamı
 
-Revision: 27 · Yetkili kaynak: .project/state.json
+Revision: 35 · Yetkili kaynak: .project/state.json
 
 Bu görünüm türetilmiştir. Güncel kanıt kontrolü için context komutunu çalıştır.
 
@@ -109,8 +109,8 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Girdiler: constitution-p0, mvp-guide-p0, content-catalog-p0
   - Ürettiği nesneler: p0-time-content
   - Etkin önkoşullar: yok
-  - Kabul güncelliği: güncel · tamamlanma sayısı: 2
-- P0-02 [done] Tek oda dünyasını, dokunmatik hareketi ve pointer sahipliğini kur (kayıt: done)
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 4
+- P0-02 [review] Tek oda dünyasını, dokunmatik hareketi ve pointer sahipliğini kur (kayıt: review)
   - Ölçüt: P0 sahnesi paftadaki tek satış odası, bahçe kaynağı ve geçerli başlangıç footprint'lerini kullanır.
   - Ölçüt: Klavyesiz dokunmatik hareket çalışır; UI üzerinde başlayan pointer dünya komutuna dönüşmez.
   - Ölçüt: Kamera portre ekranda oyuncu ve seçili P0 hedefini HUD altında bırakmaz.
@@ -118,8 +118,9 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Girdiler: constitution-p0, mvp-guide-p0, world-map-p0
   - Ürettiği nesneler: p0-world-input
   - Etkin önkoşullar: P0-01
-  - Kabul güncelliği: güncel · tamamlanma sayısı: 2
-- P0-03 [done] Kapasite ve rezervasyon korumalı ürün transferini kur (kayıt: done)
+  - Kabul güncelliği: yeniden inceleme gerekli · tamamlanma sayısı: 2
+  - Yeniden inceleme: dependency task P0-01 changed
+- P0-03 [blocked] Kapasite ve rezervasyon korumalı ürün transferini kur (kayıt: review)
   - Ölçüt: Kaynak, taşıyıcı ve hedef konumları ile kapasite/rezervasyon doğrulanır.
   - Ölçüt: İptal veya yinelenen komut ürün çoğaltmaz, silmez ya da kayıtsız konuma bırakmaz.
   - Ölçüt: Taşıma sonucu tek domain işlemiyle korunur.
@@ -129,8 +130,10 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Etkin önkoşullar: P0-01, P0-02
   - Üretici bağı: p0-time-content ← P0-01
   - Üretici bağı: p0-world-input ← P0-02
-  - Kabul güncelliği: güncel · tamamlanma sayısı: 3
-- P0-04 [done] Tek müşteri, raf, kuyruk ve satış ledger akışını kur (kayıt: done)
+  - Kabul güncelliği: yeniden inceleme gerekli · tamamlanma sayısı: 3
+  - Yeniden inceleme: dependency task P0-01 changed
+  - Kontrol: dependency P0-02: review
+- P0-04 [blocked] Tek müşteri, raf, kuyruk ve satış ledger akışını kur (kayıt: review)
   - Ölçüt: Satışta gerçek raf stoku ve kayıtlı fiyat kullanılır; ürün ve bakiye tek işlem sonucunda güncellenir.
   - Ölçüt: Aynı transaction yeniden işlendiğinde ikinci satış veya bakiye etkisi oluşmaz.
   - Ölçüt: Boş raf, fiyat/bütçe reddi ve kuyruk sonucu gerçek nedenleriyle ayrılır.
@@ -139,8 +142,10 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Ürettiği nesneler: p0-sales
   - Etkin önkoşullar: P0-03
   - Üretici bağı: p0-transfer ← P0-03
-  - Kabul güncelliği: güncel · tamamlanma sayısı: 1
-- P0-05 [todo] Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır (kayıt: todo)
+  - Kabul güncelliği: yeniden inceleme gerekli · tamamlanma sayısı: 1
+  - Yeniden inceleme: dependency task P0-03 changed
+  - Kontrol: dependency P0-03: blocked
+- P0-05 [blocked] Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır (kayıt: todo)
   - Ölçüt: Küçük şişe, 5 L bidon ve 19 L damacana tarifleri ham su ve ilgili ambalaj lotunu tüketir.
   - Ölçüt: Domates hasadı katalogdaki su/tohum girdilerini kullanır; çıktı doluysa girdi/ürün kaybolmaz.
   - Ölçüt: Üretim süresi, enerji ve bekleme nedeni gerçek domain durumundan gösterilir.
@@ -150,6 +155,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Etkin önkoşullar: P0-03
   - Üretici bağı: p0-transfer ← P0-03
   - Kabul güncelliği: henüz doğrulanmadı · tamamlanma sayısı: 0
+  - Kontrol: dependency P0-03: blocked
 - P0-06 [todo] Snapshot, kritik işlem günlüğü ve lifecycle dönüşünü kur (kayıt: todo)
   - Ölçüt: Kritik satış/üretim/transfer sonucu durable kayıtla bir kez uygulanır.
   - Ölçüt: Yarım yazım veya bozuk kayıt sessizce sıfırlanmaz; görünür kurtarma yolu bulunur.
@@ -172,7 +178,8 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Üretici bağı: p0-save ← P0-06
   - Üretici bağı: p0-transfer ← P0-03
   - Kabul güncelliği: henüz doğrulanmadı · tamamlanma sayısı: 0
-  - Kontrol: dependency P0-05: todo
+  - Kontrol: dependency P0-03: blocked
+  - Kontrol: dependency P0-05: blocked
   - Kontrol: dependency P0-06: todo
 - P0-08 [blocked] İnşa ve yerleşimde servis, kapı ve temel üretim erişimini koru (kayıt: todo)
   - Ölçüt: Geçersiz footprint, kapı, servis hücresi veya rota yerleşimi reddedilir ve neden gösterilir.
@@ -185,6 +192,8 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Üretici bağı: p0-transfer ← P0-03
   - Üretici bağı: p0-worker ← P0-07
   - Kabul güncelliği: henüz doğrulanmadı · tamamlanma sayısı: 0
+  - Kontrol: dependency P0-02: review
+  - Kontrol: dependency P0-03: blocked
   - Kontrol: dependency P0-07: blocked
 - P0-09 [blocked] P0 döngüsünü gerçek cihazda ve dış oyuncuyla kabul et (kayıt: todo)
   - Ölçüt: Android ve iOS cihaz build/yaşam döngüsü sonuçları ayrı kaydedilir; bir platform diğerinin kanıtı sayılmaz.
@@ -202,14 +211,17 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Üretici bağı: p0-worker ← P0-07
   - Üretici bağı: p0-world-input ← P0-02
   - Kabul güncelliği: henüz doğrulanmadı · tamamlanma sayısı: 0
-  - Kontrol: dependency P0-05: todo
+  - Kontrol: dependency P0-04: blocked
+  - Kontrol: dependency P0-05: blocked
   - Kontrol: dependency P0-06: todo
   - Kontrol: dependency P0-07: blocked
   - Kontrol: dependency P0-08: blocked
+  - Kontrol: dependency P0-03: blocked
+  - Kontrol: dependency P0-02: review
 
 ## Çalışılabilir görevler
 
-P0-05, P0-06
+P0-02, P0-06
 
 ## Uyarılar
 

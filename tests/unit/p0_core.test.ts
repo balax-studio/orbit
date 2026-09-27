@@ -298,6 +298,17 @@ describe('P0-01 Acceptance Criteria Verification', () => {
       ).toThrowError(InvalidTransactionAmountError);
     });
 
+    it('güvenli tamsayı sınırı aşıldığında bakiye ve işlem geçmişi değişmez', () => {
+      const ledger = new EconomyLedger(Number.MAX_SAFE_INTEGER - 1);
+      expect(() => ledger.commitTransaction({ transactionId: 'overflow', timestampTick: 1,
+        type: 'CREDIT', amountAtoms: 2, reason: 'SALE' })).toThrow('safe integer precision');
+      expect(ledger.getBalanceAtoms()).toBe(Number.MAX_SAFE_INTEGER - 1);
+      expect(ledger.getEntries()).toHaveLength(0);
+      expect(() => ledger.commitTransaction({ transactionId: 'unsafe-amount', timestampTick: 1,
+        type: 'CREDIT', amountAtoms: Number.MAX_SAFE_INTEGER + 1, reason: 'SALE' }))
+        .toThrowError(InvalidTransactionAmountError);
+    });
+
     it('Application CommandDispatcher üzerinden komut ile bakiye değişimi sağlanır', () => {
       const ledger = new EconomyLedger(0);
       const dispatcher = new CommandDispatcher(ledger);

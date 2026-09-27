@@ -10,18 +10,17 @@ export interface CameraTarget {
 }
 
 export class PortraitCamera {
-  public camera: THREE.PerspectiveCamera;
+  public camera: THREE.OrthographicCamera;
   private currentLookAt: THREE.Vector3;
   private targetLookAt: THREE.Vector3;
 
   // Kamera açı ve mesafe sabitleri
-  private readonly CAMERA_OFFSET = new THREE.Vector3(0, 16, 12);
+  private readonly CAMERA_OFFSET = new THREE.Vector3(8, 7.07, 8);
   // Portre ekranda alt HUD'ın (~120px) oyuncuyu kapatmaması için hedef merkezini hafif aşağı kaydırma ofseti
   private readonly HUD_COMPENSATION_Z = 1.8;
 
   constructor(aspect: number) {
-    // Portre modda dikey görüş açısını 45 dereceye sabitle
-    this.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 100);
+    this.camera = new THREE.OrthographicCamera(-4, 4, 7, -7, 0.1, 100);
     this.currentLookAt = new THREE.Vector3();
     this.targetLookAt = new THREE.Vector3();
 
@@ -29,13 +28,14 @@ export class PortraitCamera {
   }
 
   public updateAspect(aspect: number): void {
-    this.camera.aspect = aspect;
-    // Portre ekranda (aspect < 1) sahneyi yanlardan kırpmamak için FOV'u dinamik genişlet
-    if (aspect < 1) {
-      this.camera.fov = 45 / Math.max(0.65, aspect);
-    } else {
-      this.camera.fov = 45;
-    }
+    if (!Number.isFinite(aspect) || aspect <= 0) return;
+    // En az 8 dünya birimi yatay alan; dar portrede yüksekliği genişlet.
+    const halfHeight = Math.max(14, 8 / aspect) / 2;
+    const halfWidth = halfHeight * aspect;
+    this.camera.left = -halfWidth;
+    this.camera.right = halfWidth;
+    this.camera.top = halfHeight;
+    this.camera.bottom = -halfHeight;
     this.camera.updateProjectionMatrix();
   }
 

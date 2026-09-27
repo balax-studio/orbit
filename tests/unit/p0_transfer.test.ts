@@ -24,6 +24,65 @@ describe('P0-03: Ürün Transferi, Kapasite ve Rezervasyon Koruması', () => {
     dispatcher = new CommandDispatcher(ledger, inventory);
   });
 
+  it('aynı lot kimliğini ve ayrılmış hedef kapasitesini ezmeden reddeder', () => {
+    const lot: StockLot = {
+      id: 'lot-unique', itemId: 'item.raw_water', quantity: 2,
+      qualityScore: 40, unitCostAtoms: 0, sourceId: 'source.spring_water', location: sourceLoc,
+    };
+    inventory.addLot(lot);
+    expect(() => inventory.addLot({ ...lot, quantity: 1, location: shelfLoc })).toThrow('Lot ID zaten kullanımda');
+    expect(inventory.getPhysicalQuantity(sourceLoc, lot.itemId)).toBe(2);
+
+    inventory.setCapacity(shelfLoc, 2);
+    inventory.createReservation({ id: 'res-capacity', ownerId: 'player_1',
+      source: sourceLoc, target: shelfLoc, itemId: lot.itemId, quantity: 2, currentTick: 0 });
+    expect(() => inventory.addLot({ ...lot, id: 'lot-extra', quantity: 1, location: shelfLoc }))
+      .toThrow('Kapasite aşıldı');
+    expect(inventory.getPhysicalQuantity(shelfLoc)).toBe(0);
+  });
+
+  it('işlem ve rezervasyon kimliğini farklı içerikle yeniden kullanmayı reddeder', () => {
+    inventory.addLot({ id: 'identity-source', itemId: 'item.raw_water', quantity: 3,
+      qualityScore: 40, unitCostAtoms: 0, sourceId: 'source.spring_water', location: sourceLoc });
+    inventory.createReservation({ id: 'identity-reservation', ownerId: 'player_1',
+      source: sourceLoc, target: shelfLoc, itemId: 'item.raw_water', quantity: 1, currentTick: 1 });
+    expect(() => inventory.createReservation({ id: 'identity-reservation', ownerId: 'worker_1',
+      source: sourceLoc, target: shelfLoc, itemId: 'item.raw_water', quantity: 1, currentTick: 1 }))
+      .toThrow('Rezervasyon ID zaten kullanımda');
+
+    inventory.transferStock({ transactionId: 'identity-transfer', timestampTick: 2,
+      source: sourceLoc, target: playerLoc, itemId: 'item.raw_water', quantity: 1 });
+    expect(() => inventory.transferStock({ transactionId: 'identity-transfer', timestampTick: 3,
+      source: sourceLoc, target: workerLoc, itemId: 'item.raw_water', quantity: 1 }))
+      .toThrow('farklı transfer');
+    expect(() => inventory.consumeStock({ transactionId: 'identity-transfer', timestampTick: 3,
+      location: playerLoc, itemId: 'item.raw_water', quantity: 1 })).toThrow('farklı envanter işlemi');
+    expect(inventory.getPhysicalQuantity(playerLoc, 'item.raw_water')).toBe(1);
+  });
+
+  it('lot kimliğine bağlı rezervasyonda başka lotu tüketmez veya ayırmaz', () => {
+    const first: StockLot = { id: 'reserved-first', itemId: 'item.raw_water', quantity: 1,
+      qualityScore: 40, unitCostAtoms: 0, sourceId: 'source.spring_water', location: sourceLoc };
+    inventory.addLot(first);
+    inventory.addLot({ ...first, id: 'free-second' });
+    expect(() => inventory.createReservation({ id: 'missing-lot', ownerId: 'player_1',
+      source: sourceLoc, target: playerLoc, itemId: first.itemId, quantity: 1,
+      lotId: 'does-not-exist', currentTick: 1 })).toThrow('seçilen lot');
+
+    inventory.createReservation({ id: 'specific-lot', ownerId: 'player_1',
+      source: sourceLoc, target: playerLoc, itemId: first.itemId, quantity: 1,
+      lotId: first.id, currentTick: 1 });
+    const freeTransfer = inventory.transferStock({ transactionId: 'take-free', timestampTick: 2,
+      source: sourceLoc, target: workerLoc, itemId: first.itemId, quantity: 1 });
+    expect(freeTransfer.transferredLots).toEqual([{ lotId: 'free-second', quantity: 1 }]);
+    expect(inventory.getLot(first.id)?.quantity).toBe(1);
+
+    const reservedTransfer = inventory.transferStock({ transactionId: 'take-reserved', timestampTick: 3,
+      source: sourceLoc, target: playerLoc, itemId: first.itemId, quantity: 1,
+      reservationId: 'specific-lot' });
+    expect(reservedTransfer.transferredLots).toEqual([{ lotId: 'reserved-first', quantity: 1 }]);
+  });
+
   describe('T-P0-03: Başarılı transfer ve işlem idempotency (dedup)', () => {
     it('Kaynak 5 ham su, hedef 2 boş kapasite; 2 birim taşınır ve aynı komut ID ile tekrarlandığında yan etki oluşmaz', () => {
       // 1. Setup: Kaynakta 5 ham su, rafta 2 boş kapasite

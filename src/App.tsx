@@ -5,6 +5,7 @@ import { InputManager } from './presentation/input/InputManager';
 import { SimulationClock } from './domain/time/clock';
 import { EconomyLedger } from './domain/economy/ledger';
 import { ATOMS_PER_CREDIT } from './domain/constants';
+import { stepPlayerMovement } from './application/playerMovement';
 
 export default function App() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -13,16 +14,17 @@ export default function App() {
 
   // Simülasyon saat ve ledger durumları
   const clockRef = useRef<SimulationClock>(new SimulationClock());
-  const ledgerRef = useRef<EconomyLedger>(new EconomyLedger(100 * ATOMS_PER_CREDIT)); // 100 Kredi başlangıç
+  const [ledger] = useState(() => new EconomyLedger(100 * ATOMS_PER_CREDIT)); // 100 Kredi başlangıç
 
   // Oyuncu mantıksal hareket durumu
   const playerPosRef = useRef({ x: WorldLayout.PLAYER_SPAWN.x, z: WorldLayout.PLAYER_SPAWN.z });
+  const previousPlayerPosRef = useRef({ x: WorldLayout.PLAYER_SPAWN.x, z: WorldLayout.PLAYER_SPAWN.z });
   const playerTargetRef = useRef<{ x: number; z: number } | null>(null);
   const joystickVecRef = useRef<{ x: number; z: number }>({ x: 0, z: 0 });
   const playerRotationRef = useRef(0);
 
   // UI state
-  const [balanceCredits, setBalanceCredits] = useState(100);
+  const balanceCredits = ledger.getBalanceCredits();
   const [currentTick, setCurrentTick] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [nearestFixture, setNearestFixture] = useState<string>('Boşluk');
@@ -67,7 +69,7 @@ export default function App() {
     };
     window.addEventListener('resize', handleResize);
 
-    // 4. Render & Simülasyon Döngüsü (10 Hz Tick + 60 FPS Render)
+    // 4. Simülasyon 10 Hz'de ilerler; render yalnız son iki mantıksal konumu çizer.
     let animationFrameId: number;
     let lastTimeMs = performance.now();
 
@@ -77,75 +79,48 @@ export default function App() {
 
       // Sabit 100 ms Simülasyon Saati
       clockRef.current.update(deltaMs, (tick) => {
-        setCurrentTick(tick);
-      });
-
-      // Oyuncu Hareketi (Render adımında pürüzsüz interpolasyon)
-      const currentPos = playerPosRef.current;
-      const speed = 4.0; // 4 m/s yürüyüş hızı
-      const dt = Math.min(deltaMs / 1000, 0.05);
-
-      let moveX = 0;
-      let moveZ = 0;
-
-      // Sanal joystick hareketi
-      if (joystickVecRef.current.x !== 0 || joystickVecRef.current.z !== 0) {
-        moveX = joystickVecRef.current.x * speed * dt;
-        moveZ = joystickVecRef.current.z * speed * dt;
-      }
-      // Tap-to-move hareketi
-      else if (playerTargetRef.current) {
-        const dx = playerTargetRef.current.x - currentPos.x;
-        const dz = playerTargetRef.current.z - currentPos.z;
-        const dist = Math.sqrt(dx * dx + dz * dz);
-
-        if (dist > 0.1) {
-          moveX = (dx / dist) * Math.min(dist, speed * dt);
-          moveZ = (dz / dist) * Math.min(dist, speed * dt);
-        } else {
+        previousPlayerPosRef.current = { ...playerPosRef.current };
+        const movement = stepPlayerMovement(
+          playerPosRef.current,
+          playerTargetRef.current,
+          joystickVecRef.current,
+          (x, z) => WorldLayout.isWalkable(x, z)
+        );
+        playerPosRef.current = movement.position;
+        if (movement.rotation !== null) {
+          playerRotationRef.current = movement.rotation;
+        }
+        if (movement.reachedTarget) {
           playerTargetRef.current = null;
           renderer.hideTargetMarker();
         }
-      }
 
-      // Çarpışma ve Yürünebilirlik Kontrolü
-      if (moveX !== 0 || moveZ !== 0) {
-        const nextX = currentPos.x + moveX;
-        const nextZ = currentPos.z + moveZ;
-
-        // X ekseninde hareket kontrolü
-        if (WorldLayout.isWalkable(nextX, currentPos.z)) {
-          currentPos.x = nextX;
+        let closestName = 'Boşluk';
+        let minDist = 2.5;
+        for (const fixture of WorldLayout.FIXTURES) {
+          const distance = Math.hypot(
+            movement.position.x - fixture.serviceCell.x,
+            movement.position.z - fixture.serviceCell.z
+          );
+          if (distance < minDist) {
+            minDist = distance;
+            closestName = fixture.name;
+          }
         }
-        // Z ekseninde hareket kontrolü
-        if (WorldLayout.isWalkable(currentPos.x, nextZ)) {
-          currentPos.z = nextZ;
-        }
+        setNearestFixture(closestName);
+        setCurrentTick(tick);
+      });
 
-        // Karakter dönüş açısı
-        playerRotationRef.current = Math.atan2(moveX, moveZ);
-      }
+      const alpha = clockRef.current.getPaused() ? 1 : clockRef.current.getInterpolationAlpha();
+      const previousPos = previousPlayerPosRef.current;
+      const currentPos = playerPosRef.current;
 
       // Sahne ve Karakter Görselini Güncelle
       renderer.updatePlayer({
-        x: currentPos.x,
-        z: currentPos.z,
+        x: previousPos.x + (currentPos.x - previousPos.x) * alpha,
+        z: previousPos.z + (currentPos.z - previousPos.z) * alpha,
         rotation: playerRotationRef.current,
       });
-
-      // En yakın istasyonu tespit et
-      let closestName = 'Boşluk';
-      let minDist = 2.5;
-      for (const fixture of WorldLayout.FIXTURES) {
-        const dx = currentPos.x - fixture.serviceCell.x;
-        const dz = currentPos.z - fixture.serviceCell.z;
-        const d = Math.sqrt(dx * dx + dz * dz);
-        if (d < minDist) {
-          minDist = d;
-          closestName = fixture.name;
-        }
-      }
-      setNearestFixture(closestName);
 
       // Çiz
       renderer.render();
@@ -172,34 +147,6 @@ export default function App() {
       setIsPaused(true);
       setHudMessage('Simülasyon duraklatıldı.');
     }
-  };
-
-  const handleTestDebit = () => {
-    try {
-      ledgerRef.current.commitTransaction({
-        transactionId: `tx-ui-test-${Date.now()}`,
-        timestampTick: clockRef.current.getTick(),
-        type: 'DEBIT',
-        amountAtoms: 5 * ATOMS_PER_CREDIT, // 5 Kredi
-        reason: 'PURCHASE',
-      });
-      setBalanceCredits(ledgerRef.current.getBalanceCredits());
-      setHudMessage('5 Kredi test harcaması yapıldı.');
-    } catch (e: any) {
-      setHudMessage(`Hata: ${e.message}`);
-    }
-  };
-
-  const handleTestCredit = () => {
-    ledgerRef.current.commitTransaction({
-      transactionId: `tx-ui-test-${Date.now()}`,
-      timestampTick: clockRef.current.getTick(),
-      type: 'CREDIT',
-      amountAtoms: 10 * ATOMS_PER_CREDIT, // 10 Kredi
-      reason: 'SALE',
-    });
-    setBalanceCredits(ledgerRef.current.getBalanceCredits());
-    setHudMessage('10 Kredi test geliri eklendi.');
   };
 
   return (
@@ -264,23 +211,6 @@ export default function App() {
             {hudMessage}
           </div>
 
-          {/* Test Butonları (Pointer sahipliği kanıtı: bu butonlara tıklandığında karakter arkaya yürümez) */}
-          <div className="flex gap-2 pt-1">
-            <button
-              data-ui="true"
-              onClick={handleTestDebit}
-              className="flex-1 py-1.5 text-xs font-black bg-[#FF5733] text-white border-2 border-[#171717] shadow-[2px_2px_0px_0px_#171717] active:translate-x-0.5 active:translate-y-0.5 rounded"
-            >
-              -5 Kredi
-            </button>
-            <button
-              data-ui="true"
-              onClick={handleTestCredit}
-              className="flex-1 py-1.5 text-xs font-black bg-[#A7EB52] text-black border-2 border-[#171717] shadow-[2px_2px_0px_0px_#171717] active:translate-x-0.5 active:translate-y-0.5 rounded"
-            >
-              +10 Kredi
-            </button>
-          </div>
         </footer>
       </div>
     </div>

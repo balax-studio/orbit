@@ -167,8 +167,8 @@ export class SceneRenderer {
 
   private setupFixtures(): void {
     for (const fixture of WorldLayout.FIXTURES) {
-      const w = fixture.bounds.maxX - fixture.bounds.minX;
-      const d = fixture.bounds.maxZ - fixture.bounds.minZ;
+      const w = fixture.bounds.maxX - fixture.bounds.minX + 1;
+      const d = fixture.bounds.maxZ - fixture.bounds.minZ + 1;
       const h = 1.0;
 
       const posX = (fixture.bounds.minX + fixture.bounds.maxX) / 2;

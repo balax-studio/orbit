@@ -1,5 +1,7 @@
 # P0-02 Doğrulama Raporu: Tek Oda Dünyası, Dokunmatik Hareket ve Pointer Sahipliği
 
+> Tarihsel rapor. Güncel kamera ve footprint düzeltmeleri için [P0-01–P0-04 denetimine](P0_01_04_AUDIT_2026-09-27.md) bakın; Orvant yeniden inceleme istiyor.
+
 Tarih: 2026-09-27
 Görev: P0-02
 Durum: Doğrulandı

@@ -164,31 +164,47 @@ export class CommandDispatcher {
         const saleKey = command.transactionId;
         const existingSale = this.completedSales.get(saleKey);
         if (existingSale) {
+          if (existingSale.customerId !== command.customerId ||
+              existingSale.itemId !== command.itemId ||
+              existingSale.quantity !== command.quantity ||
+              existingSale.amountAtoms !== command.quantity * command.unitPriceAtoms) {
+            throw new Error(`İşlem ID farklı satış için kullanılmış: ${saleKey}`);
+          }
           return {
             ...existingSale,
             isDuplicate: true,
           };
         }
 
+        if (!this.inventory) {
+          throw new Error('InventoryManager bağlı değil');
+        }
+        if (command.customerLocation.kind !== 'customer' || command.customerLocation.ownerId !== command.customerId) {
+          throw new Error('Satış sepeti müşteriyle eşleşmiyor');
+        }
         const totalPriceAtoms = command.quantity * command.unitPriceAtoms;
-
-        // 1. Stok düşümü (müşteri sepetinden veya raftan)
-        if (this.inventory) {
-          const hasInBasket =
-            this.inventory.getAvailableQuantity(command.customerLocation, command.itemId) >=
-            command.quantity;
-          const consumeLocation = hasInBasket ? command.customerLocation : command.shelfLocation;
-
-          this.inventory.consumeStock({
-            transactionId: `consume_${command.transactionId}`,
-            timestampTick: command.timestampTick,
-            location: consumeLocation,
-            itemId: command.itemId,
-            quantity: command.quantity,
-          });
+        if (!Number.isSafeInteger(command.quantity) || command.quantity <= 0 ||
+            !Number.isSafeInteger(command.unitPriceAtoms) || command.unitPriceAtoms <= 0 ||
+            !Number.isSafeInteger(totalPriceAtoms)) {
+          throw new Error('Geçersiz satış miktarı veya fiyatı');
+        }
+        if (this.ledger.hasProcessed(command.transactionId)) {
+          throw new Error(`Satış işlem kimliği ledger içinde zaten kullanılmış: ${command.transactionId}`);
+        }
+        if (this.inventory.getAvailableQuantity(command.customerLocation, command.itemId) < command.quantity) {
+          throw new Error('Müşteri sepetinde yeterli ürün yok');
         }
 
-        // 2. Kredi atom muhasebesi (10.000 atom/kredi, tek transaction atomikliği)
+        // Doğrulamalardan sonra sepet tüketilir; satış rafı doğrudan tüketemez.
+        this.inventory.consumeStock({
+          transactionId: `consume_${command.transactionId}`,
+          timestampTick: command.timestampTick,
+          location: command.customerLocation,
+          itemId: command.itemId,
+          quantity: command.quantity,
+        });
+
+        // Kredi atom muhasebesi (10.000 atom/kredi)
         const ledgerEntry = this.ledger.commitTransaction({
           transactionId: command.transactionId,
           timestampTick: command.timestampTick,
