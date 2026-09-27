@@ -4,6 +4,7 @@ Bu dosya geliştirme iş akışını düzenler. Ürün kuralları için [OYUN_GE
 
 ## 1. Kaynak ve kapsam
 
+- Orvant proje kaydı varsa kod işinden önce [`.project/integration.md`](.project/integration.md) ve güncel `context` çıktısını oku; `CONTEXT.md`/`ONTOLOJİ.md` türetilmiş görünümlerdir, yetkili kayıt `.project/state.json`'dır. İşe `start_task` ile başla; görev girdisi, kabul koşulu ve kanıtı Orvant akışıyla tutarlı tut. State'i elle düzenleme.
 - Önce görevle ilgili anayasa bölümlerini, [IMPLEMENTATION_RULES.md](IMPLEMENTATION_RULES.md), [PLAN.md](PLAN.md) ve [MEMORY.md](MEMORY.md) içindeki güncel durumu oku. İlgisiz belgeleri tekrar tekrar okuma.
 - Teknik/görsel sözleşme için §61–63, faz kapsamı için §58.1, mobil yaşam döngüsü için §60 esas alınır. Güncellenmiş bölüm eski önerinin önüne geçer.
 - [KARARLAR.md](KARARLAR.md) yalnız anayasanın açık bıraktığı uygulama seçimlerini tamamlar. Karar ile kaynak çelişirse kaynak bölümlerini ve etkisini göster; sessizce yeni kural üretme.

@@ -1,5 +1,39 @@
 # Devir durumu ve karar kaydı
 
+## 2026-09-27 P0-03 kodlama ve doğrulama tamamlandı — görev kabulü
+
+P0-03 ("Kapasite ve rezervasyon korumalı ürün transferini kur") Orvant iş akışıyla `start_task` -> kodlama -> kanıt sunumu -> `complete_task` döngüsüyle doğrulandı.
+- `src/domain/inventory/InventoryManager.ts`: Tüm fiziksel (`source`, `shelf`, `storage`, `cabinet`, `machineInput`, `machineOutput`) ve aktör (`player`, `worker`, `customer`) konumları tekilleştirildi.
+- Kapasite ve serbest stok kontrolü: `getAvailableQuantity`, `getAvailableCapacity`, `DEFAULT_CAPACITIES` (oyuncu 5, raf 20, çeşme 80 vb.) ve özel limitler uygulandı.
+- T-P0-03b: Yetersiz stokta (`INSUFFICIENT_STOCK`) ve hedef kapasitesi aşıldığında (`EXCEEDS_CAPACITY`) işlem reddedildi; state/ledger/rezervasyonlar değişmedi.
+- T-P0-03: `committedTransactions` dedup kontrolüyle aynı transactionId tekrarlandığında ikinci etki oluşmadı (`isDuplicate: true`).
+- Rezervasyon ve İptal: `createReservation` ile kaynak stok ve hedef kapasite atomik kilitlendi; `cancelReservation` ile kilitler kayıpsız ve fazlalıksız açıldı; görevli rota kesintisinde ürünün görevli envanterinde güvenle korunduğu doğrulandı.
+- `src/application/commands.ts`: `TRANSFER_STOCK`, `RESERVE_STOCK`, `CANCEL_RESERVATION` komutları CommandDispatcher'a entegre edildi.
+- `tests/unit/p0_transfer.test.ts`: 10/10 test geçti (toplam 35 birim test, vitest 494 ms, oxlint 0 hata, build 702 ms). Doğrulama raporu `docs/test_reports/P0_03_VERIFICATION.md` olarak kaydedildi.
+- Orvant state revizyonu 9'a yükseldi; `P0-04` (Satış), `P0-05` (Üretim) ve `P0-06` (Kayıt/Snapshot) görevleri açıldı.
+
+## 2026-09-27 P0-02 kodlama ve doğrulama tamamlandı — görev kabulü
+
+P0-02 ("Tek oda dünyasını, dokunmatik hareketi ve pointer sahipliğini kur") Orvant iş akışıyla `start_task` -> kodlama -> kanıt sunumu -> `complete_task` döngüsüyle doğrulandı.
+- `src/presentation/world/WorldLayout.ts`: R3-C0 6×6 satış odası (`x12..17, z22..27`), güney kapısı (`x14..15, z27`), batı koridoru (`x10..12, z24..25`), bahçe alanı (`x4..9, z20..27`) ve istasyon footprint engelleri (`isWalkable`) tanımlandı.
+- `src/presentation/world/SceneRenderer.ts`: Three.js WebGL2 sahnesi, krem seramik oda zemini, duvarlar, bahçe toprağı, P0 istasyon kutuları ve servis halkaları, karakter mesh'i ve hedef işaretçisi uygulandı.
+- `src/presentation/input/InputManager.ts`: Tap-to-move, sanal joystick, touchcancel/pointercancel güvenliği ve UI pointer sahipliği (pointer isolation - `isPointerOverUI`) uygulandı.
+- `src/presentation/camera/PortraitCamera.ts`: Alt HUD için Z kompanzasyonu (`+1.8m`) ve dar portre ekranlar için dinamik FOV genişletmesi uygulandı.
+- `src/App.tsx`: Three.js sahnesi ile Neo-Brutalist HUD katmanı (`data-ui="true"`) entegre edildi.
+- `tests/unit/p0_world_input.test.ts`: 10/10 test geçti (toplam 25 birim test). Doğrulama raporu `docs/test_reports/P0_02_VERIFICATION.md` olarak kaydedildi.
+- Orvant state revizyonu 6'ya yükseldi; `P0-03` ve `P0-06` görevleri açıldı.
+
+## 2026-09-27 P0-01 kodlama ve doğrulama tamamlandı — görev kabulü
+
+P0-01 ("Sabit simülasyon saati, seed ve içerik doğrulayıcı temelini kur") Orvant iş akışıyla `start_task` -> kodlama -> kanıt sunumu -> `complete_task` döngüsüyle doğrulandı.
+- `@tailwindcss/postcss` ve `vitest` eklendi; `vite build` (618 ms) ve `oxlint` (0 hata) temizlendi.
+- `src/domain/time/clock.ts`: 100 ms sabit adımlı `SimulationClock`, 30/60/120 FPS render bağımsızlığı, 1e-5 epsilon toleransı, MAX_TICKS_PER_FRAME (5) sınırı ve arka plan pause koruması uygulandı.
+- `src/domain/random/rng.ts`: 32-bit deterministik `Mulberry32Rng` uygulandı; tohumlama ve durum (state) geri yükleme kanıtlandı.
+- `src/content/p0Content.ts`: 9 P0 SKU'su, 3 makine ve 5 tarif kataloğu ve `validateContent` doğrulayıcısı uygulandı; geçersiz girdi, tanımsız makine/ürün ve negatif fiyat reddi test edildi.
+- `src/domain/economy/ledger.ts`: 10.000 atom = 1 kredi sabit hassasiyetli `EconomyLedger`, yetersiz bakiyede red (Math.max yok), idempotent tek işlem ve `CommandDispatcher` uygulandı.
+- `tests/unit/p0_core.test.ts`: 15/15 birim test geçti. Doğrulama raporu `docs/test_reports/P0_01_VERIFICATION.md` olarak kaydedildi.
+- Orvant state revizyonu 3'e yükseldi; `P0-02` ve `P0-06` görevleri açıldı.
+
 ## 2026-09-27 Markdown tutarlılık denetimi — belge revizyonu
 
 Kök projedeki 23 Markdown dosyası kaynak önceliğiyle tarandı. Eski görsel referans rehberi bağlayıcı mekanik sanılmayacak şekilde yeniden yazıldı; P0 dört ürün/çok girdili su-domates, A2 müşteri fiyat tepkisi/A3 fiyat düzenleme, güncel 57 SKU, P0 fiziksel açılış sarf konumu, A2+ isteğe bağlı gün sonu ve güncel faz/karar bağlantıları eşlendi. Eski küp/spor/prototip dolabı, 24 SKU, dört jüri ve yanlış görsel yolları aktif talimatlardan çıkarıldı. Yerel Markdown bağlantıları ve `git diff --check` kontrol edildi. Bu yalnız belge denetimidir; kod, asset, build, cihaz ve oyuncu kabulü yapılmadı.

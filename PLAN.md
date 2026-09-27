@@ -64,8 +64,8 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 ## 4. H1 — geliştirme ortamı, proje ve hesap hazırlığı
 
 - [ ] Node/paket yöneticisi, TypeScript/Vite/Three.js/Capacitor sürüm uyumunu doğrula; kilit dosyası ve gerçek çalıştırma komutlarını belirle.
-- [ ] Domain/Application/Infrastructure/Presentation/Content/App sınırlarını kur; içerik ve kayıt ID kurallarını tanımla.
-- [ ] Git çalışma düzeni, secret dışlama, hedefli test komutu, build/lint/typecheck ve hata raporlama yolunu hazırla.
+- [x] Domain/Application/Infrastructure/Presentation/Content/App sınırlarını kur; içerik ve kayıt ID kurallarını tanımla.
+- [x] Git çalışma düzeni, secret dışlama, hedefli test komutu, build/lint/typecheck ve hata raporlama yolunu hazırla.
 - [ ] Android Studio/SDK/JDK ve gerçek Android cihaz erişimini doğrula.
 - [ ] macOS/Xcode, iPhone ve imzalama erişimini doğrula; eksikse iOS engelini açık tut.
 - [ ] App ID/bundle ID ve uygulama adının kararını kaydet; çalışma adı ile yayın marka kararını ayır.
@@ -79,19 +79,19 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 
 ### P0.1 — iskelet, veri, saat ve kabuk
 
-- [ ] [Dünya yerleşim paftasındaki](DUNYA_YERLESIM_PLANI.md) `R3-C0` 6×6 oda, batı bahçe, iki hücrelik bağlantı ve kamera dünya kaydırmasını tek koordinat sistemiyle kur; gelecekteki odaları erken açma.
+- [x] [Dünya yerleşim paftasındaki](DUNYA_YERLESIM_PLANI.md) `R3-C0` 6×6 oda, batı bahçe, iki hücrelik bağlantı ve kamera dünya kaydırmasını tek koordinat sistemiyle kur; gelecekteki odaları erken açma.
 - [ ] §66/[ekran kataloğu](EKRAN_VE_MENU_AKISI.md): dünya üstü açılış/devam, HUD yerleşimi, menü/ayarlar/kayıt akışı ve yalnız P0 içerikli Oyun Ansiklopedisi (su/domates, makineler, erişilebilir üretim şemaları).
-- [ ] Saf domain, sabit 10 Hz saat, seed'li RNG, tek ledger, sabit hassasiyet ve komut/transaction kimliği.
-- [ ] Minimum içerik doğrulayıcı; `item.raw_water` ile üç şişelenmiş su SKU'su ayrı ID; kaynak/şişeleme/domates tarif ve kapasite verisi.
-- [ ] Three.js WebGL2 sahnesi, grid, portre kamera, placeholder karakter ve Neo-Brutalist HUD.
+- [x] Saf domain, sabit 10 Hz saat, seed'li RNG, tek ledger, sabit hassasiyet ve komut/transaction kimliği.
+- [x] Minimum içerik doğrulayıcı; `item.raw_water` ile üç şişelenmiş su SKU'su ayrı ID; kaynak/şişeleme/domates tarif ve kapasite verisi.
+- [x] Three.js WebGL2 sahnesi, grid, portre kamera, placeholder karakter ve Neo-Brutalist HUD.
 - [ ] Yerel asset yolları, safe-area, WebGL2 hata ekranı; render ve simülasyon ayrımı.
 - [ ] Capacitor yapılandırması ve ilk gün Android/iOS native proje üretimi hedefi; ilk hafta iki gerçek cihaz build'i hedefi.
 - [ ] Save portu ve günlük/checkpoint tasarımını baştan kur; yalnız kapanış callback'ine güvenme.
 
 ### P0.2 — ilk üretim ve satış
 
-- [ ] Joystick/dokun-git, pointer sahipliği, touchcancel ve kamera jestleri.
-- [ ] Kaynak → taşıyıcı → makine → çıktı → raf transferleri; kaynak/hedef kapasite rezervasyonu.
+- [x] Joystick/dokun-git, pointer sahipliği, touchcancel ve kamera jestleri.
+- [x] Kaynak → taşıyıcı → makine → çıktı → raf transferleri; kaynak/hedef kapasite rezervasyonu.
 - [ ] Bahçe su kaynağı; şişeleme tezgâhında üç su boyutu ve domates yatağında sulama/hasat zinciri.
 - [ ] Eksik girdi/dolu çıktı/erişimsiz hedef için görünür gerekçe; sessiz ürün kaybı yok.
 - [ ] §67 ilk boş su rafında Domain nedenini → tek uygulanabilir müdahaleyi → gerçek ürün/satış sonucunu aynı kimliklerle göster; ansiklopedi bağlantısı salt okunur olsun. Birden çok engelde en yakın giderilebilir nedeni seç, kalanları detayda tut.
