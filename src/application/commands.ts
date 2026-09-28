@@ -71,20 +71,28 @@ export interface SaleResult {
   isDuplicate: boolean;
 }
 
+export interface UnlockModuleCommand extends Command {
+  type: 'UNLOCK_MODULE';
+  moduleId: string;
+  costAtoms: number;
+}
+
 export type ApplicationCommand =
   | CreditTransactionCommand
   | DebitTransactionCommand
   | TransferStockCommand
   | ReserveStockCommand
   | CancelReservationCommand
-  | CompleteSaleCommand;
+  | CompleteSaleCommand
+  | UnlockModuleCommand;
 
 export type CommandResult =
   | LedgerEntry
   | TransferResult
   | Reservation
   | { cancelled: boolean; reservationId: EntityId }
-  | SaleResult;
+  | SaleResult
+  | { unlocked: boolean; moduleId: string };
 
 export type CommandCommitObserver = (command: ApplicationCommand, result: CommandResult) => void;
 export type AsyncCommandCommitObserver = (command: ApplicationCommand, result: CommandResult) => Promise<void>;
@@ -307,6 +315,18 @@ export class CommandDispatcher {
 
         this.completedSales.set(saleKey, result);
         return result;
+      }
+
+      case 'UNLOCK_MODULE': {
+        this.ledger.commitTransaction({
+          transactionId: command.transactionId,
+          timestampTick: command.timestampTick,
+          type: 'DEBIT',
+          amountAtoms: command.costAtoms,
+          reason: 'MODULE_UNLOCK',
+          metadata: { moduleId: command.moduleId },
+        });
+        return { unlocked: true, moduleId: command.moduleId };
       }
 
       default:

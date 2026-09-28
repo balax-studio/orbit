@@ -212,7 +212,7 @@ describe('P0-04: Tek Müşteri, Raf, Kuyruk ve Satış Ledger Akışı', () => {
 
   it('P0 katalogunda satılmayan ham ürüne müşteri talebi açmaz', () => {
     expect(() => customerManager.spawnCustomer({ requestedItemId: 'item.raw_water' }))
-      .toThrow("P0'da satılmayan ürün");
+      .toThrow("Satılamayan ürün");
     expect(customerManager.getAllCustomers()).toHaveLength(0);
   });
 

@@ -4,21 +4,21 @@ import { customerStatusLabel } from '../../src/presentation/customerStatus';
 describe('customer status feedback', () => {
   it('shows queue progress and distinct outcomes from customer state', () => {
     expect(customerStatusLabel(undefined)).toBe('Müşteri bekleniyor');
-    expect(customerStatusLabel({ phase: 'queued', queueIndex: 0, leaveReason: undefined }))
-      .toBe('Müşteri kasada işlem bekliyor');
-    expect(customerStatusLabel({ phase: 'queued', queueIndex: 1, leaveReason: undefined }))
-      .toBe('Kuyrukta · 2. sırada');
-    expect(customerStatusLabel({ phase: 'leaving', queueIndex: null, leaveReason: 'OUT_OF_STOCK' }))
-      .toBe('Raf boş · müşteri ürün bulamadan ayrılıyor');
-    expect(customerStatusLabel({ phase: 'leaving', queueIndex: null, leaveReason: 'BUDGET_REJECTED' }))
-      .toBe('Müşteri bütçesi fiyatı karşılamadı');
-    expect(customerStatusLabel({ phase: 'leaving', queueIndex: null, leaveReason: 'PATIENCE_EXHAUSTED' }))
-      .toBe('Kuyruk süresi doldu · ürün rafa döndü');
+    expect(customerStatusLabel({ phase: 'queued', queueIndex: 0, leaveReason: undefined, profileId: 'worker_profile', patienceRemainingTicks: 0 }))
+      .toBe('STANDART (Sabır: 0s): Kasada işlem bekliyor');
+    expect(customerStatusLabel({ phase: 'queued', queueIndex: 1, leaveReason: undefined, profileId: 'worker_profile', patienceRemainingTicks: 0 }))
+      .toBe('STANDART (Sabır: 0s): Kuyrukta · 2. sırada');
+    expect(customerStatusLabel({ phase: 'leaving', queueIndex: null, leaveReason: 'OUT_OF_STOCK', profileId: 'worker_profile', patienceRemainingTicks: 0 }))
+      .toBe('STANDART (Sabır: 0s): Raf boş, ürün bulamadı');
+    expect(customerStatusLabel({ phase: 'leaving', queueIndex: null, leaveReason: 'BUDGET_REJECTED', profileId: 'worker_profile', patienceRemainingTicks: 0 }))
+      .toBe('STANDART (Sabır: 0s): Bütçesi fiyatı karşılamadı');
+    expect(customerStatusLabel({ phase: 'leaving', queueIndex: null, leaveReason: 'PATIENCE_EXHAUSTED', profileId: 'worker_profile', patienceRemainingTicks: 0 }))
+      .toBe('STANDART (Sabır: 0s): Beklemekten sıkıldı, çıktı');
   });
 
   it('does not announce a completed sale before its durable write finishes', () => {
-    const customer = { phase: 'leaving' as const, queueIndex: null, leaveReason: 'PURCHASE_COMPLETED' as const };
-    expect(customerStatusLabel(customer, true)).toBe('Satış kaydı bekleniyor');
-    expect(customerStatusLabel(customer)).toBe('Satış tamamlandı · müşteri çıkıyor');
+    const customer = { phase: 'leaving' as const, queueIndex: null, leaveReason: 'PURCHASE_COMPLETED' as const, profileId: 'worker_profile', patienceRemainingTicks: 0 };
+    expect(customerStatusLabel(customer, true)).toBe('STANDART (Sabır: 0s): Satış kaydı bekleniyor');
+    expect(customerStatusLabel(customer)).toBe('STANDART (Sabır: 0s): Satış tamamlandı, çıkıyor');
   });
 });

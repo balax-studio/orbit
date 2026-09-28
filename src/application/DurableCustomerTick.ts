@@ -15,6 +15,7 @@ export function runDurableCustomerTick<T>(
   const ledgerBefore = ledger.serialize();
   try {
     customers.maybeSpawnP0Customer();
+    customers.maybeSpawnA2Customer();
     customers.step(tick);
     const changed = inventory.serialize().committedTransactions.length !== inventoryBefore.committedTransactions.length ||
       ledger.serialize().sequenceCounter !== ledgerBefore.sequenceCounter;

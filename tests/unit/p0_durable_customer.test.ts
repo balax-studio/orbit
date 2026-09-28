@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { CommandDispatcher } from '../../src/application/commands';
 import { runDurableCustomerTick } from '../../src/application/DurableCustomerTick';
 import { CustomerManager } from '../../src/domain/customer/CustomerManager';
@@ -15,6 +15,8 @@ function setup() {
     shelfServicePos: { x: 0, z: 0 }, checkoutServicePos: { x: 0, z: 0 },
     checkoutQueueWaitPos: { x: 0, z: 0 }, entrancePos: { x: 0, z: 0 },
   });
+  vi.spyOn((customers as any).rng, 'nextInt').mockReturnValue(0);
+  vi.spyOn((customers as any).rng, 'nextFloat').mockReturnValue(0);
   const capture = () => ({ inventory: inventory.serialize(), ledger: ledger.serialize(), customers: customers.serialize() });
   return { inventory, ledger, customers, capture };
 }

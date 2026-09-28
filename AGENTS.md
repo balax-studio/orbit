@@ -78,3 +78,7 @@ Her Ã¶zellikte otomatik kullanÄ±cÄ± onayÄ± kapÄ±sÄ± yoktur. Mevcut isteÄŸin kaps
 - KullanÄ±cÄ±nÄ±n mevcut ve ilgisiz deÄŸiÅŸikliklerini koru. Yetkisiz reset, silme, commit veya push yapma; mevcut oturum yetkisini baÄŸlamÄ±yla deÄŸerlendir.
 - Ä°lk gÃ¼ncellemede yapÄ±lacak iÅŸi kÄ±sa anlat; kapsamlÄ± kod iÅŸinde Ã¼rÃ¼n fazÄ± ve ilgili rolÃ¼ belirt. Her kÃ¼Ã§Ã¼k iÅŸlemde persona duyurusu yapma.
 - SonuÃ§ta deÄŸiÅŸen dosyalar, doÄŸrulama ve kalan maddi engelleri bildir. â€œBelgelendiâ€, â€œuygulandÄ±â€, â€œtest geÃ§tiâ€ ve â€œfaz kabul edildiâ€ ayrÄ± durumlardÄ±r.
+
+## 7. Bilgi Eksikliği ve Araştırma (Deep Research)
+- **Anayasa Taraması:** Herhangi bir konuda kullanıcıya soru sormadan önce mutlaka proje içindeki markdown belgelerini (OYUN_GELISTIRME_DEVIR_DOSYASI.md, vb.) anayasa kabul ederek Orvant ile tara.
+- **Seçenek Sunma:** Eğer aradığın bilgi veya kural bu belgelerde net olarak yoksa, kullanıcıya açık uçlu sormak yerine, /deep-research (veya agent yetenekleri) kullanarak bağlam topla ve kullanıcıya *somut seçenekler* sun. Kullanıcı bu seçenekler üzerinden tercih yapmalıdır.

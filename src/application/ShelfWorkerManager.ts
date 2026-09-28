@@ -20,6 +20,7 @@ export interface ShelfWorkerSnapshot {
   position: WorldPosition;
   task: ShelfWorkerTask | null;
   blockedReason: string | null;
+  stamina: number;
 }
 
 /** One P0 shelf carrier. All stock moves go through Application commands. */
@@ -38,7 +39,7 @@ export class ShelfWorkerManager {
     this.dispatcher = dispatcher;
     this.walkable = walkable;
     this.getNavigationBounds = getNavigationBounds;
-    this.state = { id, position: { ...start }, task: null, blockedReason: null };
+    this.state = { id, position: { ...start }, task: null, blockedReason: null, stamina: 100 };
   }
 
   serialize(): ShelfWorkerSnapshot {
@@ -66,6 +67,7 @@ export class ShelfWorkerManager {
 
   async delegate(input: Omit<ShelfWorkerTask, 'id' | 'reservationId' | 'phase'>, tick: number): Promise<void> {
     if (this.state.task) throw new Error('Görevli zaten bir ikmal işi taşıyor');
+    if (this.state.stamina < 30) throw new Error('Görevli yorgun, mola veriyor');
     if (!Number.isSafeInteger(tick) || tick < 0 || input.quantity < 1 || !Number.isInteger(input.quantity)) {
       throw new Error('Geçersiz görev zamanı veya miktarı');
     }
@@ -87,7 +89,35 @@ export class ShelfWorkerManager {
   /** Synchronous walking; returns a Promise only for a critical stock transition. */
   step(tick: number): Promise<void> | null {
     const task = this.state.task;
-    if (!task) return null;
+    if (!task) {
+      if (this.state.stamina < 100) {
+        const restPosition = { x: 41, z: 38 };
+        if (!this.walkable(restPosition.x, restPosition.z)) {
+          this.state.stamina = Math.min(100, this.state.stamina + 0.1);
+        } else {
+          const path = findPath(this.state.position, restPosition, this.walkable, this.getNavigationBounds());
+          if (!path) {
+            this.state.stamina = Math.min(100, this.state.stamina + 0.1);
+          } else {
+            const distToRest = Math.hypot(restPosition.x - this.state.position.x, restPosition.z - this.state.position.z);
+            if (distToRest < 0.5) {
+              this.state.stamina = Math.min(100, this.state.stamina + 0.5);
+            } else {
+              const next = path[0] ?? restPosition;
+              const dx = next.x - this.state.position.x;
+              const dz = next.z - this.state.position.z;
+              const distance = Math.hypot(dx, dz);
+              if (distance > 0.01) {
+                const distanceThisTick = Math.min(0.15, distance);
+                this.state.position.x += dx / distance * distanceThisTick;
+                this.state.position.z += dz / distance * distanceThisTick;
+              }
+            }
+          }
+        }
+      }
+      return null;
+    }
     const destination = task.phase === 'toSource' ? task.sourcePosition : task.targetPosition;
     if (!this.walkable(destination.x, destination.z)) {
       this.state.blockedReason = 'Hedef servis hücresine erişilemiyor';
@@ -107,6 +137,7 @@ export class ShelfWorkerManager {
       const distanceThisTick = Math.min(0.15, distance);
       this.state.position.x += dx / distance * distanceThisTick;
       this.state.position.z += dz / distance * distanceThisTick;
+      this.state.stamina = Math.max(0, this.state.stamina - 0.05);
     }
     if (Math.hypot(destination.x - this.state.position.x, destination.z - this.state.position.z) > 0.3) return null;
 

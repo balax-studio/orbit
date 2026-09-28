@@ -9,6 +9,7 @@ import type {
   RecipeDefinition,
   RecipeId,
 } from '../domain/types';
+import { A2_PRODUCTS, A2_MACHINES, A2_RECIPES } from './a2Content';
 
 export class ContentValidationError extends Error {
   constructor(message: string) {
@@ -299,9 +300,9 @@ export const P0_RECIPES: Record<RecipeId, RecipeDefinition> = {
 
 export const P0_CONTENT: GameContent = {
   version: 1,
-  products: P0_PRODUCTS,
-  machines: P0_MACHINES,
-  recipes: P0_RECIPES,
+  products: { ...P0_PRODUCTS, ...A2_PRODUCTS } as Record<ItemId, ProductDefinition>,
+  machines: { ...P0_MACHINES, ...A2_MACHINES } as Record<MachineTypeId, MachineDefinition>,
+  recipes: { ...P0_RECIPES, ...A2_RECIPES } as Record<RecipeId, RecipeDefinition>,
 };
 
 /**

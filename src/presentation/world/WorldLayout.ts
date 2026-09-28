@@ -34,6 +34,7 @@ export interface WorldModule {
   enclosure?: 'closed' | 'open';
   surfaceColor?: string;
   fixtures?: WorldFixture[];
+  costCredits?: number;
 }
 
 const moduleBounds = (row: number, column: number): BoundingBox2D => {
@@ -55,21 +56,42 @@ const moduleCatalog: Array<Omit<WorldModule, 'bounds' | 'doorways'> & {
   { id: 'R0-C2', label: 'Rezerv', type: 'expansion', phase: 'A5', status: 'reserved', row: 0, column: 2 },
   { id: 'R0-C3', label: 'Rezerv', type: 'expansion', phase: 'A5', status: 'reserved', row: 0, column: 3 },
   { id: 'R1-C0', label: 'Sera', type: 'greenhouse', phase: 'A3', status: 'reserved', row: 1, column: 0 },
-  { id: 'R1-C1', label: 'Enerji', type: 'energy', phase: 'A3', status: 'reserved', row: 1, column: 1 },
+  { id: 'R1-C1', label: 'Enerji', type: 'energy', phase: 'A3', status: 'reserved', row: 1, column: 1, costCredits: 200,
+    fixtures: [
+      { id: 'station.generator', name: 'Jeneratör', bounds: { minX: 40, maxX: 42, minZ: 25, maxZ: 27 }, serviceCell: { x: 41, z: 28 }, color: '#FF3333' }
+    ]
+  },
   { id: 'R1-C2', label: 'Eğitim', type: 'training', phase: 'A4', status: 'reserved', row: 1, column: 2 },
-  { id: 'R1-C3', label: 'Yönetim', type: 'management', phase: 'A3', status: 'reserved', row: 1, column: 3 },
-  { id: 'R2-C0', label: 'İşleme ve üretim', type: 'production', phase: 'A2', status: 'reserved', row: 2, column: 0 },
-  { id: 'R2-C1', label: 'Dinlenme', type: 'rest', phase: 'A2', status: 'reserved', row: 2, column: 1 },
-  { id: 'R2-C2', label: 'Soğuk depo', type: 'cold-storage', phase: 'A3', status: 'reserved', row: 2, column: 2 },
-  { id: 'R2-C3', label: 'Bakım', type: 'maintenance', phase: 'A3', status: 'reserved', row: 2, column: 3 },
+  { id: 'R1-C3', label: 'Yönetim', type: 'management', phase: 'A3', status: 'reserved', row: 1, column: 3, costCredits: 300 },
+  { id: 'R2-C0', label: 'İşleme ve üretim', type: 'production', phase: 'A2', status: 'reserved', row: 2, column: 0, costCredits: 50,
+    fixtures: [
+      { id: 'source.cow_dairy', name: 'Mandıra', bounds: { minX: 25, maxX: 27, minZ: 34, maxZ: 36 }, serviceCell: { x: 26, z: 37 }, color: '#FFFFFF' },
+      { id: 'station.stone_oven', name: 'Taş Fırın', bounds: { minX: 30, maxX: 31, minZ: 34, maxZ: 36 }, serviceCell: { x: 30, z: 37 }, color: '#888888' }
+    ]
+  },
+  { id: 'R2-C1', label: 'Dinlenme', type: 'rest', phase: 'A2', status: 'reserved', row: 2, column: 1, costCredits: 30,
+    fixtures: [
+      { id: 'fixture.rest_chair', name: 'Mola Köşesi', bounds: { minX: 40, maxX: 42, minZ: 35, maxZ: 37 }, serviceCell: { x: 41, z: 38 }, color: '#44AAFF' }
+    ]
+  },
+  { id: 'R2-C2', label: 'Soğuk depo', type: 'cold-storage', phase: 'A3', status: 'reserved', row: 2, column: 2, costCredits: 250,
+    fixtures: [
+      { id: 'station.fridge', name: 'Büyük Dolap', bounds: { minX: 50, maxX: 53, minZ: 35, maxZ: 37 }, serviceCell: { x: 51, z: 38 }, color: '#33AAFF' }
+    ]
+  },
+  { id: 'R2-C3', label: 'Bakım', type: 'maintenance', phase: 'A3', status: 'reserved', row: 2, column: 3, costCredits: 150,
+    fixtures: [
+      { id: 'station.workbench', name: 'Bakım Tezgahı', bounds: { minX: 63, maxX: 65, minZ: 35, maxZ: 36 }, serviceCell: { x: 64, z: 37 }, color: '#FFAA33' }
+    ]
+  },
   { id: 'R3-C0', label: 'Satış', type: 'sales', phase: 'P0', status: 'active', row: 3, column: 0,
     doorways: [
       { side: 'west', center: 49, width: 4, connectsTo: 'garden.main' },
       { side: 'south', center: 29, width: 4, connectsTo: 'entrance.south' },
     ] },
-  { id: 'R3-C1', label: 'Kuru depo', type: 'dry-storage', phase: 'A2', status: 'reserved', row: 3, column: 1 },
-  { id: 'R3-C2', label: 'Mal kabul', type: 'receiving', phase: 'A2', status: 'reserved', row: 3, column: 2 },
-  { id: 'R3-C3', label: 'Servis avlusu', type: 'service-yard', phase: 'A2', status: 'reserved', row: 3, column: 3 },
+  { id: 'R3-C1', label: 'Kuru depo', type: 'dry-storage', phase: 'A2', status: 'reserved', row: 3, column: 1, costCredits: 200 },
+  { id: 'R3-C2', label: 'Mal kabul', type: 'receiving', phase: 'A2', status: 'reserved', row: 3, column: 2, costCredits: 100 },
+  { id: 'R3-C3', label: 'Servis avlusu', type: 'service-yard', phase: 'A2', status: 'reserved', row: 3, column: 3, costCredits: 150 },
 ];
 
 const createCatalogModule = (item: typeof moduleCatalog[number]): WorldModule => ({
@@ -80,6 +102,7 @@ const createCatalogModule = (item: typeof moduleCatalog[number]): WorldModule =>
   status: item.status,
   bounds: moduleBounds(item.row, item.column),
   doorways: structuredClone(item.doorways ?? []),
+  costCredits: item.costCredits,
 });
 
 export class WorldLayout {

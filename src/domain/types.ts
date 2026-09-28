@@ -178,7 +178,9 @@ export type TransactionReason =
   | 'INITIAL_CAPITAL'
   | 'UPGRADE'
   | 'ENERGY_COST'
-  | 'PRODUCTION_COST';
+  | 'PRODUCTION_COST'
+  | 'MODULE_UNLOCK'
+  | 'SUPPLY_ORDER';
 
 export interface LedgerEntry {
   sequence: number;

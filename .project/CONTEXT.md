@@ -1,6 +1,6 @@
 # Orbit Market — proje bağlamı
 
-Revision: 187 · Yetkili kaynak: .project/state.json
+Revision: 258 · Yetkili kaynak: .project/state.json
 
 Bu görünüm türetilmiştir. Güncel kanıt kontrolü için context komutunu çalıştır.
 
@@ -120,7 +120,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Girdiler: constitution-p0, mvp-guide-p0, world-map-p0
   - Ürettiği nesneler: p0-world-input
   - Etkin önkoşullar: P0-01
-  - Kabul güncelliği: güncel · tamamlanma sayısı: 8
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 11
 - P0-03 [done] Kapasite ve rezervasyon korumalı ürün transferini kur (kayıt: done)
   - Ölçüt: Kaynak, taşıyıcı ve hedef konumları ile kapasite/rezervasyon doğrulanır.
   - Ölçüt: İptal veya yinelenen komut ürün çoğaltmaz, silmez ya da kayıtsız konuma bırakmaz.
@@ -131,7 +131,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Etkin önkoşullar: P0-01, P0-02
   - Üretici bağı: p0-time-content ← P0-01
   - Üretici bağı: p0-world-input ← P0-02
-  - Kabul güncelliği: güncel · tamamlanma sayısı: 10
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 13
 - P0-04 [done] Tek müşteri, raf, kuyruk ve satış ledger akışını kur (kayıt: done)
   - Ölçüt: Satışta gerçek raf stoku ve kayıtlı fiyat kullanılır; ürün ve bakiye tek işlem sonucunda güncellenir.
   - Ölçüt: Aynı transaction yeniden işlendiğinde ikinci satış veya bakiye etkisi oluşmaz.
@@ -141,7 +141,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Ürettiği nesneler: p0-sales
   - Etkin önkoşullar: P0-03
   - Üretici bağı: p0-transfer ← P0-03
-  - Kabul güncelliği: güncel · tamamlanma sayısı: 9
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 12
 - P0-05 [done] Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır (kayıt: done)
   - Ölçüt: Küçük şişe, 5 L bidon ve 19 L damacana tarifleri ham su ve ilgili ambalaj lotunu tüketir.
   - Ölçüt: Domates hasadı katalogdaki su/tohum girdilerini kullanır; çıktı doluysa girdi/ürün kaybolmaz.
@@ -151,7 +151,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Ürettiği nesneler: p0-production
   - Etkin önkoşullar: P0-03
   - Üretici bağı: p0-transfer ← P0-03
-  - Kabul güncelliği: güncel · tamamlanma sayısı: 7
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 10
 - P0-06 [done] Snapshot, kritik işlem günlüğü ve lifecycle dönüşünü kur (kayıt: done)
   - Ölçüt: Kritik satış/üretim/transfer sonucu durable kayıtla bir kez uygulanır.
   - Ölçüt: Yarım yazım veya bozuk kayıt sessizce sıfırlanmaz; görünür kurtarma yolu bulunur.
@@ -173,7 +173,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Üretici bağı: p0-production ← P0-05
   - Üretici bağı: p0-save ← P0-06
   - Üretici bağı: p0-transfer ← P0-03
-  - Kabul güncelliği: güncel · tamamlanma sayısı: 3
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 6
 - P0-08 [done] İnşa ve yerleşimde servis, kapı ve temel üretim erişimini koru (kayıt: done)
   - Ölçüt: Geçersiz footprint, kapı, servis hücresi veya rota yerleşimi reddedilir ve neden gösterilir.
   - Ölçüt: İnşa sırasında simülasyon durur; iptal para, stok veya yerleşimi değiştirmez.
@@ -184,8 +184,8 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Etkin önkoşullar: P0-02, P0-03, P0-07
   - Üretici bağı: p0-transfer ← P0-03
   - Üretici bağı: p0-worker ← P0-07
-  - Kabul güncelliği: güncel · tamamlanma sayısı: 2
-- P0-09 [doing] P0 döngüsünü gerçek cihazda ve dış oyuncuyla kabul et (kayıt: doing)
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 5
+- P0-09 [review] P0 döngüsünü gerçek cihazda ve dış oyuncuyla kabul et (kayıt: review)
   - Ölçüt: Android ve iOS cihaz build/yaşam döngüsü sonuçları ayrı kaydedilir; bir platform diğerinin kanıtı sayılmaz.
   - Ölçüt: Dış oyuncu yardımsız taşıma/üretim/raf/satış döngüsünü tamamlar ve nedenleri doğru açıklar.
   - Ölçüt: P0 kabul raporu gerçek build, cihaz, komut, seed ve gözlenen sonuçla saklanır.

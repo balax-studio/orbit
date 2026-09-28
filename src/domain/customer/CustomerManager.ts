@@ -13,7 +13,33 @@ import type {
   WorldPosition,
 } from '../types';
 import { P0_PRODUCTS } from '../../content/p0Content';
+import { A2_PRODUCTS } from '../../content/a2Content';
 import { Mulberry32Rng } from '../random/rng';
+
+export const ALL_PRODUCTS = { ...P0_PRODUCTS, ...A2_PRODUCTS };
+
+export const PURCHASABLE_ITEMS = Object.values(ALL_PRODUCTS)
+  .filter(p => p.category === 'final' && p.baseRetailPriceAtoms !== null)
+  .map(p => p.id as ItemId);
+
+export const A2_PURCHASABLE_ITEMS = Object.values(ALL_PRODUCTS)
+  .filter(p => p.category === 'final' && p.baseRetailPriceAtoms !== null && p.phase === 'A2')
+  .map(p => p.id as ItemId);
+
+export type CustomerProfileId = 'mahalleli' | 'arastirmaci' | 'isci';
+
+export interface CustomerProfileDef {
+  id: CustomerProfileId;
+  name: string;
+  patienceTicks: number;
+  budgetAtoms: number;
+}
+
+export const CUSTOMER_PROFILES: Record<CustomerProfileId, CustomerProfileDef> = {
+  mahalleli: { id: 'mahalleli', name: 'Temel Mahalleli', patienceTicks: 400, budgetAtoms: 300_000 },
+  arastirmaci: { id: 'arastirmaci', name: 'Araştırmacı', patienceTicks: 600, budgetAtoms: 600_000 },
+  isci: { id: 'isci', name: 'Yerleşim Çalışanı', patienceTicks: 200, budgetAtoms: 150_000 }
+};
 
 export interface LostSaleRecord {
   customerId: EntityId;
@@ -120,7 +146,21 @@ export class CustomerManager {
     } else if (this.rng.nextFloat() >= 56 / 9000) {
       return null;
     }
-    return this.spawnCustomer();
+    const requestedItemId = PURCHASABLE_ITEMS[this.rng.nextInt(0, PURCHASABLE_ITEMS.length - 1)];
+    return this.spawnCustomer({ requestedItemId });
+  }
+
+  /**
+   * A2 için tek müşteri oluşturma ve dünyaya sokma (Yalnızca A2 ürünleri).
+   * A2 pazar talebi P0'a ek olarak çalışır.
+   */
+  public maybeSpawnA2Customer(): Customer | null {
+    if (this.customers.size > 1) return null; // A2'de dükkanda max 2 müşteri olabilir
+    if (this.rng.nextFloat() >= 40 / 9000) { // Biraz daha nadir
+      return null;
+    }
+    const requestedItemId = A2_PURCHASABLE_ITEMS[this.rng.nextInt(0, A2_PURCHASABLE_ITEMS.length - 1)];
+    return this.spawnCustomer({ requestedItemId });
   }
 
   /**
@@ -141,17 +181,28 @@ export class CustomerManager {
     this.customerCounter += 1;
 
     const requestedItemId = params.requestedItemId ?? 'item.glass_water_small';
-    const requestedProduct = P0_PRODUCTS[requestedItemId];
+    const requestedProduct = ALL_PRODUCTS[requestedItemId];
     if (!requestedProduct || requestedProduct.baseRetailPriceAtoms === null) {
-      throw new Error(`P0'da satılmayan ürün: ${requestedItemId}`);
+      throw new Error(`Satılamayan ürün talep edildi: ${requestedItemId}`);
     }
-    // Varsayılan bütçe 30.00 Kredi = 300.000 atom (Yerleşim çalışanı 20-45 kredi aralığı §38.1)
-    const budgetAtoms = params.budgetAtoms ?? 300_000;
-    const patienceRemainingTicks = params.patienceTicks ?? this.basePatienceTicks;
+
+    // A2: Profil seçimi (Eğer parametreyle verilmediyse RNG ile rastgele seçilir)
+    let profileId = params.profileId as CustomerProfileId | undefined;
+    if (!profileId) {
+      const rand = this.rng.nextFloat();
+      if (rand < 0.5) profileId = 'mahalleli';
+      else if (rand < 0.8) profileId = 'isci';
+      else profileId = 'arastirmaci';
+    }
+    const profile = CUSTOMER_PROFILES[profileId] || CUSTOMER_PROFILES['mahalleli'];
+
+    // Müşteri özellikleri profilden veya test parametresinden gelir
+    const budgetAtoms = params.budgetAtoms ?? profile.budgetAtoms;
+    const patienceRemainingTicks = params.patienceTicks ?? profile.patienceTicks;
 
     const customer: Customer = {
       id,
-      profileId: params.profileId ?? 'worker_profile',
+      profileId: profile.id,
       position: { ...(params.startPos ?? this.entrancePos) },
       phase: 'entering',
       requestedItemId,
@@ -202,9 +253,9 @@ export class CustomerManager {
     }
 
     // 2. Fiyat ve bütçe kontrolü
-    const product = P0_PRODUCTS[customer.requestedItemId];
+    const product = ALL_PRODUCTS[customer.requestedItemId];
     if (!product || product.baseRetailPriceAtoms === null) {
-      throw new Error(`P0'da satılmayan ürün: ${customer.requestedItemId}`);
+      throw new Error(`Satılamayan ürün: ${customer.requestedItemId}`);
     }
     const retailPriceAtoms = product.baseRetailPriceAtoms;
 

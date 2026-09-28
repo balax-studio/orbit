@@ -5,6 +5,10 @@ import { ATOMS_PER_CREDIT } from '../constants';
 import { EconomyLedger, DuplicateTransactionError } from '../economy/ledger';
 import { InventoryManager } from '../inventory/InventoryManager';
 import { P0_MACHINES, P0_RECIPES } from '../../content/p0Content';
+import { A2_MACHINES, A2_RECIPES } from '../../content/a2Content';
+
+const ALL_MACHINES = { ...P0_MACHINES, ...A2_MACHINES };
+const ALL_RECIPES = { ...P0_RECIPES, ...A2_RECIPES };
 import type {
   EntityId,
   ItemId,
@@ -140,6 +144,53 @@ export class ProductionManager {
   }
 
   /**
+   * A2 fazındaki makineleri (Mandıra, Taş Fırın) ve kapasitelerini kurar.
+   */
+  public initA2Machines(): void {
+    // 1. Mandıra (source.cow_dairy)
+    const dairy: Machine = {
+      id: 'source.cow_dairy',
+      typeId: 'source.cow_dairy',
+      gridPosition: { x: 4, z: 16 }, // DUNYA_YERLESIM_PLANI.md A2 kaynakları (x4..5, z16..17)
+      direction: 0,
+      level: 1,
+      selectedRecipeId: 'recipe.cow_dairy_milk',
+      status: 'Idle',
+      batch: null,
+      progressTicks: 0,
+      waitReason: 'IDLE',
+      energyCostAtoms: 0,
+    };
+    this.machines.set(dairy.id, dairy);
+    const dairyDef = ALL_MACHINES[dairy.typeId];
+    if (dairyDef) {
+      if (dairyDef.inputCapacity) this.inventory.setCapacity({ kind: 'machineInput', ownerId: dairy.id }, dairyDef.inputCapacity);
+      if (dairyDef.outputCapacity) this.inventory.setCapacity({ kind: 'machineOutput', ownerId: dairy.id }, dairyDef.outputCapacity);
+    }
+
+    // 2. Taş Fırın (station.stone_oven)
+    const oven: Machine = {
+      id: 'station.stone_oven',
+      typeId: 'station.stone_oven',
+      gridPosition: { x: 14, z: 18 }, // A2 İşleme odası civarı (R2-C0)
+      direction: 0,
+      level: 1,
+      selectedRecipeId: 'recipe.stone_oven_puree',
+      status: 'Idle',
+      batch: null,
+      progressTicks: 0,
+      waitReason: 'IDLE',
+      energyCostAtoms: 0,
+    };
+    this.machines.set(oven.id, oven);
+    const ovenDef = ALL_MACHINES[oven.typeId];
+    if (ovenDef) {
+      if (ovenDef.inputCapacity) this.inventory.setCapacity({ kind: 'machineInput', ownerId: oven.id }, ovenDef.inputCapacity);
+      if (ovenDef.outputCapacity) this.inventory.setCapacity({ kind: 'machineOutput', ownerId: oven.id }, ovenDef.outputCapacity);
+    }
+  }
+
+  /**
    * P0 açılış sarf malzemelerini ilgili istasyonlara ve kaynağa yükler (OYUN_GELISTIRME_DEVIR_DOSYASI.md §26.1).
    * 50 birim ham su, 12 küçük şişe, 4 adet 5L bidon, 2 damacana, 8 tohum.
    */
@@ -247,15 +298,15 @@ export class ProductionManager {
     if (!machine) {
       throw new Error(`Makine bulunamadı: ${machineId}`);
     }
-    if (recipeId && (!P0_RECIPES[recipeId] ||
-        !P0_MACHINES[machine.typeId]?.recipeIds.includes(recipeId))) {
+    if (recipeId && (!ALL_RECIPES[recipeId] ||
+        !ALL_MACHINES[machine.typeId]?.recipeIds.includes(recipeId))) {
       throw new Error(`Tarif bu istasyonda kullanılamaz: ${recipeId}`);
     }
     machine.selectedRecipeId = recipeId;
     if (recipeId) {
-      const recipe = P0_RECIPES[recipeId];
+      const recipe = ALL_RECIPES[recipeId];
       if (recipe) {
-        const machineDef = P0_MACHINES[machine.typeId];
+        const machineDef = ALL_MACHINES[machine.typeId];
         const powerE = machineDef?.powerE ?? 0;
         machine.energyCostAtoms = powerE * Math.round((recipe.durationTicks / 10) * 100);
       }
@@ -444,7 +495,7 @@ export class ProductionManager {
       }
 
       // Parti bitti (remainingTicks === 0). Çıktıyı bırakmayı dene.
-      const recipe = P0_RECIPES[batch.recipeId];
+      const recipe = ALL_RECIPES[batch.recipeId];
       if (!recipe) {
         machine.status = 'Idle';
         machine.batch = null;
@@ -462,7 +513,7 @@ export class ProductionManager {
       return null;
     }
 
-    const recipe = P0_RECIPES[machine.selectedRecipeId];
+    const recipe = ALL_RECIPES[machine.selectedRecipeId];
     if (!recipe) {
       machine.status = 'Idle';
       machine.waitReason = 'WAITING_FOR_RECIPE';
@@ -500,7 +551,7 @@ export class ProductionManager {
     }
 
     // 3. Enerji / Bakiye kontrolü
-    const machineDef = P0_MACHINES[machine.typeId];
+    const machineDef = ALL_MACHINES[machine.typeId];
     const powerE = machineDef?.powerE ?? 0;
     const durationSeconds = Math.round(recipe.durationTicks / 10);
     const energyCostAtoms = powerE * durationSeconds * 100;
@@ -578,7 +629,7 @@ export class ProductionManager {
       return null;
     }
 
-    const machineDef = P0_MACHINES[machine.typeId];
+    const machineDef = ALL_MACHINES[machine.typeId];
     const powerE = machineDef?.powerE ?? 0;
     const durationSeconds = Math.round(recipe.durationTicks / 10);
     const energyCostAtoms = powerE * durationSeconds * 100;

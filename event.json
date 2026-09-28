@@ -1,0 +1,1 @@
+{"action": "reopen_task", "actor": "agent", "reason": "Recorded completion needs review: stale evidence: src/App.tsx; stale evidence: src/App.tsx; stale evidence: src/App.tsx; dependency P0-02: needs_review; dependency P0-03: needs_review; dependency P0-07: needs_review", "task_id": "P0-08"}

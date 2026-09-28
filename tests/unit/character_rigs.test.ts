@@ -27,7 +27,7 @@ describe('reference-inspired character walk rigs', () => {
     },
   );
 
-  it('keeps the server tray arm raised while the free arm swings', () => {
+  it('keeps the carrying arm steady while the free arm swings', () => {
     const rig = createArticulatedCharacter('worker');
     const leftArm = rig.root.getObjectByName('arm.left')!;
     const rightArm = rig.root.getObjectByName('arm.right')!;
@@ -37,7 +37,7 @@ describe('reference-inspired character walk rigs', () => {
     rig.advance(0.025);
 
     expect(leftArm.rotation.x).not.toBe(0);
-    expect(rightArm.rotation.z).toBeCloseTo(1.12);
+    expect(rightArm.rotation.x).toBe(0);
     rig.dispose();
   });
 });

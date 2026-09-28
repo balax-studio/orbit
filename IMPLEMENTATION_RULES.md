@@ -65,3 +65,7 @@ Bir özellik “belgelendi”, “uygulandı”, “hedefli test geçti”, “c
 ## 6. Devam istemi şablonu
 
 > Önce IMPLEMENTATION_RULES.md, MEMORY.md ve PLAN.md'nin aktif fazını oku. İlgili anayasa bölümlerini ve gerçek depo dosyalarını doğrula. Tek küçük kabul edilebilir iş seç; görev kartında kaynak, veri değişimi, hata yolu ve test beklentisini yaz. Tanımlanmamış ürün değeri veya doğrulanmamış API uydurma. Yalnız yetkilendirilen kapsamı uygula, hedefli kontrolü çalıştır ve gerçek sonucu kaydet. İlgisiz sonraki fazları ekleme.
+
+## 7. Referans Görseller
+
+UI, ekran akışları, 3B modeller, karakterler ve çevre tasarımı gibi geliştirme adımlarında ihtiyaç duyulacak referans görseller `C:\Users\YSR_MONSTER\.antigravity\orbit\referans_gorseller` klasöründe yer almaktadır. Geliştirme (özellikle A2 ve sonraki aşamalar) sırasında görsel materyal referansına ihtiyaç duyulduğunda bu dizin öncelikli olarak kontrol edilmeli ve tasarımlar bu referanslarla uyumlu tutulmalıdır.

@@ -123,3 +123,6 @@ Her uygulanmış panel normal, boş, seçili, pasif, işlem bekliyor, başarıl�
 5. Görsel inceleme ve gerekiyorsa performans ölçümü gerçek cihaz/build bilgisiyle kaydedildi. Yapılmadıysa açıkça belirtilir.
 
 Ayrıntılı kabul kimlikleri [TEST_STRATEGY.md](TEST_STRATEGY.md) ve UI_DESIGN_SYSTEM.md görsel kabul tablosundadır. Rol/iş akışı için [AGENTS.md](AGENTS.md); belirsiz değer ve değişiklik gerekçesi için KARARLAR.md kullanılır.
+
+## Referans Görseller
+- Arayüz, model veya dünyadaki görseller için ilham/referans gerekirse `C:\Users\YSR_MONSTER\.antigravity\orbit\referans_gorseller` klasörü kullanılacaktır.
