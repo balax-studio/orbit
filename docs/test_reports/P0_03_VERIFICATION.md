@@ -38,3 +38,7 @@ Test Aracı: Vitest v5.0.2, TypeScript v6.0.2, Oxlint v1.81.0
 - `npm test`: 35/35 birim test geçti (10 yeni transfer testi, 15 core testi, 10 world/input testi).
 - `npm run lint`: 0 uyarı, 0 hata (Oxlint 20 dosyada).
 - `npm run build`: `tsc -b && vite build` 702 ms'de hatasız tamamlandı.
+
+## 3. 2026-09-27 Bağımlılık ve Kaynak Yeniden İncelemesi
+
+P0-01/P0-02 kanıtları güncellendikten sonra P0-03'ün mevcut inventory/command kaynakları tekrar çalıştırıldı: `npm test -- tests/unit/p0_transfer.test.ts` 1 dosyada 10/10 test geçti. Bu yeniden inceleme P0-06 kayıt kancalarının transfer komutlarına genel runtime entegrasyonu olduğunu kanıtlamaz; P0-06 raporundaki entegrasyon sınırı geçerlidir.

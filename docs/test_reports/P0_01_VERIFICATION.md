@@ -39,6 +39,22 @@ Test Aracı: Vitest v5.0.2, TypeScript v6.0.2, Oxlint v1.81.0
 
 ### Ölçüt 3: Gerçek package.json ve Kilit Dosyasına Göre Hedefli Kontrol
 - **Komutlar ve Çıktılar:**
-  1. `npm test`: 15/15 test geçti (0 hata).
-  2. `npm run lint`: 0 uyarı, 0 hata (Oxlint).
-  3. `npm run build`: `tsc -b && vite build` başarıyla tamamlandı (0 hata).
+  1. `npm test -- tests/unit/p0_core.test.ts`: 15/15 test geçti.
+  2. `npm run build`: `tsc -b && vite build` başarıyla tamamlandı; genel 817.20 kB chunk uyarısı var.
+  3. `npm run lint`: çıkış kodu 0; App'te `react(set-state-in-effect)` uyarısı var.
+
+## 2. 2026-09-27 Yeniden İnceleme: P0-06 ortak dosya değişikliklerinden sonra
+
+P0-06 çalışması `clock.ts` ve `ledger.ts` dosyalarını değiştirdiği için önceki Orvant kanıtı yeniden incelendi. Güncel kaynaklarla `npm test -- tests/unit/p0_core.test.ts` çalıştırıldı: 1 dosya, 15/15 test geçti. Ayrıca tam paket 72/72 test geçti ve `npm run build` başarılı oldu.
+
+Güncel lint sonucu `npm run lint`: çıkış kodu 0; `src/App.tsx:148` başlangıç kayıt eşitlemesinde bir `react(set-state-in-effect)` uyarısı var. Build çıktısında 817.20 kB küçültülmüş JS chunk için 500 kB üstü uyarı var. Önceki bölümdeki 72 test ve 786.98 kB build daha eski P0-06 doğrulamasına aittir.
+
+## 3. 2026-09-27 Capacitor hazırlığından sonra package kanıtı yeniden doğrulandı
+
+`package.json`/`package-lock.json` Capacitor 8 runtime/platform/plugin paketleriyle güncellendi. P0-01'in simülasyon, RNG, ekonomi ve içerik kaynakları değişmedi; scriptlerin gerçek manifest ve lockfile ile çalıştığı tekrar kontrol edildi.
+
+- `npm test -- tests/unit/p0_core.test.ts`: 15/15 geçti.
+- `npm test`: 7 dosya, 75/75 geçti.
+- `npm run build`: başarılı (`tsc -b && vite build`), 817.20 kB chunk uyarısı.
+- `npm run lint`: çıkış kodu 0, `src/App.tsx:148` için React uyarısı.
+- `npm audit --audit-level=moderate`: 0 açık bulgu; `@capacitor/cli` 8.4.3'e pinlendi.

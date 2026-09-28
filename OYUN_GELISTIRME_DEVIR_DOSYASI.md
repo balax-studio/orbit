@@ -132,7 +132,7 @@ Kalite üç seviyedir: Standart, Nitelikli, Özel. Kalite deterministik olarak g
 
 Varsayılan oda, dış alan, kapı, yol, ağaç ve fazlı genişleme koordinatları [DUNYA_YERLESIM_PLANI.md](DUNYA_YERLESIM_PLANI.md) teknik paftasındadır. Pafta aşağıdaki erişim ve oyuncunun izinli modül taşıma kurallarını değiştirmez; açık ürün bedeli veya yeni ekonomi sistemi yaratmaz.
 
-- 1 m hücreli ızgara; varsayılan oda 6×6 hücre, bağlantı koridoru en az 2 hücre genişliğindedir.
+- 1 m hücreli 100×100 başlangıç dünya ızgarası; standart oda/üretim modülü 12×12 hücre, en küçük kapalı oda 8×8, değişken boyut adımı ve bağlantı koridoru en az 4 hücre genişliğindedir. Açık mahalleler/dış üretim bölgeleri de aynı tak-çalıştır modül kaydını kullanır. Yeni modül sınırı aşınca zemin ve gezinme sınırı büyür; mevcut modül koordinatları ve kimlikleri sabit kalır.
 - Modüller: Market, depo, sera, işleme, atölye, personel alanı, enerji ve topluluk alanı.
 - Ekipman boyutları 1×1, 1×2, 2×2 ve 2×3; servis erişim hücreleri tanım verisinde bulunur.
 - İnşa modu simülasyonu duraklatır. Yerleştirme önizlemesi fiyatı, çakışmayı, kapı ve servis erişimini gösterir.
@@ -705,24 +705,24 @@ Başlangıçta tek vardiya, bölüm 3'te günün 0–450 ve 450–900 saniyelik 
 
 ### 32.1 Odalar
 
-Oda türü duvar, kapı, geçerli zemin alanı ve gerekli eşyalardan hesaplanır. Bütün odalar aynı taşınabilir modül sistemini kullanır; aşağıdaki 4×4 gibi boyutlar varsayılan 6×6'nın desteklenen varyantlarıdır. Fiyat yalnız oda kabuğudur; eşya maliyeti ayrı görünür.
+Oda türü duvar, kapı, geçerli zemin alanı ve gerekli eşyalardan hesaplanır. Bütün oda ve üretim alanları aynı taşınabilir modül sistemini kullanır. Standart modül 12×12, en küçük kapalı oda 8×8'dir; bu sınırın altındaki dar oda tasarlanmaz. Değişken oda kenarları en az 8 m ve 4 m artışlıdır; modül kaydı geldiğinde harita sınırı otomatik genişler ve var olan koordinatlar korunur. Mahalle ve dış üretim bölgeleri açık yüzeyli modül olarak aynı sisteme takılır. Fiyat oda türü kabuğudur; büyüyen alan nedeniyle otomatik çarpılmaz ve eşya maliyeti ayrı görünür.
 
 | Oda | En küçük alan | Gerekli donanım | Kabuk bedeli | İşlev |
 |---|---|---|---:|---|
-| Satış alanı | 6×6 | Kasa ve raf | İlk oda ücretsiz | Müşteri alışverişi |
-| Kuru depo | 4×4 | Depo rafı | 160 | Girdi ve ürün saklama |
-| Personel dinlenme odası | 4×4 | En az 2 koltuk | 180 | Hızlı yorgunluk giderme |
-| Soyunma/hazırlık odası | 4×4 | Dolap | 140 | Vardiya başlangıç hazırlığını 10'dan 5 sn'ye indirir |
-| Eğitim odası | 4×4 | Eğitim masası | 240 | Aynı anda 2 kişiye eğitim |
-| Yönetim odası | 4×4 | Planlama terminali | 280 | Vardiya ve sipariş politikaları |
-| Bakım atölyesi | 4×4 | Bakım tezgâhı | 220 | Teknisyenin planlı bakım işi |
-| Soğuk depo | 4×4 | Soğutucu raf ve enerji | 300 | Hassas ürünlerin ömrünü uzatır |
-| Mal kabul alanı | 4×4 | Teslim portu, kontrol masası | 200 | Dış sipariş teslim alma |
-| Müşteri dinlenme köşesi | 4×4 | Oturma ve yönlendirme | 160 | Bekleme konforu |
+| Satış alanı | 12×12 | Kasa ve raf | İlk oda ücretsiz | Müşteri alışverişi |
+| Kuru depo | 8×8 | Depo rafı | 160 | Girdi ve ürün saklama |
+| Personel dinlenme odası | 8×8 | En az 2 koltuk | 180 | Hızlı yorgunluk giderme |
+| Soyunma/hazırlık odası | 8×8 | Dolap | 140 | Vardiya başlangıç hazırlığını 10'dan 5 sn'ye indirir |
+| Eğitim odası | 8×8 | Eğitim masası | 240 | Aynı anda 2 kişiye eğitim |
+| Yönetim odası | 8×8 | Planlama terminali | 280 | Vardiya ve sipariş politikaları |
+| Bakım atölyesi | 8×8 | Bakım tezgâhı | 220 | Teknisyenin planlı bakım işi |
+| Soğuk depo | 8×8 | Soğutucu raf ve enerji | 300 | Hassas ürünlerin ömrünü uzatır |
+| Mal kabul alanı | 8×8 | Teslim portu, kontrol masası | 200 | Dış sipariş teslim alma |
+| Müşteri dinlenme köşesi | 8×8 | Oturma ve yönlendirme | 160 | Bekleme konforu |
 
 Sera, işleme, enerji ve topluluk alanları önceki modül kataloğunda kalır. A4'teki eski “8 modül tipi” üst sınırı kaldırılmıştır: bu ekle toplam 14 işlevsel oda türü hedeflenir; atölye ve bakım atölyesi aynı türdür. İlk prototip bunların tümünü içermez.
 
-Müşteri dinlenme köşesinin işlevsel 4×4 asgari alanı A4'te marketin batı-önündeki ayrı, cam cepheli ferah pavyonla sağlanır; varsayılan hücreler ve yaya bağlantısı [yerleşim paftası §13](DUNYA_YERLESIM_PLANI.md) içindedir. Satış odasındaki eski 2×2 şişeleme nişi taşınmadan sonra boş nefes alanı olarak kalır; 160 kredilik oda, koltuk kapasitesi veya konfor etkisi sayılmaz. 6×6 odalar tablodaki 4×4 **asgari** alan koşulunu sağlar; kabuk bedelleri tabloda yazdığı gibi oda türü başınadır, alan başına çarpılmaz. Oda kabuğu bedeli donanımı kapsamaz.
+Müşteri dinlenme köşesinin işlevsel 8×8 asgari alanı A4'te marketin batı-önündeki ayrı, cam cepheli pavyonla sağlanır; yeri ve yaya bağlantısı [yerleşim paftası §13](DUNYA_YERLESIM_PLANI.md) içindedir. Satış odasındaki eski 2×2 şişeleme nişi taşınmadan sonra boş nefes alanı olarak kalır; 160 kredilik oda, koltuk kapasitesi veya konfor etkisi sayılmaz. Standart 12×12 odalar tablodaki 8×8 **asgari** alan koşulunu sağlar; kabuk bedelleri oda türü başınadır ve alanla çarpılmaz. Oda kabuğu bedeli donanımı kapsamaz.
 
 ### 32.2 Dekor ve donanım etkileri
 
@@ -781,7 +781,7 @@ Boş yer kalmazsa sevkiyat AwaitingSpace olur: mal kaybolmaz, NPC kamyonu yolda 
 
 Kabul sırasında miktar ve kalite teklifle karşılaştırılır. Temel sürümde rastgele eksik teslimat yoktur. İleride sözleşme uyuşmazlığı eklenirse açık olay olarak uygulanır; stok ve para sessizce eksiltilmez.
 
-**A2 geçici teslim pedi:** A2'nin tek yerel kooperatif öğretimi için `R3-C2` açık hava pedinde siparişin `Arrived → Inspecting → Accepted/AwaitingSpace` adımları aynı Application komutu ve §33.3 ledger/lot kurallarıyla yürür. Ped ücretsizdir, **oda/depo değildir**, 12 slotluk mal kabul tamponu veya ilave stok kapasitesi vermez; ürün ancak önceden rezerve edilmiş geçerli depo/raf alanına kabul edilip fiziksel aktarım tamamlanınca kullanılabilir. Yer yoksa sipariş `AwaitingSpace` kalır ve pedde tek temsilî kasa görünür; ikinci kabul için bedava ikinci yer açılmaz. Ücretli 4×4 asgari mal kabul odası (200 kredi kabuk + teslim portu/kontrol masası) kurulduğunda §33.1'in 12 slot tamponu ve tam oda işlevi açılır. Pedden odaya geçiş aynı bekleyen sipariş/lot kimliğini korur; daha önce kabul edilmiş stok yeniden eklenmez.
+**A2 geçici teslim pedi:** A2'nin tek yerel kooperatif öğretimi için `R3-C2` açık hava pedinde siparişin `Arrived → Inspecting → Accepted/AwaitingSpace` adımları aynı Application komutu ve §33.3 ledger/lot kurallarıyla yürür. Ped ücretsizdir, **oda/depo değildir**, 12 slotluk mal kabul tamponu veya ilave stok kapasitesi vermez; ürün ancak önceden rezerve edilmiş geçerli depo/raf alanına kabul edilip fiziksel aktarım tamamlanınca kullanılabilir. Yer yoksa sipariş `AwaitingSpace` kalır ve pedde tek temsilî kasa görünür; ikinci kabul için bedava ikinci yer açılmaz. Ücretli 8×8 asgari mal kabul odası (200 kredi kabuk + teslim portu/kontrol masası) kurulduğunda §33.1'in 12 slot tamponu ve tam oda işlevi açılır. Pedden odaya geçiş aynı bekleyen sipariş/lot kimliğini korur; daha önce kabul edilmiş stok yeniden eklenmez.
 
 ### 33.4 Üret veya satın al kararı
 

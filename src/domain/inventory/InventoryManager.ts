@@ -322,6 +322,7 @@ export class InventoryManager {
     }
 
     let reservation: Reservation | undefined;
+    let workerPickup = false;
     if (params.reservationId) {
       reservation = this.reservations.get(params.reservationId);
       if (!reservation) {
@@ -333,7 +334,9 @@ export class InventoryManager {
       if (!isSameLocation(reservation.source, params.source)) {
         throw new Error('Transfer kaynağı rezervasyon kaynağı ile eşleşmiyor');
       }
-      if (!isSameLocation(reservation.target, params.target)) {
+      workerPickup = params.target.kind === 'worker' && params.target.ownerId === reservation.ownerId &&
+        reservation.target.kind === 'shelf';
+      if (!workerPickup && !isSameLocation(reservation.target, params.target)) {
         throw new Error('Transfer hedefi rezervasyon hedefi ile eşleşmiyor');
       }
       if (reservation.itemId !== params.itemId) {
@@ -341,6 +344,12 @@ export class InventoryManager {
       }
       if (reservation.quantity < params.quantity) {
         throw new Error('Transfer miktarı rezerve miktarı aşıyor');
+      }
+      if (workerPickup && this.getAvailableCapacity(params.target) < params.quantity) {
+        throw new Error('EXCEEDS_CAPACITY: görevli yük kapasitesi yetersiz');
+      }
+      if (workerPickup && reservation.quantity !== params.quantity) {
+        throw new Error('Görevli tek işi parça parça alamaz');
       }
     } else {
       // Rezervasyonsuz transfer: anlık stok ve kapasite kontrolü
@@ -415,7 +424,9 @@ export class InventoryManager {
 
     // 4. Rezervasyon varsa çözme
     if (reservation) {
-      if (reservation.quantity === params.quantity) {
+      if (workerPickup) {
+        reservation.source = { ...params.target };
+      } else if (reservation.quantity === params.quantity) {
         reservation.status = 'FULFILLED';
       } else {
         reservation.quantity -= params.quantity;

@@ -47,6 +47,12 @@ export interface TransactionParams {
   metadata?: Record<string, string | number>;
 }
 
+export interface EconomyLedgerSnapshot {
+  balanceAtoms: number;
+  sequenceCounter: number;
+  entries: LedgerEntry[];
+}
+
 export class EconomyLedger {
   private balanceAtoms: number;
   private sequenceCounter: number;
@@ -83,6 +89,57 @@ export class EconomyLedger {
 
   public getEntry(transactionId: string): LedgerEntry | undefined {
     return this.entries.find((e) => e.transactionId === transactionId);
+  }
+
+  public serialize(): EconomyLedgerSnapshot {
+    return {
+      balanceAtoms: this.balanceAtoms,
+      sequenceCounter: this.sequenceCounter,
+      entries: this.entries.map((entry) => ({
+        ...entry,
+        metadata: entry.metadata ? { ...entry.metadata } : undefined,
+      })),
+    };
+  }
+
+  public restore(snapshot: EconomyLedgerSnapshot): void {
+    if (!Number.isSafeInteger(snapshot.balanceAtoms) || snapshot.balanceAtoms < 0) {
+      throw new Error('Ledger snapshot has an invalid balance');
+    }
+    if (!Number.isSafeInteger(snapshot.sequenceCounter) || snapshot.sequenceCounter < 0) {
+      throw new Error('Ledger snapshot has an invalid sequence');
+    }
+    if (!Array.isArray(snapshot.entries)) throw new Error('Ledger snapshot entries are missing');
+
+    const ids = new Set<string>();
+    let previousSequence = 0;
+    for (const entry of snapshot.entries) {
+      if (!entry.transactionId || ids.has(entry.transactionId)) {
+        throw new Error('Ledger snapshot contains a missing or duplicate transaction ID');
+      }
+      if (!Number.isSafeInteger(entry.sequence) || entry.sequence <= previousSequence) {
+        throw new Error('Ledger snapshot entries are not in sequence order');
+      }
+      if (!Number.isSafeInteger(entry.balanceAfterAtoms) || entry.balanceAfterAtoms < 0) {
+        throw new Error('Ledger snapshot contains an invalid balance result');
+      }
+      ids.add(entry.transactionId);
+      previousSequence = entry.sequence;
+    }
+    if (previousSequence > snapshot.sequenceCounter) {
+      throw new Error('Ledger snapshot sequence counter precedes an entry');
+    }
+    if (snapshot.entries.length > 0 && snapshot.entries[snapshot.entries.length - 1].balanceAfterAtoms !== snapshot.balanceAtoms) {
+      throw new Error('Ledger snapshot balance does not match its last entry');
+    }
+
+    this.balanceAtoms = snapshot.balanceAtoms;
+    this.sequenceCounter = snapshot.sequenceCounter;
+    this.entries = snapshot.entries.map((entry) => ({
+      ...entry,
+      metadata: entry.metadata ? { ...entry.metadata } : undefined,
+    }));
+    this.processedIds = ids;
   }
 
   /**

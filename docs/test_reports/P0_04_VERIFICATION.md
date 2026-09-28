@@ -39,3 +39,7 @@ Test Aracı: Vitest v5.0.2, TypeScript v6.0.2, Oxlint v1.81.0
 - `npm test`: 44/44 birim test geçti (9 yeni P0-04 satış testi, 10 P0-03 transfer testi, 15 core testi, 10 world/input testi).
 - `npm run lint`: 0 uyarı, 0 hata (Oxlint 22 dosyada 116 kural ile).
 - `npm run build`: `tsc -b && vite build` 661 ms'de hatasız tamamlandı.
+
+## 3. 2026-09-27 Bağımlılık ve Komut Yeniden İncelemesi
+
+P0-03 güncel tamamlandıktan ve `CommandDispatcher` P0-06 commit/rollback gözlemcisiyle değiştikten sonra satış suite'i tekrar çalıştırıldı: `npm test -- tests/unit/p0_sales.test.ts` 1 dosyada 9/9 test geçti. Bu kontrol `CustomerManager` satış sonuçları ve Application komut davranışını kapsar; App'te tam müşteri runtime entegrasyonunu veya cihaz satış akışını kanıtlamaz.

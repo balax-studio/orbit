@@ -228,13 +228,13 @@ Bu filtre P0 dış oyuncu denemesinde ölçülür: oyuncu ilk üretim–raf–sa
 | Soru | Cevap | Dayanak/durum |
 |---|---|---|
 | A.1 | Mat düz renkli, az fasetli **low-poly kübik/blok biçimli** mağaza. Küp ve prizma siluetleri kullanılır; Minecraft dokusu, gerçekçi PBR ve cel-shaded anime hedef değildir. | Anayasa §62.2; [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md) §2. |
-| A.2 | Başlangıç satış odası **6×6 hücre**; bağlantı koridoru en az 2 hücre geniştir. P0 tek oda bununla başlar; sonraki modüller ayrı eklenir. | Anayasa §9. |
+| A.2 | Başlangıç satış odası **12×12 hücre**; sonraki oda/üretim modülü en az 8×8 ve 4 m artışlıdır; geçiş en az 4 hücre geniştir. P0 tek oda bununla başlar, dünya modüller eklendikçe büyür. | Anayasa §9 ve D-044. |
 | A.3 | **1 grid hücresi = 1 metre = Three.js dünyasında 1 yatay birim** uygulama kararıdır. P0 şişeleme tezgâhı 1×2, domates yatağı ve çeşme 2×2, kasa ve raf 1×1 footprint kullanır; kesin servis hücreleri pafta §13.1'dedir. Müşteri bir yürüme hücresini geçici kullanır, makine gibi kalıcı 1×1 yerleşim nesnesi değildir. | §9/§26 ve katalog/pafta §13.1 footprint; metre→Three.js birimi eşlemesi teknik karar. |
 | A.4 | Hafif ambient/hemisphere ve bir yön ışığıyla mat renkler; blob veya baked gölge varsayılan. Her makine/aktör için gerçek zamanlı gölge yoktur. Düşük cihazda görsel kalite azalırken oyun kuralı aynı kalır. | §62.2/§63.1. |
-| A.5 | Ortografik kamera, yatay düzlemde 45° çapraz, aşağıya 30–35°; P0 başlangıç kararı **32°**. 6×6 oda için yerel hedef `(3,0,3)` ve yerel kamera pozu yaklaşık **`(11,7.07,11)`** (`d=8`, yükseklik `√2·8·tan(32°)`). D-042 paftasında oda dünyada `x12..17,z22..27` olduğundan hedef `(15,0,25)`, aynı ofsetle başlangıç pozu yaklaşık `(23,7.07,33)` olur. Ortografik görüş yüksekliği safe-area ve ekran oranına göre hesaplanır; cihaz değişince dünya ölçeği/koordinatı değişmez. | §62.3 açıyı sabitler; bu poz ve responsive görüş hacmi uygulama kararı. |
+| A.5 | Ortografik kamera, yatay düzlemde 45° çapraz, aşağıya 30–35°; P0 başlangıç kararı **32°**. Kamera etkin modül merkezini hedefler; güncel P0 merkezi `(29,0,49)`dur. 12×12 odanın tamamı ve HUD üstünde kalan oynanabilir alan güvenli kadraja sığar; görüş yüksekliği safe-area ve ekran oranından hesaplanır, cihaz değişince dünya koordinatı değişmez. | §62.3 açıyı sabitler; hedef ve responsive görüş hacmi uygulama kararı. |
 | A.6 | P0 iki parmakla sınırlı pan ve pinch zoom, “karaktere dön” kontrolü vardır; serbest orbit yoktur. 90° inşa döndürmesi nesneyi döndürür, kamerayı değil. | §60.1/§62.3; [CONTROLS_AND_UX.md](CONTROLS_AND_UX.md). |
 
-P0 gerçek cihaz kontrolü: 6×6 odanın ana eylemi HUD altında kalmamalı; 2×2 domates yatağının servis hücresi ile 1×2 şişeleme tezgâhının girdi/çıktı ve yürüme yolu yerleştirme önizlemesinde doğrulanmalıdır. D-042 paftasındaki dünya kaydırması kamera hedefine uygulanır; `d`/zoom sınırı cihaz kontrolüyle kayda alınır, kaynakta verilmemiş sabit sayı uydurulmaz.
+P0 gerçek cihaz kontrolü: 12×12 odanın ana eylemi HUD altında kalmamalı; 2×2 domates yatağının servis hücresi ile 1×2 şişeleme tezgâhının girdi/çıktı ve yürüme yolu yerleştirme önizlemesinde doğrulanmalıdır. `d`/zoom sınırı cihaz kontrolüyle kayda alınır; kaynakta verilmemiş sabit sayı uydurulmaz.
 
 ## D-018 — B. UI, hareket ve yerleştirme
 
@@ -365,9 +365,9 @@ Anayasa §60.10'un başlangıç destek hipotezi Android 10+/ARM64 ve iOS 16+'dı
 
 Splash Screen tüm sesleri `ArrayBuffer` olarak indirip decode etmez. Yükleme ekranı yalnız küçük, ilk oturumda sık kullanılan efektleri hazırlar; kalan sesler ihtiyaç anında asenkron yüklenir ve ölçülen bellek sınırına göre önbellekte tutulur/çıkarılır. Ses başarısız veya henüz hazır değilse görsel geri bildirim sürer, oyun tick'i beklemez. `AudioContext` kullanıcı etkileşimi gerektiriyorsa ilk açık sesli jestte `resume()` edilir; splash sırasında sesin kesin çalacağı varsayılmaz. Decode edilmiş `AudioBuffer` ve sıkıştırılmış kaynakların ayrı RAM maliyeti cihazda ölçülür; D-025 eşzamanlılık sınırı korunur. [MDN Web Audio best practices](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Best_practices).
 
-## D-038 — 6×6 oda rotası
+## D-038 — Dinamik modül rotası
 
-Anayasa §9'daki dolu grid için basit A* uygulanır. Manhattan mesafesi yalnız dört yönlü hareketin A* sezgiseli/öncelik ölçüsüdür; tek başına engel etrafında geçerli rota üretmez. 6×6 oda için P0'da harici `pathfinding.js` bağımlılığı eklenmez. Rota spawn/hedef veya işgal haritası değiştiğinde hesaplanır, aynı harita sürümünde önbellekten alınır; her 100 ms tick'te tüm müşteriler için A* koşturulmaz. Hareketli müşterilerde her hücreyi küresel engel gibi işlemek yerine hedefte kuyruk/rezervasyon ve kısa yerel bekleme uygulanır; kilitlenme testi yapılır. Rota yoksa duvardan geçiş yerine güvenli çıkış/yeniden hedefleme kullanılır.
+Anayasa §9'daki dolu grid için basit A* uygulanır. Manhattan mesafesi yalnız dört yönlü hareketin A* sezgiseli/öncelik ölçüsüdür; tek başına engel etrafında geçerli rota üretmez. 12×12 standart, en az 8×8 ve 4 m artışlı modüller başlangıçtaki 100×100 alanı aşınca dünya/zemin/gezinme sınırları kayıtlı modüllere göre büyür; mevcut koordinatlar sabit kalır. Harici `pathfinding.js` bağımlılığı eklenmez. Rota sınırı açık dünya/modül kayıtlarından alınır. Rota spawn/hedef veya işgal haritası değiştiğinde hesaplanır, aynı harita sürümünde önbellekten alınır; her 100 ms tick'te tüm müşteriler için A* koşturulmaz. Hareketli müşterilerde her hücreyi küresel engel gibi işlemek yerine hedefte kuyruk/rezervasyon ve kısa yerel bekleme uygulanır; kilitlenme testi yapılır. Rota yoksa duvardan geçiş yerine güvenli çıkış/yeniden hedefleme kullanılır.
 
 ## D-039 — Safe-area tokenları
 
@@ -395,6 +395,8 @@ Neo-Brutalist DOM arayüzünde `env(safe-area-inset-top/right/bottom/left)` orta
 
 **Değişiklik ve kanıt:** İnşa edilebilir modüller §9'a göre hareket edebilir; kayıttaki gerçek koordinat paftanın varsayılanından üstündür. Yaya/servis/kapı/yol altyapısı korunur. İçerik footprint'i veya servis hücresi ayrılan nesne rezerviyle uyuşmazsa aynı sahnede sessiz kaydırma yapılmaz; pafta, rota grafiği ve gerekiyorsa kayıt göçü birlikte revize edilir. P0 gerçek cihazda iki hücre geçişi, kasa/raf/makine erişimi ve HUD altında kalmama; A2–A4'te faz kapıları, teslim ve park/servis ayrımı ayrıca ölçülür. Bu belge yerleşimi tanımlar, çalışan kod/test sonucu değildir.
 
+**Durum:** D-044 ile P0 ölçüleri ve dünya sınırı büyütüldü; D-042 tarihsel koordinat/ölçü kararını temsil eder.
+
 ## D-043 — Ferah pafta, kesin portlar ve dört arazi
 
 **Köken:** Kullanıcının dünya paftasındaki açık noktaları cevaplama ve klostrofobik olmayan market isteği. Üst kaynak §9/§26/§32/§33/§58.1/§65, içerik kaynağı [katalog §2/§7](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md), tek koordinat/varlık kararı [pafta §13](DUNYA_YERLESIM_PLANI.md). D-042'nin P0 ve dış alan varsayılanları §13 ayrıntısıyla tamamlanır.
@@ -402,3 +404,15 @@ Neo-Brutalist DOM arayüzünde `env(safe-area-inset-top/right/bottom/left)` orta
 **Karar:** P0 satış 6×6 kalır; raf `fixture.sales_shelf` ve kasa `fixture.checkout` 1×1, çeşme ve domates `source.crop_plot` 2×2, şişeleme 1×2'dir. Gerçek servis/alışveriş yüzleri ve P0 tek müşteri/A2 mantıksal sıra rezervasyonları pafta §13.1'dir. Satış içindeki eski 2×2 makine nişi boş görüş alanıdır; işlevsel müşteri dinlenme odası A4'te ayrı, cam cepheli 4×4 `x6..9,z28..31` pavyondur ve §32.1'deki 160 kredi kabuk ile gerekli donanım kuralını kullanır. A2 geçici teslim pedi §33.3 sipariş komutuyla gerçek kabul yapabilir, ancak oda/12 slot tampon kapasitesi vermez; 200 kredi oda sonradan alınırsa aynı lot ikinci kez kabul edilmez. Göl, mera, bağ/zeytinlik ve tarla parselleri ile iki hücreli erişimleri §13.3'tedir. Yeni içerik portlarının bedelleri katalogda başlangıç denge hipotezidir.
 
 **Teknik ve sanat sınırı:** Duvar/kapı ölçüsü, 90° oda dönüşünde yeniden türeyen geçit/collider, park-yaya araları, küçük dekor cepleri, A4 hayvan/araç ritmi ve W1–W3 bakım döngüsü pafta §13'tedir. 57 SKU'nun fiziksel işlem portu katalog §7'de ID ile eşlenir. Genel `item.salt` ile `item.lake_salt` ayrı lot; balmumu petek balıyla aynı 14 sn/0 E işlemdir. Varsayılan görsel yoğunluk test edilmeyen sanatsal hedeftir; Domain stok/para kuralı veya tamamlanmış cihaz kanıtı değildir. Kod, save göçü ve cihaz/oyuncu kabulü ilgili PLAN fazlarında ayrıca yapılır.
+
+**Durum:** D-044 ile P0 oda ve mahalle ölçeği büyütüldü; D-043'ün eski ölçüleri güncel değildir.
+
+## D-044 — 100×100 geniş dünya ve tak-çalıştır modüller
+
+**Köken:** Kullanıcı talimatı: “12x12 100x100 yap şuan için”; oda, mahalle ve üretim alanlarının aynı oranda büyümesi; sonraki genişlemenin kayıt ve yerleşimi bozmadan tak-çalıştır olması.
+
+**Karar:** Başlangıç dünya sınırı `100×100 m`, hücre 1 m'dir. Modül bu sınırın dışına kaydedilirse zemin ve gezinme sınırları otomatik büyür; `(0,0)` kökeni, mevcut modül kimlikleri ve koordinatları yerinde kalır. Önceki `48×40` yerleşim iki kat ölçeklenir; P0 satış `R3-C0` 12×12 metre, güncel alanı `x23..35,z43..55`, merkezi `(29,49)`; üretim bahçesi `x7..19,z39..55` ölçüsünde 12×16 metredir. Standart kapalı oda/üretim modülü 12×12, en küçük oda 8×8 ve geçiş en az 4 m'dir; diğer geçerli boyutlar 4 m artışlıdır. Oda, açık mahalle ve dış üretim modülü aynı kararlı kayıt türüne takılır; yan yana etkin alanlar eşleşen 4 m geçitle bağlanır. Diğer mahalle, yol, parsel ve üretim alanları da eski plana göre iki kat genişlik/derinlik alır. Ekipman footprint'i katalog metresinde kalır; oda kabuk fiyatı alanla çarpılmaz. P0 ürün kapsamı hâlâ tek aktif satış odasıdır; kilitli rezervler çizilmez.
+
+**Tak-çalıştır sözleşmesi:** Modül `id, type, phase, status, bounds, doorways, fixtures` verisiyle kaydedilir; kapalı/açık alan tercihi ve yüzey rengi aynı kayıtta taşınır. Kimlik benzersizdir; zemin, duvar, collider, rota ve yerleşim sınırı ortak modül kaydından türetilir. Komşu odalar etkinleşince çakışmayan en az 4 m çift yönlü geçit açılır; açık mahalleler duvarsız yüzey olarak çizilir. Yeni oda veya üretim alanı kaydedilince harita sınırı gerektiği kadar büyür; mevcut modül kimlikleri/koordinatları yeniden numaralanmaz. Eski save'de aktör, görevli rota hedefleri ve raf hücresi bir defa iki katına taşınır; para, stok, lot, işlem ve nesne kimliği korunur. Etkin modül listesi kararlı kimliklerle saklanır; tanınmayan içerik kimliği sessizce atılmaz. Sessiz save sıfırlama yoktur.
+
+**Kanıt sınırı:** Bu karar mevcut 100×100 başlangıç paftası ve uygulanmış kayıt/yerleşim temelidir. Sonraki oda açma/taşıma akışı ayrıca fazına göre doğrulanır; build, cihaz ya da oyuncu kabulü bu kararla tek başına kanıtlanmış sayılmaz.

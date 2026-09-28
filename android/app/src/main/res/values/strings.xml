@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Orbit Market</string>
+    <string name="title_activity_main">Orbit Market</string>
+    <string name="package_name">com.orbitmarket.prototype</string>
+    <string name="custom_url_scheme">com.orbitmarket.prototype</string>
+</resources>

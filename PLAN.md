@@ -2,7 +2,7 @@
 
 Sürüm: 2.0 · ilk taslak 26 Eylül 2026, belge gözden geçirmesi 27 Eylül 2026. Ana kaynak: [OYUN_GELISTIRME_DEVIR_DOSYASI.md](OYUN_GELISTIRME_DEVIR_DOSYASI.md) §58, §60–63 ve ilgili sistem bölümleri. Bu dosya mevcut PLAN.md'nin genişletilmiş halidir; ikinci bağımsız yol haritası değildir.
 
-**Mevcut durum:** Tasarım/yan belgeler yazıldı; depoda başlangıç iskeleti bulunduğu önceki incelemede kaydedildi. Bu kayıt çalışan oyun, geçmiş test, cihaz build'i veya mağaza yayını kabulü değildir. İlk uygulama hedefi P0'dır. “Sıfırdan” mevcut dosyaları silme talimatı değildir; geliştirme öncesi gerçek durum yeniden doğrulanır. Bu plan aşağıdaki işleri yürütmez.
+**Mevcut durum (27 Eylül 2026):** D-044 kabul edildi: başlangıç 100×100 m, satış odası 12×12 m, bahçe 12×16 m; standart modül 12×12 m, en küçük oda 8×8 m, ölçü adımı/geçit 4 m ve sınır modül eklendikçe dinamik büyür. P0-01 `done/needs_review`; P0-06 D-044 koordinat göçü nedeniyle yeniden açılıp `todo/blocked`; P0-02/P0-08 `todo/blocked`; P0-03/04/05/07 `review/blocked`. P0-09 `review/blocked`, kabul edilmedi. Güncel kod kontrolleri 99/99 test, lint ve web build geçti; yerel tarayıcı ön izlemesi açıldı. Oyuncu transferi→satış akışı ve gerçek Android/iOS cihaz kesinti kanıtı hâlâ açık; ayrıntı [P0-09 kabul raporunda](docs/test_reports/P0_09_ACCEPTANCE.md). “Sıfırdan” mevcut dosyaları silme talimatı değildir.
 
 ## 1. Planın kullanımı ve tamamlanma kuralı
 
@@ -79,7 +79,7 @@ Derin mimari soruların runtime indeks, para, tick, WebGL, kayıt, ses ve kod ka
 
 ### P0.1 — iskelet, veri, saat ve kabuk
 
-- [x] [Dünya yerleşim paftasındaki](DUNYA_YERLESIM_PLANI.md) `R3-C0` 6×6 oda, batı bahçe, iki hücrelik bağlantı ve kamera dünya kaydırmasını tek koordinat sistemiyle kur; gelecekteki odaları erken açma.
+- [x] [Dünya yerleşim paftasındaki](DUNYA_YERLESIM_PLANI.md) 100×100 dünya ölçeğini; `R3-C0` 12×12 satış odasını, 12×16 üretim bahçesini ve en az 4 m bağlantıları kur. Yeni 12×12 standart modüller/8×8 asgari odalar kayıtla eklenip sınırı büyütür; mevcut koordinatları korur.
 - [ ] §66/[ekran kataloğu](EKRAN_VE_MENU_AKISI.md): dünya üstü açılış/devam, HUD yerleşimi, menü/ayarlar/kayıt akışı ve yalnız P0 içerikli Oyun Ansiklopedisi (su/domates, makineler, erişilebilir üretim şemaları).
 - [x] Saf domain, sabit 10 Hz saat, seed'li RNG, tek ledger, sabit hassasiyet ve komut/transaction kimliği.
 - [x] Minimum içerik doğrulayıcı; `item.raw_water` ile üç şişelenmiş su SKU'su ayrı ID; kaynak/şişeleme/domates tarif ve kapasite verisi.

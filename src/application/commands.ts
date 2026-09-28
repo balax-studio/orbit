@@ -86,14 +86,26 @@ export type CommandResult =
   | { cancelled: boolean; reservationId: EntityId }
   | SaleResult;
 
+export type CommandCommitObserver = (command: ApplicationCommand, result: CommandResult) => void;
+export type AsyncCommandCommitObserver = (command: ApplicationCommand, result: CommandResult) => Promise<void>;
+
 export class CommandDispatcher {
   private ledger: EconomyLedger;
   private inventory?: InventoryManager;
   private completedSales: Map<string, SaleResult> = new Map();
+  private readonly onCommitted?: CommandCommitObserver;
+  private readonly onCommittedAsync?: AsyncCommandCommitObserver;
 
-  constructor(ledger: EconomyLedger, inventory?: InventoryManager) {
+  constructor(
+    ledger: EconomyLedger,
+    inventory?: InventoryManager,
+    onCommitted?: CommandCommitObserver,
+    onCommittedAsync?: AsyncCommandCommitObserver
+  ) {
     this.ledger = ledger;
     this.inventory = inventory;
+    this.onCommitted = onCommitted;
+    this.onCommittedAsync = onCommittedAsync;
   }
 
   public setInventory(inventory: InventoryManager): void {
@@ -101,6 +113,42 @@ export class CommandDispatcher {
   }
 
   public execute(command: ApplicationCommand): CommandResult {
+    if (this.onCommittedAsync) throw new Error('Use executeAsync for asynchronous durable commits');
+    if (!this.onCommitted) return this.executeCommand(command);
+
+    const ledgerBefore = this.ledger.serialize();
+    const inventoryBefore = this.inventory?.serialize();
+    const completedSalesBefore = new Map(this.completedSales);
+    try {
+      const result = this.executeCommand(command);
+      if (this.isDurableResult(command, result)) this.onCommitted(command, result);
+      return result;
+    } catch (error) {
+      this.ledger.restore(ledgerBefore);
+      if (inventoryBefore && this.inventory) this.inventory.restore(inventoryBefore);
+      this.completedSales = completedSalesBefore;
+      throw error;
+    }
+  }
+
+  public async executeAsync(command: ApplicationCommand): Promise<CommandResult> {
+    if (!this.onCommittedAsync) return this.execute(command);
+    const ledgerBefore = this.ledger.serialize();
+    const inventoryBefore = this.inventory?.serialize();
+    const completedSalesBefore = new Map(this.completedSales);
+    try {
+      const result = this.executeCommand(command);
+      if (this.isDurableResult(command, result)) await this.onCommittedAsync(command, result);
+      return result;
+    } catch (error) {
+      this.ledger.restore(ledgerBefore);
+      if (inventoryBefore && this.inventory) this.inventory.restore(inventoryBefore);
+      this.completedSales = completedSalesBefore;
+      throw error;
+    }
+  }
+
+  private executeCommand(command: ApplicationCommand): CommandResult {
     switch (command.type) {
       case 'CREDIT_ACCOUNT':
         return this.ledger.commitTransaction({
@@ -164,8 +212,7 @@ export class CommandDispatcher {
         const saleKey = command.transactionId;
         const existingSale = this.completedSales.get(saleKey);
         if (existingSale) {
-          if (existingSale.customerId !== command.customerId ||
-              existingSale.itemId !== command.itemId ||
+          if (existingSale.customerId !== command.customerId || existingSale.itemId !== command.itemId ||
               existingSale.quantity !== command.quantity ||
               existingSale.amountAtoms !== command.quantity * command.unitPriceAtoms) {
             throw new Error(`İşlem ID farklı satış için kullanılmış: ${saleKey}`);
@@ -176,18 +223,37 @@ export class CommandDispatcher {
           };
         }
 
-        if (!this.inventory) {
-          throw new Error('InventoryManager bağlı değil');
+        const existingLedgerEntry = this.ledger.getEntry(saleKey);
+        if (existingLedgerEntry?.reason === 'SALE') {
+          const metadata = existingLedgerEntry.metadata ?? {};
+          if (!metadata.customerId || !metadata.itemId || !metadata.quantity ||
+              metadata.customerId !== command.customerId || metadata.itemId !== command.itemId ||
+              metadata.quantity !== command.quantity ||
+              existingLedgerEntry.amountAtoms !== command.quantity * command.unitPriceAtoms) {
+            throw new Error(`Satış işlem kimliği ledger içinde zaten kullanılmış: ${saleKey}`);
+          }
+          const result: SaleResult = {
+            success: true,
+            transactionId: saleKey,
+            customerId: String(metadata.customerId ?? command.customerId),
+            itemId: String(metadata.itemId ?? command.itemId) as ItemId,
+            quantity: Number(metadata.quantity ?? command.quantity),
+            amountAtoms: existingLedgerEntry.amountAtoms,
+            balanceAfterAtoms: existingLedgerEntry.balanceAfterAtoms,
+            isDuplicate: true,
+          };
+          this.completedSales.set(saleKey, { ...result, isDuplicate: false });
+          return result;
         }
+
+        const totalPriceAtoms = command.quantity * command.unitPriceAtoms;
+        if (!this.inventory) throw new Error('InventoryManager bağlı değil');
         if (command.customerLocation.kind !== 'customer' || command.customerLocation.ownerId !== command.customerId) {
           throw new Error('Satış sepeti müşteriyle eşleşmiyor');
         }
-        const totalPriceAtoms = command.quantity * command.unitPriceAtoms;
         if (!Number.isSafeInteger(command.quantity) || command.quantity <= 0 ||
             !Number.isSafeInteger(command.unitPriceAtoms) || command.unitPriceAtoms <= 0 ||
-            !Number.isSafeInteger(totalPriceAtoms)) {
-          throw new Error('Geçersiz satış miktarı veya fiyatı');
-        }
+            !Number.isSafeInteger(totalPriceAtoms)) throw new Error('Geçersiz satış miktarı veya fiyatı');
         if (this.ledger.hasProcessed(command.transactionId)) {
           throw new Error(`Satış işlem kimliği ledger içinde zaten kullanılmış: ${command.transactionId}`);
         }
@@ -195,16 +261,19 @@ export class CommandDispatcher {
           throw new Error('Müşteri sepetinde yeterli ürün yok');
         }
 
-        // Doğrulamalardan sonra sepet tüketilir; satış rafı doğrudan tüketemez.
-        this.inventory.consumeStock({
-          transactionId: `consume_${command.transactionId}`,
-          timestampTick: command.timestampTick,
-          location: command.customerLocation,
-          itemId: command.itemId,
-          quantity: command.quantity,
-        });
+        // 1. Stok düşümü (müşteri sepetinden veya raftan)
+        if (this.inventory) {
+          const consumeLocation = command.customerLocation;
+          this.inventory.consumeStock({
+            transactionId: `consume_${command.transactionId}`,
+            timestampTick: command.timestampTick,
+            location: consumeLocation,
+            itemId: command.itemId,
+            quantity: command.quantity,
+          });
+        }
 
-        // Kredi atom muhasebesi (10.000 atom/kredi)
+        // 2. Kredi atom muhasebesi (10.000 atom/kredi, tek transaction atomikliği)
         const ledgerEntry = this.ledger.commitTransaction({
           transactionId: command.transactionId,
           timestampTick: command.timestampTick,
@@ -237,5 +306,11 @@ export class CommandDispatcher {
       default:
         throw new Error(`Bilinmeyen komut tipi: ${(command as Command).type}`);
     }
+  }
+
+  private isDurableResult(command: ApplicationCommand, result: CommandResult): boolean {
+    if ('isDuplicate' in result && result.isDuplicate) return false;
+    if (command.type === 'CANCEL_RESERVATION' && (!('cancelled' in result) || !result.cancelled)) return false;
+    return true;
   }
 }

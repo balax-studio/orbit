@@ -36,8 +36,8 @@ UI DOM/CSS tabanlı Neo-Brutalist; dünya mat low-poly kübik/prizmatiktir. Mevc
 - Telefon/tablet portre düzeni; 9:16–9:21 telefon oranı ve portre tablet kabulü. Safe-area, çentik ve home indicator hesaba katılır.
 - Başlangıç bölgeleri: üst yaklaşık %12 kredi/görev/duraklat, orta yaklaşık %65 dünya, alt yaklaşık %18 hareket ve en fazla üç ana eylem. Bunlar katı piksel koordinatı veya toplamı %100 olan zorunlu bölüşüm değildir.
 - Telefon detayları alt panel, tablette uygun yan panel olarak açılır; aynı anda bir ana yönetim sayfası vardır. Seçili nesne HUD altında kaybolmaz.
-- §9 varsayılan oda 6×6 hücre, hücre 1 metre; koridor en az 2 hücre. Makine footprint'i katalog/pafta §13'ten alınır; P0 domates yatağı 2×2, şişeleme tezgâhı 1×2.
-- Ortografik kamera 45° yatay/30–35° aşağı eğim. D-017 P0 seçimi 32°; yerel `(3,0,3)` hedefi paftadaki oda konumunda dünyada `(15,0,25)` olur. Frustum ekrana göre ayarlanır.
+- §9 standart modülü 12×12 m, en küçük oda 8×8 m, değişken boyut adımı 4 m, geçit en az 4 m; dünya 100×100 m'den başlar ve modül kaydıyla dinamik büyür. Kapalı oda, açık mahalle ve dış üretim modülleri ortak kayıttan takılır; mevcut kimlik/koordinat kaymaz. Makine footprint'i katalog/pafta §13'ten alınır; P0 domates yatağı 2×2, şişeleme tezgâhı 1×2.
+- Ortografik kamera 45° yatay/30–35° aşağı eğim. D-017 P0 seçimi 32°; hedef etkin modülün merkezi ve paftadaki başlangıç satış merkezi `(29,0,49)`dur. Frustum ekrana göre ayarlanır.
 - İki parmak pan/zoom ve karaktere dön vardır; serbest orbit yoktur. İnşa döndürmesi nesneye aittir. Aspect ratio değişince dünya esnetilmez.
 - Duvar seçili aktörü kapatıyorsa yalnız örten görsel parça soluklaşır/kesilir veya siluet kullanılır; collider değişmez.
 

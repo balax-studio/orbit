@@ -1,104 +1,99 @@
 # Orbit Market — dünya ve market yerleşim paftası
 
-**Durum:** Varsayılan başlangıç yerleşimi ve fazlı genişleme için uygulama kararı; yapılmış sahne veya cihaz kabulü değildir. Ürün sınırları [anayasa §9, §58.1, §62–63 ve §65](OYUN_GELISTIRME_DEVIR_DOSYASI.md), yerleştirme güvenliği [KARARLAR.md](KARARLAR.md) D-001/D-009/D-017/D-018, görsel dil [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md) §4/§10–12 ve kontrol listesi [RULES.md](RULES.md) içindedir. Sayısal ada koordinatları kaynakta önceden verilmemişti; **bu dosyada ajanlar için sabitlenen teknik yerleşim seçimidir**. İçerik kataloğunun gerçek footprint ve servis hücresi daha üst önceliklidir. Bu pafta yeni ekonomi, oda bedeli veya açılma eşiği üretmez.
+**Durum:** Varsayılan başlangıç yerleşimi ve fazlı genişleme için uygulama kararı; yapılmış sahne veya cihaz kabulü değildir. Kullanıcının 27 Eylül 2026 kararıyla güncel pafta 100×100 metrelik, modüler başlangıç dünyasıdır. Ürün sınırları [anayasa §9, §58.1, §62–63 ve §65](OYUN_GELISTIRME_DEVIR_DOSYASI.md), yerleştirme güvenliği [KARARLAR.md](KARARLAR.md) içindedir. İçerik kataloğunun gerçek ekipman footprint'i ve servis hücresi üst önceliklidir; pafta üretim/raf alanını daraltma gerekçesi olamaz. Bu dosya yeni ekonomi veya oda bedeli üretmez.
 
 ## 1. Koordinat ve okuma kuralı
 
-- Dünya planlama ızgarası `x=0..47`, `z=0..39` (48×40 hücre). Hücre 1 oyun metresi / 1 Three.js yatay birimdir. `x` doğuya/sağa, `z` güneye/aşağı artar. `(x,z)` hücrenin kimliğidir; tablodaki iki uç dahildir. Yükseklik ve çatı bu 2B işgal haritasından ayrıdır.
+- Güncel dünya sınırı `x=0..100`, `z=0..100` metredir. Her hücre ve koordinat birimi 1 oyun metresidir; `x` doğuya/sağa, `z` güneye/aşağı artar. Harita kökeni `(0,0)` sabit kalır; alan büyütüldüğünde mevcut koordinatlar taşınmaz, yalnız sınır ve yeni modül kaydı genişler.
 - Duvarlar hücrenin dış sınır çizgisine oturur; oda kenarındaki döşeme hücresi içeriden yürünebilir. Kapı koordinatı iki komşu odanın sınır döşemelerini ve aradaki duvar açıklığını belirtir. Karşı oda açılmadıysa bu duvar kapalıdır; boş rezervin içine yürünmez.
-- **Kuzey** ekran paftasının üstü, ana **araç yolu güney** kenarıdır. Marketin önü güneydedir. P0 6×6 satış odasının batı-kuzey köşesi `(12,22)`, merkez hedefi `(15,25)`tir. D-017'deki yerel `(3,0,3)` kamera hedefi bu oda için dünya kaydırmasıyla `(15,0,25)` olur; kamera açıları ve responsive frustum değişmez.
-- 48×40, **yerleşim planı sınırıdır**; P0'da tüm odaların mesh, collider, ekonomisi ve uzak dekoru yaratılmaz. Görünür çevre cihaz bütçesine ve açılmış faza göre çizilir. Geleceğe ayrılmış hücreler oyuncuya sahte satın alınabilir oda olarak sunulmaz.
-- Tablodaki oda/kare yerleri başlangıç veya genişleme **varsayılanıdır**. Oyuncu §9 izinli modülü taşıyabilir; her değişiklik footprint, servis, iki hücrelik geçiş, giriş/kasa/teslim erişimi ve son temel zincir kuralıyla yeniden doğrulanır. Kalıcı kimlik, stok ve parti yerleşimle birlikte korunur. Dünya yolu, yaya geçidi, park/servis girişi ve güvenlik tamponu inşa alanı değildir.
+- **Kuzey** ekran paftasının üstü, ana **araç yolu güney** kenarıdır. P0 satış modülü `R3-C0`, `x=23..35,z=43..55` alanında 12×12 metredir; merkezi ve başlangıç noktası `(29,49)`dur. Güney kapısı 4 metre, bahçe bağlantısı 4 metre genişliğindedir.
+- 100×100 m başlangıç alanıdır; modül kaydı bu sınırın dışına taşarsa zemin ve gezinme sınırları modülü alacak kadar otomatik büyür. Önceki 48×40 paftanın alanları ve oda modülleri yatay/dikey iki kat ölçeklenmiştir; eski hücre merkezleri `(x,z)` güncel dünyada `(2x,2z)` olur. Oda, mahalle, parsel, yol, kapı ve geçiş ölçülerinin tümü iki katına çıkar; eski iki hücrelik bağlantı güncel planda 4 m olur. Standart modül 12×12 m, izinli en küçük oda 8×8 m; değişken ölçüler 4 m ızgarasına uyar. Ekipmanların fiziksel footprint'i ve servis mesafesi kaynak katalogdaki metre ölçüsünde kalır; oda içi boşluk ile mahalle/üretim alanı büyür.
+- Odalar, açık mahalleler ve dış üretim bölgeleri aynı kararlı modül kimliği/kapsam/kapı/fixture kaydına takılır. Kapalı modül duvar çizer; açık modül kendi yüzey rengini kullanıp duvar çizmez. Yanyana etkin modüller en az 4 m eşleşen geçitle otomatik bağlanır. Yeni sınır eklemek mevcut modül kimliklerini ve mutlak koordinatları değiştirmez; kayıt yalnız etkin kararlı modül kimliklerini taşır.
+- §§5–13 içindeki eski pafta koordinatları bu dönüşümün kaynak noktalarıdır. Güncel uygulama koordinatları değildir; eski dekor, kapı ve rota örneklerini kullanırken aynı dönüşüm uygulanır. Harita 100 metrenin üstüne genişletilirse mevcut modül kimlikleri ve mutlak koordinatları sabit kalır; yeni parseller boş kenarlara eklenir.
+- P0'da yalnız açılmış modül ve kaynaklar çizilir. Modül kimliği, tipi, fazı, boyutu, durumu ve kapı bağlantısı tek kayıtta tutulur; aynı kayıt yürüme, yerleşim, zemin ve duvar üretimine kaynak olur. Yeni 12×12 modül, sabit `R#-C#` kimliklerinden bağımsız kaydedilebilir. Geleceğe ayrılmış alan oyuncuya sahte satın alınabilir oda olarak sunulmaz.
+- Tablodaki oda/kare yerleri başlangıç veya genişleme **varsayılanıdır**. Oyuncu §9 izinli modülü taşıyabilir; her değişiklik footprint, servis, en az 4 m geçiş, giriş/kasa/teslim erişimi ve son temel zincir kuralıyla yeniden doğrulanır. Kalıcı kimlik, stok ve parti yerleşimle birlikte korunur. Dünya yolu, yaya geçidi, park/servis girişi ve güvenlik tamponu inşa alanı değildir.
 
 ## 2. Kuşbakışı ana pafta
 
 ```text
                            KUZEY  z azalır
-  x=0                                                               x=47
-  ┌───────────┬─────────────────────────────────────┬───────────────┐
-  │ göl/mera  │ R0  topluluk | soyunma | rezerv | rezerv           │
-  │ korusu    │ R1  sera      | enerji  | eğitim | yönetim          │
-  │ bahçe     │ R2  işleme   | dinlenme| soğuk  | bakım            │
-  │           │ R3  SATIŞ    | kuru depo| kabul | servis avlusu    │
-  ├───────────┴─────────────────────────────────────┴───────────────┤
-  │ yaya kaldırımı / market girişi / park üstü geçiş               │
-  │                    otopark ve erişim şeridi                     │
-  │══════════════════════ DOĞU–BATI ARAÇ YOLU ═════════════════════│
-  └─────────────────────────────────────────────────────────────────┘
+   x=0                                                              x=100
+   ┌──────────────┬──────────────────────────────────┬───────────────┐
+   │ peyzaj/bahçe │ R0  topluluk | soyunma | rezerv | rezerv        │
+   │              │ R1  sera      | enerji  | eğitim | yönetim       │
+   │              │ R2  üretim    | dinlenme| soğuk  | bakım         │
+   │              │ R3  SATIŞ     | kuru depo| kabul | servis avlusu │
+   ├──────────────┴──────────────────────────────────┴───────────────┤
+   │ yaya yolu / giriş / genişletilebilir mahalle ve üretim alanı    │
+   │                      park ve erişim şeridi                      │
+   │══════════════════════ DOĞU–BATI ARAÇ YOLU ═════════════════════│
+   └─────────────────────────────────────────────────────────────────┘
                            GÜNEY  z artar
 ```
 
 | Şerit / alan | Hücreler | Görev | İlk erişim |
 |---|---|---|---|
-| Batı peyzaj ve bahçe | `x=2..11, z=2..29` | Göl/mera rezervi, ağaçlar ve P0 üretim bahçesi; alt bölgeler §5'te | Bahçe P0; diğerleri fazına göre |
-| Modüler yapı | `x=12..35, z=4..27` | Dört sütun × dört satır oda rezervi; yalnız açılan modüller inşa edilir | Satış P0 |
-| Doğu servis yolu | `x=36..39, z=22..34` | Gerçek tedarik girişine ayrılmış iki hücrelik geçiş ve emniyet payı | A2 basit teslim noktası; A4 araç görseli |
-| Doğu üretim şeridi | `x=40..47, z=2..34` | A3 bağ/zeytinlik ile geniş tarla parselleri, iki hücreli servis/yaya omurgası ve güneyde A4 peyzaj; ayrım §13'te | Arazi satın alındıkça |
-| Ön kaldırım | `x=10..35, z=28..29` | Giriş, yaya yönü ve park üstü yürüyüş; kesintisiz | P0 sade zemin |
-| Park/araç bölgesi | `x=16..35, z=30..34` | Park cepleri `z=30..32`, erişim şeridi `z=33..34` | A4; öncesinde sahte trafik yok |
-| Ana yol | `x=0..47, z=35..38` | Doğu–batı trafik, aşınma ve bakım görünümü | A4; P0 yalnız uzak zemin sınırı |
-| Güney dış sınır | `z=39` | Oynanamaz peyzaj/tampon | Gerektiğinde |
+| Batı peyzaj ve bahçe | `x=3..23, z=3..59` | Genişletilmiş peyzaj ve P0 üretim bahçesi; alt bölgeler §5'teki iki kat dönüşüme uyar | Bahçe P0; diğerleri fazına göre |
+| Modüler yapı | `x=23..71, z=7..55` | Dört sütun × dört satır, her modül 12×12 metre; yalnız açılan modüller inşa edilir | Satış P0 |
+| Doğu servis yolu | `x=71..79, z=43..69` | Tedarik girişine ayrılmış geniş servis yolu ve emniyet payı | A2 basit teslim noktası; A4 araç görseli |
+| Doğu üretim şeridi | `x=79..95, z=3..69` | Bağ/zeytinlik ve geniş tarla parselleri; iki kat büyüyen servis/yaya omurgası §13'te | Arazi satın alındıkça |
+| Ön kaldırım | `x=19..71, z=55..59` | Giriş, yaya yönü ve park üstü yürüyüş; kesintisiz | P0 sade zemin |
+| Park/araç bölgesi | `x=31..71, z=59..69` | Park cepleri `z=59..65`, erişim şeridi `z=65..69` | A4; öncesinde sahte trafik yok |
+| Ana yol | `x=0..96, z=69..77` | Doğu–batı trafik, aşınma ve bakım görünümü | A4; P0 yalnız uzak zemin sınırı |
+| Genişleme payı | `x=0..100,z=0..100` içindeki modül dışı parseller | Yeni oda, mahalle, üretim veya peyzaj modülü eklenebilir; mevcut koordinatlar sabit kalır | Faz ve kaynak koşuluna göre |
 
 ## 3. Oda matrisi ve açılma sırası
 
-Her hücre 6×6'dır. Sütunlar `C0 x12..17`, `C1 x18..23`, `C2 x24..29`, `C3 x30..35`; satırlar `R0 z4..9`, `R1 z10..15`, `R2 z16..21`, `R3 z22..27`. Bu oda listesi [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md) §11'deki alanları yerleştirir; satın alma bedeli/gerçek açılış koşulu içerik ve §58.1'den gelir.
+Her standart modül 12×12 metredir. Sütunlar `C0 x23..35`, `C1 x35..47`, `C2 x47..59`, `C3 x59..71`; satırlar `R0 z7..19`, `R1 z19..31`, `R2 z31..43`, `R3 z43..55`. Bu oda listesi [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md) §11'deki alanları geniş modüllere yerleştirir; satın alma bedeli/gerçek açılış koşulu içerik ve §58.1'den gelir.
 
 | Konum | Hücreler | Alan ve kullanım | Faz sınırı |
 |---|---|---|---|
-| R3-C0 | `x12..17,z22..27` | **Satış/başlangıç:** tek raf, kasa, P0 şişeleme; A2'de şişeleme işleme odasına taşınabilir, eski niş açık nefes alanı kalır | P0 tek kapalı oda |
-| R3-C1 | `x18..23,z22..27` | **Kuru depo:** tek A2 rafından başlayan ham/ara/nihai bölmeler | A2; P0'da kapalı rezerv |
-| R3-C2 | `x24..29,z22..27` | **Mal kabul:** A2'de dış teslim işareti ve geçiş rezervi, sonraki fazda tam kabul/kontrol odası | A2 basit işaret; oda donanımı fazına göre |
-| R3-C3 | `x30..35,z22..27` | **Açık servis avlusu:** iki hücrelik doğu–batı teslim geçidi ve manevra; oda değildir | A2 geçiş; A4 van |
-| R2-C0 | `x12..17,z16..21` | **İşleme/üretim:** su şişeleme ve sonra tanımlı ilk gıda/içecek hatları; odanın orta aksı açık | A2 |
-| R2-C1 | `x18..23,z16..21` | **Dinlenme:** iki koltuklu ilk mola köşesi, daha sonra tanımlı konfor | A2 |
-| R2-C2 | `x24..29,z16..21` | **Soğuk depo:** uygun lot/ömür/güç, teslim ve işleme arasında | A3 |
-| R2-C3 | `x30..35,z16..21` | **Bakım atölyesi:** alet ve servis kuyruğu; yol bakımından ayrı | A3 |
-| R1-C0 | `x12..17,z10..15` | **Sera:** satın alınmış üretim/biyohat; P0 domates yatağı dış bahçededir | A3/A4 içerik erişimi |
-| R1-C1 | `x18..23,z10..15` | **Enerji:** kapasite ve öncelik panosu | A3 |
-| R1-C2 | `x24..29,z10..15` | **Eğitim:** mentor/öğrenci masası | A3/A4 içerik erişimi |
-| R1-C3 | `x30..35,z10..15` | **Yönetim:** çizelge, sipariş ve araştırma ekranına erişim | A3 |
-| R0-C0 | `x12..17,z4..9` | **Topluluk:** pano, kriz/final izi; erken fazda bina değildir | A4 |
-| R0-C1 | `x18..23,z4..9` | **Soyunma:** dolap ve vardiya hazırlığı | A3/A4 içerik erişimi |
-| R0-C2/C3 | `x24..35,z4..9` | **Boş başlangıç rezervi:** A3/A4'te gerekli iç istasyonlar için satın alınmış işleme odası kopyaları §13.3'e göre kurulabilir | Gerekli oda/bağlantı açılmadan inşa yok |
+| R3-C0 | `x23..35,z43..55` | **Satış/başlangıç:** tek raf, kasa, P0 şişeleme; A2'de şişeleme işleme odasına taşınabilir, boş alan nefes ve manevra alanı kalır | P0 tek kapalı oda |
+| R3-C1 | `x35..47,z43..55` | **Kuru depo:** tek A2 rafından başlayan ham/ara/nihai bölmeler | A2; P0'da kapalı rezerv |
+| R3-C2 | `x47..59,z43..55` | **Mal kabul:** A2'de dış teslim işareti ve geniş geçiş rezervi, sonraki fazda tam kabul/kontrol odası | A2 basit işaret; oda donanımı fazına göre |
+| R3-C3 | `x59..71,z43..55` | **Açık servis avlusu:** geniş doğu–batı teslim geçidi ve manevra; oda değildir | A2 geçiş; A4 van |
+| R2-C0 | `x23..35,z31..43` | **İşleme/üretim:** su şişeleme ve sonra tanımlı ilk gıda/içecek hatları; istasyon, tampon ve taşıma için 12×12 alan | A2 |
+| R2-C1 | `x35..47,z31..43` | **Dinlenme:** koltuk ve geçişi kapatmayan geniş mola alanı | A2 |
+| R2-C2 | `x47..59,z31..43` | **Soğuk depo:** uygun lot/ömür/güç, teslim ve işleme arasında | A3 |
+| R2-C3 | `x59..71,z31..43` | **Bakım atölyesi:** alet ve servis kuyruğu; yol bakımından ayrı | A3 |
+| R1-C0 | `x23..35,z19..31` | **Sera:** satın alınmış üretim/biyohat; P0 domates yatağı dış bahçededir | A3/A4 içerik erişimi |
+| R1-C1 | `x35..47,z19..31` | **Enerji:** kapasite ve servis için geniş modül | A3 |
+| R1-C2 | `x47..59,z19..31` | **Eğitim:** mentor/öğrenci masası ve dolaşım alanı | A3/A4 içerik erişimi |
+| R1-C3 | `x59..71,z19..31` | **Yönetim:** çizelge, sipariş ve araştırma ekranına erişim | A3 |
+| R0-C0 | `x23..35,z7..19` | **Topluluk:** pano, kriz/final izi; erken fazda bina değildir | A4 |
+| R0-C1 | `x35..47,z7..19` | **Soyunma:** dolap ve vardiya hazırlığı | A3/A4 içerik erişimi |
+| R0-C2/C3 | `x47..71,z7..19` | **Boş başlangıç rezervi:** gerekli içerik ve bağlantı oluşunca iki bağımsız 12×12 işleme modülü kaydedilebilir | Gerekli oda/bağlantı açılmadan inşa yok |
 
-**Müşteri dinlenme alanı:** A4'te ücretli işlevsel oda, güneybatı ön bahçede `x6..9,z28..31` **4×4 cam pavyondur**; doğu kapısı ve bağlantısı §13'tedir. Satış içindeki `x12..13,z22..23` P0 şişeleme nişi, makine A2'de taşınınca boş kalır; 2×2 dekor, dinlenme oda etkisi veya ücretsiz koltuk değildir. Bu seçim satış odasının ferah orta aksını ve kaynak §32.1 asgari alan/160 kredi kabuk kuralını birlikte korur.
+**Müşteri dinlenme alanı:** A4'te ücretli işlevsel pavyonun başlangıç alanı 8×8 metredir; yeri, kapısı ve kaldırım bağlantısı eski pafta hücrelerinin iki kat dönüşümüne göre §13'te hesaplanır. Satış içindeki eski 2×2 şişeleme nişi, makine A2'de taşınınca boş kalır; dekor, dinlenme etkisi veya ücretsiz koltuk değildir. Oda kabuk bedeli alan başına çarpılmaz.
 
 ### 3.1 Oda içi işlev cepleri
 
-Bu koordinatlar **mobilya/istasyon için boş bırakılmış köşe cepleridir**; odanın otomatik dolduğu veya kaç ekipmanın satın alındığı anlamına gelmez. Her oda için merkezde `x+2..3` ve `z+2..3` iki hücrelik çapraz omurga ile komşu kapı eşikleri açıktır. İçerik tanımındaki footprint/servis hücresi belirtilen cebe sığmazsa nesne gizlice küçültülmez; pafta ve rota birlikte revize edilir.
+Her 12×12 modül, en az 4 metre genişliğinde kesişen orta yaya/taşıma aksı ve ekipman için dört ayrı 4×4 köşe cebiyle kurulur. Raf, makine ve depolama varlıkları köşelere takılır; orta aks ve kapı ağzı boş kalır. Gerçek nesne footprint'i katalog ölçüsünde kalır; aynı cepteki ürün sayısını veya işlevi faz açılmadan çoğaltma.
 
-| Oda | Kuzeybatı / kuzeydoğu cepleri | Güneybatı / güneydoğu cepleri |
+| Bölge | Kullanım | P0 gerçek yerleşimi |
 |---|---|---|
-| Satış R3-C0 | `x12..13,z22..23` şişeleme → taşınırsa boş görüş/nefes cebi; `x16..17,z22..23` kasa | `x12..13,z26..27` ilk raf; `x16..17,z26..27` ek raf/boş manevra rezervi |
-| Kuru depo R3-C1 | `x18..19,z22..23` ham/ara; `x22..23,z22..23` nihai ürün rafı | `x18..19,z26..27` ayrılmış lot; `x22..23,z26..27` boş kabul/taşıma cebi |
-| Mal kabul R3-C2 | `x24..25,z22..23` kontrol; `x28..29,z22..23` etiket/masa | `x24..25,z26..27` bekleyen lot; `x28..29,z26..27` boş yük cebi |
-| İşleme R2-C0 | `x12..13,z16..17` ilk şişeleme; `x16..17,z16..17` açılmış ikinci istasyon | `x12..13,z20..21` girdi; `x16..17,z20..21` çıktı bekleme |
-| Dinlenme R2-C1 | `x18..19,z16..17` koltuk 1; `x22..23,z16..17` koltuk 2 | `x18..19,z20..21` sebil/yan destek; `x22..23,z20..21` dolap/boş alan |
-| Soğuk depo R2-C2 | `x24..25,z16..17` soğuk raf 1; `x28..29,z16..17` soğuk raf 2 | `x24..25,z20..21` güç/izleme; `x28..29,z20..21` kabul tamponu |
-| Bakım R2-C3 | `x30..31,z16..17` tezgâh; `x34..35,z16..17` alet/dolap | `x30..31,z20..21` servis bekleyen; `x34..35,z20..21` boş manevra |
-| Sera R1-C0 | `x12..13,z10..11` bitki yatağı 1; `x16..17,z10..11` bitki yatağı 2 | `x12..13,z14..15` girdi; `x16..17,z14..15` hasat tamponu |
-| Enerji R1-C1 | `x18..19,z10..11` modül 1; `x22..23,z10..11` modül 2 rezervi | `x18..19,z14..15` öncelik panosu; `x22..23,z14..15` servis alanı |
-| Eğitim R1-C2 | `x24..25,z10..11` çalışma masası; `x28..29,z10..11` mentor yeri | `x24..25,z14..15` pano; `x28..29,z14..15` boş eğitim cebi |
-| Yönetim R1-C3 | `x30..31,z10..11` masa; `x34..35,z10..11` sipariş/çizelge | `x30..31,z14..15` görüşme; `x34..35,z14..15` boş karar cebi |
-| Topluluk R0-C0 | `x12..13,z4..5` ortak pano; `x16..17,z4..5` görev/final izi | `x12..13,z8..9` görüşme; `x16..17,z8..9` açık sergi cebi |
-| Soyunma R0-C1 | `x18..19,z4..5` dolap 1; `x22..23,z4..5` dolap 2 | `x18..19,z8..9` hazırlık; `x22..23,z8..9` boş geçiş cebi |
+| Kuzeybatı, `x23..27,z43..47` | İstasyon/işleme cebi | Şişeleme tezgâhı başlangıcı `(24,44)`, 1×2; servis `(27,45)` |
+| Kuzeydoğu, `x31..35,z43..47` | Kasa, kabul ve görevli erişimi | Kasa başlangıcı `(33,44)`, 1×1; servis `(32,45)` |
+| Güneybatı, `x23..27,z51..55` | Satış rafı ve replenishment alanı | Raf başlangıcı `(24,52)`, 1×1; servis `(27,52.6)` |
+| Güneydoğu, `x31..35,z51..55` | Gelecek raf/taşıma rezervi | P0'da boş kalır; satın alma veya içerik kendiliğinden oluşmaz |
+| Orta aks, `x27..31,z43..55` ve `x23..35,z47..51` | Dört metrelik çapraz yaya/taşıma yolu | Raf, duvar, tampon veya makine bu alanı kapatmaz |
 
-Satışta ek raf, enerji modülü veya diğer boş cep faz açılmadan ücretsiz oluşmaz. İşleme odasına şişeleme taşınırsa önce kalıcı nesne kimliği, içindeki girdi/çıktı ve sürmekte olan parti korunur; eski satış nişi ancak başarılı taşıma sonrasında boş görünür. Oda cepleri amaç gruplarıdır; servis hücreleri ve geçerli footprint bütün odalarda içerik tanımından denetlenir.
+Diğer oda ve üretim modülleri aynı dört köşe cebi/4 metre orta aks kuralını kullanır. İstasyon sayısı, stok kapasitesi veya ekonomik çıktı bu alan tanımından çıkarsanmaz. Taşınan ekipmanın kimliği, lotu ve partisi korunur; tüm kapı ve servis yolları yeni konumda yeniden doğrulanır.
 
 ## 4. P0'da tam yerleşen hücreler
 
 | Nesne / yol | Hücre veya rezerv | Etkileşim/koruma |
 |---|---|---|
-| Market güney kapısı | `x14..15,z27`; dış eşik `x14..15,z28..29` | Tek müşteri spawn/çıkış kapısı; D-016 kimliği aynı. Kapı iki hücre geniştir |
-| Bahçe bağlantısı | Market batı eşiği `x12,z24..25`; dış koridor `x10..11,z24..25` | Oyuncu/görevli su-domates taşır; maliyetli işlem tetiklemez |
-| Ana iç aks | `x14..15,z22..27`; enine aks `x12..17,z24..25` | Sabit nesne konmaz; kapıdan raf, kasa ve ileride oda kapılarına iki hücrelik rota korunur |
-| Şişeleme tezgâhı | `x12,z22..23` (1×2) | Girdi/çıktı/servis hücresi `x13,z22..23` içerik tanımıyla doğrulanır |
-| Satış rafı `fixture.sales_shelf` | `(12,26)` 1×1; raf önü `(13,26)` | Kesin P0 içerik tanımı §13; ilk su/domates için fiziksel raf, orta aksa taşmaz |
-| Kasa `fixture.checkout` | `(17,22)` 1×1; görevli `(17,23)`, müşteri `(16,22)` | Kesin P0 içerik tanımı §13; sıra rezervasyonu §13. Doğu kapısı `z24..25` kapanmaz |
-| Bahçe sınırı | `x4..9,z20..27` | Marketin batısında; bahçe dekoru üretim hücresini örtmez |
-| Su kaynağı `source.spring_water` | `x5..6,z21..22` 2×2, erişim `x7,z21..22` | Kesin P0 içerik tanımı §13; ham su buradan gelir |
-| Domates yatağı `source.crop_plot` | `x5..6,z25..26` (2×2), servis `x7,z25..26` | P0 domates kaynağı; yol üstüne taşmaz |
-| Bahçe ana yürüyüşü | `x8..9,z20..27` | İki hücre açık; batı bağlantısına `x10..11,z24..25` ile bağlanır |
+| Market güney kapısı | `x27..31,z55`; dış eşik `x27..31,z55..61` | Tek müşteri spawn/çıkış kapısı; 4 metre genişliğinde |
+| Bahçe bağlantısı | Market batı eşiği `x23,z47..51`; dış koridor `x19..25,z47..51` | Oyuncu/görevli üretim bahçesine erişir; maliyetli işlem tetiklemez |
+| Ana iç aks | `x27..31,z43..55`; enine aks `x23..35,z47..51` | 4 metre açık taşıma yolu; raf/duvar/makine aksı daraltmaz |
+| Şişeleme tezgâhı | `(24,44)` 1×2 | Servis `(27,45)`; katalog footprint'i değişmez |
+| Satış rafı `fixture.sales_shelf` | `(24,52)` 1×1; servis `(27,52.6)` | Raf kuzey/güney ve kasa erişiminden ayrı güneybatı cepte |
+| Kasa `fixture.checkout` | `(33,44)` 1×1; servis `(32,45)`, kuyruk `(32,46)` | Kuzeydoğu cepte; kapı, orta aks ve raf rotası açık |
+| Bahçe sınırı | `x7..19,z39..55` | 12×16 metre üretim alanı; mahallenin batısında |
+| Su kaynağı `source.spring_water` | `x10..12,z42..44` 2×2, erişim `(14,43)` | Ham su bahçe üretim alanından gelir |
+| Domates yatağı `source.crop_plot` | `x10..12,z50..52` 2×2, servis `(14,51)` | P0 domates kaynağı; geçiş yolundan ayrı |
+| Bahçe bağlantı yolu | `x19..25,z47..51` | 6×4 metre yol; oda/bahçe eşiğine doğrudan bağlanır |
 
 P0 başlangıç nesnelerinin kesin footprint/port sözleşmesi §13 ve içerik kataloğunda eşlenmiştir. Oyuncu taşırsa nesne en yakın boş hücreye sessizce kaydırılmaz; yeni konum/rotasyon aynı servis ve geçiş kontrolünden geçer. P0 tek müşteriyle, A2 ise eşzamanlı görevli/müşteri ve dolu kuyrukla sınanır; geçiş iki hücrenin altına düşerse yerleşim reddedilir.
 
@@ -220,7 +215,7 @@ Malzeme/ışık her odanın işlevini ilk bakışta ayırır; aynı kübik kit v
 
 | Oda | Zemin / duvar | Sabit görsel odak ve ışık | Kullanım notu |
 |---|---|---|---|
-| Satış / dış müşteri pavyonu | Satışta krem mat seramik ve kırık beyaz duvar; pavyonda açık taş ve geniş mat cam | Giriş üstü sıcak ışık, raf/kasa arasında net kontrast; A4 ayrı pavyonda iki koltuk ve yön levhası | Satış nişi makine taşınınca boş kalır; 4×4 pavyon ücretli işlevsel odadır |
+| Satış / dış müşteri pavyonu | Satışta krem mat seramik ve kırık beyaz duvar; pavyonda açık taş ve geniş mat cam | Giriş üstü sıcak ışık, raf/kasa arasında net kontrast; A4 ayrı pavyonda iki koltuk ve yön levhası | Satış nişi makine taşınınca boş kalır; en az 8×8 pavyon ücretli işlevsel odadır |
 | İşleme | Kaymaz `#AEB6B2` karo; açık gri-alt duvar, koyu metal süpürgelik | Gerçek çalışan istasyonda tek sakin cyan durum alanı ve görev ışığı | Girdi/çıktı cebinin önü boş, sahte buharla duruş nedeni örtülmez |
 | Kuru depo | Mat sıcak gri beton; kırık beyaz üst panel | Büyük ham/ara/nihai işaretler, koyu raf silueti | Serbest/rezerve/yoldaki miktar yalnız doğru panelde; duvar kutu kalabalığı yok |
 | Mal kabul | Mat koyu beton, ince sarı yaya sınırı; açık üst duvar | Kontrol masası, kapı üstü teslim işareti; kapıdan gelen doğal ışık | A2 geçici pedinde tam oda/dekor yok; ürün kabulü animasyondan değil kayıttan |
@@ -277,7 +272,7 @@ Malzeme/ışık her odanın işlevini ilk bakışta ayırır; aynı kübik kit v
 
 ## 9. Ajan için kapı, duvar ve oda içi kesin çizim tarifi
 
-Bu bölüm **sanat ve varsayılan mimari yerleşim kararıdır**; odaların satın alınmış/açılmış olduğunu söylemez. Bölüm 3'teki matris odaları 6×6'dır; A4 dış müşteri pavyonu §13'te ayrı 4×4 modüldür, §9 taşınabilir oda varyantları da desteklenir. Duvar hücre merkezinden değil dış kenardan yükselir. Kapı genişliği iki hücredir. `K`, `D`, `G`, `B` sırasıyla kuzey/doğu/güney/batıdır. Bir komşu oda veya geçit fiilen açılmadıysa listelenen kapı yerinde **kesintisiz duvar ve collider** vardır. Bir odanın içerik/bağlantı yolu hazır değilse tek başına etkin oda yapılmaz.
+Bu bölüm **sanat ve varsayılan mimari yerleşim kararıdır**; odaların satın alınmış/açılmış olduğunu söylemez. Bölüm 3'teki standart modüller 12×12'dir; A4 dış müşteri pavyonu §13'te en az 8×8 modüldür, §9 taşınabilir oda varyantları da desteklenir. Bu bölümdeki eski koordinatlar §1'deki ölçek dönüşümünü kullanır. Duvar modülün dış kenarından yükselir. Varsayılan kapı ve bağlantı koridoru en az 4 metre genişliğindedir. `K`, `D`, `G`, `B` sırasıyla kuzey/doğu/güney/batıdır. Bir komşu oda veya geçit fiilen açılmadıysa listelenen kapı yerinde **kesintisiz duvar ve collider** vardır. Bir odanın içerik/bağlantı yolu hazır değilse tek başına etkin oda yapılmaz.
 
 ### 9.1 Tekrarlanabilir yapı kiti
 
@@ -478,7 +473,7 @@ Bu bölümdeki **57 SKU kimliği ve ürün adı** [içerik kataloğu §3](OYUN_S
 
 ## 13. Uygulamaya doğrudan aktarılacak açık yerleşim kararları
 
-Bu bölüm, üstteki sanat ve koordinat paftasını **kodun içerik tanımına bağlayan teknik karar**dır. Satın alma/faz kaynakları [ana §26/§32/§33/§58.1](OYUN_GELISTIRME_DEVIR_DOSYASI.md) ve [katalog §2/§7](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md) olarak kalır. İlk çizim ferah olmalıdır: P0 6×6 satışta yalnız üç sabit nesne (raf/kasa/şişeleme), geniş vitrin, iki hücreli artı biçimli boş orta aks; dışarıda gökyüzü, bahçe ve uzun görüş çizgisi. 4×4 asgari oda bir sıkışık kutu hedefi değildir; genişletilmiş 6×6 kabuk aynı türün geçerli seçeneğidir. Hiçbir dolgu mobilyası boş cep diye otomatik doğmaz.
+Bu bölüm, üstteki sanat ve koordinat paftasını **kodun içerik tanımına bağlayan teknik karar**dır. Satın alma/faz kaynakları [ana §26/§32/§33/§58.1](OYUN_GELISTIRME_DEVIR_DOSYASI.md) ve [katalog §2/§7](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md) olarak kalır. İlk çizim ferah olmalıdır: P0 12×12 satışta yalnız üç sabit nesne (raf/kasa/şişeleme), 4 m genişliğinde boş orta aks; dışarıda geniş bahçe ve uzun görüş çizgisi. En küçük kapalı oda 8×8, standart modül 12×12'dir; küçük/kare bir kutu hedeflenmez. Hiçbir dolgu mobilyası boş cep diye otomatik doğmaz.
 
 ### 13.1 P0 yerleştirme tanımları ve sıra
 
@@ -498,9 +493,9 @@ Bu bölüm, üstteki sanat ve koordinat paftasını **kodun içerik tanımına b
 
 **Yapı kiti ölçüsü:** Zemin `y=0`, düz duvar yüksekliği `3,2 m`, iç kapı net geçiş yüksekliği `2,6 m`, görsel duvar kalınlığı `0,15 m`; kapı genişliği tam iki 1 m hücre sınırıdır. Bunlar mimari sanat/çarpışma başlangıç ölçüsüdür, karakter hızını veya ekonomi değerini değiştirmez. Satış güney cephesinde kapı dışındaki iki cam panel toplam cepheyi açar; A2 odalarında yüksek pencere/yarı opak üst bant gün ışığı verir. Çatı ve kameraya yakın güney/doğu duvarı oyuncu veya hedefi örtünce soluklaşır; işgal ve kapı collider'ı silinmez. Duvar gövdesi her hücre kenarından, kapı komşuluk grafiğinden türetilir; bağımsız dekor mesh'i save'e yazılmaz.
 
-**Modül taşıma:** 6×6 varsayılan oda ile §32.1'de izinli 4×4 alt sınır, aynı taşınabilir oda veri tipidir. Oda `origin, width, depth, rotation, roomId` olarak kaydedilir; 90° dönme veya taşıma tek Application komutunda önce yeni işgal/kapı/servis/iki hücreli yol ile son temel zinciri doğrular, sonra içerideki eşya/lot/parti kalıcı kimliklerini beraber taşır. Eski duvar/kapı mesh'i yeni komşuluğa göre yeniden türetilir; kapalı eski boşluk kalmaz. Kabuk bedeli tür başınadır, 6×6 olduğu için §32.1 bedeliyle alan çarpımı yapılmaz. Geçersiz dönüş, sığmayan eşya veya tek girişin kapanması bütünüyle reddedilir; geri al/yeniden yap tüketilmiş envanteri çoğaltmaz.
+**Modül taşıma:** 12×12 standart oda ile §32.1'de izinli 8×8 alt sınır, aynı taşınabilir oda veri tipidir. Oda `origin, width, depth, rotation, roomId` olarak kaydedilir; taşıma/90° dönme tek Application komutunda yeni işgal, en az 4 metre kapı/servis yolu ve son temel zinciri doğrulanarak uygulanır. İçerideki eşya/lot/parti kimlikleri beraber taşınır. Duvar/kapı mesh'i modül komşuluk kaydından yeniden üretilir; kapalı eski boşluk kalmaz. Kabuk bedeli oda türü başınadır ve alanla çarpılmaz. Geçersiz dönüş, sığmayan eşya veya tek girişin kapanması bütünüyle reddedilir; geri al/yeniden yap tüketilmiş envanteri çoğaltmaz.
 
-**A4 işlevsel müşteri pavyonu:** `x6..9,z28..31`, 4×4 ayrı oda; doğu iki hücreli kamu kapısı `x9..10,z29..30`, bağlantı `x10..11,z28..31` üzerinden `x12..13,z28..29` ön kaldırımına çıkar. Kuzey duvarı bahçeye bakar ama kapısız geniş mat camdır; güney/batı ince açık renk kaide + cam üst bant, doğu kapı çerçevesi koyu ahşap. İçeride iki koltuk kuzeybatı/güneybatı kenarında, yön panosu kuzeydoğu duvarında, orta ve doğu kapı aksı boştur. Cam çatı oyunda kesilir; yapı sokağı kapalı kutuya dönüştürmez. Kabuk 160 kredi; [§32.2](OYUN_GELISTIRME_DEVIR_DOSYASI.md) iki koltuk 35'er, yönlendirme tabelası 25 kredi olmak üzere açılış donanımı 95 kredi, toplam teklif 255 kredidir. Üç bileşen aynı işlemde doğrulanıp alınmadıkça pavyon işlevsel açılmaz; ücretsiz konfor/slot yoktur. Satış odasındaki eski 2×2 niş yalnız açık görünüm/boşluk olarak kalır.
+**A4 işlevsel müşteri pavyonu:** Eski pafta cebi iki kat alanla 8×8 ayrı odaya dönüşür; güncel hücre, doğu kapısı ve kaldırım bağlantısı §1 ölçeğiyle hesaplanır. Kuzey duvarı bahçeye bakar ama kapısız geniş mat camdır; güney/batı ince açık renk kaide + cam üst bant, doğu kapı çerçevesi koyu ahşap. İçeride iki koltuk kenarlarda, yön panosu duvarda, orta ve kapı aksı boştur. Cam çatı oyunda kesilir; yapı sokağı kapalı kutuya dönüştürmez. Kabuk 160 kredi; [§32.2](OYUN_GELISTIRME_DEVIR_DOSYASI.md) iki koltuk 35'er, yönlendirme tabelası 25 kredi olmak üzere açılış donanımı 95 kredi, toplam teklif 255 kredidir. Üç bileşen aynı işlemde doğrulanıp alınmadıkça pavyon işlevsel açılmaz; ücretsiz konfor/slot yoktur. Satış odasındaki eski 2×2 niş yalnız açık görünüm/boşluk olarak kalır.
 
 ### 13.3 Dört satın alınabilir dış parsel ve üretim yolu
 
@@ -517,7 +512,7 @@ Parseller eşik/fiyatı [katalog §2](OYUN_SISTEMLERI_VE_ICERIK_KATALOGU.md) üz
 
 **A3 küçük girdi bitkileri:** Bahçe `x4..5,z23..24` limon/nane **veya** ot için tek 2×2 cep; servis `(4,22)` batı yan yolundan erişilir, komşu domates/su portuna girmez. Çay, kahve, ceviz ve baharat için bağ/zeytinlik sırasıyla `x42..43,z5..6`, `x44..45,z5..6`, `x46..47,z5..6`, `x44..45,z8..9` boş kaynak cepleridir; `x42,z8..9` parsel girişi açık kalır. Salep için mera `x2..3,z11..12` cebi, arılık/ağıl servisinden ayrı kalır. Tüm bu `source.crop_plot` örnekleri katalogdaki tek ürün/tek sıra iş kuralını kullanır; bahçe/mera/bağ henüz açılmadıysa görünmez. Zeytin ve üzüm için alt parsel sıraları boş bırakılır; bitki yoğunluğu parselin tamamını doldurmaz.
 
-**İç istasyon kapasitesi:** R2-C0 işleme odası aynı anda iki 1×2 istasyon ve iki tampon cebi için tasarlanır. İlk slot `x12,z16..17` taşınmış şişeleme, ikinci slot `x17,z16..17` gerçek satın alınmış açılmış istasyondur; ilgili servis yüzleri orta aksa döner. Diğer iç istasyonlar aynı 6×6 kabuğun **yeni satın alınmış kopyalarında** kurulur: R0-C2 sonra R0-C3 rezervleri önce işleme modülü için kullanılabilir, fakat §58.1 içerik ve geçerli bağlantı sağlanmadan bina çizilmez. İlk kopya R0-C2 `x24..29,z4..9`, yalnız güney R1-C2 gerçekten açıldıysa `S` kapısıyla bağlanır; ikinci kopya R0-C3 `x30..35,z4..9`, güney R1-C3 veya batı ilk kopya açılınca geçit alır. Bu iki rezerv sonradan gizlice yeni oda türü olmaz; `room.processing` kopyalarıdır. Bunlar yetmezse §9 modül taşıma/yerleştirme doğrulamasıyla açık parsel üzerinde yeni 6×6 kabuk seçilir, pafta yeni varsayılan diye uydurulmaz. `station.drying_rack` bağ/tarla dış ceplerinde, `station.preservation_table` işleme kopyasında, `source.salt_pan` göldedir. Tüm istasyonlar kendi lot/iş kimliğiyle kaydedilir.
+**İç istasyon kapasitesi:** 12×12 R2-C0 işleme odası iki 1×2 istasyon, girdi/çıktı tamponları ve 4 metre orta geçiş için ayrılır. Eski koordinat cepleri §1 dönüşümüne uyar. Diğer istasyonlar önce 12×12 rezerv modüllere takılır; içerik ve bağlantı şartı tamamlanmadan oda çizilmez. Rezerv modülü yetmezse boş alan içine aynı kayıt şemasında yeni modül eklenir; var olan modül sırası/koordinatları değişmez. `station.drying_rack` bağ/tarla dış ceplerinde, `station.preservation_table` işleme modülünde, `source.salt_pan` göldedir. Tüm istasyonlar kendi lot/iş kimliğiyle kaydedilir.
 
 ### 13.4 Otoparktan yaya çıkışı, küçük çevre eşyası ve yol ritmi
 
