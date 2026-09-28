@@ -5,6 +5,18 @@ import * as THREE from 'three';
 import { WorldLayout, type WorldFixture } from './WorldLayout';
 import { PortraitCamera } from '../camera/PortraitCamera';
 import { createArticulatedCharacter, type ArticulatedCharacter } from './CharacterRigs';
+import { createCarriedAsset, createFixtureAsset, createProductAsset } from './AssetFactory';
+
+interface VisualLot { itemId: string; quantity: number }
+
+export interface InventoryVisualState {
+  shelf: VisualLot[];
+  shelfCapacity: number;
+  bottlerOutput: VisualLot[];
+  cropOutput: VisualLot[];
+  playerLoad: VisualLot[];
+  workerLoad: VisualLot[];
+}
 
 export interface ScenePlayerState {
   x: number;
@@ -20,7 +32,13 @@ export class SceneRenderer {
   private playerMesh: THREE.Group;
   private workerMesh: THREE.Group;
   private customerMesh: THREE.Group;
-  private fixtureMeshes = new Map<string, { body: THREE.Mesh; service: THREE.Mesh }>();
+  private fixtureMeshes = new Map<string, { body: THREE.Group; service: THREE.Mesh }>();
+  private stockSignatures = new Map<string, string>();
+  private playerCargo: THREE.Group | null = null;
+  private workerCargo: THREE.Group | null = null;
+  private playerCargoItem: string | null = null;
+  private workerCargoItem: string | null = null;
+  private cargoAppear = new WeakMap<THREE.Group, number>();
   private placementPreview: THREE.Mesh | null = null;
   private targetMarker: THREE.Mesh;
   private groundPlane: THREE.Mesh;
@@ -31,6 +49,7 @@ export class SceneRenderer {
   private customerRig: ArticulatedCharacter;
   private lastRenderTime = performance.now();
   private moduleGeometryRoot = new THREE.Group();
+  private tileTexture = createTileTexture();
   private unsubscribeWorldLayout: (() => void) | null = null;
 
   constructor(canvas: HTMLCanvasElement) {
@@ -156,8 +175,12 @@ export class SceneRenderer {
     disposeGroupContents(this.moduleGeometryRoot);
     if (!this.moduleGeometryRoot.parent) this.scene.add(this.moduleGeometryRoot);
 
-    const roomMat = new THREE.MeshStandardMaterial({ color: '#F4F0E6', roughness: 0.4 });
+    const roomMat = new THREE.MeshStandardMaterial({ map: this.tileTexture, roughness: 0.86 });
     const wallMat = new THREE.MeshStandardMaterial({ color: '#E5DFD3', roughness: 0.7 });
+    const cutawayMat = new THREE.MeshStandardMaterial({
+      color: '#E5DFD3', roughness: 0.7, transparent: true, opacity: 0.16,
+      depthWrite: false, side: THREE.DoubleSide,
+    });
     const wallHeight = 2.5;
     for (const module of WorldLayout.getActiveModules()) {
       const width = module.bounds.maxX - module.bounds.minX;
@@ -176,14 +199,15 @@ export class SceneRenderer {
       const createWall = (length: number, side: 'north' | 'east' | 'south' | 'west', start: number) => {
         if (length <= 0) return;
         const horizontal = side === 'north' || side === 'south';
+        const nearCamera = side === 'east' || side === 'south';
         const wall = new THREE.Mesh(new THREE.BoxGeometry(horizontal ? length : 0.3, wallHeight,
-          horizontal ? 0.3 : length), wallMat);
+          horizontal ? 0.3 : length), nearCamera ? cutawayMat : wallMat);
         const x = side === 'west' ? module.bounds.minX + 0.15
           : side === 'east' ? module.bounds.maxX - 0.15 : start + length / 2;
         const z = side === 'north' ? module.bounds.minZ + 0.15
           : side === 'south' ? module.bounds.maxZ - 0.15 : start + length / 2;
         wall.position.set(x, wallHeight / 2, z);
-        wall.castShadow = true;
+        wall.castShadow = !nearCamera;
         wall.receiveShadow = true;
         this.moduleGeometryRoot.add(wall);
       };
@@ -278,21 +302,16 @@ export class SceneRenderer {
     for (const [id, meshes] of this.fixtureMeshes) {
       if (fixtureIds.has(id)) continue;
       this.scene.remove(meshes.body, meshes.service);
-      meshes.body.geometry.dispose();
-      (meshes.body.material as THREE.Material).dispose();
+      disposeGroupContents(meshes.body);
       meshes.service.geometry.dispose();
       (meshes.service.material as THREE.Material).dispose();
       this.fixtureMeshes.delete(id);
+      this.stockSignatures.delete(id);
     }
     for (const fixture of fixtures) {
       let meshes = this.fixtureMeshes.get(fixture.id);
       if (!meshes) {
-        const body = new THREE.Mesh(new THREE.BoxGeometry(
-          fixture.bounds.maxX - fixture.bounds.minX, 1,
-          fixture.bounds.maxZ - fixture.bounds.minZ),
-        new THREE.MeshStandardMaterial({ color: fixture.color, roughness: 0.5 }));
-        body.castShadow = true;
-        body.receiveShadow = true;
+        const body = createFixtureAsset(fixture);
         const service = new THREE.Mesh(new THREE.RingGeometry(0.15, 0.25, 16),
           new THREE.MeshBasicMaterial({ color: '#171717', side: THREE.DoubleSide }));
         service.rotation.x = -Math.PI / 2;
@@ -300,10 +319,75 @@ export class SceneRenderer {
         meshes = { body, service };
         this.fixtureMeshes.set(fixture.id, meshes);
       }
-      meshes.body.position.set((fixture.bounds.minX + fixture.bounds.maxX) / 2, 0.5,
+      meshes.body.position.set((fixture.bounds.minX + fixture.bounds.maxX) / 2, 0,
         (fixture.bounds.minZ + fixture.bounds.maxZ) / 2);
       meshes.service.position.set(fixture.serviceCell.x, 0.05, fixture.serviceCell.z);
     }
+  }
+
+  /** Presentation follows physical inventory; it never creates or transfers a lot. */
+  public updateInventoryVisuals(state: InventoryVisualState): void {
+    this.updateStock('fixture.sales_shelf', state.shelf, state.shelfCapacity, 12);
+    this.updateStock('station.bottler', state.bottlerOutput, 6, 3);
+    this.updateStock('source.crop_plot', state.cropOutput, 6, 3);
+    const ripeFruit = this.fixtureMeshes.get('source.crop_plot')?.body.getObjectByName('ripe-fruit');
+    if (ripeFruit) ripeFruit.visible = state.cropOutput.some((lot) => lot.quantity > 0);
+    this.playerCargo = this.updateCargo(this.playerMesh, this.playerCargo, this.playerCargoItem,
+      state.playerLoad[0]?.itemId ?? null);
+    this.playerCargoItem = state.playerLoad[0]?.itemId ?? null;
+    this.workerCargo = this.updateCargo(this.workerMesh, this.workerCargo, this.workerCargoItem,
+      state.workerLoad[0]?.itemId ?? null);
+    this.workerCargoItem = state.workerLoad[0]?.itemId ?? null;
+  }
+
+  private updateCargo(actor: THREE.Group, current: THREE.Group | null, previousItem: string | null,
+    itemId: string | null): THREE.Group | null {
+    if (itemId === previousItem) return current;
+    if (current) {
+      actor.remove(current);
+      disposeGroupContents(current);
+    }
+    if (!itemId) return null;
+    const cargo = createCarriedAsset(itemId);
+    cargo.position.set(0, 0.84, 0.44);
+    cargo.scale.setScalar(0.65);
+    this.cargoAppear.set(cargo, 0);
+    actor.add(cargo);
+    return cargo;
+  }
+
+  private updateStock(id: string, lots: VisualLot[], capacity: number, maxVisible: number): void {
+    const fixture = this.fixtureMeshes.get(id)?.body;
+    if (!fixture) return;
+    const valid = lots.filter((lot) => lot.quantity > 0);
+    const total = valid.reduce((sum, lot) => sum + lot.quantity, 0);
+    const visible = total === 0 ? 0 : Math.max(1, Math.min(maxVisible,
+      Math.ceil(total / Math.max(1, capacity) * maxVisible)));
+    const signature = `${visible}:${valid.map((lot) => `${lot.itemId}:${lot.quantity}`).join('|')}`;
+    if (this.stockSignatures.get(id) === signature) return;
+    const old = fixture.getObjectByName('physical-stock');
+    if (old instanceof THREE.Group) {
+      fixture.remove(old);
+      disposeGroupContents(old);
+    }
+    const stock = new THREE.Group();
+    stock.name = 'physical-stock';
+    const expanded = valid.flatMap((lot) => Array(Math.min(lot.quantity, maxVisible)).fill(lot.itemId) as string[]);
+    for (let index = 0; index < visible; index += 1) {
+      const item = createProductAsset(expanded[index % expanded.length]);
+      if (id === 'fixture.sales_shelf') {
+        item.position.set(0.13, 0.62 + Math.floor(index / 4) * 0.42, (index % 4 - 1.5) * 0.22);
+        item.scale.setScalar(0.85);
+      } else if (id === 'station.bottler') {
+        item.position.set(0.06, 0.89, (index - 1) * 0.26);
+        item.scale.setScalar(0.8);
+      } else {
+        item.position.set(0.58, 0.26, (index - 1) * 0.23);
+      }
+      stock.add(item);
+    }
+    fixture.add(stock);
+    this.stockSignatures.set(id, signature);
   }
 
   public showPlacementPreview(fixture: WorldFixture, valid: boolean): void {
@@ -356,6 +440,13 @@ export class SceneRenderer {
     this.playerRig.advance(deltaSeconds);
     this.workerRig.advance(deltaSeconds);
     this.customerRig.advance(deltaSeconds);
+    for (const cargo of [this.playerCargo, this.workerCargo]) {
+      if (!cargo) continue;
+      const progress = Math.min(1, (this.cargoAppear.get(cargo) ?? 1) + deltaSeconds / 0.22);
+      this.cargoAppear.set(cargo, progress);
+      cargo.scale.setScalar(0.65 + 0.35 * progress);
+      cargo.position.y = 0.69 + 0.15 * progress;
+    }
     this.renderer.render(this.scene, this.portraitCamera.camera);
   }
 
@@ -363,6 +454,15 @@ export class SceneRenderer {
     this.unsubscribeWorldLayout?.();
     this.unsubscribeWorldLayout = null;
     disposeGroupContents(this.moduleGeometryRoot);
+    this.tileTexture.dispose();
+    for (const meshes of this.fixtureMeshes.values()) {
+      disposeGroupContents(meshes.body);
+      meshes.service.geometry.dispose();
+      (meshes.service.material as THREE.Material).dispose();
+    }
+    this.fixtureMeshes.clear();
+    if (this.playerCargo) disposeGroupContents(this.playerCargo);
+    if (this.workerCargo) disposeGroupContents(this.workerCargo);
     this.playerRig.dispose();
     this.workerRig.dispose();
     this.customerRig.dispose();
@@ -381,4 +481,23 @@ function disposeGroupContents(group: THREE.Group): void {
   });
   for (const material of materials) material.dispose();
   group.clear();
+}
+
+function createTileTexture(): THREE.DataTexture {
+  const size = 16;
+  const pixels = new Uint8Array(size * size * 4);
+  for (let y = 0; y < size; y += 1) for (let x = 0; x < size; x += 1) {
+    const grout = x === 0 || y === 0;
+    const offset = (y * size + x) * 4;
+    pixels.set(grout ? [202, 193, 178, 255] : [216, 208, 192, 255], offset);
+  }
+  const texture = new THREE.DataTexture(pixels, size, size, THREE.RGBAFormat);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(12, 12);
+  texture.magFilter = THREE.NearestFilter;
+  texture.minFilter = THREE.NearestFilter;
+  texture.needsUpdate = true;
+  return texture;
 }

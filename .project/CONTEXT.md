@@ -1,6 +1,6 @@
 # Orbit Market — proje bağlamı
 
-Revision: 186 · Yetkili kaynak: .project/state.json
+Revision: 187 · Yetkili kaynak: .project/state.json
 
 Bu görünüm türetilmiştir. Güncel kanıt kontrolü için context komutunu çalıştır.
 
@@ -185,7 +185,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Üretici bağı: p0-transfer ← P0-03
   - Üretici bağı: p0-worker ← P0-07
   - Kabul güncelliği: güncel · tamamlanma sayısı: 2
-- P0-09 [review] P0 döngüsünü gerçek cihazda ve dış oyuncuyla kabul et (kayıt: review)
+- P0-09 [doing] P0 döngüsünü gerçek cihazda ve dış oyuncuyla kabul et (kayıt: doing)
   - Ölçüt: Android ve iOS cihaz build/yaşam döngüsü sonuçları ayrı kaydedilir; bir platform diğerinin kanıtı sayılmaz.
   - Ölçüt: Dış oyuncu yardımsız taşıma/üretim/raf/satış döngüsünü tamamlar ve nedenleri doğru açıklar.
   - Ölçüt: P0 kabul raporu gerçek build, cihaz, komut, seed ve gözlenen sonuçla saklanır.

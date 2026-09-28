@@ -212,16 +212,6 @@ function addRoleClothing(role: CharacterRole, root: THREE.Group, colors: Charact
   }
 }
 
-function addTray(root: THREE.Group, colors: CharacterPalette): void {
-  addBox(root, [0.68, 0.055, 0.31], [0.71, 1.015, 0.19], colors.tray);
-  addMesh(root, new THREE.CylinderGeometry(0.085, 0.11, 0.22, 6), colors.drinkOne, [0.52, 1.155, 0.18]);
-  addMesh(root, new THREE.CylinderGeometry(0.075, 0.10, 0.20, 6), colors.drinkTwo, [0.75, 1.145, 0.18]);
-  addMesh(root, new THREE.CylinderGeometry(0.07, 0.09, 0.18, 6), colors.drinkThree, [0.94, 1.135, 0.18]);
-  addBox(root, [0.024, 0.17, 0.024], [0.52, 1.34, 0.18], colors.rust);
-  addBox(root, [0.024, 0.16, 0.024], [0.75, 1.32, 0.18], colors.straw);
-  addBox(root, [0.024, 0.15, 0.024], [0.94, 1.30, 0.18], colors.rust);
-}
-
 export function createArticulatedCharacter(role: CharacterRole): ArticulatedCharacter {
   const root = new THREE.Group();
   const colors = palette(role);
@@ -236,9 +226,8 @@ export function createArticulatedCharacter(role: CharacterRole): ArticulatedChar
   const head = makeHead(role, root, colors);
 
   if (role === 'worker') {
-    // Keep the tray arm lifted and steady; the free arm and both legs walk.
-    rightArm.rotation.z = 1.12;
-    addTray(root, colors);
+    // Carried product visuals are attached by SceneRenderer from physical inventory.
+    rightArm.rotation.z = 0;
   }
 
   const parts: RigParts = { leftArm, rightArm, leftLeg, rightLeg, head };

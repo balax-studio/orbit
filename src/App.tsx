@@ -471,6 +471,15 @@ export default function App() {
       if (worker) renderer.updateWorker(worker.serialize().position);
         if (customers) renderer.updateCustomer(customers.getAllCustomers()[0]?.position ?? null);
 
+      renderer.updateInventoryVisuals({
+        shelf: inventory.getLotsAt({ kind: 'shelf', ownerId: 'fixture.sales_shelf' }),
+        shelfCapacity: inventory.getCapacity({ kind: 'shelf', ownerId: 'fixture.sales_shelf' }),
+        bottlerOutput: inventory.getLotsAt({ kind: 'machineOutput', ownerId: 'station.bottler' }),
+        cropOutput: inventory.getLotsAt({ kind: 'machineOutput', ownerId: 'source.crop_plot' }),
+        playerLoad: inventory.getLotsAt({ kind: 'player', ownerId: 'player' }),
+        workerLoad: inventory.getLotsAt({ kind: 'worker', ownerId: 'worker.shelf.1' }),
+      });
+
       // En yakın istasyonu tespit et
       let closestName = 'Boşluk';
       let minDist = 2.5;
