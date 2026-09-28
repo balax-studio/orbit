@@ -1,5 +1,15 @@
 # P0-09 — gerçek cihaz ve dış oyuncu kabulü
 
+## 28 Eylül 2026 — güncel durum
+
+Orvant revizyon 186'de P0-01…08 kod ve bileşen kanıtıyla `done`; P0-09 gerçek cihaz ve dış oyuncu gözlemi olmadığı için açık. Önceki 27 Eylül tablosundaki “oyuncu transferi ve müşteri satış döngüsü bağlanmamış” kaydı tarihsel durumdur: güncel `App.tsx` oyuncu transferi ile `runDurableCustomerTick` satışını bağlıyor. Web build ve hedefli testler geçti; bunlar Android/iOS lifecycle veya yardımsız oyuncu kabulü sayılmaz.
+
+### Android oturumu hazırlığı
+
+- ADB bağlı cihaz: Xiaomi `M2101K6G`, Android 13. `npx cap sync android` ve JDK 21/yerel Android SDK ile `gradlew.bat assembleDebug` başarılı.
+- APK: `android/app/build/outputs/apk/debug/app-debug.apk`, SHA-256 `790C8B0CE221049DA567C27FD82E8522DED5FAD6C80022CDA74C7DED10A1F234`, 4.820.019 bayt. `adb install -r` sonrası paket güncelleme zamanı 2026-09-28 11:57:13; uygulama önde ve süreç çalışıyor. Kurulum mevcut uygulama verisini sıfırlama komutu kullanmadı.
+- Bu teknik hazırlık dokunma, satış, arka plan dönüşü veya dış oyuncu gözlemi değildir. Oturum sonucu aşağıya ayrıca yazılacak.
+
 Durum (2026-09-27): **incelemede/bloklu; kabul edilmedi.** Orvant revizyon 145'te D-044 kabul edildi; P0-02/P0-06/P0-08 güncel kanıt bekliyor ve P0-01'in kaynak kanıtı yenilenene kadar bağımlılıkları bloklu. Gerçek cihaz ve dış oyuncu kabulü yapılmadı.
 
 ## Mevcut hazırlık sonucu

@@ -1,6 +1,6 @@
 # Orbit Market — proje bağlamı
 
-Revision: 178 · Yetkili kaynak: .project/state.json
+Revision: 186 · Yetkili kaynak: .project/state.json
 
 Bu görünüm türetilmiştir. Güncel kanıt kontrolü için context komutunu çalıştır.
 
@@ -132,7 +132,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Üretici bağı: p0-time-content ← P0-01
   - Üretici bağı: p0-world-input ← P0-02
   - Kabul güncelliği: güncel · tamamlanma sayısı: 10
-- P0-04 [needs_review] Tek müşteri, raf, kuyruk ve satış ledger akışını kur (kayıt: done)
+- P0-04 [done] Tek müşteri, raf, kuyruk ve satış ledger akışını kur (kayıt: done)
   - Ölçüt: Satışta gerçek raf stoku ve kayıtlı fiyat kullanılır; ürün ve bakiye tek işlem sonucunda güncellenir.
   - Ölçüt: Aynı transaction yeniden işlendiğinde ikinci satış veya bakiye etkisi oluşmaz.
   - Ölçüt: Boş raf, fiyat/bütçe reddi ve kuyruk sonucu gerçek nedenleriyle ayrılır.
@@ -141,8 +141,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Ürettiği nesneler: p0-sales
   - Etkin önkoşullar: P0-03
   - Üretici bağı: p0-transfer ← P0-03
-  - Kabul güncelliği: yeniden inceleme gerekli · tamamlanma sayısı: 7
-  - Kontrol: stale evidence: docs/test_reports/P0_04_ANDROID_LAUNCH.png
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 9
 - P0-05 [done] Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır (kayıt: done)
   - Ölçüt: Küçük şişe, 5 L bidon ve 19 L damacana tarifleri ham su ve ilgili ambalaj lotunu tüketir.
   - Ölçüt: Domates hasadı katalogdaki su/tohum girdilerini kullanır; çıktı doluysa girdi/ürün kaybolmaz.
@@ -186,7 +185,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Üretici bağı: p0-transfer ← P0-03
   - Üretici bağı: p0-worker ← P0-07
   - Kabul güncelliği: güncel · tamamlanma sayısı: 2
-- P0-09 [blocked] P0 döngüsünü gerçek cihazda ve dış oyuncuyla kabul et (kayıt: review)
+- P0-09 [review] P0 döngüsünü gerçek cihazda ve dış oyuncuyla kabul et (kayıt: review)
   - Ölçüt: Android ve iOS cihaz build/yaşam döngüsü sonuçları ayrı kaydedilir; bir platform diğerinin kanıtı sayılmaz.
   - Ölçüt: Dış oyuncu yardımsız taşıma/üretim/raf/satış döngüsünü tamamlar ve nedenleri doğru açıklar.
   - Ölçüt: P0 kabul raporu gerçek build, cihaz, komut, seed ve gözlenen sonuçla saklanır.
@@ -209,19 +208,19 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Yeniden inceleme: dependency task P0-03 changed
   - Yeniden inceleme: dependency task P0-05 changed
   - Yeniden inceleme: dependency task P0-07 changed
-  - Kontrol: dependency P0-04: needs_review
+  - Yeniden inceleme: dependency task P0-04 changed
 
 ## Çalışılabilir görevler
 
-Şu anda çalışılabilir görev yok.
+P0-09
 
 ## Uyarılar
 
-- P0-04: stale evidence: docs/test_reports/P0_04_ANDROID_LAUNCH.png
+- Yok.
 
 ## Onarım işlemleri
 
 Bunlar öneridir; gerekçeyi değerlendir, actor ekle ve güncel revision ile uygula.
-- reopen_task → P0-04: Recorded completion needs review: stale evidence: docs/test_reports/P0_04_ANDROID_LAUNCH.png
+- Yok.
 
 Kanıt hash'i dosya sürümünü denetler; kalite veya insan kabulünü ispatlamaz.

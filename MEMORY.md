@@ -1,5 +1,11 @@
 # Devir durumu ve karar kaydı
 
+## 2026-09-28 P0 kod/bileşen işleri güncellendi
+
+- Orvant revizyon 186: P0-01…08 `done`; P0-09 gerçek Android/iOS yaşam döngüsü ve dış oyuncu kabulü bekliyor. P0 fazı kabul edilmedi.
+- Üretim tick'i senkron hata ve payload hazırlama hatasında rollback yapıyor. Raf önizlemesi oyuncu/görevli konumundan kapı ve servis rotasına erişimi denetliyor.
+- Hedefli kayıt 27/27, üretim/görevli/yerleşim 21/21, satış 20/20 ve web build geçti. Cihaz/oyuncu sonucu değildir.
+
 ## 2026-09-28 P0-04 satış güncel kanıtı
 
 - Orvant rev. 164: P0-04 `done`, generation 7; P0-01…03 da güncel `done`. Son P0-04 kontrolü `p0_sales`, `p0_durable_customer`, `p0_save`, `customer_status` hedeflerinde 36/36 geçti. Önceden çalışmış tam paket 124/124 ve lint sonucu geçerli; responsive HUD CSS değişikliğinden sonra `npm run build` de geçti.

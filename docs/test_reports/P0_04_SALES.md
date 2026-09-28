@@ -36,3 +36,6 @@ This pass replaced the HUD's raw `queued`/`leaving` phase labels with brief labe
 - `adb install -r` and launcher start on the connected Xiaomi Android 13 device — completed; process presence was verified and the updated launch screenshot saved. This is technical launch evidence, not a guided user result, sale interaction, or P0-09 player acceptance.
 
 The debug APK was installed directly through ADB. No Play Protect submission was made. P0-09 still requires end-to-end Android/iOS lifecycle evidence and an external player completing the loop.
+# 28 Eylül 2026 — güncel satış incelemesi
+
+P0-03 sonrası satış/transfer ve müşteri tick kayıt yolu yeniden incelendi. `npm test -- tests/unit/p0_sales.test.ts tests/unit/p0_durable_customer.test.ts tests/unit/customer_status.test.ts`: 3 dosyada 20/20 geçti. Önceki Android ekran görüntüsü dosya hash'i değiştiği için bu yeniden incelemenin kanıtı olarak kullanılmadı. Gerçek cihazda rehberli satış ve dış oyuncu kabulü P0-09 için açık.
