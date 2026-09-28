@@ -1,6 +1,6 @@
 # Orbit Market — Ontoloji
 
-Revizyon: 176. Canlı görünüm için `ontology` komutunu çalıştır.
+Revizyon: 178. Canlı görünüm için `ontology` komutunu çalıştır.
 
 ## Türler ve özellikler
 
@@ -39,7 +39,7 @@ Revizyon: 176. Canlı görünüm için `ontology` komutunu çalıştır.
 - **Su şişeleme ve domates hasadı** (`p0-production`, capability): {"behavior": "Çeşme suyu, ambalaj ve tohum lotları tarif/kapasite kurallarıyla üç su ürünü ve taze domatese dönüşür; bekleme nedeni görünürdür.", "phase": "P0", "status": "planned"}; durum: current; üretici: P0-05
 - **Kesintiye dayanıklı yerel kayıt** (`p0-save`, capability): {"behavior": "Snapshot ve kritik işlem günlüğüyle kayıt/yükleme ekonomik işlemi bir kez korur; pause/background simülasyonu ilerletmez.", "phase": "P0", "status": "planned"}; durum: current; üretici: P0-06
 - **Tek raf görevlisine iş devri** (`p0-worker`, capability): {"behavior": "Bir raf ikmal görevi gerçek yük/rota/rezervasyonla tamamlanır; kesinti veya yeniden yüklemede yük kaybolmaz.", "phase": "P0", "status": "planned"}; durum: current; üretici: P0-07
-- **Güvenli dinamik yerleşim ve erişim** (`p0-placement`, capability): {"behavior": "Yerleşim önizlemesi etkin modül kimliğine göre oda sınırı ve gezinme alanını alır; footprint, servis hücresi, kapı, kasa ve taşıma yolunu denetler. İptal state değiştirmez; dinamik dünya genişlemesi mevcut raf koordinatını kaydırmaz.", "phase": "P0", "status": "implemented"}; durum: pending; üretici: P0-08
+- **Güvenli dinamik yerleşim ve erişim** (`p0-placement`, capability): {"behavior": "Yerleşim önizlemesi etkin modül kimliğine göre oda sınırı ve gezinme alanını alır; footprint, servis hücresi, kapı, kasa ve taşıma yolunu denetler. İptal state değiştirmez; dinamik dünya genişlemesi mevcut raf koordinatını kaydırmaz.", "phase": "P0", "status": "implemented"}; durum: current; üretici: P0-08
 - **Gerçek cihaz ve dış oyuncu kabulü** (`p0-device-acceptance`, capability): {"behavior": "Android/iOS cihaz kayıt ve dokunma döngüsü ile dış oyuncunun yardımsız çekirdek döngüyü tamamlaması gerçek kanıtla doğrulanır.", "phase": "P0", "status": "planned"}; durum: pending; üretici: P0-09
 
 ## Nesne haritası
@@ -100,7 +100,7 @@ Oklar kayıtlı ilişki yönüdür; değişiklik etkisinin yönü üstte ayrıca
 - **P0-05 — Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır**: girdiler [constitution-p0, mvp-guide-p0, content-catalog-p0, p0-transfer], çıktılar [p0-production], durum done.
 - **P0-06 — Snapshot, kritik işlem günlüğü ve lifecycle dönüşünü kur**: girdiler [constitution-p0, mvp-guide-p0, p0-time-content], çıktılar [p0-save], durum done.
 - **P0-07 — Tek raf görevlisinin ikmal işini güvenli devretmesini sağla**: girdiler [constitution-p0, p0-transfer, p0-production, p0-save], çıktılar [p0-worker], durum done.
-- **P0-08 — İnşa ve yerleşimde servis, kapı ve temel üretim erişimini koru**: girdiler [mvp-guide-p0, world-map-p0, p0-transfer, p0-worker], çıktılar [p0-placement], durum doing.
+- **P0-08 — İnşa ve yerleşimde servis, kapı ve temel üretim erişimini koru**: girdiler [mvp-guide-p0, world-map-p0, p0-transfer, p0-worker], çıktılar [p0-placement], durum done.
 - **P0-09 — P0 döngüsünü gerçek cihazda ve dış oyuncuyla kabul et**: girdiler [constitution-p0, mvp-guide-p0, p0-world-input, p0-transfer, p0-sales, p0-production, p0-save, p0-worker, p0-placement], çıktılar [p0-device-acceptance], durum blocked.
 
 Etki yeniden inceleme ihtiyacıdır; nesnenin yanlış olduğu hükmü değildir.

@@ -1,6 +1,6 @@
 # Orbit Market — proje bağlamı
 
-Revision: 176 · Yetkili kaynak: .project/state.json
+Revision: 178 · Yetkili kaynak: .project/state.json
 
 Bu görünüm türetilmiştir. Güncel kanıt kontrolü için context komutunu çalıştır.
 
@@ -175,7 +175,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Üretici bağı: p0-save ← P0-06
   - Üretici bağı: p0-transfer ← P0-03
   - Kabul güncelliği: güncel · tamamlanma sayısı: 3
-- P0-08 [doing] İnşa ve yerleşimde servis, kapı ve temel üretim erişimini koru (kayıt: doing)
+- P0-08 [done] İnşa ve yerleşimde servis, kapı ve temel üretim erişimini koru (kayıt: done)
   - Ölçüt: Geçersiz footprint, kapı, servis hücresi veya rota yerleşimi reddedilir ve neden gösterilir.
   - Ölçüt: İnşa sırasında simülasyon durur; iptal para, stok veya yerleşimi değiştirmez.
   - Ölçüt: İnşa onayı son temel su/domates satış yolunu erişimsiz bırakmaz.
@@ -185,10 +185,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Etkin önkoşullar: P0-02, P0-03, P0-07
   - Üretici bağı: p0-transfer ← P0-03
   - Üretici bağı: p0-worker ← P0-07
-  - Kabul güncelliği: yeniden inceleme gerekli · tamamlanma sayısı: 1
-  - Yeniden inceleme: object changed: p0-placement; object changed: world-map-p0
-  - Yeniden inceleme: dependency task P0-02 changed
-  - Yeniden inceleme: decision bindings reconciled
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 2
 - P0-09 [blocked] P0 döngüsünü gerçek cihazda ve dış oyuncuyla kabul et (kayıt: review)
   - Ölçüt: Android ve iOS cihaz build/yaşam döngüsü sonuçları ayrı kaydedilir; bir platform diğerinin kanıtı sayılmaz.
   - Ölçüt: Dış oyuncu yardımsız taşıma/üretim/raf/satış döngüsünü tamamlar ve nedenleri doğru açıklar.
@@ -213,11 +210,10 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Yeniden inceleme: dependency task P0-05 changed
   - Yeniden inceleme: dependency task P0-07 changed
   - Kontrol: dependency P0-04: needs_review
-  - Kontrol: dependency P0-08: doing
 
 ## Çalışılabilir görevler
 
-P0-08
+Şu anda çalışılabilir görev yok.
 
 ## Uyarılar
 

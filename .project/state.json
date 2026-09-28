@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "revision": 176,
+  "revision": 178,
   "project": {
     "id": "orbit-market",
     "name": "Orbit Market",
@@ -3694,7 +3694,7 @@
     {
       "id": "P0-08",
       "title": "İnşa ve yerleşimde servis, kapı ve temel üretim erişimini koru",
-      "status": "doing",
+      "status": "done",
       "object_ids": [
         "p0-placement",
         "mvp-guide-p0",
@@ -3724,14 +3724,206 @@
         "İnşa sırasında simülasyon durur; iptal para, stok veya yerleşimi değiştirmez.",
         "İnşa onayı son temel su/domates satış yolunu erişimsiz bırakmaz."
       ],
-      "evidence": [],
-      "input_snapshot": null,
-      "generation": 1,
-      "review_reasons": [
-        "object changed: p0-placement; object changed: world-map-p0",
-        "dependency task P0-02 changed",
-        "decision bindings reconciled"
+      "evidence": [
+        {
+          "criterion": 0,
+          "reviewer": "ORACLE",
+          "note": "Footprint/kapı/servis ve aktör rotası; pause/iptal; üretim erişimi bileşen düzeyinde incelendi. 6 hedefli test ve build geçti.",
+          "path": "docs/test_reports/P0_08_VERIFICATION.md",
+          "sha256": "fa0890f8019492e0bacb3440377772e6b7497f47e58308a87ce6ce8c00d71455"
+        },
+        {
+          "criterion": 1,
+          "reviewer": "ORACLE",
+          "note": "Footprint/kapı/servis ve aktör rotası; pause/iptal; üretim erişimi bileşen düzeyinde incelendi. 6 hedefli test ve build geçti.",
+          "path": "docs/test_reports/P0_08_VERIFICATION.md",
+          "sha256": "fa0890f8019492e0bacb3440377772e6b7497f47e58308a87ce6ce8c00d71455"
+        },
+        {
+          "criterion": 2,
+          "reviewer": "ORACLE",
+          "note": "Footprint/kapı/servis ve aktör rotası; pause/iptal; üretim erişimi bileşen düzeyinde incelendi. 6 hedefli test ve build geçti.",
+          "path": "docs/test_reports/P0_08_VERIFICATION.md",
+          "sha256": "fa0890f8019492e0bacb3440377772e6b7497f47e58308a87ce6ce8c00d71455"
+        }
       ],
+      "input_snapshot": {
+        "sha256": "d47a6e95a1cdb360faa8a671c38e7b3085a8c4643d6247344be49129028b595f",
+        "manifest": {
+          "graph": {
+            "inputs": [
+              "mvp-guide-p0",
+              "p0-transfer",
+              "p0-worker",
+              "world-map-p0"
+            ],
+            "objects": [
+              {
+                "id": "constitution-p0",
+                "type": "source_doc",
+                "properties": {
+                  "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                  "section": "§26, §58.1, §60–63",
+                  "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                }
+              },
+              {
+                "id": "mvp-guide-p0",
+                "type": "source_doc",
+                "properties": {
+                  "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                  "section": "P0 sahnesi, P0-01…P0-09",
+                  "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                }
+              },
+              {
+                "id": "p0-transfer",
+                "type": "capability",
+                "properties": {
+                  "phase": "P0",
+                  "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                  "status": "planned"
+                }
+              },
+              {
+                "id": "p0-worker",
+                "type": "capability",
+                "properties": {
+                  "phase": "P0",
+                  "behavior": "Bir raf ikmal görevi gerçek yük/rota/rezervasyonla tamamlanır; kesinti veya yeniden yüklemede yük kaybolmaz.",
+                  "status": "planned"
+                }
+              },
+              {
+                "id": "world-map-p0",
+                "type": "source_doc",
+                "properties": {
+                  "file": "DUNYA_YERLESIM_PLANI.md",
+                  "section": "§1–4, §9, §13.1–13.2",
+                  "scope_note": "100×100 m başlangıç dünyası; P0 satış 12×12 m, bahçe 12×16 m; standart modül 12×12, minimum oda 8×8 ve geçit 4 m. Modül kaydı harita sınırını büyütür, mevcut kimlik/koordinatları korur; açık mahalle ve üretim alanları ortak modül sözleşmesiyle eklenir."
+                }
+              }
+            ],
+            "object_types": [
+              {
+                "id": "capability",
+                "properties": {
+                  "phase": {
+                    "type": "string",
+                    "required": true,
+                    "enum": [
+                      "P0",
+                      "A2",
+                      "A3",
+                      "A4",
+                      "A5"
+                    ]
+                  },
+                  "behavior": {
+                    "type": "string",
+                    "required": true,
+                    "enum": null
+                  },
+                  "status": {
+                    "type": "string",
+                    "required": true,
+                    "enum": [
+                      "planned",
+                      "in_progress",
+                      "implemented",
+                      "verified"
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "source_doc",
+                "properties": {
+                  "file": {
+                    "type": "file",
+                    "required": true,
+                    "enum": null
+                  },
+                  "section": {
+                    "type": "string",
+                    "required": true,
+                    "enum": null
+                  },
+                  "scope_note": {
+                    "type": "string",
+                    "required": true,
+                    "enum": null
+                  }
+                }
+              }
+            ],
+            "relation_types": [
+              {
+                "id": "grounded_in",
+                "from_type": "capability",
+                "to_type": "source_doc",
+                "from_min": 1,
+                "from_max": null,
+                "to_min": 0,
+                "to_max": null,
+                "impact": "reverse"
+              }
+            ],
+            "relations": [
+              {
+                "id": "transfer-source-constitution",
+                "from": "p0-transfer",
+                "type": "grounded_in",
+                "to": "constitution-p0"
+              },
+              {
+                "id": "transfer-source-guide",
+                "from": "p0-transfer",
+                "type": "grounded_in",
+                "to": "mvp-guide-p0"
+              },
+              {
+                "id": "worker-source-constitution",
+                "from": "p0-worker",
+                "type": "grounded_in",
+                "to": "constitution-p0"
+              }
+            ],
+            "files": [
+              {
+                "object_id": "constitution-p0",
+                "property": "file",
+                "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                "sha256": "ccfb55e88b5c63648f82baeb567bd3cec53ac79a0cb470a1a87a531a268f6130"
+              },
+              {
+                "object_id": "mvp-guide-p0",
+                "property": "file",
+                "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+              },
+              {
+                "object_id": "world-map-p0",
+                "property": "file",
+                "path": "DUNYA_YERLESIM_PLANI.md",
+                "sha256": "e2a86d18fc8e83ea0afc5a52f5ea91d6105d53b1478e4832830415560bb8519a"
+              }
+            ]
+          },
+          "producer_generations": {
+            "P0-02": 8,
+            "P0-03": 10,
+            "P0-07": 3
+          },
+          "contract": {
+            "input_fields": {},
+            "acceptance_rules": [],
+            "support_groups": []
+          }
+        }
+      },
+      "generation": 2,
+      "review_reasons": [],
       "run_snapshot": {
         "sha256": "d47a6e95a1cdb360faa8a671c38e7b3085a8c4643d6247344be49129028b595f",
         "manifest": {
@@ -3907,7 +4099,85 @@
           }
         }
       },
-      "output_snapshot": null,
+      "output_snapshot": {
+        "sha256": "88b7c1e297a3afd2da11336773ab31ea5cd9f4fd939b81f8cfdc15048f532108",
+        "manifest": {
+          "inputs": [
+            "p0-placement"
+          ],
+          "objects": [
+            {
+              "id": "p0-placement",
+              "type": "capability",
+              "properties": {
+                "phase": "P0",
+                "behavior": "Yerleşim önizlemesi etkin modül kimliğine göre oda sınırı ve gezinme alanını alır; footprint, servis hücresi, kapı, kasa ve taşıma yolunu denetler. İptal state değiştirmez; dinamik dünya genişlemesi mevcut raf koordinatını kaydırmaz.",
+                "status": "implemented"
+              }
+            }
+          ],
+          "object_types": [
+            {
+              "id": "capability",
+              "properties": {
+                "phase": {
+                  "type": "string",
+                  "required": true,
+                  "enum": [
+                    "P0",
+                    "A2",
+                    "A3",
+                    "A4",
+                    "A5"
+                  ]
+                },
+                "behavior": {
+                  "type": "string",
+                  "required": true,
+                  "enum": null
+                },
+                "status": {
+                  "type": "string",
+                  "required": true,
+                  "enum": [
+                    "planned",
+                    "in_progress",
+                    "implemented",
+                    "verified"
+                  ]
+                }
+              }
+            }
+          ],
+          "relation_types": [
+            {
+              "id": "grounded_in",
+              "from_type": "capability",
+              "to_type": "source_doc",
+              "from_min": 1,
+              "from_max": null,
+              "to_min": 0,
+              "to_max": null,
+              "impact": "reverse"
+            }
+          ],
+          "relations": [
+            {
+              "id": "placement-source-guide",
+              "from": "p0-placement",
+              "type": "grounded_in",
+              "to": "mvp-guide-p0"
+            },
+            {
+              "id": "placement-source-map",
+              "from": "p0-placement",
+              "type": "grounded_in",
+              "to": "world-map-p0"
+            }
+          ],
+          "files": []
+        }
+      },
       "support_snapshot": null
     },
     {
@@ -153868,6 +154138,1718 @@
                 }
               },
               "output_snapshot": null,
+              "support_snapshot": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "revision": 177,
+      "action": "submit_evidence",
+      "actor": "agent",
+      "reason": "P0-08 güncel yerleşim uygulaması ve hedefli kontrol",
+      "change": {
+        "task_changes": [
+          {
+            "task_id": "P0-08",
+            "before": {
+              "id": "P0-08",
+              "title": "İnşa ve yerleşimde servis, kapı ve temel üretim erişimini koru",
+              "status": "doing",
+              "object_ids": [
+                "p0-placement",
+                "mvp-guide-p0",
+                "world-map-p0",
+                "p0-transfer",
+                "p0-worker"
+              ],
+              "input_ids": [
+                "mvp-guide-p0",
+                "world-map-p0",
+                "p0-transfer",
+                "p0-worker"
+              ],
+              "output_ids": [
+                "p0-placement"
+              ],
+              "depends_on": [
+                "P0-02",
+                "P0-03",
+                "P0-07"
+              ],
+              "decision_ids": [
+                "D-044"
+              ],
+              "acceptance": [
+                "Geçersiz footprint, kapı, servis hücresi veya rota yerleşimi reddedilir ve neden gösterilir.",
+                "İnşa sırasında simülasyon durur; iptal para, stok veya yerleşimi değiştirmez.",
+                "İnşa onayı son temel su/domates satış yolunu erişimsiz bırakmaz."
+              ],
+              "evidence": [],
+              "input_snapshot": null,
+              "generation": 1,
+              "review_reasons": [
+                "object changed: p0-placement; object changed: world-map-p0",
+                "dependency task P0-02 changed",
+                "decision bindings reconciled"
+              ],
+              "run_snapshot": {
+                "sha256": "d47a6e95a1cdb360faa8a671c38e7b3085a8c4643d6247344be49129028b595f",
+                "manifest": {
+                  "graph": {
+                    "inputs": [
+                      "mvp-guide-p0",
+                      "p0-transfer",
+                      "p0-worker",
+                      "world-map-p0"
+                    ],
+                    "objects": [
+                      {
+                        "id": "constitution-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                          "section": "§26, §58.1, §60–63",
+                          "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                        }
+                      },
+                      {
+                        "id": "mvp-guide-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                          "section": "P0 sahnesi, P0-01…P0-09",
+                          "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                        }
+                      },
+                      {
+                        "id": "p0-transfer",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                          "status": "planned"
+                        }
+                      },
+                      {
+                        "id": "p0-worker",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Bir raf ikmal görevi gerçek yük/rota/rezervasyonla tamamlanır; kesinti veya yeniden yüklemede yük kaybolmaz.",
+                          "status": "planned"
+                        }
+                      },
+                      {
+                        "id": "world-map-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "DUNYA_YERLESIM_PLANI.md",
+                          "section": "§1–4, §9, §13.1–13.2",
+                          "scope_note": "100×100 m başlangıç dünyası; P0 satış 12×12 m, bahçe 12×16 m; standart modül 12×12, minimum oda 8×8 ve geçit 4 m. Modül kaydı harita sınırını büyütür, mevcut kimlik/koordinatları korur; açık mahalle ve üretim alanları ortak modül sözleşmesiyle eklenir."
+                        }
+                      }
+                    ],
+                    "object_types": [
+                      {
+                        "id": "capability",
+                        "properties": {
+                          "phase": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "P0",
+                              "A2",
+                              "A3",
+                              "A4",
+                              "A5"
+                            ]
+                          },
+                          "behavior": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "status": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "planned",
+                              "in_progress",
+                              "implemented",
+                              "verified"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "id": "source_doc",
+                        "properties": {
+                          "file": {
+                            "type": "file",
+                            "required": true,
+                            "enum": null
+                          },
+                          "section": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "scope_note": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          }
+                        }
+                      }
+                    ],
+                    "relation_types": [
+                      {
+                        "id": "grounded_in",
+                        "from_type": "capability",
+                        "to_type": "source_doc",
+                        "from_min": 1,
+                        "from_max": null,
+                        "to_min": 0,
+                        "to_max": null,
+                        "impact": "reverse"
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "id": "transfer-source-constitution",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      },
+                      {
+                        "id": "transfer-source-guide",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "mvp-guide-p0"
+                      },
+                      {
+                        "id": "worker-source-constitution",
+                        "from": "p0-worker",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      }
+                    ],
+                    "files": [
+                      {
+                        "object_id": "constitution-p0",
+                        "property": "file",
+                        "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                        "sha256": "ccfb55e88b5c63648f82baeb567bd3cec53ac79a0cb470a1a87a531a268f6130"
+                      },
+                      {
+                        "object_id": "mvp-guide-p0",
+                        "property": "file",
+                        "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                        "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+                      },
+                      {
+                        "object_id": "world-map-p0",
+                        "property": "file",
+                        "path": "DUNYA_YERLESIM_PLANI.md",
+                        "sha256": "e2a86d18fc8e83ea0afc5a52f5ea91d6105d53b1478e4832830415560bb8519a"
+                      }
+                    ]
+                  },
+                  "producer_generations": {
+                    "P0-02": 8,
+                    "P0-03": 10,
+                    "P0-07": 3
+                  },
+                  "contract": {
+                    "input_fields": {},
+                    "acceptance_rules": [],
+                    "support_groups": []
+                  }
+                }
+              },
+              "output_snapshot": null,
+              "support_snapshot": null
+            },
+            "after": {
+              "id": "P0-08",
+              "title": "İnşa ve yerleşimde servis, kapı ve temel üretim erişimini koru",
+              "status": "review",
+              "object_ids": [
+                "p0-placement",
+                "mvp-guide-p0",
+                "world-map-p0",
+                "p0-transfer",
+                "p0-worker"
+              ],
+              "input_ids": [
+                "mvp-guide-p0",
+                "world-map-p0",
+                "p0-transfer",
+                "p0-worker"
+              ],
+              "output_ids": [
+                "p0-placement"
+              ],
+              "depends_on": [
+                "P0-02",
+                "P0-03",
+                "P0-07"
+              ],
+              "decision_ids": [
+                "D-044"
+              ],
+              "acceptance": [
+                "Geçersiz footprint, kapı, servis hücresi veya rota yerleşimi reddedilir ve neden gösterilir.",
+                "İnşa sırasında simülasyon durur; iptal para, stok veya yerleşimi değiştirmez.",
+                "İnşa onayı son temel su/domates satış yolunu erişimsiz bırakmaz."
+              ],
+              "evidence": [
+                {
+                  "criterion": 0,
+                  "reviewer": "ORACLE",
+                  "note": "Footprint/kapı/servis ve aktör rotası; pause/iptal; üretim erişimi bileşen düzeyinde incelendi. 6 hedefli test ve build geçti.",
+                  "path": "docs/test_reports/P0_08_VERIFICATION.md",
+                  "sha256": "fa0890f8019492e0bacb3440377772e6b7497f47e58308a87ce6ce8c00d71455"
+                },
+                {
+                  "criterion": 1,
+                  "reviewer": "ORACLE",
+                  "note": "Footprint/kapı/servis ve aktör rotası; pause/iptal; üretim erişimi bileşen düzeyinde incelendi. 6 hedefli test ve build geçti.",
+                  "path": "docs/test_reports/P0_08_VERIFICATION.md",
+                  "sha256": "fa0890f8019492e0bacb3440377772e6b7497f47e58308a87ce6ce8c00d71455"
+                },
+                {
+                  "criterion": 2,
+                  "reviewer": "ORACLE",
+                  "note": "Footprint/kapı/servis ve aktör rotası; pause/iptal; üretim erişimi bileşen düzeyinde incelendi. 6 hedefli test ve build geçti.",
+                  "path": "docs/test_reports/P0_08_VERIFICATION.md",
+                  "sha256": "fa0890f8019492e0bacb3440377772e6b7497f47e58308a87ce6ce8c00d71455"
+                }
+              ],
+              "input_snapshot": {
+                "sha256": "d47a6e95a1cdb360faa8a671c38e7b3085a8c4643d6247344be49129028b595f",
+                "manifest": {
+                  "graph": {
+                    "inputs": [
+                      "mvp-guide-p0",
+                      "p0-transfer",
+                      "p0-worker",
+                      "world-map-p0"
+                    ],
+                    "objects": [
+                      {
+                        "id": "constitution-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                          "section": "§26, §58.1, §60–63",
+                          "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                        }
+                      },
+                      {
+                        "id": "mvp-guide-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                          "section": "P0 sahnesi, P0-01…P0-09",
+                          "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                        }
+                      },
+                      {
+                        "id": "p0-transfer",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                          "status": "planned"
+                        }
+                      },
+                      {
+                        "id": "p0-worker",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Bir raf ikmal görevi gerçek yük/rota/rezervasyonla tamamlanır; kesinti veya yeniden yüklemede yük kaybolmaz.",
+                          "status": "planned"
+                        }
+                      },
+                      {
+                        "id": "world-map-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "DUNYA_YERLESIM_PLANI.md",
+                          "section": "§1–4, §9, §13.1–13.2",
+                          "scope_note": "100×100 m başlangıç dünyası; P0 satış 12×12 m, bahçe 12×16 m; standart modül 12×12, minimum oda 8×8 ve geçit 4 m. Modül kaydı harita sınırını büyütür, mevcut kimlik/koordinatları korur; açık mahalle ve üretim alanları ortak modül sözleşmesiyle eklenir."
+                        }
+                      }
+                    ],
+                    "object_types": [
+                      {
+                        "id": "capability",
+                        "properties": {
+                          "phase": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "P0",
+                              "A2",
+                              "A3",
+                              "A4",
+                              "A5"
+                            ]
+                          },
+                          "behavior": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "status": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "planned",
+                              "in_progress",
+                              "implemented",
+                              "verified"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "id": "source_doc",
+                        "properties": {
+                          "file": {
+                            "type": "file",
+                            "required": true,
+                            "enum": null
+                          },
+                          "section": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "scope_note": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          }
+                        }
+                      }
+                    ],
+                    "relation_types": [
+                      {
+                        "id": "grounded_in",
+                        "from_type": "capability",
+                        "to_type": "source_doc",
+                        "from_min": 1,
+                        "from_max": null,
+                        "to_min": 0,
+                        "to_max": null,
+                        "impact": "reverse"
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "id": "transfer-source-constitution",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      },
+                      {
+                        "id": "transfer-source-guide",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "mvp-guide-p0"
+                      },
+                      {
+                        "id": "worker-source-constitution",
+                        "from": "p0-worker",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      }
+                    ],
+                    "files": [
+                      {
+                        "object_id": "constitution-p0",
+                        "property": "file",
+                        "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                        "sha256": "ccfb55e88b5c63648f82baeb567bd3cec53ac79a0cb470a1a87a531a268f6130"
+                      },
+                      {
+                        "object_id": "mvp-guide-p0",
+                        "property": "file",
+                        "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                        "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+                      },
+                      {
+                        "object_id": "world-map-p0",
+                        "property": "file",
+                        "path": "DUNYA_YERLESIM_PLANI.md",
+                        "sha256": "e2a86d18fc8e83ea0afc5a52f5ea91d6105d53b1478e4832830415560bb8519a"
+                      }
+                    ]
+                  },
+                  "producer_generations": {
+                    "P0-02": 8,
+                    "P0-03": 10,
+                    "P0-07": 3
+                  },
+                  "contract": {
+                    "input_fields": {},
+                    "acceptance_rules": [],
+                    "support_groups": []
+                  }
+                }
+              },
+              "generation": 1,
+              "review_reasons": [],
+              "run_snapshot": {
+                "sha256": "d47a6e95a1cdb360faa8a671c38e7b3085a8c4643d6247344be49129028b595f",
+                "manifest": {
+                  "graph": {
+                    "inputs": [
+                      "mvp-guide-p0",
+                      "p0-transfer",
+                      "p0-worker",
+                      "world-map-p0"
+                    ],
+                    "objects": [
+                      {
+                        "id": "constitution-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                          "section": "§26, §58.1, §60–63",
+                          "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                        }
+                      },
+                      {
+                        "id": "mvp-guide-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                          "section": "P0 sahnesi, P0-01…P0-09",
+                          "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                        }
+                      },
+                      {
+                        "id": "p0-transfer",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                          "status": "planned"
+                        }
+                      },
+                      {
+                        "id": "p0-worker",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Bir raf ikmal görevi gerçek yük/rota/rezervasyonla tamamlanır; kesinti veya yeniden yüklemede yük kaybolmaz.",
+                          "status": "planned"
+                        }
+                      },
+                      {
+                        "id": "world-map-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "DUNYA_YERLESIM_PLANI.md",
+                          "section": "§1–4, §9, §13.1–13.2",
+                          "scope_note": "100×100 m başlangıç dünyası; P0 satış 12×12 m, bahçe 12×16 m; standart modül 12×12, minimum oda 8×8 ve geçit 4 m. Modül kaydı harita sınırını büyütür, mevcut kimlik/koordinatları korur; açık mahalle ve üretim alanları ortak modül sözleşmesiyle eklenir."
+                        }
+                      }
+                    ],
+                    "object_types": [
+                      {
+                        "id": "capability",
+                        "properties": {
+                          "phase": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "P0",
+                              "A2",
+                              "A3",
+                              "A4",
+                              "A5"
+                            ]
+                          },
+                          "behavior": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "status": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "planned",
+                              "in_progress",
+                              "implemented",
+                              "verified"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "id": "source_doc",
+                        "properties": {
+                          "file": {
+                            "type": "file",
+                            "required": true,
+                            "enum": null
+                          },
+                          "section": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "scope_note": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          }
+                        }
+                      }
+                    ],
+                    "relation_types": [
+                      {
+                        "id": "grounded_in",
+                        "from_type": "capability",
+                        "to_type": "source_doc",
+                        "from_min": 1,
+                        "from_max": null,
+                        "to_min": 0,
+                        "to_max": null,
+                        "impact": "reverse"
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "id": "transfer-source-constitution",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      },
+                      {
+                        "id": "transfer-source-guide",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "mvp-guide-p0"
+                      },
+                      {
+                        "id": "worker-source-constitution",
+                        "from": "p0-worker",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      }
+                    ],
+                    "files": [
+                      {
+                        "object_id": "constitution-p0",
+                        "property": "file",
+                        "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                        "sha256": "ccfb55e88b5c63648f82baeb567bd3cec53ac79a0cb470a1a87a531a268f6130"
+                      },
+                      {
+                        "object_id": "mvp-guide-p0",
+                        "property": "file",
+                        "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                        "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+                      },
+                      {
+                        "object_id": "world-map-p0",
+                        "property": "file",
+                        "path": "DUNYA_YERLESIM_PLANI.md",
+                        "sha256": "e2a86d18fc8e83ea0afc5a52f5ea91d6105d53b1478e4832830415560bb8519a"
+                      }
+                    ]
+                  },
+                  "producer_generations": {
+                    "P0-02": 8,
+                    "P0-03": 10,
+                    "P0-07": 3
+                  },
+                  "contract": {
+                    "input_fields": {},
+                    "acceptance_rules": [],
+                    "support_groups": []
+                  }
+                }
+              },
+              "output_snapshot": {
+                "sha256": "88b7c1e297a3afd2da11336773ab31ea5cd9f4fd939b81f8cfdc15048f532108",
+                "manifest": {
+                  "inputs": [
+                    "p0-placement"
+                  ],
+                  "objects": [
+                    {
+                      "id": "p0-placement",
+                      "type": "capability",
+                      "properties": {
+                        "phase": "P0",
+                        "behavior": "Yerleşim önizlemesi etkin modül kimliğine göre oda sınırı ve gezinme alanını alır; footprint, servis hücresi, kapı, kasa ve taşıma yolunu denetler. İptal state değiştirmez; dinamik dünya genişlemesi mevcut raf koordinatını kaydırmaz.",
+                        "status": "implemented"
+                      }
+                    }
+                  ],
+                  "object_types": [
+                    {
+                      "id": "capability",
+                      "properties": {
+                        "phase": {
+                          "type": "string",
+                          "required": true,
+                          "enum": [
+                            "P0",
+                            "A2",
+                            "A3",
+                            "A4",
+                            "A5"
+                          ]
+                        },
+                        "behavior": {
+                          "type": "string",
+                          "required": true,
+                          "enum": null
+                        },
+                        "status": {
+                          "type": "string",
+                          "required": true,
+                          "enum": [
+                            "planned",
+                            "in_progress",
+                            "implemented",
+                            "verified"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "relation_types": [
+                    {
+                      "id": "grounded_in",
+                      "from_type": "capability",
+                      "to_type": "source_doc",
+                      "from_min": 1,
+                      "from_max": null,
+                      "to_min": 0,
+                      "to_max": null,
+                      "impact": "reverse"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "placement-source-guide",
+                      "from": "p0-placement",
+                      "type": "grounded_in",
+                      "to": "mvp-guide-p0"
+                    },
+                    {
+                      "id": "placement-source-map",
+                      "from": "p0-placement",
+                      "type": "grounded_in",
+                      "to": "world-map-p0"
+                    }
+                  ],
+                  "files": []
+                }
+              },
+              "support_snapshot": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "revision": 178,
+      "action": "complete_task",
+      "actor": "agent",
+      "reason": "P0-08 yerleşim kod ve bileşen kabulü tamamlandı; cihaz/oyuncu kabulü P0-09da açık.",
+      "change": {
+        "task_changes": [
+          {
+            "task_id": "P0-08",
+            "before": {
+              "id": "P0-08",
+              "title": "İnşa ve yerleşimde servis, kapı ve temel üretim erişimini koru",
+              "status": "review",
+              "object_ids": [
+                "p0-placement",
+                "mvp-guide-p0",
+                "world-map-p0",
+                "p0-transfer",
+                "p0-worker"
+              ],
+              "input_ids": [
+                "mvp-guide-p0",
+                "world-map-p0",
+                "p0-transfer",
+                "p0-worker"
+              ],
+              "output_ids": [
+                "p0-placement"
+              ],
+              "depends_on": [
+                "P0-02",
+                "P0-03",
+                "P0-07"
+              ],
+              "decision_ids": [
+                "D-044"
+              ],
+              "acceptance": [
+                "Geçersiz footprint, kapı, servis hücresi veya rota yerleşimi reddedilir ve neden gösterilir.",
+                "İnşa sırasında simülasyon durur; iptal para, stok veya yerleşimi değiştirmez.",
+                "İnşa onayı son temel su/domates satış yolunu erişimsiz bırakmaz."
+              ],
+              "evidence": [
+                {
+                  "criterion": 0,
+                  "reviewer": "ORACLE",
+                  "note": "Footprint/kapı/servis ve aktör rotası; pause/iptal; üretim erişimi bileşen düzeyinde incelendi. 6 hedefli test ve build geçti.",
+                  "path": "docs/test_reports/P0_08_VERIFICATION.md",
+                  "sha256": "fa0890f8019492e0bacb3440377772e6b7497f47e58308a87ce6ce8c00d71455"
+                },
+                {
+                  "criterion": 1,
+                  "reviewer": "ORACLE",
+                  "note": "Footprint/kapı/servis ve aktör rotası; pause/iptal; üretim erişimi bileşen düzeyinde incelendi. 6 hedefli test ve build geçti.",
+                  "path": "docs/test_reports/P0_08_VERIFICATION.md",
+                  "sha256": "fa0890f8019492e0bacb3440377772e6b7497f47e58308a87ce6ce8c00d71455"
+                },
+                {
+                  "criterion": 2,
+                  "reviewer": "ORACLE",
+                  "note": "Footprint/kapı/servis ve aktör rotası; pause/iptal; üretim erişimi bileşen düzeyinde incelendi. 6 hedefli test ve build geçti.",
+                  "path": "docs/test_reports/P0_08_VERIFICATION.md",
+                  "sha256": "fa0890f8019492e0bacb3440377772e6b7497f47e58308a87ce6ce8c00d71455"
+                }
+              ],
+              "input_snapshot": {
+                "sha256": "d47a6e95a1cdb360faa8a671c38e7b3085a8c4643d6247344be49129028b595f",
+                "manifest": {
+                  "graph": {
+                    "inputs": [
+                      "mvp-guide-p0",
+                      "p0-transfer",
+                      "p0-worker",
+                      "world-map-p0"
+                    ],
+                    "objects": [
+                      {
+                        "id": "constitution-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                          "section": "§26, §58.1, §60–63",
+                          "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                        }
+                      },
+                      {
+                        "id": "mvp-guide-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                          "section": "P0 sahnesi, P0-01…P0-09",
+                          "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                        }
+                      },
+                      {
+                        "id": "p0-transfer",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                          "status": "planned"
+                        }
+                      },
+                      {
+                        "id": "p0-worker",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Bir raf ikmal görevi gerçek yük/rota/rezervasyonla tamamlanır; kesinti veya yeniden yüklemede yük kaybolmaz.",
+                          "status": "planned"
+                        }
+                      },
+                      {
+                        "id": "world-map-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "DUNYA_YERLESIM_PLANI.md",
+                          "section": "§1–4, §9, §13.1–13.2",
+                          "scope_note": "100×100 m başlangıç dünyası; P0 satış 12×12 m, bahçe 12×16 m; standart modül 12×12, minimum oda 8×8 ve geçit 4 m. Modül kaydı harita sınırını büyütür, mevcut kimlik/koordinatları korur; açık mahalle ve üretim alanları ortak modül sözleşmesiyle eklenir."
+                        }
+                      }
+                    ],
+                    "object_types": [
+                      {
+                        "id": "capability",
+                        "properties": {
+                          "phase": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "P0",
+                              "A2",
+                              "A3",
+                              "A4",
+                              "A5"
+                            ]
+                          },
+                          "behavior": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "status": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "planned",
+                              "in_progress",
+                              "implemented",
+                              "verified"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "id": "source_doc",
+                        "properties": {
+                          "file": {
+                            "type": "file",
+                            "required": true,
+                            "enum": null
+                          },
+                          "section": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "scope_note": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          }
+                        }
+                      }
+                    ],
+                    "relation_types": [
+                      {
+                        "id": "grounded_in",
+                        "from_type": "capability",
+                        "to_type": "source_doc",
+                        "from_min": 1,
+                        "from_max": null,
+                        "to_min": 0,
+                        "to_max": null,
+                        "impact": "reverse"
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "id": "transfer-source-constitution",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      },
+                      {
+                        "id": "transfer-source-guide",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "mvp-guide-p0"
+                      },
+                      {
+                        "id": "worker-source-constitution",
+                        "from": "p0-worker",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      }
+                    ],
+                    "files": [
+                      {
+                        "object_id": "constitution-p0",
+                        "property": "file",
+                        "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                        "sha256": "ccfb55e88b5c63648f82baeb567bd3cec53ac79a0cb470a1a87a531a268f6130"
+                      },
+                      {
+                        "object_id": "mvp-guide-p0",
+                        "property": "file",
+                        "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                        "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+                      },
+                      {
+                        "object_id": "world-map-p0",
+                        "property": "file",
+                        "path": "DUNYA_YERLESIM_PLANI.md",
+                        "sha256": "e2a86d18fc8e83ea0afc5a52f5ea91d6105d53b1478e4832830415560bb8519a"
+                      }
+                    ]
+                  },
+                  "producer_generations": {
+                    "P0-02": 8,
+                    "P0-03": 10,
+                    "P0-07": 3
+                  },
+                  "contract": {
+                    "input_fields": {},
+                    "acceptance_rules": [],
+                    "support_groups": []
+                  }
+                }
+              },
+              "generation": 1,
+              "review_reasons": [],
+              "run_snapshot": {
+                "sha256": "d47a6e95a1cdb360faa8a671c38e7b3085a8c4643d6247344be49129028b595f",
+                "manifest": {
+                  "graph": {
+                    "inputs": [
+                      "mvp-guide-p0",
+                      "p0-transfer",
+                      "p0-worker",
+                      "world-map-p0"
+                    ],
+                    "objects": [
+                      {
+                        "id": "constitution-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                          "section": "§26, §58.1, §60–63",
+                          "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                        }
+                      },
+                      {
+                        "id": "mvp-guide-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                          "section": "P0 sahnesi, P0-01…P0-09",
+                          "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                        }
+                      },
+                      {
+                        "id": "p0-transfer",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                          "status": "planned"
+                        }
+                      },
+                      {
+                        "id": "p0-worker",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Bir raf ikmal görevi gerçek yük/rota/rezervasyonla tamamlanır; kesinti veya yeniden yüklemede yük kaybolmaz.",
+                          "status": "planned"
+                        }
+                      },
+                      {
+                        "id": "world-map-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "DUNYA_YERLESIM_PLANI.md",
+                          "section": "§1–4, §9, §13.1–13.2",
+                          "scope_note": "100×100 m başlangıç dünyası; P0 satış 12×12 m, bahçe 12×16 m; standart modül 12×12, minimum oda 8×8 ve geçit 4 m. Modül kaydı harita sınırını büyütür, mevcut kimlik/koordinatları korur; açık mahalle ve üretim alanları ortak modül sözleşmesiyle eklenir."
+                        }
+                      }
+                    ],
+                    "object_types": [
+                      {
+                        "id": "capability",
+                        "properties": {
+                          "phase": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "P0",
+                              "A2",
+                              "A3",
+                              "A4",
+                              "A5"
+                            ]
+                          },
+                          "behavior": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "status": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "planned",
+                              "in_progress",
+                              "implemented",
+                              "verified"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "id": "source_doc",
+                        "properties": {
+                          "file": {
+                            "type": "file",
+                            "required": true,
+                            "enum": null
+                          },
+                          "section": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "scope_note": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          }
+                        }
+                      }
+                    ],
+                    "relation_types": [
+                      {
+                        "id": "grounded_in",
+                        "from_type": "capability",
+                        "to_type": "source_doc",
+                        "from_min": 1,
+                        "from_max": null,
+                        "to_min": 0,
+                        "to_max": null,
+                        "impact": "reverse"
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "id": "transfer-source-constitution",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      },
+                      {
+                        "id": "transfer-source-guide",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "mvp-guide-p0"
+                      },
+                      {
+                        "id": "worker-source-constitution",
+                        "from": "p0-worker",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      }
+                    ],
+                    "files": [
+                      {
+                        "object_id": "constitution-p0",
+                        "property": "file",
+                        "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                        "sha256": "ccfb55e88b5c63648f82baeb567bd3cec53ac79a0cb470a1a87a531a268f6130"
+                      },
+                      {
+                        "object_id": "mvp-guide-p0",
+                        "property": "file",
+                        "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                        "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+                      },
+                      {
+                        "object_id": "world-map-p0",
+                        "property": "file",
+                        "path": "DUNYA_YERLESIM_PLANI.md",
+                        "sha256": "e2a86d18fc8e83ea0afc5a52f5ea91d6105d53b1478e4832830415560bb8519a"
+                      }
+                    ]
+                  },
+                  "producer_generations": {
+                    "P0-02": 8,
+                    "P0-03": 10,
+                    "P0-07": 3
+                  },
+                  "contract": {
+                    "input_fields": {},
+                    "acceptance_rules": [],
+                    "support_groups": []
+                  }
+                }
+              },
+              "output_snapshot": {
+                "sha256": "88b7c1e297a3afd2da11336773ab31ea5cd9f4fd939b81f8cfdc15048f532108",
+                "manifest": {
+                  "inputs": [
+                    "p0-placement"
+                  ],
+                  "objects": [
+                    {
+                      "id": "p0-placement",
+                      "type": "capability",
+                      "properties": {
+                        "phase": "P0",
+                        "behavior": "Yerleşim önizlemesi etkin modül kimliğine göre oda sınırı ve gezinme alanını alır; footprint, servis hücresi, kapı, kasa ve taşıma yolunu denetler. İptal state değiştirmez; dinamik dünya genişlemesi mevcut raf koordinatını kaydırmaz.",
+                        "status": "implemented"
+                      }
+                    }
+                  ],
+                  "object_types": [
+                    {
+                      "id": "capability",
+                      "properties": {
+                        "phase": {
+                          "type": "string",
+                          "required": true,
+                          "enum": [
+                            "P0",
+                            "A2",
+                            "A3",
+                            "A4",
+                            "A5"
+                          ]
+                        },
+                        "behavior": {
+                          "type": "string",
+                          "required": true,
+                          "enum": null
+                        },
+                        "status": {
+                          "type": "string",
+                          "required": true,
+                          "enum": [
+                            "planned",
+                            "in_progress",
+                            "implemented",
+                            "verified"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "relation_types": [
+                    {
+                      "id": "grounded_in",
+                      "from_type": "capability",
+                      "to_type": "source_doc",
+                      "from_min": 1,
+                      "from_max": null,
+                      "to_min": 0,
+                      "to_max": null,
+                      "impact": "reverse"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "placement-source-guide",
+                      "from": "p0-placement",
+                      "type": "grounded_in",
+                      "to": "mvp-guide-p0"
+                    },
+                    {
+                      "id": "placement-source-map",
+                      "from": "p0-placement",
+                      "type": "grounded_in",
+                      "to": "world-map-p0"
+                    }
+                  ],
+                  "files": []
+                }
+              },
+              "support_snapshot": null
+            },
+            "after": {
+              "id": "P0-08",
+              "title": "İnşa ve yerleşimde servis, kapı ve temel üretim erişimini koru",
+              "status": "done",
+              "object_ids": [
+                "p0-placement",
+                "mvp-guide-p0",
+                "world-map-p0",
+                "p0-transfer",
+                "p0-worker"
+              ],
+              "input_ids": [
+                "mvp-guide-p0",
+                "world-map-p0",
+                "p0-transfer",
+                "p0-worker"
+              ],
+              "output_ids": [
+                "p0-placement"
+              ],
+              "depends_on": [
+                "P0-02",
+                "P0-03",
+                "P0-07"
+              ],
+              "decision_ids": [
+                "D-044"
+              ],
+              "acceptance": [
+                "Geçersiz footprint, kapı, servis hücresi veya rota yerleşimi reddedilir ve neden gösterilir.",
+                "İnşa sırasında simülasyon durur; iptal para, stok veya yerleşimi değiştirmez.",
+                "İnşa onayı son temel su/domates satış yolunu erişimsiz bırakmaz."
+              ],
+              "evidence": [
+                {
+                  "criterion": 0,
+                  "reviewer": "ORACLE",
+                  "note": "Footprint/kapı/servis ve aktör rotası; pause/iptal; üretim erişimi bileşen düzeyinde incelendi. 6 hedefli test ve build geçti.",
+                  "path": "docs/test_reports/P0_08_VERIFICATION.md",
+                  "sha256": "fa0890f8019492e0bacb3440377772e6b7497f47e58308a87ce6ce8c00d71455"
+                },
+                {
+                  "criterion": 1,
+                  "reviewer": "ORACLE",
+                  "note": "Footprint/kapı/servis ve aktör rotası; pause/iptal; üretim erişimi bileşen düzeyinde incelendi. 6 hedefli test ve build geçti.",
+                  "path": "docs/test_reports/P0_08_VERIFICATION.md",
+                  "sha256": "fa0890f8019492e0bacb3440377772e6b7497f47e58308a87ce6ce8c00d71455"
+                },
+                {
+                  "criterion": 2,
+                  "reviewer": "ORACLE",
+                  "note": "Footprint/kapı/servis ve aktör rotası; pause/iptal; üretim erişimi bileşen düzeyinde incelendi. 6 hedefli test ve build geçti.",
+                  "path": "docs/test_reports/P0_08_VERIFICATION.md",
+                  "sha256": "fa0890f8019492e0bacb3440377772e6b7497f47e58308a87ce6ce8c00d71455"
+                }
+              ],
+              "input_snapshot": {
+                "sha256": "d47a6e95a1cdb360faa8a671c38e7b3085a8c4643d6247344be49129028b595f",
+                "manifest": {
+                  "graph": {
+                    "inputs": [
+                      "mvp-guide-p0",
+                      "p0-transfer",
+                      "p0-worker",
+                      "world-map-p0"
+                    ],
+                    "objects": [
+                      {
+                        "id": "constitution-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                          "section": "§26, §58.1, §60–63",
+                          "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                        }
+                      },
+                      {
+                        "id": "mvp-guide-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                          "section": "P0 sahnesi, P0-01…P0-09",
+                          "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                        }
+                      },
+                      {
+                        "id": "p0-transfer",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                          "status": "planned"
+                        }
+                      },
+                      {
+                        "id": "p0-worker",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Bir raf ikmal görevi gerçek yük/rota/rezervasyonla tamamlanır; kesinti veya yeniden yüklemede yük kaybolmaz.",
+                          "status": "planned"
+                        }
+                      },
+                      {
+                        "id": "world-map-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "DUNYA_YERLESIM_PLANI.md",
+                          "section": "§1–4, §9, §13.1–13.2",
+                          "scope_note": "100×100 m başlangıç dünyası; P0 satış 12×12 m, bahçe 12×16 m; standart modül 12×12, minimum oda 8×8 ve geçit 4 m. Modül kaydı harita sınırını büyütür, mevcut kimlik/koordinatları korur; açık mahalle ve üretim alanları ortak modül sözleşmesiyle eklenir."
+                        }
+                      }
+                    ],
+                    "object_types": [
+                      {
+                        "id": "capability",
+                        "properties": {
+                          "phase": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "P0",
+                              "A2",
+                              "A3",
+                              "A4",
+                              "A5"
+                            ]
+                          },
+                          "behavior": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "status": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "planned",
+                              "in_progress",
+                              "implemented",
+                              "verified"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "id": "source_doc",
+                        "properties": {
+                          "file": {
+                            "type": "file",
+                            "required": true,
+                            "enum": null
+                          },
+                          "section": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "scope_note": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          }
+                        }
+                      }
+                    ],
+                    "relation_types": [
+                      {
+                        "id": "grounded_in",
+                        "from_type": "capability",
+                        "to_type": "source_doc",
+                        "from_min": 1,
+                        "from_max": null,
+                        "to_min": 0,
+                        "to_max": null,
+                        "impact": "reverse"
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "id": "transfer-source-constitution",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      },
+                      {
+                        "id": "transfer-source-guide",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "mvp-guide-p0"
+                      },
+                      {
+                        "id": "worker-source-constitution",
+                        "from": "p0-worker",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      }
+                    ],
+                    "files": [
+                      {
+                        "object_id": "constitution-p0",
+                        "property": "file",
+                        "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                        "sha256": "ccfb55e88b5c63648f82baeb567bd3cec53ac79a0cb470a1a87a531a268f6130"
+                      },
+                      {
+                        "object_id": "mvp-guide-p0",
+                        "property": "file",
+                        "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                        "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+                      },
+                      {
+                        "object_id": "world-map-p0",
+                        "property": "file",
+                        "path": "DUNYA_YERLESIM_PLANI.md",
+                        "sha256": "e2a86d18fc8e83ea0afc5a52f5ea91d6105d53b1478e4832830415560bb8519a"
+                      }
+                    ]
+                  },
+                  "producer_generations": {
+                    "P0-02": 8,
+                    "P0-03": 10,
+                    "P0-07": 3
+                  },
+                  "contract": {
+                    "input_fields": {},
+                    "acceptance_rules": [],
+                    "support_groups": []
+                  }
+                }
+              },
+              "generation": 2,
+              "review_reasons": [],
+              "run_snapshot": {
+                "sha256": "d47a6e95a1cdb360faa8a671c38e7b3085a8c4643d6247344be49129028b595f",
+                "manifest": {
+                  "graph": {
+                    "inputs": [
+                      "mvp-guide-p0",
+                      "p0-transfer",
+                      "p0-worker",
+                      "world-map-p0"
+                    ],
+                    "objects": [
+                      {
+                        "id": "constitution-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                          "section": "§26, §58.1, §60–63",
+                          "scope_note": "P0 ürün kapsamı, ilk döngü, sabit tick ve teknik/görsel sınırlar."
+                        }
+                      },
+                      {
+                        "id": "mvp-guide-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "MVP_IMPLEMENTATION_GUIDE.md",
+                          "section": "P0 sahnesi, P0-01…P0-09",
+                          "scope_note": "P0 uygulama adımları ve beklenen davranışlar; henüz uygulanmış oldukları anlamına gelmez."
+                        }
+                      },
+                      {
+                        "id": "p0-transfer",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Oyuncu veya görevli ürünü gerçek kaynak konumundan kapasitesi uygun hedefe taşır; iptal ve yinelenen komut stok çoğaltmaz.",
+                          "status": "planned"
+                        }
+                      },
+                      {
+                        "id": "p0-worker",
+                        "type": "capability",
+                        "properties": {
+                          "phase": "P0",
+                          "behavior": "Bir raf ikmal görevi gerçek yük/rota/rezervasyonla tamamlanır; kesinti veya yeniden yüklemede yük kaybolmaz.",
+                          "status": "planned"
+                        }
+                      },
+                      {
+                        "id": "world-map-p0",
+                        "type": "source_doc",
+                        "properties": {
+                          "file": "DUNYA_YERLESIM_PLANI.md",
+                          "section": "§1–4, §9, §13.1–13.2",
+                          "scope_note": "100×100 m başlangıç dünyası; P0 satış 12×12 m, bahçe 12×16 m; standart modül 12×12, minimum oda 8×8 ve geçit 4 m. Modül kaydı harita sınırını büyütür, mevcut kimlik/koordinatları korur; açık mahalle ve üretim alanları ortak modül sözleşmesiyle eklenir."
+                        }
+                      }
+                    ],
+                    "object_types": [
+                      {
+                        "id": "capability",
+                        "properties": {
+                          "phase": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "P0",
+                              "A2",
+                              "A3",
+                              "A4",
+                              "A5"
+                            ]
+                          },
+                          "behavior": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "status": {
+                            "type": "string",
+                            "required": true,
+                            "enum": [
+                              "planned",
+                              "in_progress",
+                              "implemented",
+                              "verified"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "id": "source_doc",
+                        "properties": {
+                          "file": {
+                            "type": "file",
+                            "required": true,
+                            "enum": null
+                          },
+                          "section": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          },
+                          "scope_note": {
+                            "type": "string",
+                            "required": true,
+                            "enum": null
+                          }
+                        }
+                      }
+                    ],
+                    "relation_types": [
+                      {
+                        "id": "grounded_in",
+                        "from_type": "capability",
+                        "to_type": "source_doc",
+                        "from_min": 1,
+                        "from_max": null,
+                        "to_min": 0,
+                        "to_max": null,
+                        "impact": "reverse"
+                      }
+                    ],
+                    "relations": [
+                      {
+                        "id": "transfer-source-constitution",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      },
+                      {
+                        "id": "transfer-source-guide",
+                        "from": "p0-transfer",
+                        "type": "grounded_in",
+                        "to": "mvp-guide-p0"
+                      },
+                      {
+                        "id": "worker-source-constitution",
+                        "from": "p0-worker",
+                        "type": "grounded_in",
+                        "to": "constitution-p0"
+                      }
+                    ],
+                    "files": [
+                      {
+                        "object_id": "constitution-p0",
+                        "property": "file",
+                        "path": "OYUN_GELISTIRME_DEVIR_DOSYASI.md",
+                        "sha256": "ccfb55e88b5c63648f82baeb567bd3cec53ac79a0cb470a1a87a531a268f6130"
+                      },
+                      {
+                        "object_id": "mvp-guide-p0",
+                        "property": "file",
+                        "path": "MVP_IMPLEMENTATION_GUIDE.md",
+                        "sha256": "85bc645120e1db21a5b8af675d6d59fbdc743cfe6e04b4c3ae6b28b8096c1704"
+                      },
+                      {
+                        "object_id": "world-map-p0",
+                        "property": "file",
+                        "path": "DUNYA_YERLESIM_PLANI.md",
+                        "sha256": "e2a86d18fc8e83ea0afc5a52f5ea91d6105d53b1478e4832830415560bb8519a"
+                      }
+                    ]
+                  },
+                  "producer_generations": {
+                    "P0-02": 8,
+                    "P0-03": 10,
+                    "P0-07": 3
+                  },
+                  "contract": {
+                    "input_fields": {},
+                    "acceptance_rules": [],
+                    "support_groups": []
+                  }
+                }
+              },
+              "output_snapshot": {
+                "sha256": "88b7c1e297a3afd2da11336773ab31ea5cd9f4fd939b81f8cfdc15048f532108",
+                "manifest": {
+                  "inputs": [
+                    "p0-placement"
+                  ],
+                  "objects": [
+                    {
+                      "id": "p0-placement",
+                      "type": "capability",
+                      "properties": {
+                        "phase": "P0",
+                        "behavior": "Yerleşim önizlemesi etkin modül kimliğine göre oda sınırı ve gezinme alanını alır; footprint, servis hücresi, kapı, kasa ve taşıma yolunu denetler. İptal state değiştirmez; dinamik dünya genişlemesi mevcut raf koordinatını kaydırmaz.",
+                        "status": "implemented"
+                      }
+                    }
+                  ],
+                  "object_types": [
+                    {
+                      "id": "capability",
+                      "properties": {
+                        "phase": {
+                          "type": "string",
+                          "required": true,
+                          "enum": [
+                            "P0",
+                            "A2",
+                            "A3",
+                            "A4",
+                            "A5"
+                          ]
+                        },
+                        "behavior": {
+                          "type": "string",
+                          "required": true,
+                          "enum": null
+                        },
+                        "status": {
+                          "type": "string",
+                          "required": true,
+                          "enum": [
+                            "planned",
+                            "in_progress",
+                            "implemented",
+                            "verified"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "relation_types": [
+                    {
+                      "id": "grounded_in",
+                      "from_type": "capability",
+                      "to_type": "source_doc",
+                      "from_min": 1,
+                      "from_max": null,
+                      "to_min": 0,
+                      "to_max": null,
+                      "impact": "reverse"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "placement-source-guide",
+                      "from": "p0-placement",
+                      "type": "grounded_in",
+                      "to": "mvp-guide-p0"
+                    },
+                    {
+                      "id": "placement-source-map",
+                      "from": "p0-placement",
+                      "type": "grounded_in",
+                      "to": "world-map-p0"
+                    }
+                  ],
+                  "files": []
+                }
+              },
               "support_snapshot": null
             }
           }
