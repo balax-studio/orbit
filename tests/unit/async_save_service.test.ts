@@ -155,4 +155,15 @@ describe('AsyncSaveService', () => {
       (transaction) => save.appendTransaction(transaction))).rejects.toThrow('disk full');
     expect(capture()).toEqual(before);
   });
+
+  it('rolls back production when capturing the journal payload fails', () => {
+    const ledger = new EconomyLedger(1_000_000);
+    const inventory = new InventoryManager();
+    const production = new ProductionManager(inventory, ledger);
+    for (let tick = 1; tick < 20; tick += 1) production.tick(tick);
+    const before = { ledger: ledger.serialize(), inventory: inventory.serialize(), production: production.serialize() };
+    expect(() => runDurableProductionTick(20, production, inventory, ledger,
+      () => { throw new Error('capture failed'); }, async () => undefined)).toThrow('capture failed');
+    expect({ ledger: ledger.serialize(), inventory: inventory.serialize(), production: production.serialize() }).toEqual(before);
+  });
 });

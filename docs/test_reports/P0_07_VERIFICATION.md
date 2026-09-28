@@ -1,5 +1,9 @@
 # P0-07 Doğrulama Raporu: Tek Raf Görevlisi
 
+## 28 Eylül 2026 — bağımlılık incelemesi
+
+P0-05 üretim ve P0-06 kayıt işleri güncel Orvant kanıtıyla tamamlandıktan sonra görevli akışı yeniden incelendi. `npm test -- tests/unit/p0_production.test.ts tests/unit/p0_worker.test.ts tests/unit/p0_placement.test.ts`: 21/21 geçti. Gerçek cihazda kesinti ve dış oyuncu denemesi P0-09'da açıktır.
+
 Tarih: 2026-09-27
 Görev: P0-07
 Durum: Kod/bileşen kabulü; gerçek cihaz ve dış oyuncu kabulü P0-09'da açık

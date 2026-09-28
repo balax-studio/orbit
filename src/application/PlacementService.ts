@@ -90,6 +90,11 @@ export class PlacementService {
     if (reasons.length === 0) {
       const entrance = { x: (WorldLayout.SOUTH_ENTRANCE.minX + WorldLayout.SOUTH_ENTRANCE.maxX) / 2,
         z: WorldLayout.SOUTH_ENTRANCE.maxZ - 1 };
+      for (const actor of actors) {
+        if (!hasRoute(actor, entrance, walkable)) {
+          reasons.push('Oyuncu veya görevli kapı ve servis yoluna erişemiyor');
+        }
+      }
       for (const id of SERVICE_IDS) {
         const service = fixtures.find((fixture) => fixture.id === id)!.serviceCell;
         if (!hasRoute(entrance, service, walkable)) reasons.push(`${id} kapıdan erişilemiyor`);

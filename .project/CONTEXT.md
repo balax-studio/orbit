@@ -1,6 +1,6 @@
 # Orbit Market — proje bağlamı
 
-Revision: 145 · Yetkili kaynak: .project/state.json
+Revision: 176 · Yetkili kaynak: .project/state.json
 
 Bu görünüm türetilmiştir. Güncel kanıt kontrolü için context komutunu çalıştır.
 
@@ -102,7 +102,7 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
 
 ## Görevler
 
-- P0-01 [needs_review] Sabit simülasyon saati, seed ve içerik doğrulayıcı temelini kur (kayıt: done)
+- P0-01 [done] Sabit simülasyon saati, seed ve içerik doğrulayıcı temelini kur (kayıt: done)
   - Ölçüt: Simülasyon 100 ms sabit tick ile işler; render sıklığı ekonomik sonucu değiştirmez.
   - Ölçüt: Seed'li RNG ve kararlı içerik ID doğrulaması vardır; eksik veya geçersiz tarif girdisi sessizce kabul edilmez.
   - Ölçüt: Kredi temsili sabit hassasiyetlidir ve para/stok yalnız Application/domain komutlarıyla değişir.
@@ -111,9 +111,8 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Girdiler: constitution-p0, mvp-guide-p0, content-catalog-p0
   - Ürettiği nesneler: p0-time-content
   - Etkin önkoşullar: yok
-  - Kabul güncelliği: yeniden inceleme gerekli · tamamlanma sayısı: 5
-  - Kontrol: domain file changed: constitution-p0.file
-- P0-02 [blocked] Tek oda dünyasını, dokunmatik hareketi ve pointer sahipliğini kur (kayıt: todo)
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 6
+- P0-02 [done] Tek oda dünyasını, dokunmatik hareketi ve pointer sahipliğini kur (kayıt: done)
   - Ölçüt: P0 sahnesi paftadaki tek satış odası, bahçe kaynağı ve geçerli başlangıç footprint'lerini kullanır.
   - Ölçüt: Klavyesiz dokunmatik hareket çalışır; UI üzerinde başlayan pointer dünya komutuna dönüşmez.
   - Ölçüt: Kamera portre ekranda oyuncu ve seçili P0 hedefini HUD altında bırakmaz.
@@ -121,11 +120,8 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Girdiler: constitution-p0, mvp-guide-p0, world-map-p0
   - Ürettiği nesneler: p0-world-input
   - Etkin önkoşullar: P0-01
-  - Kabul güncelliği: yeniden inceleme gerekli · tamamlanma sayısı: 7
-  - Yeniden inceleme: object changed: p0-world-input; object changed: world-map-p0
-  - Yeniden inceleme: decision bindings reconciled
-  - Kontrol: dependency P0-01: needs_review
-- P0-03 [blocked] Kapasite ve rezervasyon korumalı ürün transferini kur (kayıt: review)
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 8
+- P0-03 [done] Kapasite ve rezervasyon korumalı ürün transferini kur (kayıt: done)
   - Ölçüt: Kaynak, taşıyıcı ve hedef konumları ile kapasite/rezervasyon doğrulanır.
   - Ölçüt: İptal veya yinelenen komut ürün çoğaltmaz, silmez ya da kayıtsız konuma bırakmaz.
   - Ölçüt: Taşıma sonucu tek domain işlemiyle korunur.
@@ -135,12 +131,8 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Etkin önkoşullar: P0-01, P0-02
   - Üretici bağı: p0-time-content ← P0-01
   - Üretici bağı: p0-world-input ← P0-02
-  - Kabul güncelliği: yeniden inceleme gerekli · tamamlanma sayısı: 8
-  - Yeniden inceleme: object changed: p0-world-input
-  - Yeniden inceleme: dependency task P0-02 changed
-  - Kontrol: dependency P0-01: needs_review
-  - Kontrol: dependency P0-02: blocked
-- P0-04 [blocked] Tek müşteri, raf, kuyruk ve satış ledger akışını kur (kayıt: review)
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 10
+- P0-04 [needs_review] Tek müşteri, raf, kuyruk ve satış ledger akışını kur (kayıt: done)
   - Ölçüt: Satışta gerçek raf stoku ve kayıtlı fiyat kullanılır; ürün ve bakiye tek işlem sonucunda güncellenir.
   - Ölçüt: Aynı transaction yeniden işlendiğinde ikinci satış veya bakiye etkisi oluşmaz.
   - Ölçüt: Boş raf, fiyat/bütçe reddi ve kuyruk sonucu gerçek nedenleriyle ayrılır.
@@ -149,11 +141,9 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Ürettiği nesneler: p0-sales
   - Etkin önkoşullar: P0-03
   - Üretici bağı: p0-transfer ← P0-03
-  - Kabul güncelliği: yeniden inceleme gerekli · tamamlanma sayısı: 6
-  - Yeniden inceleme: producer/dependency task P0-03 requires renewed review
-  - Yeniden inceleme: dependency task P0-03 changed
-  - Kontrol: dependency P0-03: blocked
-- P0-05 [blocked] Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır (kayıt: review)
+  - Kabul güncelliği: yeniden inceleme gerekli · tamamlanma sayısı: 7
+  - Kontrol: stale evidence: docs/test_reports/P0_04_ANDROID_LAUNCH.png
+- P0-05 [done] Üç su tarifini ve domates hasadını gerçek girdiyle çalıştır (kayıt: done)
   - Ölçüt: Küçük şişe, 5 L bidon ve 19 L damacana tarifleri ham su ve ilgili ambalaj lotunu tüketir.
   - Ölçüt: Domates hasadı katalogdaki su/tohum girdilerini kullanır; çıktı doluysa girdi/ürün kaybolmaz.
   - Ölçüt: Üretim süresi, enerji ve bekleme nedeni gerçek domain durumundan gösterilir.
@@ -162,11 +152,8 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Ürettiği nesneler: p0-production
   - Etkin önkoşullar: P0-03
   - Üretici bağı: p0-transfer ← P0-03
-  - Kabul güncelliği: yeniden inceleme gerekli · tamamlanma sayısı: 6
-  - Yeniden inceleme: producer/dependency task P0-03 requires renewed review
-  - Yeniden inceleme: dependency task P0-03 changed
-  - Kontrol: dependency P0-03: blocked
-- P0-06 [blocked] Snapshot, kritik işlem günlüğü ve lifecycle dönüşünü kur (kayıt: todo)
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 7
+- P0-06 [done] Snapshot, kritik işlem günlüğü ve lifecycle dönüşünü kur (kayıt: done)
   - Ölçüt: Kritik satış/üretim/transfer sonucu durable kayıtla bir kez uygulanır.
   - Ölçüt: Yarım yazım veya bozuk kayıt sessizce sıfırlanmaz; görünür kurtarma yolu bulunur.
   - Ölçüt: Background süresinde simülasyon ilerlemez; dönüşte çift tick veya çift işlem oluşmaz.
@@ -175,11 +162,8 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Ürettiği nesneler: p0-save
   - Etkin önkoşullar: P0-01
   - Üretici bağı: p0-time-content ← P0-01
-  - Kabul güncelliği: yeniden inceleme gerekli · tamamlanma sayısı: 3
-  - Yeniden inceleme: task reopened
-  - Yeniden inceleme: decision bindings reconciled
-  - Kontrol: dependency P0-01: needs_review
-- P0-07 [blocked] Tek raf görevlisinin ikmal işini güvenli devretmesini sağla (kayıt: review)
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 4
+- P0-07 [done] Tek raf görevlisinin ikmal işini güvenli devretmesini sağla (kayıt: done)
   - Ölçüt: Görevli tek gerçek raf ikmal işini kaynak/hedef rezervasyonuyla tamamlar.
   - Ölçüt: Rota kesintisi veya kayıt dönüşünde yük ve rezervasyon korunur ya da güvenle çözülür.
   - Ölçüt: Görevli mesh/animasyonu para veya stok değiştirmez.
@@ -190,14 +174,8 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Üretici bağı: p0-production ← P0-05
   - Üretici bağı: p0-save ← P0-06
   - Üretici bağı: p0-transfer ← P0-03
-  - Kabul güncelliği: yeniden inceleme gerekli · tamamlanma sayısı: 2
-  - Yeniden inceleme: producer/dependency task P0-03 requires renewed review
-  - Yeniden inceleme: dependency task P0-03 changed
-  - Yeniden inceleme: dependency task P0-06 changed
-  - Kontrol: dependency P0-03: blocked
-  - Kontrol: dependency P0-05: blocked
-  - Kontrol: dependency P0-06: blocked
-- P0-08 [blocked] İnşa ve yerleşimde servis, kapı ve temel üretim erişimini koru (kayıt: todo)
+  - Kabul güncelliği: güncel · tamamlanma sayısı: 3
+- P0-08 [doing] İnşa ve yerleşimde servis, kapı ve temel üretim erişimini koru (kayıt: doing)
   - Ölçüt: Geçersiz footprint, kapı, servis hücresi veya rota yerleşimi reddedilir ve neden gösterilir.
   - Ölçüt: İnşa sırasında simülasyon durur; iptal para, stok veya yerleşimi değiştirmez.
   - Ölçüt: İnşa onayı son temel su/domates satış yolunu erişimsiz bırakmaz.
@@ -211,9 +189,6 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Yeniden inceleme: object changed: p0-placement; object changed: world-map-p0
   - Yeniden inceleme: dependency task P0-02 changed
   - Yeniden inceleme: decision bindings reconciled
-  - Kontrol: dependency P0-02: blocked
-  - Kontrol: dependency P0-03: blocked
-  - Kontrol: dependency P0-07: blocked
 - P0-09 [blocked] P0 döngüsünü gerçek cihazda ve dış oyuncuyla kabul et (kayıt: review)
   - Ölçüt: Android ve iOS cihaz build/yaşam döngüsü sonuçları ayrı kaydedilir; bir platform diğerinin kanıtı sayılmaz.
   - Ölçüt: Dış oyuncu yardımsız taşıma/üretim/raf/satış döngüsünü tamamlar ve nedenleri doğru açıklar.
@@ -234,25 +209,23 @@ Türler ve bağlantı kuralları: `ontology` komutu / `ONTOLOJİ.md`.
   - Yeniden inceleme: dependency task P0-02 changed
   - Yeniden inceleme: dependency task P0-08 changed
   - Yeniden inceleme: dependency task P0-06 changed
-  - Kontrol: dependency P0-04: blocked
-  - Kontrol: dependency P0-05: blocked
-  - Kontrol: dependency P0-06: blocked
-  - Kontrol: dependency P0-07: blocked
-  - Kontrol: dependency P0-08: blocked
-  - Kontrol: dependency P0-03: blocked
-  - Kontrol: dependency P0-02: blocked
+  - Yeniden inceleme: dependency task P0-03 changed
+  - Yeniden inceleme: dependency task P0-05 changed
+  - Yeniden inceleme: dependency task P0-07 changed
+  - Kontrol: dependency P0-04: needs_review
+  - Kontrol: dependency P0-08: doing
 
 ## Çalışılabilir görevler
 
-Şu anda çalışılabilir görev yok.
+P0-08
 
 ## Uyarılar
 
-- P0-01: domain file changed: constitution-p0.file
+- P0-04: stale evidence: docs/test_reports/P0_04_ANDROID_LAUNCH.png
 
 ## Onarım işlemleri
 
 Bunlar öneridir; gerekçeyi değerlendir, actor ekle ve güncel revision ile uygula.
-- reopen_task → P0-01: Recorded completion needs review: domain file changed: constitution-p0.file
+- reopen_task → P0-04: Recorded completion needs review: stale evidence: docs/test_reports/P0_04_ANDROID_LAUNCH.png
 
 Kanıt hash'i dosya sürümünü denetler; kalite veya insan kabulünü ispatlamaz.

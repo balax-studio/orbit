@@ -1,5 +1,12 @@
 # P0-06 Doğrulama Raporu: Snapshot, Kritik İşlem Günlüğü ve Lifecycle
 
+## 28 Eylül 2026 — yeniden inceleme ve üretim hata yolu
+
+- `runDurableProductionTick` artık üretim tick'i veya günlük payload'ı hazırlanırken senkron hata çıkarsa ledger, envanter ve üretim snapshot'larını geri alıyor. Asenkron günlük yazım hatasında var olan rollback korunuyor.
+- `npm test -- tests/unit/p0_save.test.ts tests/unit/async_save_service.test.ts tests/unit/capacitor_filesystem_save_storage.test.ts tests/unit/lifecycle.test.ts`: 3 bulunan dosyada 27/27 geçti. `lifecycle.test.ts` adlı dosya yok; bu filtre yeni test çalıştırmadı.
+- `npm run build`: geçti. Ana JS paketi 879,09 kB; Vite boyut uyarısı verdi. `git diff --check`: hata yok, mevcut satır sonu uyarıları var.
+- Bu kontroller dosya ve uygulama düzeyindedir. Android/iOS arka plan kesintisi ve dış oyuncu kabulü P0-09 kapsamında hâlâ açık.
+
 Tarih: 2026-09-27
 Görev: P0-06
 Durum: D-044 save göçü sonrası yeniden incelemede; Orvant P0-06 `todo/blocked` (P0-01 kaynak kanıtı bekleniyor). Gerçek cihaz kabulü P0-09 kapsamında açık

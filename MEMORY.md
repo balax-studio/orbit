@@ -1,5 +1,12 @@
 # Devir durumu ve karar kaydı
 
+## 2026-09-28 P0-04 satış güncel kanıtı
+
+- Orvant rev. 164: P0-04 `done`, generation 7; P0-01…03 da güncel `done`. Son P0-04 kontrolü `p0_sales`, `p0_durable_customer`, `p0_save`, `customer_status` hedeflerinde 36/36 geçti. Önceden çalışmış tam paket 124/124 ve lint sonucu geçerli; responsive HUD CSS değişikliğinden sonra `npm run build` de geçti.
+- Chrome 375×812 emülasyonunda HUD kartlarının sınırı x=16..359, yatay taşma yok. `src/index.css` mobil HUD sarmalama/sınırlandırma kuralı eklendi.
+- Java 21 ile Capacitor sync ve Android debug build geçti; güncel APK Xiaomi Android 13 cihaza kuruldu/açıldı. Bu teknik açılış kanıtıdır. Rehberli kullanıcı adımı ve gözlemi beklemede; rapor: [P0-04 satış](docs/test_reports/P0_04_SALES.md).
+- Sıradaki çalışılabilir işler P0-05 (`review`; P0-03 güncel bağımlılık incelemesi gerekir) ve P0-06 (`todo`). Rehberli cihaz sonucu alınana kadar yeni Android adımına geçme.
+
 ## 2026-09-27 D-044 — 100×100 m geniş başlangıç ve modüler alan
 
 - Kullanıcı ilk yerel ön izlemede oda/üretim alanını dar buldu; başlangıç dünyası 100×100 m, satış modülü 12×12 m, üretim bahçesi 12×16 m olacak şekilde büyütüldü. Makine footprint'leri katalog ölçüsünde kaldı.

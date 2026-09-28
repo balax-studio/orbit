@@ -76,6 +76,13 @@ export class InventoryManager {
     if (maxCapacity < 0 || !Number.isInteger(maxCapacity)) {
       throw new Error(`Geçersiz kapasite değeri: ${maxCapacity}`);
     }
+    const occupiedCapacity = this.getPhysicalQuantity(location) + this.getReservedIncoming(location);
+    if (maxCapacity < occupiedCapacity) {
+      throw new Error(
+        `Kapasite mevcut stok ve rezervasyonların altına düşürülemez: ${locationKey(location)} ` +
+        `(mevcut: ${this.getPhysicalQuantity(location)}, rezerve giriş: ${this.getReservedIncoming(location)}, yeni kapasite: ${maxCapacity})`
+      );
+    }
     this.capacities.set(locationKey(location), maxCapacity);
   }
 

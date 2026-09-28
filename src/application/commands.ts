@@ -112,8 +112,14 @@ export class CommandDispatcher {
     this.inventory = inventory;
   }
 
+  public clearTransientSales(): void {
+    this.completedSales.clear();
+  }
+
   public execute(command: ApplicationCommand): CommandResult {
-    if (this.onCommittedAsync) throw new Error('Use executeAsync for asynchronous durable commits');
+    if (this.onCommittedAsync && !this.onCommitted) {
+      throw new Error('Use executeAsync for asynchronous durable commits');
+    }
     if (!this.onCommitted) return this.executeCommand(command);
 
     const ledgerBefore = this.ledger.serialize();

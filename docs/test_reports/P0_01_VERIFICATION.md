@@ -1,5 +1,9 @@
 # P0-01 Doğrulama Raporu: Sabit Simülasyon Saati, Seed ve İçerik Doğrulayıcı Temeli
 
+## Birleşik kayıt üzerinde güncel yeniden inceleme — 2026-09-28
+
+Orvant revizyon 147'de P0-01 güncel girdilerle yeniden başlatıldı. `npm test -- tests/unit/p0_core.test.ts` 16/16 geçti. Tam `npm test` 12 dosyada 112/112, `npm run lint` ve `npm run build` geçti. Build ana JavaScript paketi 853,06 kB için 500 kB uyarısı verdi. Kaynak incelemesinde `SimulationClock` 100 ms sabit tick, pause ve kare başına beş tick sınırını; `Mulberry32Rng` seed ve state geri yüklemesini; `p0Content` tarif/kimlik doğrulamasını; ledger ve `CommandDispatcher` sabit atom ile komut sınırını koruyor. Bunlar bileşen ve web build kanıtıdır; oynanabilir akış ya da cihaz kabulü değildir.
+
 > Tarihsel rapor. Güncel kod ve kanıt durumu için [P0-01–P0-04 denetimine](P0_01_04_AUDIT_2026-09-27.md) bakın; Orvant yeniden inceleme istiyor.
 
 Tarih: 2026-09-27

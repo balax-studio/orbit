@@ -10,3 +10,35 @@ body {
   margin: 0;
   padding: 0;
 }
+
+#hud-layer > header,
+#hud-layer > footer {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+}
+
+#hud-layer > header {
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+
+#hud-layer > header > div,
+#hud-layer > footer > div {
+  min-width: 0;
+}
+
+#hud-layer > header > div:last-child {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+#hud-layer > footer > div > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+#hud-layer > footer button {
+  max-width: 100%;
+  white-space: normal;
+}

@@ -1,5 +1,9 @@
 # P0-08 Doğrulama Raporu: Güvenli Raf Yerleşimi
 
+## 28 Eylül 2026 — güncel uygulama
+
+P0-05/P0-06/P0-07 bağımlılıkları güncel Orvant kayıtlarıyla kapatıldı. Yerleşim önizlemesi artık yalnız oyuncu/görevlinin yeni footprint dışında kalmasını değil, bulunduğu noktadan kapı ve temel servis yollarına yürünebilir bağlantısını da denetliyor. Onay aynı `preview` doğrulamasını yeniden çalıştırıyor. `npm test -- tests/unit/p0_placement.test.ts`: 6/6 geçti. `npm run build`: geçti; Vite 879,18 kB ana paket uyarısı verdi. Gerçek cihaz ve dış oyuncu yerleşim kabulü P0-09'da açık.
+
 Tarih: 2026-09-27
 Görev: P0-08
 Durum: P0 mevcut satış rafı taşıma akışı kod/bileşen düzeyinde doğrulandı; D-044 sonrası Orvant görevi yeniden incelemede, cihaz/oyuncu kabulü P0-09'a açık

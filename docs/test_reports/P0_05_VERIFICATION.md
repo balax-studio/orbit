@@ -1,5 +1,9 @@
 # P0-05 Doğrulama Raporu: Üç Su Tarifini ve Domates Hasadını Gerçek Girdiyle Çalıştırma
 
+## 28 Eylül 2026 — güncel bağımlılık incelemesi
+
+P0-03 transfer bağımlılığı güncel kayıtla yeniden incelendi. `npm test -- tests/unit/p0_production.test.ts tests/unit/p0_worker.test.ts tests/unit/p0_placement.test.ts` komutu üç dosyada 21/21 geçti. Bu kontrol üretim girdisi/çıktısı, görevli taşıması ve yerleşim korumalarını bileşen düzeyinde kapsar; gerçek cihaz veya dış oyuncu kabulü değildir.
+
 Tarih: 2026-09-27
 Görev: P0-05
 Durum: Doğrulandı

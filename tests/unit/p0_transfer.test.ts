@@ -41,6 +41,27 @@ describe('P0-03: Ürün Transferi, Kapasite ve Rezervasyon Koruması', () => {
     expect(inventory.getPhysicalQuantity(shelfLoc)).toBe(0);
   });
 
+  it('kapasiteyi fiziksel stok ve aktif giriş rezervasyonlarının altına indirmez', () => {
+    inventory.addLot({ id: 'capacity-existing', itemId: 'item.raw_water', quantity: 1,
+      qualityScore: 40, unitCostAtoms: 0, sourceId: 'fixture.sales_shelf', location: shelfLoc });
+    inventory.addLot({ id: 'capacity-source', itemId: 'item.raw_water', quantity: 1,
+      qualityScore: 40, unitCostAtoms: 0, sourceId: 'source.spring_water', location: sourceLoc });
+    inventory.setCapacity(shelfLoc, 2);
+    inventory.createReservation({ id: 'capacity-reservation', ownerId: 'player_1',
+      source: sourceLoc, target: shelfLoc, itemId: 'item.raw_water', quantity: 1, currentTick: 1 });
+
+    expect(() => inventory.setCapacity(shelfLoc, 1)).toThrow('Kapasite mevcut stok ve rezervasyonların altına düşürülemez');
+    expect(inventory.getCapacity(shelfLoc)).toBe(2);
+    expect(inventory.getAvailableCapacity(shelfLoc)).toBe(0);
+
+    inventory.transferStock({ transactionId: 'capacity-reserved-transfer', timestampTick: 2,
+      source: sourceLoc, target: shelfLoc, itemId: 'item.raw_water', quantity: 1,
+      reservationId: 'capacity-reservation' });
+    expect(inventory.getPhysicalQuantity(shelfLoc, 'item.raw_water')).toBe(2);
+    expect(inventory.getPhysicalQuantity(sourceLoc, 'item.raw_water')).toBe(0);
+    expect(inventory.getAvailableCapacity(shelfLoc)).toBe(0);
+  });
+
   it('işlem ve rezervasyon kimliğini farklı içerikle yeniden kullanmayı reddeder', () => {
     inventory.addLot({ id: 'identity-source', itemId: 'item.raw_water', quantity: 3,
       qualityScore: 40, unitCostAtoms: 0, sourceId: 'source.spring_water', location: sourceLoc });

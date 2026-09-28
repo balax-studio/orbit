@@ -247,6 +247,10 @@ export class ProductionManager {
     if (!machine) {
       throw new Error(`Makine bulunamadı: ${machineId}`);
     }
+    if (recipeId && (!P0_RECIPES[recipeId] ||
+        !P0_MACHINES[machine.typeId]?.recipeIds.includes(recipeId))) {
+      throw new Error(`Tarif bu istasyonda kullanılamaz: ${recipeId}`);
+    }
     machine.selectedRecipeId = recipeId;
     if (recipeId) {
       const recipe = P0_RECIPES[recipeId];

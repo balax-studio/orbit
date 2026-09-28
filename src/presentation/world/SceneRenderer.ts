@@ -4,6 +4,7 @@
 import * as THREE from 'three';
 import { WorldLayout, type WorldFixture } from './WorldLayout';
 import { PortraitCamera } from '../camera/PortraitCamera';
+import { createArticulatedCharacter, type ArticulatedCharacter } from './CharacterRigs';
 
 export interface ScenePlayerState {
   x: number;
@@ -18,12 +19,17 @@ export class SceneRenderer {
 
   private playerMesh: THREE.Group;
   private workerMesh: THREE.Group;
+  private customerMesh: THREE.Group;
   private fixtureMeshes = new Map<string, { body: THREE.Mesh; service: THREE.Mesh }>();
   private placementPreview: THREE.Mesh | null = null;
   private targetMarker: THREE.Mesh;
   private groundPlane: THREE.Mesh;
   private raycaster: THREE.Raycaster;
   private mouseVec: THREE.Vector2;
+  private playerRig: ArticulatedCharacter;
+  private workerRig: ArticulatedCharacter;
+  private customerRig: ArticulatedCharacter;
+  private lastRenderTime = performance.now();
   private moduleGeometryRoot = new THREE.Group();
   private unsubscribeWorldLayout: (() => void) | null = null;
 
@@ -48,8 +54,12 @@ export class SceneRenderer {
     this.raycaster = new THREE.Raycaster();
     this.mouseVec = new THREE.Vector2();
 
-    this.playerMesh = new THREE.Group();
-    this.workerMesh = new THREE.Group();
+    this.playerRig = createArticulatedCharacter('player');
+    this.workerRig = createArticulatedCharacter('worker');
+    this.customerRig = createArticulatedCharacter('customer');
+    this.playerMesh = this.playerRig.root;
+    this.workerMesh = this.workerRig.root;
+    this.customerMesh = this.customerRig.root;
     this.targetMarker = new THREE.Mesh();
     this.groundPlane = new THREE.Mesh();
 
@@ -58,6 +68,7 @@ export class SceneRenderer {
     this.setupFixtures();
     this.setupPlayer();
     this.setupWorker();
+    this.setupCustomer();
     this.setupTargetMarker();
 
     this.updatePlayer({
@@ -211,51 +222,10 @@ export class SceneRenderer {
   }
 
   private setupPlayer(): void {
-    // Neo-brutalist sevimli karakter gövdesi
-    const bodyGeo = new THREE.CylinderGeometry(0.35, 0.35, 1.2, 16);
-    const bodyMat = new THREE.MeshStandardMaterial({
-      color: '#FFE156', // Neo sarı
-      roughness: 0.3,
-    });
-    const body = new THREE.Mesh(bodyGeo, bodyMat);
-    body.position.y = 0.6;
-    body.castShadow = true;
-
-    // Baş
-    const headGeo = new THREE.SphereGeometry(0.3, 16, 16);
-    const headMat = new THREE.MeshStandardMaterial({
-      color: '#171717', // Siyah şapka / saç
-      roughness: 0.4,
-    });
-    const head = new THREE.Mesh(headGeo, headMat);
-    head.position.y = 1.35;
-    head.castShadow = true;
-
-    // Yön göstergesi (burun/vizör)
-    const visorGeo = new THREE.BoxGeometry(0.15, 0.1, 0.15);
-    const visorMat = new THREE.MeshBasicMaterial({ color: '#35D9E6' });
-    const visor = new THREE.Mesh(visorGeo, visorMat);
-    visor.position.set(0, 1.35, 0.3);
-
-    this.playerMesh.add(body);
-    this.playerMesh.add(head);
-    this.playerMesh.add(visor);
     this.scene.add(this.playerMesh);
   }
 
   private setupWorker(): void {
-    const body = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.32, 0.32, 1.05, 12),
-      new THREE.MeshStandardMaterial({ color: '#35D9E6', roughness: 0.45 })
-    );
-    body.position.y = 0.53;
-    body.castShadow = true;
-    const head = new THREE.Mesh(
-      new THREE.SphereGeometry(0.26, 12, 12),
-      new THREE.MeshStandardMaterial({ color: '#171717', roughness: 0.5 })
-    );
-    head.position.y = 1.22;
-    this.workerMesh.add(body, head);
     this.scene.add(this.workerMesh);
   }
 
@@ -284,13 +254,23 @@ export class SceneRenderer {
   }
 
   public updatePlayer(state: ScenePlayerState): void {
-    this.playerMesh.position.set(state.x, 0, state.z);
-    this.playerMesh.rotation.y = state.rotation;
+    this.playerRig.setPosition(state.x, state.z);
+    this.playerRig.setFacing(state.rotation);
     this.portraitCamera.follow({ x: state.x, y: 0.6, z: state.z });
   }
 
   public updateWorker(position: { x: number; z: number }): void {
-    this.workerMesh.position.set(position.x, 0, position.z);
+    this.workerRig.setPosition(position.x, position.z);
+  }
+
+  private setupCustomer(): void {
+    this.customerMesh.visible = false;
+    this.scene.add(this.customerMesh);
+  }
+
+  public updateCustomer(position: { x: number; z: number } | null): void {
+    this.customerMesh.visible = position !== null;
+    if (position) this.customerRig.setPosition(position.x, position.z);
   }
 
   public updateFixtures(fixtures: readonly WorldFixture[]): void {
@@ -370,6 +350,12 @@ export class SceneRenderer {
   }
 
   public render(): void {
+    const now = performance.now();
+    const deltaSeconds = Math.min((now - this.lastRenderTime) / 1000, 0.05);
+    this.lastRenderTime = now;
+    this.playerRig.advance(deltaSeconds);
+    this.workerRig.advance(deltaSeconds);
+    this.customerRig.advance(deltaSeconds);
     this.renderer.render(this.scene, this.portraitCamera.camera);
   }
 
@@ -377,6 +363,9 @@ export class SceneRenderer {
     this.unsubscribeWorldLayout?.();
     this.unsubscribeWorldLayout = null;
     disposeGroupContents(this.moduleGeometryRoot);
+    this.playerRig.dispose();
+    this.workerRig.dispose();
+    this.customerRig.dispose();
     this.renderer.dispose();
   }
 }

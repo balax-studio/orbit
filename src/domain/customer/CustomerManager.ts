@@ -46,7 +46,7 @@ export class CustomerManager {
 
   public readonly shelfLocation: StockLocation;
   public readonly checkoutLocation: StockLocation;
-  public readonly shelfServicePos: WorldPosition;
+  public shelfServicePos: WorldPosition;
   public readonly checkoutServicePos: WorldPosition;
   public readonly checkoutQueueWaitPos: WorldPosition;
   public readonly entrancePos: WorldPosition;
@@ -103,6 +103,24 @@ export class CustomerManager {
 
   public getCompletedSales(): SaleResult[] {
     return [...this.completedSales];
+  }
+
+  public setShelfServicePosition(position: WorldPosition): void {
+    this.shelfServicePos = { ...position };
+  }
+
+  public clearTransientSalesAfterRollback(): void {
+    this.dispatcher.clearTransientSales();
+  }
+
+  public maybeSpawnP0Customer(): Customer | null {
+    if (this.customers.size > 0) return null;
+    if (this.customerCounter === 0) {
+      if (this.inventory.getAvailableQuantity(this.shelfLocation, 'item.glass_water_small') < 1) return null;
+    } else if (this.rng.nextFloat() >= 56 / 9000) {
+      return null;
+    }
+    return this.spawnCustomer();
   }
 
   /**
